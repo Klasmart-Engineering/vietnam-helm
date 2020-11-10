@@ -1,0 +1,27 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: okc-httpproxy
+  namespace: okc
+spec:
+  virtualhost:
+    fqdn: live.vn-dev.kidsloop.net
+  routes:
+  - services:
+    - name: vietnam-static-svc
+      port: 80
+    conditions:
+    - prefix: /
+  - services:
+    - name: vietnam-live-svc
+      port: 80
+    conditions:
+    - prefix: /graphql
+    enableWebsockets: true
+  - services:
+    - name: vietnam-sfu-gateway-svc
+      port: 80
+    conditions:
+    - prefix: /sfu
+    enableWebsockets: true
+

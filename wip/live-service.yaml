@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: vietnam-live-svc
+  name: vietnam-live-svc
+  namespace: okc
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: vietnam-live
+  type: ClusterIP
+status:
+  loadBalancer: {}
