@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vietnam-sfu-gateway
+  name: vietnam-sfu-gateway
+  namespace: okc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vietnam-sfu-gateway
+  template:
+    metadata:
+      labels:
+        app: vietnam-sfu-gateway
+    spec:
+      imagePullSecrets:
+      - name: ecr-registry
+      containers:
+      - image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu-gateway:latest
+        name: sfu
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: NODE_ENV
+            value: "beta"
+          - name: PORT
+            value: "8080"
+          - name: REDIS_HOST
+            value: "10.8.55.10"
+          - name: REDIS_PORT
+            value: "6379"
+
