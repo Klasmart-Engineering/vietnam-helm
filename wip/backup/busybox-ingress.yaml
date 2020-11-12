@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    meta.helm.sh/release-name: busybox
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2020-11-10T07:17:39Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: busybox
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: busybox
+    app.kubernetes.io/version: 1.16.0
+    helm.sh/chart: busybox-0.1.0
+  managedFields:
+  - apiVersion: networking.k8s.io/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubernetes.io/ingress.class: {}
+          f:meta.helm.sh/release-name: {}
+          f:meta.helm.sh/release-namespace: {}
+        f:labels:
+          .: {}
+          f:app.kubernetes.io/instance: {}
+          f:app.kubernetes.io/managed-by: {}
+          f:app.kubernetes.io/name: {}
+          f:app.kubernetes.io/version: {}
+          f:helm.sh/chart: {}
+      f:spec:
+        f:rules: {}
+    manager: Go-http-client
+    operation: Update
+    time: "2020-11-10T07:17:39Z"
+  - apiVersion: networking.k8s.io/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: nginx-ingress-controller
+    operation: Update
+    time: "2020-11-10T07:17:55Z"
+  name: busybox
+  namespace: default
+  resourceVersion: "1137231"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/ingresses/busybox
+  uid: 3eb1f243-2c89-45d7-b3b2-9c97fba0107a
+spec:
+  rules:
+  - host: vn-bfc.dev.kidsloop.net
+    http:
+      paths:
+      - backend:
+          serviceName: busybox
+          servicePort: 80
+        path: /
+        pathType: ImplementationSpecific
+status:
+  loadBalancer:
+    ingress:
+    - ip: 45.124.94.122

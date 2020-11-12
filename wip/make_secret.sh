@@ -18,7 +18,7 @@ fi
 
 echo "ENV variables setup done."
 kubectl create secret docker-registry $SECRET_NAME \
-    --dry-run \
+    --dry-run=client \
     -o yaml \
     -n okc \
     --docker-server="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com" \

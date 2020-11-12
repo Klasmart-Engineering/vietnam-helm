@@ -1,0 +1,27 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  - name: redis
+    namespace: default
+    chart: bitnami/redis
+    version: ~11.3.4
+    values:
+      - cluster:
+          slaveCount: 3
+      - metrics:
+          enabled: true
+      - usePassword: false
+      - slave:
+          persistence:
+            enabled: false
+      - master:
+          persistence:
+            enabled: false
+      - networkPolicy:
+          enabled: true
+          ingressNSMatchLabels:
+            redis-namespace: "true"
+          ingressNSPodMatchLabels:
+            redis-client: "true"
