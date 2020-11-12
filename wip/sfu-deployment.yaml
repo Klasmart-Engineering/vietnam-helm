@@ -16,6 +16,8 @@ spec:
         app: vietnam-sfu
         redis-client: "true"
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
       - name: ecr-registry
       containers:
