@@ -14,7 +14,7 @@ URL="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
 
 
 echo Sync static data
-aws s3 sync s3://kidsloop-live-beta/class-live ./data
+aws s3 sync s3://kidsloop-live-beta/vietnam ./data
 
 echo Build docker image
 docker build -t $URL/vietnam-static:latest .
