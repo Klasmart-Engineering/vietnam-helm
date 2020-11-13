@@ -3,7 +3,7 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   
   - name: jetstack
-    url: https://charts.jetstack.io
+    url: https://charts.jetstack.io/
 
 releases:
   - name: redis
@@ -30,7 +30,9 @@ releases:
             redis-client: "true"
 
   - name: cert-manager
-    namespace: default
+    namespace: cert-manager
     chart: jetstack/cert-manager
     version: ~1.0.4
+    values:
+      - installCRDs: true
   
