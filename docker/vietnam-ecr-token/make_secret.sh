@@ -11,7 +11,7 @@ export AWS_DEFAULT_REGION=$REGION
 echo "Region: $REGION"
 
 SECRET_NAME=${SECRET_NAME:-ecr-registry}
-NAMESPACE=${NAMESPACE:-default}
+NAMESPACE=${NAMESPACE:-okc}
 DRY_RUN=${DRY_RUN:-"no"}
 TOKEN=$(aws ecr get-login-password)
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
