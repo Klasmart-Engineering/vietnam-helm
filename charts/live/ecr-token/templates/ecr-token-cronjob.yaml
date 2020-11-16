@@ -1,0 +1,32 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "ecr-token.fullname" . }}-cronjob
+  labels:
+    {{- include "ecr-token.labels" . | nindent 4 }}
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ include "ecr-token.fullname" . }}-serviceaccount
+          imagePullSecrets:
+            - name: {{ .Values.ecrTokenSecret }}
+          restartPolicy: OnFailure
+          containers:
+            - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              name: {{ .Chart.Name }}
+              env:
+                - name: NAMESPACE
+                  value: {{ .Release.Namespace }}
+                - name: SECRET_NAME
+                  value: "{{ .Values.ecrTokenSecret }}"
+              volumeMounts:
+                - name: aws-credentials
+                  mountPath: "/root/.aws"
+                  readOnly: true
+          volumes:
+            - name: aws-credentials
+              secret:
+                secretName: {{ .Values.awsCredentialsSecret }}
+  schedule: "{{ .Values.refreshSchedule }}"

@@ -35,4 +35,9 @@ releases:
     version: ~1.0.4
     values:
       - installCRDs: true
+
+  - name: vietnam-ecr-token
+    namespace: okc
+    chart: ./charts/live/ecr-token
+    version: ~0.1.0
   
