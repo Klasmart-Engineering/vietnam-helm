@@ -3,7 +3,13 @@ kind: Ingress
 metadata:
   name: okc-ingress
   namespace: okc
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
+  tls:
+  - hosts:
+    - vn-bfc.dev.kidsloop.net
+    secretName: vn-bfc-dev-tls
   rules:
   - host: vn-bfc.dev.kidsloop.net
     http:
