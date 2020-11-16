@@ -12,15 +12,11 @@ if [[ -z "$REGION" ]]; then
 fi
 URL="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
 
-
-echo Sync static data
-aws s3 sync s3://kidsloop-live-beta/vietnam ./data
-
 echo Build docker image
-docker build -t $URL/vietnam-static:latest .
+docker build -t $URL/vietnam-ecr-token:latest .
 
 echo Docker login
 aws ecr get-login-password | docker login --username AWS --password-stdin $URL
 
-docker push $URL/vietnam-static:latest
+docker push $URL/vietnam-ecr-token:latest
 

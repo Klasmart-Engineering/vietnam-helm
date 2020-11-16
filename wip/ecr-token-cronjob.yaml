@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: vietnam-ecr-token
+  namespace: okc
+spec:
+  jobTemplate:
+    metadata:
+      name: vietnam-ecr-token
+    spec:
+      template:
+        spec:
+          serviceAccountName: ecr-token-serviceaccount
+          imagePullSecrets:
+            - name: ecr-registry
+          restartPolicy: OnFailure
+          containers:
+            - image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest
+              name: vietnam-ecr-token
+              env:
+                - name: NAMESPACE
+                  value: "okc"
+                - name: SECRET_NAME
+                  value: "ecr-registry"
+              volumeMounts:
+                - name: aws-credentials
+                  mountPath: "/root/.aws"
+                  readOnly: true
+          volumes:
+            - name: aws-credentials
+              secret:
+                secretName: aws-credentials
+  schedule: '0 */6 * * *'
