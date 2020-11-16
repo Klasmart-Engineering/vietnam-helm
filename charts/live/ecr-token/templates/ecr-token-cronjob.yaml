@@ -15,6 +15,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
               name: {{ .Chart.Name }}
               env:
                 - name: NAMESPACE

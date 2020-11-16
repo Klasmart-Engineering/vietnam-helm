@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu
+  pullPolicy: Always
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+hostNetworking: false
+redisHost: redis-master.default.svc
+redisPort: 6379
+
+resources: {}
+

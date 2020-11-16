@@ -40,4 +40,12 @@ releases:
     namespace: okc
     chart: ./charts/live/ecr-token
     version: ~0.1.0
+  - name: vietnam-sfu
+    namespace: okc
+    chart: ./charts/live/sfu
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - hostNetworking: true
+
   
