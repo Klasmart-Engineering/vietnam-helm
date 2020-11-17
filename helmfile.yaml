@@ -10,10 +10,6 @@ repositories:
 
 releases:
 
-  # Needs to be run first
-  # - name: namespaces
-  #   chart: ./charts/live/namespaces
-
   - name: redis
     namespace: default
     chart: bitnami/redis
