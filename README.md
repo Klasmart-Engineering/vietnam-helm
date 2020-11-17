@@ -23,8 +23,14 @@ the cluster is bootstrapped all management will be done via Helm.
 
 
 #### Create namespace
-```
+```bash
 $ kubectl create ns okc
+
+namespace/foo created
+
+$ kubectl label ns okc redis-namespace="true"
+
+namespace/okc labeled
 ```
 
 #### Add AWS credentials
@@ -32,7 +38,7 @@ $ kubectl create ns okc
 Create a new AWS programmatic user with an access key. The AWS user needs to be able to pull Docker images from ECR.
 Run the following script and supply the access key ID and the key:
 
-```
+```bash
 $ ./bootstrap/make_credentials.sh
 
 Access Key ID: foo
@@ -44,7 +50,7 @@ secret/aws-credentials configured
 
 Add bootstrap ECR token. Once the Helm charts are deployed this will be refresh automatically:
 
-```
+```bash
 $ ./bootstrap/make_secret.sh
 
 + REGION=ap-northeast-2
@@ -65,13 +71,13 @@ Region: ap-northeast-2
 
 To view differences with deployed charts:
 
-```
+```bash
 $ helmfile diff
 ```
 
 To apply changes to cluster:
 
-```
+```bash
 $ helmfile apply
 ```
 
