@@ -1,0 +1,6 @@
+apiVersion: v2
+name: letsencrypt
+description: Lets Encrypt certificate installation
+type: application
+version: 0.1.0
+appVersion: 0.1.0
