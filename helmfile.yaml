@@ -62,6 +62,13 @@ releases:
           - name: ecr-registry
       - hostNetworking: true
 
+  - name: vietnam-sfu-gateway
+    namespace: okc
+    chart: ./charts/live/sfu-gateway
+    values:
+      - ingess:
+          hosts:
+            - host: vn-bfc.dev.kidsloop.net
+              paths:
+                - "/sfu"
 
-
-  
