@@ -74,3 +74,15 @@ releases:
               paths:
                 - "/sfu"
 
+  - name: vietnam-static
+    namespace: okc
+    chart: ./charts/live/static
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: vn-bfc.dev.kidsloop.net
+              paths:
+                - "/"
+

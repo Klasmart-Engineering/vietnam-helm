@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-static
+  pullPolicy: Always
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt"
+  }
+  hosts: {
+  }
+  tls: [
+      endpoint: {
+        hosts: [
+          "vn-bfc.dev.kidsloop.net"
+        ],
+        secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+      }
+  ]
+
+resources: {}
+
