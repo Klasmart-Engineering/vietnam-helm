@@ -28,7 +28,7 @@ spec:
         {{- range .paths }}
         - path: {{ . }}
           backend:
-            serviceName: {{ $fullname }}
+            serviceName: {{ $fullname }}-svc
             servicePort: 80
         {{- end }}
   {{- end }}
