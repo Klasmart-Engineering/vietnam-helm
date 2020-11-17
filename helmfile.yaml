@@ -5,6 +5,9 @@ repositories:
   - name: jetstack
     url: https://charts.jetstack.io/
 
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+
 releases:
 
   # Needs to be run first
@@ -33,6 +36,11 @@ releases:
             redis-namespace: "true"
           ingressNSPodMatchLabels:
             redis-client: "true"
+
+  - name: nginx-ingress
+    namespace: default
+    chart: ingress-nginx/ingress-nginx
+    version: ~3.8.0
 
   - name: cert-manager
     namespace: cert-manager
