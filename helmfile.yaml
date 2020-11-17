@@ -66,7 +66,7 @@ releases:
     namespace: okc
     chart: ./charts/live/sfu-gateway
     values:
-      - ingess:
+      - ingress:
           hosts:
             - host: vn-bfc.dev.kidsloop.net
               paths:
