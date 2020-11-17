@@ -66,10 +66,6 @@ releases:
           - name: ecr-registry
       - hostNetworking: true
 
-  - name: ingress
-    namespace: okc
-    chart: ./charts/live/ingress
-    version: 0.1.0
 
 
   
