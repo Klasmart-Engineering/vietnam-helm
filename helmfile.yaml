@@ -66,6 +66,8 @@ releases:
     namespace: okc
     chart: ./charts/live/sfu-gateway
     values:
+      - imagePullSecrets:
+          - name: ecr-registry
       - ingress:
           hosts:
             - host: vn-bfc.dev.kidsloop.net
