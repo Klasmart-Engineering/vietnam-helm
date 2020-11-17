@@ -6,6 +6,11 @@ repositories:
     url: https://charts.jetstack.io/
 
 releases:
+
+  # Needs to be run first
+  # - name: namespaces
+  #   chart: ./charts/live/namespaces
+
   - name: redis
     namespace: default
     chart: bitnami/redis
@@ -36,10 +41,15 @@ releases:
     values:
       - installCRDs: true
 
+  - name: letsencrypt
+    namespace: cert-manager
+    chart: ./charts/live/letsencrypt
+
   - name: vietnam-ecr-token
     namespace: okc
     chart: ./charts/live/ecr-token
     version: ~0.1.0
+
   - name: vietnam-sfu
     namespace: okc
     chart: ./charts/live/sfu
