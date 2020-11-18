@@ -67,6 +67,16 @@ Region: ap-northeast-2
 ...
 ```
 
+#### Update CoreDNS configuration
+
+CoreDNS is deployed as part of the Kubernetes managed infrastructure and not currently managed via Helm. To support directly addressable pods (needed for the SFUs) we need to modify CoreDNS's configmap:
+
+```bash
+$ kubectl apply -f bootstrap/coredns-configmap.yaml
+
+configmap/coredns configured
+```
+
 ### Install Application
 
 To view differences with deployed charts:
