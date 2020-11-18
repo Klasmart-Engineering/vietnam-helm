@@ -27,6 +27,11 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        command: [ "sh", "-c" ]
+        args:
+        - |
+          export HOSTNAME=$POD_NAME.$SERVICE_NAME.$NAMESPACE.svc.cluster.local;
+          npm start
         env:
           - name: NODE_ENV
             value: "beta"
@@ -34,6 +39,15 @@ spec:
             value: {{ .Values.redisHost }}
           - name: REDIS_PORT
             value: {{ .Values.redisPort | quote }}
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: SERVICE_NAME
+            value: {{ include "sfu.fullname" . }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
-

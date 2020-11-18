@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sfu.fullname" . }}
+  labels:
+    {{- include "sfu.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "sfu.selectorLabels" . | nindent 4 }}
+  clusterIP: None
+  type: ClusterIP
