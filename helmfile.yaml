@@ -61,6 +61,7 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - hostNetworking: true
+      - replicaCount: 6
 
   - name: vietnam-sfu-gateway
     namespace: okc
