@@ -7,6 +7,9 @@ repositories:
 
   - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
+  
+  - name: fluent
+    url: https://fluent.github.io/helm-charts
 
 releases:
 
@@ -98,4 +101,9 @@ releases:
             - host: vn-bfc.dev.kidsloop.net
               paths:
                 - "/graphql"
+
+  - name: fluentbit
+    namespace: monitoring
+    chart: fluent/fluent-bit
+
 
