@@ -105,5 +105,20 @@ releases:
   - name: fluentbit
     namespace: monitoring
     chart: fluent/fluent-bit
-
-
+    values:
+      - extraVolumes:
+          - name: aws-credentials
+            secret:
+              secretName: aws-credentials-fluentbit
+      - extraVolumeMounts: 
+          - name: aws-credentials
+            mountPath: "/root/.aws"
+            readOnly: true
+      - config:
+          outputs: >
+            [OUTPUT]
+                Name cloudwatch_logs
+                Match *
+                region eu-west-2
+                log_group_name /kidsloop/bizflycloud/kubernetes
+                log_stream_prefix kidsloop
