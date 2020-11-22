@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app.kubernetes.io/instance: vietnam-sfu
+    app.kubernetes.io/name: sfu
+    redis-client: "true"
+spec:
+  template:
+    labels:
+      app.kubernetes.io/instance: vietnam-sfu
+      app.kubernetes.io/name: sfu
+      redis-client: "true"
+    spec:
+      containers:
+      - args:
+        - |
+          export HOSTNAME=$POD_NAME.$SERVICE_NAME.$NAMESPACE.svc.cluster.local;
+          npm start
+        command:
+        - sh
+        - -c
+        env:
+        - name: NODE_ENV
+          value: beta
+        - name: REDIS_HOST
+          value: redis-master.default.svc
+        - name: REDIS_PORT
+          value: "6379"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SERVICE_NAME
+          value: vietnam-sfu
+        image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu:latest
+        imagePullPolicy: Always
+        name: sfu
+      dnsPolicy: ClusterFirstWithHostNet
+      enableServiceLinks: true
+      hostNetwork: true
+      imagePullSecrets:
+      - name: ecr-registry
+      restartPolicy: Never

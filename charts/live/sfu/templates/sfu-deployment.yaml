@@ -1,24 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sfu.fullname" . }}
+  name: {{ include "sfu.fullname" . }}-manager
   labels:
-    {{- include "sfu.labels" . | nindent 4 }}
+    {{- include "sfu-manager.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "sfu.selectorLabels" . | nindent 6 }}
+      {{- include "sfu-manager.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "sfu.selectorLabels" . | nindent 8 }}
+        {{- include "sfu-manager.selectorLabels" . | nindent 8 }}
         redis-client: "true"
     spec:
-      {{- if .Values.hostNetworking }}
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
-      {{- end }}
+      serviceAccountName: {{ include "sfu.fullname" . }}-serviceaccount
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,27 +24,15 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        command: [ "sh", "-c" ]
-        args:
-        - |
-          export HOSTNAME=$POD_NAME.$SERVICE_NAME.$NAMESPACE.svc.cluster.local;
-          npm start
-        env:
-          - name: NODE_ENV
-            value: "beta"
-          - name: REDIS_HOST
-            value: {{ .Values.redisHost }}
-          - name: REDIS_PORT
-            value: {{ .Values.redisPort | quote }}
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: SERVICE_NAME
-            value: {{ include "sfu.fullname" . }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+        env:
+        - name: SFU_MANAGER_JOB
+          value: /etc/config/job.yaml
+        volumeMounts:
+        - name: config
+          mountPath: /etc/config
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "sfu.fullname" . }}-cm

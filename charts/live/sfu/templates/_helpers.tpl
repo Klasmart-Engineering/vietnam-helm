@@ -41,12 +41,24 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+{{- define "sfu-manager.labels" -}}
+helm.sh/chart: {{ include "sfu.chart" . }}
+{{ include "sfu-manager.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "sfu.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "sfu.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+{{- define "sfu-manager.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "sfu.name" . }}-manager
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

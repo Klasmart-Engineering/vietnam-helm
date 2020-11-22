@@ -48,6 +48,25 @@ releases:
     values:
       - installCRDs: true
 
+  - name: prometheus
+    namespace: monitoring
+    chart: bitnami/kube-prometheus
+    version: ~3.0.1
+    values:
+      - global:
+          storageClass: premium-hdd
+      - operator:
+          createCustomResource: false
+      - prometheus:
+          persistence:
+            enabled: true
+            storageClass: premium-hdd
+            size: 8Gi
+      - alertmanager:
+          enabled: false
+      - kubeProxy:
+          enabled: false
+
   - name: letsencrypt
     namespace: cert-manager
     chart: ./charts/live/letsencrypt
@@ -64,7 +83,6 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - hostNetworking: true
-      - replicaCount: 6
 
   - name: vietnam-sfu-gateway
     namespace: okc

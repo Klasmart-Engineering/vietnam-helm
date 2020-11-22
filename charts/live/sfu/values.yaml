@@ -1,6 +1,11 @@
 replicaCount: 1
 
 image:
+  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu-manager
+  pullPolicy: Always
+  tag: latest
+
+sfuImage:
   repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu
   pullPolicy: Always
   tag: latest

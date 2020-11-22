@@ -77,6 +77,44 @@ $ kubectl apply -f bootstrap/coredns-configmap.yaml
 configmap/coredns configured
 ```
 
+#### Add Prometheus CRDs
+
+Due to a bug/race-condition the required Prometheus CRDs need to be installed before the Helm chart will install correctly. The following will download the CRDs and install them:
+
+```bash
+$ ./bootstrap/install_prometheus_crds.sh
+
++ set -e
+++ mktemp -d
++ DIR=/tmp/tmp.QcHNJSmATs
++ pushd /tmp/tmp.QcHNJSmATs
+/tmp/tmp.QcHNJSmATs ~/Projects/KidsLoop
++ git clone --depth 1 https://github.com/bitnami/charts
+Cloning into 'charts'...
+remote: Enumerating objects: 1867, done.
+remote: Counting objects: 100% (1867/1867), done.
+remote: Compressing objects: 100% (1545/1545), done.
+remote: Total 1867 (delta 988), reused 588 (delta 284), pack-reused 0
+Receiving objects: 100% (1867/1867), 1.72 MiB | 3.27 MiB/s, done.
+Resolving deltas: 100% (988/988), done.
++ pushd charts/bitnami/kube-prometheus/crds
+/tmp/tmp.QcHNJSmATs/charts/bitnami/kube-prometheus/crds /tmp/tmp.QcHNJSmATs ~/Projects/KidsLoop
++ kubectl apply -f .
+customresourcedefinition.apiextensions.k8s.io/alertmanagerconfigs.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/alertmanagers.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/podmonitors.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/probes.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheuses.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheusrules.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/servicemonitors.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/thanosrulers.monitoring.coreos.com created
++ popd
+/tmp/tmp.QcHNJSmATs ~/Projects/KidsLoop
++ popd
+~/Projects/KidsLoop
++ rm -rf /tmp/tmp.QcHNJSmATs
+```
+
 ### Install Application
 
 To view differences with deployed charts:
