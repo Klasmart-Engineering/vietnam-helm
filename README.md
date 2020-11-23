@@ -9,6 +9,7 @@ The following tools need to be installed on the machine performing the deploymen
  * [helm-diff](https://github.com/databus23/helm-diff)
  * [aws-cli-v2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
  * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+ * [pwgen](https://formulae.brew.sh/formula/pwgen)
 
 It is assumed that you have the appropriate AWS (`~/.aws/credentials`) and Kubernetes (`~/.kube/config`)
 configuration setup and your environment variables are setup such that the correct AWS account and correct

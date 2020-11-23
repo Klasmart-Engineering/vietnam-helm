@@ -140,3 +140,11 @@ releases:
                 region eu-west-2
                 log_group_name /kidsloop/bizflycloud/kubernetes
                 log_stream_prefix kidsloop
+
+  - name: postgresql
+    namespace: persistence
+    chart: bitnami/postgresql
+    values:
+      - existingSecret: postgresql
+      - postgresqlUsername: kidsloop
+      - postgresqlDatabase: kidsloop
