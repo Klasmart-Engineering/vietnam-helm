@@ -14,7 +14,7 @@ repositories:
 releases:
 
   - name: redis
-    namespace: default
+    namespace: persistence
     chart: bitnami/redis
     version: ~11.3.4
     values:
@@ -148,3 +148,5 @@ releases:
       - existingSecret: postgresql
       - postgresqlUsername: kidsloop
       - postgresqlDatabase: kidsloop
+
+

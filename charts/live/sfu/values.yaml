@@ -15,7 +15,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 hostNetworking: false
-redisHost: redis-master.default.svc
+redisHost: redis-master.persistence.svc
 redisPort: 6379
 
 resources: {}
