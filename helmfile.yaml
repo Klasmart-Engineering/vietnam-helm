@@ -141,12 +141,26 @@ releases:
                 log_group_name /kidsloop/bizflycloud/kubernetes
                 log_stream_prefix kidsloop
 
-  - name: postgresql
+  - name: postgresql-ha
     namespace: persistence
-    chart: bitnami/postgresql
+    chart: bitnami/postgresql-ha
     values:
-      - existingSecret: postgresql
-      - postgresqlUsername: kidsloop
-      - postgresqlDatabase: kidsloop
-
-
+      - postgresql:
+          existingSecret: postgresql
+          username: kidsloop
+          database: kidsloop
+      - persistence:
+          size: 8Gi
+      - pgpool:
+          enabled: true
+          replicaCount: 3
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "app.kubernetes.io/name"
+                        operator: In
+                        values:
+                        - postgresql
+                  topologyKey: "kubernetes.io/hostname"   
