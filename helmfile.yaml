@@ -153,14 +153,4 @@ releases:
           size: 8Gi
       - pgpool:
           enabled: true
-          replicaCount: 3
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: "app.kubernetes.io/name"
-                        operator: In
-                        values:
-                        - postgresql
-                  topologyKey: "kubernetes.io/hostname"   
+          replicaCount: 2
