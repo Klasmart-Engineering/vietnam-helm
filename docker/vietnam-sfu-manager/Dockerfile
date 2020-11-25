@@ -1,9 +1,12 @@
 FROM golang:alpine AS build
 
+RUN apk update && apk add upx
+
 WORKDIR /go/src/vietnam-sfu-manager
 COPY . .
 
-RUN go build .
+RUN CGO_ENABLED=0 go build -ldflags="-s" .
+RUN upx -9 -k vietnam-sfu-manager
 
 FROM alpine:latest
 

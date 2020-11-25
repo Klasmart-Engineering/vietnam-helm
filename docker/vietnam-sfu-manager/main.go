@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -20,7 +21,6 @@ import (
 	v1 "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/rand"
-	"k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
@@ -45,6 +45,21 @@ func Namespace() string {
 	return "default"
 }
 
+// PodName return the name of this pod
+func PodName() (string, error) {
+	if name, ok := os.LookupEnv("POD_NAME"); ok {
+		return name, nil
+	}
+
+	if data, err := ioutil.ReadFile("/etc/podname"); err == nil {
+		if name := strings.TrimSpace(string(data)); len(name) > 0 {
+			return name, nil
+		}
+	}
+
+	return "", errors.New("unable to get pod name")
+}
+
 func main() {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
@@ -55,19 +70,9 @@ func main() {
 	goflenfig.StringVar(&jobConfig, "job", "job.yaml", "The template for creating a job")
 	goflenfig.Parse()
 
-	logger.Info("opening job yaml", zap.String("jobConfig", jobConfig))
-	f, err := os.Open(jobConfig)
-	if err != nil {
-		panic(err)
-	}
-
-	d := yaml.NewYAMLOrJSONDecoder(f, 128)
-	var job v1.Job
-	err = d.Decode(&job)
-	if err != nil {
-		panic(err)
-	}
-	logger.Info("decoded YAML file")
+	jobConfigChan := make(chan *v1.Job, 1)
+	go filewatcher(logger, jobConfig, jobConfigChan)
+	go manageJobs(logger, jobConfigChan)
 
 	r := chi.NewRouter()
 	// A good base middleware stack
@@ -98,10 +103,10 @@ func main() {
 		w.WriteHeader(http.StatusCreated)
 	})
 
-	go func() {
-		logger.Fatal("server exit", zap.Error(http.ListenAndServe(":8080", r)))
-	}()
+	logger.Fatal("server exit", zap.Error(http.ListenAndServe(":8080", r)))
+}
 
+func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job) {
 	// creates the in-cluster config
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -114,47 +119,75 @@ func main() {
 	}
 
 	namespace := Namespace()
+	podName, err := PodName()
+	if err != nil {
+		logger.Fatal("pod name error", zap.Error(err))
+	}
 
-	originalJobs := -1
-	startedJobs := 0
+	self, err := clientset.CoreV1().Pods(namespace).Get(context.TODO(), podName, metav1.GetOptions{})
+	if err != nil {
+		logger.Fatal("unable to get self from api", zap.Error(err))
+	}
+
+	var job *v1.Job
+	ticker := time.NewTicker(10 * time.Second)
 
 	for {
-		jobs, err := clientset.BatchV1().Jobs(namespace).List(context.TODO(), metav1.ListOptions{
-			LabelSelector: "app.kubernetes.io/instance=vietnam-sfu",
-		})
-		if err != nil {
-			panic(err)
-		}
-		logger.Info("SFU jobs in the cluster", zap.Int("sfuCount", len(jobs.Items)))
-		if originalJobs < 0 {
-			originalJobs = len(jobs.Items)
-		} else {
-			// This is to prevent us starting more jobs because we're unable to detect
-			// running jobs. This will some thought.
-			if (len(jobs.Items) - originalJobs) < startedJobs {
-				logger.Error("no jobs started", zap.Int("sfuCount", len(jobs.Items)))
-				time.Sleep(10 * time.Second)
+		select {
+		case <-ticker.C:
+			if job == nil {
+				logger.Info("no job configuration")
 				continue
 			}
-		}
 
-		if len(jobs.Items) < int(desiredJobs) {
-			logger.Info("creating new jobs",
-				zap.Int32("desiredJobs", desiredJobs),
-				zap.Int("newJobs", 1),
-				zap.Int("sfuCount", len(jobs.Items)))
-
-			job.Name = fmt.Sprintf("vietnam-sfu-%s", rand.String(6))
-			job.Namespace = namespace
-
-			newJob, err := clientset.BatchV1().Jobs(namespace).Create(context.TODO(), &job, metav1.CreateOptions{})
+			jobs, err := clientset.BatchV1().Jobs(namespace).List(context.TODO(), metav1.ListOptions{
+				LabelSelector: "app.kubernetes.io/instance=vietnam-sfu",
+			})
 			if err != nil {
-				logger.Fatal("unable to create new job", zap.Error(err))
+				panic(err)
 			}
-			logger.Info("new job created", zap.String("jobName", newJob.Name))
-		}
+			var filteredJobs []*v1.Job
+			for _, job := range jobs.Items {
+				if job.Status.Active > 0 {
+					filteredJobs = append(filteredJobs, &job)
+				}
+			}
 
-		logger.Info("sleeping for 10 seconds")
-		time.Sleep(10 * time.Second)
+			logger.Info("SFU jobs in the cluster",
+				zap.Int("filteredJobs", len(filteredJobs)),
+				zap.Int("jobs", len(jobs.Items)))
+
+			if len(filteredJobs) < int(desiredJobs) {
+				logger.Info("creating new jobs",
+					zap.Int32("desiredJobs", desiredJobs),
+					zap.Int("newJobs", 1),
+					zap.Int("sfuCount", len(filteredJobs)))
+
+				job.Name = fmt.Sprintf("vietnam-sfu-%s", rand.String(6))
+				job.Namespace = namespace
+
+				isController := true
+				job.OwnerReferences = []metav1.OwnerReference{
+					{
+						APIVersion: "v1",
+						Kind:       "Pod",
+						Name:       podName,
+						Controller: &isController,
+						UID:        self.GetUID(),
+					},
+				}
+
+				newJob, err := clientset.BatchV1().Jobs(namespace).Create(context.TODO(), job, metav1.CreateOptions{})
+				if err != nil {
+					logger.Fatal("unable to create new job", zap.Error(err))
+				}
+				logger.Info("new job created", zap.String("jobName", newJob.Name))
+			}
+
+			logger.Info("sleeping")
+		case j := <-jobConfigChan:
+			logger.Info("updating job configuration")
+			job = j
+		}
 	}
 }

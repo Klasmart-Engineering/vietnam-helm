@@ -49,6 +49,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+{{- define "sfu-job.labels" -}}
+{{ include "sfu-manager.selectorLabels" . }}
+{{- end }}
 
 {{/*
 Selector labels

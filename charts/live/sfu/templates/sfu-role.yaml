@@ -14,3 +14,9 @@ rules:
   - delete
   - get
   - list
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
