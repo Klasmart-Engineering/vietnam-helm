@@ -157,6 +157,18 @@ releases:
             cpu: 500m
             memory: 512Mi
 
+  - name: vietnam-user-service
+    namespace: okc
+    chart: ./charts/live/user-service
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: vn-bfc.dev.kidsloop.net
+              paths:
+                - "/user/graphql"
+
   - name: fluentbit
     namespace: monitoring
     chart: fluent/fluent-bit
@@ -174,20 +186,28 @@ releases:
             [OUTPUT]
                 Name cloudwatch_logs
                 Match *
-                region eu-west-2
-                log_group_name /kidsloop/bizflycloud/kubernetes
-                log_stream_prefix kidsloop
+                region ap-northeast-2
+                log_group_name /bizflycloud/kubernetes
+                log_stream_prefix vn
 
   - name: postgresql-ha
     namespace: persistence
     chart: bitnami/postgresql-ha
     values:
+      - global:
+          storageClass: premium-hdd
       - postgresql:
           existingSecret: postgresql
           username: kidsloop
           database: kidsloop
       - persistence:
           size: 8Gi
+          storageClass: premium-hdd
       - pgpool:
           enabled: true
           replicaCount: 2
+      - initdbScripts:
+          db-init.sql: |
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+          

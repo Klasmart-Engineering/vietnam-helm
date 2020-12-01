@@ -1,0 +1,2 @@
+postgresql-secret.yaml
+docker/vietnam-ecr-token/ecr-secret.yaml

@@ -15,8 +15,12 @@ echo "Created new secret:"
 #cat postgresql-secret.yaml
 
 if [[ "$DRY_RUN" != "yes" ]]; then
-  #kubectl delete secret -n persistence postgresql
+  kubectl delete secret -n persistence postgresql
+  kubectl delete secret -n okc postgresql
   kubectl apply -f postgresql-secret.yaml
+  kubectl get secret postgresql --namespace=persistence -o yaml | \
+    awk '{gsub(/namespace: persistence/,"namespace: okc")}1' | \
+    kubectl apply --namespace=okc -f -
 else
   echo "Would run:"
   echo "  kubectl delete secret -n persistence postgresql"

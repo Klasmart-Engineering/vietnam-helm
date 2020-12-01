@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "user_service.fullname" . }}
+  labels:
+    {{- include "user_service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "user_service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "user_service.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: NODE_ENV
+            value: "beta"
+          - name: PORT
+            value: "8080"
+          - name: ROUTE_PREFIX
+            value: "/user"
+          - name: POSTGRES_USERNAME
+            value: "kidsloop"
+          - name: POSTGRES_DOMAIN
+            value: "postgresql-ha-pgpool.persistence.svc.cluster.local"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_DB
+            value: "kidsloop"
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
+            
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
