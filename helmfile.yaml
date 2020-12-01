@@ -138,6 +138,25 @@ releases:
             cpu: 200m
             memory: 400Mi
 
+  - name: vietnam-hub
+    namespace: okc
+    chart: ./charts/live/hub
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: vn-bfc.dev.kidsloop.net
+              paths:
+                - "/hub"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi
+
   - name: vietnam-live
     namespace: okc
     chart: ./charts/live/live
