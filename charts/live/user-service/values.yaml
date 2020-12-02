@@ -5,7 +5,7 @@ imagePullSecrets: []
 
 
 image:
-  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service-guy
+  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
   pullPolicy: Always
   tag: latest
 

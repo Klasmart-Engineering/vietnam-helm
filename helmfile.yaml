@@ -215,10 +215,10 @@ releases:
     values:
       - global:
           storageClass: premium-hdd
-      - postgresql:
-          existingSecret: postgresql
-          username: kidsloop
-          database: kidsloop
+          postgresql:
+            existingSecret: postgresql
+            #username: kidsloop
+            database: kidsloop
       - persistence:
           size: 8Gi
           storageClass: premium-hdd
@@ -229,4 +229,5 @@ releases:
           db-init.sql: |
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+            CREATE EXTENSION IF NOT EXISTS "pg_trgm";
           
