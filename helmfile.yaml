@@ -11,6 +11,11 @@ repositories:
   - name: fluent
     url: https://fluent.github.io/helm-charts
 
+environments:
+  default:
+    values:
+      - host: vn-bfc.dev.kidsloop.net
+
 releases:
 
   - name: redis
@@ -107,7 +112,7 @@ releases:
           - name: ecr-registry
       - ingress:
           hosts:
-            - host: vn-bfc.dev.kidsloop.net
+            - host: {{ .Values.host }}
               paths:
                 - "/sfu"
       - resources:
@@ -127,7 +132,7 @@ releases:
           - name: ecr-registry
       - ingress:
           hosts:
-            - host: vn-bfc.dev.kidsloop.net
+            - host: {{ .Values.host }}
               paths:
                 - "/"
       - resources:
@@ -146,7 +151,7 @@ releases:
           - name: ecr-registry
       - ingress:
           hosts:
-            - host: vn-bfc.dev.kidsloop.net
+            - host: {{ .Values.host }}
               paths:
                 - "/hub"
       - resources:
@@ -165,7 +170,7 @@ releases:
           - name: ecr-registry
       - ingress:
           hosts:
-            - host: vn-bfc.dev.kidsloop.net
+            - host: {{ .Values.host }}
               paths:
                 - "/graphql"
       - resources:
@@ -180,13 +185,26 @@ releases:
     namespace: okc
     chart: ./charts/live/user-service
     values:
+      - image:
+          repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service-guy
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
           hosts:
-            - host: vn-bfc.dev.kidsloop.net
+            - host: {{ .Values.host }}
               paths:
                 - "/user/graphql"
+
+  - name: vietnam-external-service
+    namespace: okc
+    chart: ./charts/live/external-service
+    values:
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/external"
+      - externalName: disney.com
 
   - name: fluentbit
     namespace: monitoring
@@ -230,4 +248,4 @@ releases:
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
             CREATE EXTENSION IF NOT EXISTS "pg_trgm";
-          
+
