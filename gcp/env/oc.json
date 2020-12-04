@@ -1,0 +1,4 @@
+{
+    "gcp_project": "kl-indonesia",
+    "gcp_terraform_bucket": "kl-indonesia-terraform"
+}
