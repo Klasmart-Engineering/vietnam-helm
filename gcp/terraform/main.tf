@@ -1,7 +1,7 @@
 
 provider "google" {
   project = var.gcp_project
-  region  = "asia-southeast2"
+  region  = var.gcp_region
   version = "~> 3.49"
 }
 

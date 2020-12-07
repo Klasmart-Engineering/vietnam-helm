@@ -2,14 +2,14 @@
 set -e
 
 ENV=$1
-JSON=env/${ENV}.json
+JSON=env/${ENV}/init.json
 
 if [ ! -f $JSON ]; then
-    echo "Please set a correct ENV parameter"
+    echo "Please set an ENV with appropriate init json file"
     exit 1
 fi
 
-BUCKET=$(cat env/$ENV.json | jq -r .gcp_terraform_bucket)
+BUCKET=$(cat $JSON | jq -r .gcp_terraform_bucket)
 
 cd terraform
-terraform init -var-file=env/${ENV}.json -backend-config="bucket=${BUCKET}"
+terraform init -backend-config="bucket=${BUCKET}"

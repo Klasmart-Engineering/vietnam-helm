@@ -10,4 +10,4 @@ if [ ! -f $JSON ]; then
 fi
 
 cd terraform
-terraform plan -var-file=../env/${ENV}/terraform.json
+terraform apply -var-file=../env/${ENV}/terraform.json
