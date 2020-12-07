@@ -249,3 +249,28 @@ releases:
             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
             CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
+  - name: mysql
+    namespace: persistance
+    chart: bitnami/mysql
+    version: ~8.0.0
+    values:
+      - architecture: replication
+      - metrics:
+          enabled: true
+      - primary:
+          persistence:
+            size: 8Gi
+            storageClass: premium-hdd
+      - secondary:
+          replicaCount: 2
+          persistence:
+            size: 8Gi
+            storageClass: premium-hdd
+      - resources:
+          limits:
+            memory: 256Mi
+            cpu: 250m
+          requests:
+            memory: 256Mi
+            cpu: 250m
+
