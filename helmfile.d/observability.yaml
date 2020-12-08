@@ -8,14 +8,21 @@ repositories:
 environments:
   default:
     values:
-      - host: vn-bfc.dev.kidsloop.net
-
+      - env/vietnam.yaml
+  indonesia:
+    values:
+      - env/indonesia.yaml
+  oc:
+    values:
+      - env/oc.yaml
+      
 releases:
 
   - name: prometheus
     namespace: monitoring
     chart: bitnami/kube-prometheus
     version: ~3.0.1
+    condition: deploy-observability.enabled
     values:
       - global:
           storageClass: premium-hdd
@@ -34,6 +41,7 @@ releases:
   - name: fluentbit
     namespace: monitoring
     chart: fluent/fluent-bit
+    condition: deploy-observability.enabled
     values:
       - extraVolumes:
           - name: aws-credentials

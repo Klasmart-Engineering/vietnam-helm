@@ -1,0 +1,8 @@
+host: vn-bfc.dev.kidsloop.net
+storage_class: premium-hdd
+deploy-cert:
+  enabled: true
+deploy-observability:
+  enabled: true
+deploy-persistence:
+  enabled: true

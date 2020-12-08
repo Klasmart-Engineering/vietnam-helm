@@ -2,7 +2,13 @@
 environments:
   default:
     values:
-      - host: vn-bfc.dev.kidsloop.net
+      - env/vietnam.yaml
+  indonesia:
+    values:
+      - env/indonesia.yaml
+  oc:
+    values:
+      - env/oc.yaml
 
 releases:
 
@@ -13,7 +19,7 @@ releases:
 
   - name: vietnam-ecr-token
     namespace: okc
-    chart: ./charts/live/ecr-token
+    chart: ../charts/live/ecr-token
     version: ~0.1.0
     values:
       - resources:
@@ -26,7 +32,7 @@ releases:
 
   - name: vietnam-sfu
     namespace: okc
-    chart: ./charts/live/sfu
+    chart: ../charts/live/sfu
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -41,7 +47,7 @@ releases:
 
   - name: vietnam-sfu-gateway
     namespace: okc
-    chart: ./charts/live/sfu-gateway
+    chart: ../charts/live/sfu-gateway
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -61,7 +67,7 @@ releases:
 
   - name: vietnam-static
     namespace: okc
-    chart: ./charts/live/static
+    chart: ../charts/live/static
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -80,7 +86,7 @@ releases:
 
   - name: vietnam-hub
     namespace: okc
-    chart: ./charts/live/hub
+    chart: ../charts/live/hub
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -99,7 +105,7 @@ releases:
 
   - name: vietnam-live
     namespace: okc
-    chart: ./charts/live/live
+    chart: ../charts/live/live
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -118,7 +124,7 @@ releases:
 
   - name: vietnam-user-service
     namespace: okc
-    chart: ./charts/live/user-service
+    chart: ../charts/live/user-service
     values:
       - image:
           repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service-guy
@@ -132,7 +138,7 @@ releases:
 
   - name: vietnam-external-service
     namespace: okc
-    chart: ./charts/live/external-service
+    chart: ../charts/live/external-service
     values:
       - ingress:
           hosts:
