@@ -1,0 +1,142 @@
+
+environments:
+  default:
+    values:
+      - host: vn-bfc.dev.kidsloop.net
+
+releases:
+
+  - name: nginx-ingress
+    namespace: default
+    chart: ingress-nginx/ingress-nginx
+    version: ~3.8.0
+
+  - name: vietnam-ecr-token
+    namespace: okc
+    chart: ./charts/live/ecr-token
+    version: ~0.1.0
+    values:
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+
+  - name: vietnam-sfu
+    namespace: okc
+    chart: ./charts/live/sfu
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - hostNetworking: true
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+  - name: vietnam-sfu-gateway
+    namespace: okc
+    chart: ./charts/live/sfu-gateway
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/sfu"
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+
+  - name: vietnam-static
+    namespace: okc
+    chart: ./charts/live/static
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi
+
+  - name: vietnam-hub
+    namespace: okc
+    chart: ./charts/live/hub
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/hub"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi
+
+  - name: vietnam-live
+    namespace: okc
+    chart: ./charts/live/live
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/graphql"
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+  - name: vietnam-user-service
+    namespace: okc
+    chart: ./charts/live/user-service
+    values:
+      - image:
+          repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service-guy
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/user/graphql"
+
+  - name: vietnam-external-service
+    namespace: okc
+    chart: ./charts/live/external-service
+    values:
+      - ingress:
+          hosts:
+            - host: {{ .Values.host }}
+              paths:
+                - "/external"
+      - externalName: disney.com

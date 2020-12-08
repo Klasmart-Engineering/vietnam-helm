@@ -1,0 +1,24 @@
+repositories:
+
+  - name: jetstack
+    url: https://charts.jetstack.io/
+
+environments:
+  default:
+    values:
+      - host: vn-bfc.dev.kidsloop.net
+
+releases:
+
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: ~1.0.4
+    values:
+      - installCRDs: true
+
+  - name: letsencrypt
+    namespace: cert-manager
+    chart: ./charts/live/letsencrypt
+
+  
