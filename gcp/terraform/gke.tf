@@ -9,13 +9,6 @@ resource "google_container_cluster" "primary" {
     logging_service       = "logging.googleapis.com/kubernetes"
     monitoring_service    = "monitoring.googleapis.com/kubernetes" 
 
-    #database_encryption {
-    #  state = "ENCRYPTED"
-    #  #key_name = TBC
-    #}
-
-
-
     maintenance_policy {
       daily_maintenance_window {
         start_time = "03:00"
@@ -47,7 +40,7 @@ resource "google_container_node_pool" "primary" {
   node_config {
     disk_size_gb = 80
     disk_type    = "pd-standard"
-    machine_type = "e2-medium"
+    machine_type = "e2-standard-4"
     preemptible  = false # Don't want nodes failing during calls particularly
 
     oauth_scopes = [
