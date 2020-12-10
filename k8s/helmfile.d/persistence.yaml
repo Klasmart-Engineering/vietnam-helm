@@ -1,0 +1,92 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  
+environments:
+  default:
+    values:
+      - env/vietnam.yaml
+  indonesia:
+    values:
+      - env/indonesia.yaml
+  oc:
+    values:
+      - env/oc.yaml
+      
+releases:
+
+  - name: redis
+    namespace: persistence
+    chart: bitnami/redis
+    version: ~11.3.4
+    condition: deploy-persistence.enabled
+    values:
+      - cluster:
+          slaveCount: 3
+      - metrics:
+          enabled: true
+      - usePassword: false
+      - slave:
+          persistence:
+            enabled: false
+      - master:
+          persistence:
+            enabled: false
+      - networkPolicy:
+          enabled: true
+          ingressNSMatchLabels:
+            redis-namespace: "true"
+          ingressNSPodMatchLabels:
+            redis-client: "true"
+
+  - name: postgresql-ha
+    namespace: persistence
+    chart: bitnami/postgresql-ha
+    condition: deploy-persistence.enabled
+    values:
+      - global:
+          storageClass: {{ .Environment.Values.storage_class }}
+          postgresql:
+            existingSecret: postgresql
+            database: kidsloop
+      - persistence:
+          size: 8Gi
+          storageClass: {{ .Environment.Values.storage_class }}
+      - pgpool:
+          enabled: true
+          replicaCount: 2
+      - initdbScripts:
+          db-init.sql: |
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+            CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
+  - name: mysql
+    namespace: persistence
+    chart: bitnami/mysql
+    version: ~8.0.0
+    condition: deploy-persistence.enabled
+    values:
+      - auth:
+          existingSecret: mysql
+          database: kidsloop
+      - architecture: replication
+      - metrics:
+          enabled: true
+      - primary:
+          persistence:
+            size: 8Gi
+            storageClass: {{ .Environment.Values.storage_class }}
+      - secondary:
+          replicaCount: 2
+          persistence:
+            size: 8Gi
+            storageClass: {{ .Environment.Values.storage_class }}
+      - resources:
+          limits:
+            memory: 256Mi
+            cpu: 250m
+          requests:
+            memory: 256Mi
+            cpu: 250m
+

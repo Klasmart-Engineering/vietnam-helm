@@ -3,3 +3,5 @@
 .terraform
 postgresql-secret.yaml
 ecr-secret.yaml
+mysql-secret.yaml
+

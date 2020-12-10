@@ -1,0 +1,4 @@
+{
+    "terraform_provider": "gcp",
+    "terraform_bucket": "kl-indonesia-terraform"
+}
