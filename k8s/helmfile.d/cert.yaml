@@ -27,6 +27,6 @@ releases:
   - name: letsencrypt
     namespace: cert-manager
     condition: deploy-cert.enabled
-    chart: ../charts/live/letsencrypt
+    chart: ../helm/letsencrypt
 
   
