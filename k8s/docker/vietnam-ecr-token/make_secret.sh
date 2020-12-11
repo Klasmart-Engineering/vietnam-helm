@@ -29,7 +29,7 @@ echo "Created new secret:"
 cat ecr-secret.yaml
 
 if [[ "$DRY_RUN" != "yes" ]]; then
-  kubectl delete secret -n $NAMESPACE $SECRET_NAME
+  kubectl delete secret --ignore-not-found=true -n $NAMESPACE $SECRET_NAME
   kubectl apply -f ecr-secret.yaml
 else
   echo "Would run:"

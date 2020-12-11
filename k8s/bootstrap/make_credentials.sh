@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+source "_functions.sh"
 
 NAMESPACE=${NAMESPACE:-okc}
 
@@ -16,6 +17,8 @@ while read secret_access_key; do
     break
   fi
 done
+
+create_namespace_if_not_exists "$NAMESPACE"
 
 CREDS=$(cat <<EOF | base64 | sed 's/^/    /g'
 [default]

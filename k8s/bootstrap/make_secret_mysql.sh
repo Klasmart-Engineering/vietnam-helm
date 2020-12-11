@@ -1,5 +1,6 @@
 #!/bin/bash
 set -xeuo pipefail
+source "_functions.sh"
 
 DRY_RUN=${DRY_RUN:-"no"}
 
@@ -12,11 +13,11 @@ kubectl create secret generic mysql \
   --from-literal=mysql-password="$(pwgen -s 20 1)" \
   > mysql-secret.yaml
 
-echo "Created new secret:"
-
 if [[ "$DRY_RUN" != "yes" ]]; then
-  kubectl delete secret -n persistence mysql
-  kubectl delete secret -n okc mysql
+  create_namespace_if_not_exists "persistence"
+  create_namespace_if_not_exists "okc"
+  kubectl delete secret --ignore-not-found=true -n persistence mysql
+  kubectl delete secret --ignore-not-found=true -n okc mysql
   kubectl apply -f mysql-secret.yaml
   kubectl get secret mysql --namespace=persistence -o yaml | \
     awk '{gsub(/namespace: persistence/,"namespace: okc")}1' | \
