@@ -5,17 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"os"
-	"strconv"
 	"strings"
-	"sync/atomic"
 	"time"
 
 	"git.sr.ht/~yoink00/goflenfig"
-	"git.sr.ht/~yoink00/zaplog"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 	"go.uber.org/zap"
 
 	v1 "k8s.io/api/batch/v1"
@@ -24,8 +18,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
-
-var desiredJobs int32 = 6
 
 // Namespace returns the namespace this pod is in
 func Namespace() string {
@@ -60,53 +52,41 @@ func PodName() (string, error) {
 	return "", errors.New("unable to get pod name")
 }
 
+var desiredPodsGetters map[string]desiredPods
+
 func main() {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 	logger.Info("starting SFU manager")
 
 	var jobConfig string
+	var desiredPodsGetterChoice string
+	var initialDesiredPods int
 	goflenfig.EnvPrefix("SFU_MANAGER_")
 	goflenfig.StringVar(&jobConfig, "job", "job.yaml", "The template for creating a job")
+	goflenfig.StringVar(&desiredPodsGetterChoice, "desired-pods-getter", "http", "The desired pod getter to use")
+	goflenfig.IntVar(&initialDesiredPods, "pods", 6, "The inital number of desired pods")
+	// Initalise desired pod getters
+	for _, d := range desiredPodsGetters {
+		d.Init()
+	}
+
 	goflenfig.Parse()
 
 	jobConfigChan := make(chan *v1.Job, 1)
+	desiredPodsChan := make(chan int, 1)
+	desiredPodsGetter := desiredPodsGetters[desiredPodsGetterChoice]
+	if desiredPodsGetter == nil {
+		logger.Fatal("can't find desired pod getter", zap.String("desiredPodsGetterChoice", desiredPodsGetterChoice))
+	}
 	go filewatcher(logger, jobConfig, jobConfigChan)
-	go manageJobs(logger, jobConfigChan)
+	go manageJobs(logger, jobConfigChan, desiredPodsChan)
 
-	r := chi.NewRouter()
-	// A good base middleware stack
-	r.Use(middleware.RequestID)
-	r.Use(middleware.RealIP)
-	r.Use(zaplog.ZapLog(logger))
-	r.Use(middleware.Recoverer)
-
-	r.Post("/", func(w http.ResponseWriter, r *http.Request) {
-		defer r.Body.Close()
-
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			logger.Error("unable to read body", zap.Error(err))
-			w.WriteHeader(400)
-			return
-		}
-
-		newDesiredJobs, err := strconv.Atoi(string(body))
-		if err != nil {
-			logger.Error("unable to convert body", zap.Error(err))
-			w.WriteHeader(400)
-			return
-		}
-
-		atomic.StoreInt32(&desiredJobs, int32(newDesiredJobs))
-
-		w.WriteHeader(http.StatusCreated)
-	})
-
-	logger.Fatal("server exit", zap.Error(http.ListenAndServe(":8080", r)))
+	desiredPodsChan <- initialDesiredPods
+	logger.Fatal("error getting desired pods", zap.Error(desiredPodsGetter.Run(logger, desiredPodsChan)))
 }
 
-func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job) {
+func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job, desiredPodsChan <-chan int) {
 	// creates the in-cluster config
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -130,13 +110,19 @@ func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job) {
 	}
 
 	var job *v1.Job
-	ticker := time.NewTicker(10 * time.Second)
+	var desiredJobs int
 
+	ticker := time.NewTicker(10 * time.Second)
 	for {
 		select {
 		case <-ticker.C:
 			if job == nil {
 				logger.Info("no job configuration")
+				continue
+			}
+
+			if desiredJobs == 0 {
+				logger.Info("no desired jobs", zap.Int("desiredJobs", desiredJobs))
 				continue
 			}
 
@@ -159,7 +145,7 @@ func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job) {
 
 			if len(filteredJobs) < int(desiredJobs) {
 				logger.Info("creating new jobs",
-					zap.Int32("desiredJobs", desiredJobs),
+					zap.Int("desiredJobs", desiredJobs),
 					zap.Int("newJobs", 1),
 					zap.Int("sfuCount", len(filteredJobs)))
 
@@ -188,6 +174,9 @@ func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job) {
 		case j := <-jobConfigChan:
 			logger.Info("updating job configuration")
 			job = j
+		case d := <-desiredPodsChan:
+			logger.Info("desired jobs updated", zap.Int("desiredJobs", d))
+			desiredJobs = d
 		}
 	}
 }
