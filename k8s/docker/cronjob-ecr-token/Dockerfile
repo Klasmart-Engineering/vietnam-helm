@@ -15,10 +15,10 @@ RUN apt update && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin
 
-COPY ./make_secret.sh .
+COPY ../../bootstrap/make_secret_ecr.sh .
 RUN chmod +x make_secret.sh
 
 ENTRYPOINT [ "/bin/sh", "-c" ]
 
-CMD [ "./make_secret.sh" ]
+CMD [ "./make_secret_ecr.sh" ]
 

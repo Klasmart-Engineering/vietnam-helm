@@ -1,8 +1,12 @@
 #!/bin/bash
 set -e
-source "_functions.sh"
+source ../../scripts/bash/functions.sh
 
-NAMESPACE=${NAMESPACE:-okc}
+ENV=$1
+env_validate "$ENV"
+
+NS_KIDSLOOP=$(../../scripts/python/get_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+[ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
 echo -n "Access Key ID: "
 while read access_key_id; do
@@ -18,7 +22,7 @@ while read secret_access_key; do
   fi
 done
 
-create_namespace_if_not_exists "$NAMESPACE"
+create_namespace_if_not_exists "$NS_KIDSLOOP"
 
 CREDS=$(cat <<EOF | base64 | sed 's/^/    /g'
 [default]
@@ -32,7 +36,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: aws-credentials
-  namespace: $NAMESPACE
+  namespace: $NS_KIDSLOOP
 data:
   credentials: |
 $CREDS

@@ -1,16 +1,17 @@
 #!/bin/bash
 set -e
-source _functions.sh
-source _enum.sh
+source ../scripts/bash/functions.sh
 
 ENV=$1
-env_validate_file "$ENV" "$ENUM_TERRAFORM_INIT_FILE"
+env_validate "$ENV"
 
-PROVIDER=$(env_terraform_init_var "$ENV" "terraform_provider")
-BUCKET=$(env_terraform_init_var "$ENV" "terraform_bucket")
+PROVIDER=$(../scripts/python/get_var.py  $ENV "provider")
+BUCKET=$(../scripts/python/get_var.py  "$ENV" "terraform_bucket")
+TFVARS=$(tfvars_path $ENV)
 
-[ -z "$PROVIDER" ] && echo "Missing variable,'terraform_provider', in $ENV/$ENUM_TERRAFORM_INIT_FILE" && exit 1
-[ -z "$BUCKET" ] && echo "Missing variable,'terraform_bucket', in $ENV/$ENUM_TERRAFORM_INIT_FILE" && exit 1
+[ -z "$PROVIDER" ] && echo "Missing variable,'terraform_provider', in $ENV" && exit 1
+[ -z "$BUCKET" ] && echo "Missing variable,'terraform_bucket', in $ENV" && exit 1
 
-echo -e "\nPROVIDER:    $PROVIDER\nENVIRONMENT: $ENV\nBUCKET:      $BUCKET\n-----------------------------------------------------------------"
+echo -e "\nPROVIDER:    $PROVIDER\nENVIRONMENT: $ENV\nBUCKET:      $BUCKET"
+echo_line
 terraform init -backend-config="bucket=$BUCKET" $PROVIDER

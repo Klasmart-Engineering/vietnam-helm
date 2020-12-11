@@ -1,0 +1,11 @@
+{
+    "provider": "gcp",
+    "terraform_bucket": "kl-indonesia-terraform",
+    "k8s_namespace_monitoring": "monitoring",
+    "k8s_namespace_kidsloop": "okc",
+    "k8s_namespace_persistence": "persistence",
+    "k8s_prometheus": "gke",
+    "k8s_fluentbit": "gke",
+    "k8s_mysql": "config-connector",
+    "k8s_postgresql": "config-connector"
+}

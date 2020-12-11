@@ -1,0 +1,10 @@
+{
+    "provider": "bizflycloud",
+    "k8s_namespace_monitoring": "monitoring",
+    "k8s_namespace_kidsloop": "okc",
+    "k8s_namespace_persistence": "persistence",
+    "k8s_prometheus": "bitnami",
+    "k8s_mysql": "bitnami",
+    "k8s_postgresql": "bitnami",
+    "k8s_fluentbit": "fluent"
+}

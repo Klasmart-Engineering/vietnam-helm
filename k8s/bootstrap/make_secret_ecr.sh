@@ -13,6 +13,7 @@ echo "Region: $REGION"
 SECRET_NAME=${SECRET_NAME:-ecr-registry}
 NAMESPACE=${NAMESPACE:-okc}
 DRY_RUN=${DRY_RUN:-"no"}
+
 TOKEN=$(aws ecr get-login-password)
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
 echo "ENV variables setup done."
@@ -25,8 +26,6 @@ kubectl create secret docker-registry $SECRET_NAME \
     --docker-username=AWS \
     --docker-password="${TOKEN}" \
     --docker-email="foo@bar.com" > ecr-secret.yaml
-echo "Created new secret:"
-cat ecr-secret.yaml
 
 if [[ "$DRY_RUN" != "yes" ]]; then
   kubectl delete secret --ignore-not-found=true -n $NAMESPACE $SECRET_NAME
@@ -37,3 +36,4 @@ else
   echo "  kubectl apply -f ecr-secret.yaml"
 fi
 
+rm ecr-secret.yaml
