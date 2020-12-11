@@ -56,3 +56,5 @@ data:
                 value: "1"
             resources:
               {{- toYaml .Values.resources | nindent 16 }}
+  config: |
+    {{- toPrettyJson .Values.sfuManagerConfiguration | nindent 4 }}

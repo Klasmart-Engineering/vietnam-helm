@@ -27,15 +27,13 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         env:
-        - name: SFU_MANAGER_JOB
-          value: /etc/config/job.yaml
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
         volumeMounts:
         - name: config
-          mountPath: /etc/config
+          mountPath: /etc/vietnam-sfu-manager
       volumes:
       - name: config
         configMap:
