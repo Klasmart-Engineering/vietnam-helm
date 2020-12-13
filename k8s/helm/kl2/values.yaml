@@ -1,0 +1,92 @@
+replicaCount: 1
+
+image:
+  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-kl2
+  pullPolicy: Always
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+configuration:
+  # ams endpoint
+  ams_endpoint: https://api.beta.kidsloop.net/user/
+  # unused (this is for cloudfront signature)
+  # cdn_key_group_id: 89c8501a-3888-466e-80e1-d775116079a1
+  # unused
+  # cdn_key_id: K3PUGKGK3R1NHM
+  # unused
+  # cdn_mode: key
+  # unused
+  # cdn_open: true
+  # this is the cdn domain of resources bucket
+  cdn_path: https://res-kl2-test.kidsloop.net
+  # this is used to cdn url signature
+  # cdn_private_key_path: ./cdn_private_key.pem
+  # just as a label, and unused
+  # cloud_env: aws
+  # db connection string
+  connection_string: "dbc_yyd:xxxxxx@tcp(kidsloop-test.copqnkcbdsts.ap-northeast-2.rds.amazonaws.com:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
+  # DO NOT MODIFY
+  db_env: mysql
+  # DO NOT MODIFY
+  env: HTTP
+  # DO NOT MODIFY
+  h5p_private_key_path: ./h5p_private_key.pem
+  # DO NOT MODIFY
+  h5p_public_key_path: ./h5p_public_key.pem
+  # DO NOT MODIFY
+  jwt_public_key_path: ./jwt_public_key.pem
+  # DO NOT MODIFY
+  live_token_private_key_path: ./live_token_private_key.pem
+  # DO NOT MODIFY
+  max_idle_conns: "4"
+  # DO NOT MODIFY
+  max_open_conns: "8"
+  # DO NOT MODIFY
+  max_repeat_year: "2"
+  # unused
+  # nb__bin_sha1: c46bc11be0d9519387ea8f4aa27f2dbe848047d8
+  # unused
+  # nb__cfg_key: test
+  # unused
+  # nb__git_tag: <NULL>
+  # DO NOT MODIFY
+  open_cache: "true"
+  # redis related(3 lines below)
+  redis_host: redis-master.persistence.svc
+  redis_password: ""
+  redis_port: "6379"
+  # DO NOT MODIFY
+  show_log: "true"
+  # DO NOT MODIFY
+  show_sql: "true"
+  # unused, this is for amazon s3 upload accelerate
+  # storage_accelerate: true
+  # bucket name
+  storage_bucket: cdk-kl2-test-kl2-s3resources
+  # if `storage_sig_mode` is set as false, this env can be set to `cloudfront`, all static file path will be returned as $cdn_path/static_file_path, $cdn_path is configured above.
+  # if `storage_sig_mode` is set as true, this env can be set to `native`, and operation of signing is done by bucket. Or we should define another value for this env, and add some code to deal with it.
+  storage_download_mode: cloudfront
+  #
+  storage_region: ap-northeast-2
+  # if this is set to be `ture` then all request to resources should be signed
+  storage_sig_mode: "false"
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt"
+  }
+  hosts: {
+  }
+  tls: [
+    endpoint: {
+      hosts: [
+        "vn-bfc.dev.kidsloop.net"
+      ],
+      secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+    }
+  ]
+
+resources: {}

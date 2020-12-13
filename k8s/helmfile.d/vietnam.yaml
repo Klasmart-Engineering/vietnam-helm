@@ -44,6 +44,8 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
+      - sfuManagerConfiguration:
+          promHost: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
 
   - name: vietnam-sfu-gateway
     namespace: okc
@@ -136,13 +138,19 @@ releases:
               paths:
                 - "/user/graphql"
 
-  - name: vietnam-external-service
+  - name: vietnam-kl2
     namespace: okc
-    chart: ../helm/external-service
+    chart: ../helm/kl2
     values:
+      - imagePullSecrets:
+          - name: ecr-registry
       - ingress:
           hosts:
             - host: {{ .Values.host }}
               paths:
-                - "/external"
-      - externalName: disney.com
+                - "/kl2(/|$)(.*)"
+          annotations:
+            nginx.ingress.kubernetes.io/rewrite-target: /$2
+      - configuration:
+          connection_string: "dbc_yyd:xxxxxx@tcp(mysql-primary.persistence:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
+

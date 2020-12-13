@@ -32,12 +32,29 @@ releases:
       - master:
           persistence:
             enabled: false
+      - configmap: |-
+          # Enable AOF https://redis.io/topics/persistence#append-only-file
+          appendonly yes
+          # Disable RDB persistence, AOF persistence already enabled.
+          save ""
+          # The maximum amount of memory to use. This should be
+          # the resource limit minus some head room.
+          maxmemory 500mb
+          # What to do when memory gets low
+          maxmemory-policy allkeys-lru
       - networkPolicy:
           enabled: true
           ingressNSMatchLabels:
             redis-namespace: "true"
           ingressNSPodMatchLabels:
             redis-client: "true"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 200m
+            memory: 512Mi
 
   - name: postgresql-ha
     namespace: persistence
@@ -69,7 +86,9 @@ releases:
     values:
       - auth:
           existingSecret: mysql
-          database: kidsloop
+          database: kidsloop2
+          username: dbc_yyd
+          password: xxxxxx
       - architecture: replication
       - metrics:
           enabled: true
