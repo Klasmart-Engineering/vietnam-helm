@@ -1,4 +1,4 @@
-host: vn-bfc.dev.kidsloop.net
+domain: "-oc.kidsloop.vn"
 storage_class: standard
 deploy-cert:
   enabled: false

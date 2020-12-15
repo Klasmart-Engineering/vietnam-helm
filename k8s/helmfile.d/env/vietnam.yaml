@@ -1,4 +1,4 @@
-host: vn-bfc.dev.kidsloop.net
+domain: "-beta.kidsloop.vn"
 storage_class: premium-hdd
 deploy-cert:
   enabled: true

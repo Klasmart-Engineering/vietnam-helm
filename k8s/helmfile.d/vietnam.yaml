@@ -54,8 +54,13 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - live{{ .Values.domain }}
+                secretName: "letsencrypt-live{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: live{{ .Values.domain }}
               paths:
                 - "/sfu"
       - resources:
@@ -74,8 +79,13 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - live{{ .Values.domain }}
+                secretName: "letsencrypt-live{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: live{{ .Values.domain }}
               paths:
                 - "/"
       - resources:
@@ -93,10 +103,15 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - hub{{ .Values.domain }}
+                secretName: "letsencrypt-hub{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: hub{{ .Values.domain }}
               paths:
-                - "/hub"
+                - "/"
       - resources:
           requests:
             cpu: 100m
@@ -112,8 +127,13 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - live{{ .Values.domain }}
+                secretName: "letsencrypt-live{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: live{{ .Values.domain }}
               paths:
                 - "/graphql"
       - resources:
@@ -133,10 +153,15 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.domain }}
+                secretName: "letsencrypt-api{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: live{{ .Values.domain }}
               paths:
-                - "/user/graphql"
+                - "/user"
 
   - name: vietnam-kl2
     namespace: okc
@@ -145,12 +170,15 @@ releases:
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - kl2{{ .Values.domain }}
+                secretName: "letsencrypt-kl2{{ .Values.domain }}"
           hosts:
-            - host: {{ .Values.host }}
+            - host: kl2{{ .Values.domain }}
               paths:
-                - "/kl2(/|$)(.*)"
-          annotations:
-            nginx.ingress.kubernetes.io/rewrite-target: /$2
+                - "/"
       - configuration:
           connection_string: "dbc_yyd:xxxxxx@tcp(mysql-primary.persistence:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
 
