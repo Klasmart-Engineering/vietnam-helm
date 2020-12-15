@@ -180,5 +180,6 @@ releases:
               paths:
                 - "/"
       - configuration:
+          # 'xxxxxx' is substituted with actually password
           connection_string: "dbc_yyd:xxxxxx@tcp(mysql-primary.persistence:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
 

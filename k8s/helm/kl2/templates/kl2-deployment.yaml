@@ -27,6 +27,11 @@ spec:
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
+        command: [ "sh", "-c" ]
+        args:
+        - |
+          export connection_string=$(echo $connection_string | sed "s/xxxxxx/$MYSQL_PASSWORD/g")
+          ./handler
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         ports:
@@ -36,6 +41,12 @@ spec:
         envFrom:
           - configMapRef:
               name: {{ include "kl2.fullname" . }}-cm
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: mysql-password
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
 
