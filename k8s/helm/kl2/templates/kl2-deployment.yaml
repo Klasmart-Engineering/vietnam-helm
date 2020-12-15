@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "kl2.selectorLabels" . | nindent 8 }}
         redis-client: "true"
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/kl2-configmap.yaml") . | sha256sum }}
     spec:
       {{- if .Values.hostNetworking }}
       hostNetwork: true
