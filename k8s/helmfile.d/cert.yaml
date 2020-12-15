@@ -1,13 +1,13 @@
 environments:
   default:
     values:
-      - env/vietnam.yaml
+      - ../../env/vietnam/config.json
   indonesia:
     values:
-      - env/indonesia.yaml
+      - ../../env/indonesia/config.json
   oc:
     values:
-      - env/oc.yaml
+      - ../../env/oc/config.json
           
 repositories:
 
@@ -20,13 +20,15 @@ releases:
     namespace: cert-manager
     chart: jetstack/cert-manager
     version: ~1.0.4
-    condition: deploy-cert.enabled
+    condition: helm_cert.enabled
     values:
       - installCRDs: true
 
   - name: letsencrypt
     namespace: cert-manager
-    condition: deploy-cert.enabled
+    condition: helm_cert.enabled
     chart: ../helm/letsencrypt
+
+    
 
   

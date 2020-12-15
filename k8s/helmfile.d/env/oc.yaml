@@ -1,8 +1,0 @@
-domain: "-oc.kidsloop.vn"
-storage_class: standard
-deploy-cert:
-  enabled: false
-deploy-observability:
-  enabled: false
-deploy-persistence:
-  enabled: true

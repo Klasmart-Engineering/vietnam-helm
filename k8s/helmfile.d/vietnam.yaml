@@ -2,13 +2,13 @@
 environments:
   default:
     values:
-      - env/vietnam.yaml
+      - ../../env/vietnam/config.json
   indonesia:
     values:
-      - env/indonesia.yaml
+      - ../../env/indonesia/config.json
   oc:
     values:
-      - env/oc.yaml
+      - ../../env/oc/config.json
 
 releases:
 
@@ -57,10 +57,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Values.domain }}
-                secretName: "letsencrypt-live{{ .Values.domain }}"
+                  - live{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: live{{ .Values.domain }}
+            - host: live{{ .Environment.Values.kl_domain }}
               paths:
                 - "/sfu"
       - resources:
@@ -82,10 +82,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Values.domain }}
-                secretName: "letsencrypt-live{{ .Values.domain }}"
+                  - live{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: live{{ .Values.domain }}
+            - host: live{{ .Environment.Values.kl_domain }}
               paths:
                 - "/"
       - resources:
@@ -106,10 +106,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - hub{{ .Values.domain }}
-                secretName: "letsencrypt-hub{{ .Values.domain }}"
+                  - hub{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-hub{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: hub{{ .Values.domain }}
+            - host: hub{{ .Environment.Values.kl_domain }}
               paths:
                 - "/"
       - resources:
@@ -130,10 +130,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Values.domain }}
-                secretName: "letsencrypt-live{{ .Values.domain }}"
+                  - live{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: live{{ .Values.domain }}
+            - host: live{{ .Environment.Values.kl_domain }}
               paths:
                 - "/graphql"
       - resources:
@@ -156,10 +156,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - api{{ .Values.domain }}
-                secretName: "letsencrypt-api{{ .Values.domain }}"
+                  - api{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-api{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: live{{ .Values.domain }}
+            - host: {{ .Environment.Values.kl_domain }}
               paths:
                 - "/user"
 
@@ -173,10 +173,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - kl2{{ .Values.domain }}
-                secretName: "letsencrypt-kl2{{ .Values.domain }}"
+                  - kl2{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-kl2{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: kl2{{ .Values.domain }}
+            - host: kl2{{ .Environment.Values.kl_domain }}
               paths:
                 - "/"
       - configuration:

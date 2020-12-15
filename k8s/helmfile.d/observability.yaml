@@ -8,13 +8,13 @@ repositories:
 environments:
   default:
     values:
-      - env/vietnam.yaml
+      - ../../env/vietnam/config.json
   indonesia:
     values:
-      - env/indonesia.yaml
+      - ../../env/indonesia/config.json
   oc:
     values:
-      - env/oc.yaml
+      - ../../env/oc/config.json
       
 releases:
 
@@ -22,7 +22,7 @@ releases:
     namespace: monitoring
     chart: bitnami/kube-prometheus
     version: ~3.0.1
-    condition: deploy-observability.enabled
+    condition: helm_prometheus.enabled
     values:
       - global:
           storageClass: premium-hdd
@@ -41,7 +41,7 @@ releases:
   - name: fluentbit
     namespace: monitoring
     chart: fluent/fluent-bit
-    condition: deploy-observability.enabled
+    condition: helm_fluentbit.enabled
     values:
       - extraVolumes:
           - name: aws-credentials

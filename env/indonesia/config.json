@@ -7,5 +7,26 @@
     "k8s_prometheus": "gke",
     "k8s_fluentbit": "gke",
     "k8s_mysql": "config-connector",
-    "k8s_postgresql": "config-connector"
+    "k8s_postgresql": "config-connector",
+    "k8s_storage_class": "standard",
+    "kl_domain": "-beta.kidsloop.id",
+
+    "helm_cert": {
+        "enabled": false
+    },
+    "helm_prometheus": {
+        "enabled": false
+    },
+    "helm_fluentbit": {
+        "enabled": false
+    },
+    "helm_redis": {
+        "enabled": false
+    },
+    "helm_postgresql": {
+        "enabled": false
+    },
+    "helm_mysql": {
+        "enabled": false
+    }
 }
