@@ -159,7 +159,7 @@ releases:
                   - api{{ .Environment.Values.kl_domain }}
                 secretName: "letsencrypt-api{{ .Environment.Values.kl_domain }}"
           hosts:
-            - host: {{ .Environment.Values.kl_domain }}
+            - host: api{{ .Environment.Values.kl_domain }}
               paths:
                 - "/user"
 
