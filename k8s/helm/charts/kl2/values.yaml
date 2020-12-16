@@ -27,7 +27,19 @@ configuration:
   # just as a label, and unused
   # cloud_env: aws
   # db connection string
-  connection_string: "dbc_yyd:xxxxxx@tcp(kidsloop-test.copqnkcbdsts.ap-northeast-2.rds.amazonaws.com:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
+  ##connection_string: "dbc_yyd:xxxxxx@tcp(kidsloop-test.copqnkcbdsts.ap-northeast-2.rds.amazonaws.com:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
+  ##
+  # The following fields are used to construct the connection_string
+  # in the deployment manifest
+  ##
+  db_name: kidsloop2
+  db_username: dbc_yyd
+  db_hostname: kidsloop-test.copqnkcbdsts.ap-northeast-2.rds.amazonaws.com
+  db_port: "3306"
+  db_options: "parseTime: true&charset: utf8mb4"
+  ##
+  # End
+  ##
   # DO NOT MODIFY
   db_env: mysql
   # DO NOT MODIFY
