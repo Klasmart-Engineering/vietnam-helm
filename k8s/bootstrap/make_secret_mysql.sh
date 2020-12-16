@@ -5,8 +5,8 @@ source ../../scripts/bash/functions.sh
 ENV=$1
 env_validate "$ENV"
 
-NS_KIDSLOOP=$(../../scripts/python/get_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
-NS_PERSISTENCE=$(../../scripts/python/get_var.py $ENV $ENUM_NS_PERSISTENCE_VAR)
+NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+NS_PERSISTENCE=$(../../scripts/python/env_var.py $ENV $ENUM_NS_PERSISTENCE_VAR)
 
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 [ -z "$NS_PERSISTENCE" ] && echo "Missing variable,'$ENUM_NS_PERSISTENCE_VAR', in $ENV" && exit 1

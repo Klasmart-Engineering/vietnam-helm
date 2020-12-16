@@ -28,5 +28,9 @@
     },
     "helm_mysql": {
         "enabled": false
+    },
+
+    "gke_config_connector": {
+        "enabled": true
     }
 }

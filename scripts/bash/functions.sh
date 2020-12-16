@@ -61,3 +61,11 @@ function create_namespace_if_not_exists() {
         kubectl create namespace $1
     fi
 }
+
+pushd () {
+    command pushd "$@" > /dev/null
+}
+
+popd () {
+    command popd "$@" > /dev/null
+}

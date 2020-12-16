@@ -8,13 +8,13 @@ repositories:
 environments:
   default:
     values:
-      - ../../env/vietnam/config.json
+      - ../../../env/vietnam/config.json
   indonesia:
     values:
-      - ../../env/indonesia/config.json
+      - ../../../env/indonesia/config.json
   oc:
     values:
-      - ../../env/oc/config.json
+      - ../../../env/oc/config.json
       
 releases:
 

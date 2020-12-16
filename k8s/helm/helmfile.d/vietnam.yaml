@@ -2,13 +2,13 @@
 environments:
   default:
     values:
-      - ../../env/vietnam/config.json
+      - ../../../env/vietnam/config.json
   indonesia:
     values:
-      - ../../env/indonesia/config.json
+      - ../../../env/indonesia/config.json
   oc:
     values:
-      - ../../env/oc/config.json
+      - ../../../env/oc/config.json
 
 releases:
 
@@ -19,7 +19,7 @@ releases:
 
   - name: vietnam-ecr-token
     namespace: okc
-    chart: ../helm/ecr-token
+    chart: ../charts/ecr-token
     version: ~0.1.0
     values:
       - resources:
@@ -32,7 +32,7 @@ releases:
 
   - name: vietnam-sfu
     namespace: okc
-    chart: ../helm/sfu
+    chart: ../charts/sfu
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -49,7 +49,7 @@ releases:
 
   - name: vietnam-sfu-gateway
     namespace: okc
-    chart: ../helm/sfu-gateway
+    chart: ../charts/sfu-gateway
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -74,7 +74,7 @@ releases:
 
   - name: vietnam-static
     namespace: okc
-    chart: ../helm/static
+    chart: ../charts/static
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -98,7 +98,7 @@ releases:
 
   - name: vietnam-hub
     namespace: okc
-    chart: ../helm/hub
+    chart: ../charts/hub
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -122,7 +122,7 @@ releases:
 
   - name: vietnam-live
     namespace: okc
-    chart: ../helm/live
+    chart: ../charts/live
     values:
       - imagePullSecrets:
           - name: ecr-registry
@@ -146,7 +146,7 @@ releases:
 
   - name: vietnam-user-service
     namespace: okc
-    chart: ../helm/user-service
+    chart: ../charts/user-service
     values:
       - image:
           repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service-guy
@@ -165,7 +165,7 @@ releases:
 
   - name: vietnam-kl2
     namespace: okc
-    chart: ../helm/kl2
+    chart: ../charts/kl2
     values:
       - imagePullSecrets:
           - name: ecr-registry

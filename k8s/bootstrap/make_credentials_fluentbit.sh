@@ -5,7 +5,7 @@ source ../../scripts/bash/functions.sh
 ENV=$1
 env_validate "$ENV"
 
-NS_KIDSLOOP=$(../../scripts/python/get_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
 

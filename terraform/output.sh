@@ -11,9 +11,6 @@ BUCKET=$(../scripts/python/env_var.py  "$ENV" "terraform_bucket")
 [ -z "$PROVIDER" ] && echo "Missing variable,'terraform_provider', in $ENV" && exit 1
 [ -z "$BUCKET" ] && echo "Missing variable,'terraform_bucket', in $ENV" && exit 1
 
-echo -e "\nPROVIDER:    $PROVIDER\nENVIRONMENT: $ENV\nBUCKET:      $BUCKET"
-echo_line
-
-pushd $PROVIDER
-terraform init -backend-config="bucket=$BUCKET"
-popd
+pushd $PROVIDER > /dev/null
+terraform output -json
+popd > /dev/null

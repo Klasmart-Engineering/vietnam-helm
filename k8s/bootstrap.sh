@@ -7,15 +7,15 @@ env_validate "$ENV"
 
 SVC=$2
 
-MYSQL=$(../scripts/python/get_var.py $ENV "k8s_mysql")
+MYSQL=$(../scripts/python/env_var.py $ENV "k8s_mysql")
 [ -z "$MYSQL" ] && echo "Missing variable,'k8s_mysql', in $ENV" && exit 1
-POSTGRESQL=$(../scripts/python/get_var.py $ENV "k8s_postgresql")
+POSTGRESQL=$(../scripts/python/env_var.py $ENV "k8s_postgresql")
 [ -z "$POSTGRESQL" ] && echo "Missing variable,'k8s_postgresql', in $ENV" && exit 1
-PROMETHEUS=$(../scripts/python/get_var.py $ENV "k8s_prometheus")
+PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
 [ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
-PROMETHEUS=$(../scripts/python/get_var.py $ENV "k8s_prometheus")
+PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
 [ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
-FLUENTBIT=$(../scripts/python/get_var.py $ENV "k8s_fluentbit")
+FLUENTBIT=$(../scripts/python/env_var.py $ENV "k8s_fluentbit")
 [ -z "$FLUENTBIT" ] && echo "Missing variable,'k8s_fluentbit', in $ENV" && exit 1
 
 

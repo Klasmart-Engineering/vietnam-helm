@@ -1,0 +1,22 @@
+environments:
+  indonesia:
+    values:
+      - ../../../env/indonesia/config.json
+      - ../../../env/indonesia/tfvars.json
+      - ../helm-gke-terraform-output.json
+  oc:
+    values:
+      - ../../../env/oc/tfvars.json
+      - ../../../env/oc/config.json
+      - ../helm-gke-terraform-output.json
+      
+releases:
+
+  - name: gke-redis
+    namespace: config-connector
+    chart: ../charts/redis
+    condition: gke_config_connector.enabled
+    values:
+      - gcp:
+          region: {{ .Environment.Values.region }}
+
