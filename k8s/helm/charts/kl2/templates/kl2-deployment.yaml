@@ -25,6 +25,23 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: flyway/flyway:latest
+        args:
+          - "migrate"
+          - "-user=kidsloop2"
+          - "-url=jdbc:mysql://localhost:3306/kidsloop2"
+          - "-password=$(MYSQL_PASSWORD)"
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: mysql-password
+        volumeMounts:
+          - name: sql-migration
+            mountPath: /flyway/sql
       containers:
       - name: {{ .Chart.Name }}
         command: [ "sh", "-c" ]
@@ -49,4 +66,8 @@ spec:
                 key: mysql-password
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: sql-migration
+          configMap:
+            name: {{ include "kl2.fullname" . }}-sql-cm
 
