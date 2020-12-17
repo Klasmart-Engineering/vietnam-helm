@@ -15,7 +15,8 @@ if (len(sys.argv)>2):
             return f.read()
 
     for f in os.listdir(ENV_PATH):
-        j = json.loads(readFile(f))
-        if VAR in j:
-            print(j[VAR])
-            break
+        if f.endswith('.json'):
+            j = json.loads(readFile(f))
+            if VAR in j:
+                print(j[VAR])
+                break

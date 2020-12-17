@@ -1,5 +1,6 @@
 #!/bin/bash
 set -xeuo pipefail
+source ../../scripts/bash/functions.sh
 
 #
 # This script expects aws-cli-v2 to be installed.
@@ -17,6 +18,8 @@ DRY_RUN=${DRY_RUN:-"no"}
 TOKEN=$(aws ecr get-login-password)
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
 echo "ENV variables setup done."
+
+create_namespace_if_not_exists "$NAMESPACE"
 
 kubectl create secret docker-registry $SECRET_NAME \
     --dry-run=client \

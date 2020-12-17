@@ -16,10 +16,16 @@ if (len(sys.argv)>1):
         with open(os.path.join(ENV_PATH, filename),'r') as f:
             return f.read()
 
+    print ("\nCombining env json into single YAML file:")
     for f in os.listdir(ENV_PATH):
         if f.endswith(".json"):
+            print(" - %s" % (f,))
             out = out | json.loads(readFile(f))
         
-    y = yaml.dump(out, encoding=('utf-8').decode("utf-8")
-    print(y)
+    y = yaml.dump(out, encoding=('utf-8')).decode("utf-8")
+    p = os.path.join(ENV_PATH, '.env.yaml')
+    with open(p, 'w') as writer:
+        writer.write(y)
+        print(" --> %s" % (p,))
+
     

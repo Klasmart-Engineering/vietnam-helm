@@ -1,4 +1,4 @@
 {
-    "project": "kl-indonesia",
-    "region": "asia-southeast2"
+    "terraform_project": "oc-kl-indonesia",
+    "terraform_region": "asia-southeast2"
 }

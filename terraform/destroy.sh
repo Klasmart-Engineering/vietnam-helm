@@ -13,5 +13,5 @@ TFVARS=$(tfvars_path $ENV)
 echo -e "\nPROVIDER:    $PROVIDER\nENVIRONMENT: $ENV\nTFVARS:      $ENUM_TERRAFORM_VAR_FILE"
 echo_line
 pushd $PROVIDER
-terraform apply -var-file="$TFVARS"
+terraform destroy -var-file="$TFVARS"
 popd

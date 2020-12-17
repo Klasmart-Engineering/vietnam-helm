@@ -18,7 +18,7 @@ resource "google_container_node_pool" "primary" {
 
   node_config {
     image_type   = "COS"
-    machine_type = "n1-standard-1"
+    machine_type = "n1-highcpu-4"
     preemptible  = false # Don't want nodes failing during calls particularly
     disk_size_gb = 20
     disk_type    = "pd-standard"

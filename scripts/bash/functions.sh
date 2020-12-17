@@ -9,8 +9,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
 function env_validate {
-    ENV="$1"
-    if [ -z "$ENV" ]
+    ENV=$1
+    if [ -z $ENV ]
     then
         echo "Please ensure you provide an ENV variable"
         exit 1
@@ -38,6 +38,9 @@ function env_path {
     echo "$DIR/../../env/$1/$2"
 }
 
+function config_path {
+    env_path $1 $ENUM_SHARED_VAR_FILE
+}
 
 function tfvars_path {
     env_path $1 $ENUM_TERRAFORM_VAR_FILE

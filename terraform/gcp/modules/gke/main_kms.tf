@@ -8,9 +8,6 @@ resource "google_kms_crypto_key" "cluster" {
   purpose         = "ENCRYPT_DECRYPT"
   key_ring        = google_kms_key_ring.cluster.id
   rotation_period = "100000s"
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "google_kms_crypto_key_iam_binding" "cluster" {

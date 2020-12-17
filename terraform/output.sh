@@ -5,12 +5,10 @@ source ../scripts/bash/functions.sh
 ENV=$1
 env_validate "$ENV"
 
-PROVIDER=$(../scripts/python/env_var.py  $ENV "provider")
-BUCKET=$(../scripts/python/env_var.py  "$ENV" "terraform_bucket")
+CONFIG_FILE=$(config_path $ENV)
+PROVIDER=$(cat $CONFIG_FILE | jq -r '.provider')
+[ -z "$PROVIDER" ] && echo "Missing variable,'provider', in $ENV" && exit 1
 
-[ -z "$PROVIDER" ] && echo "Missing variable,'terraform_provider', in $ENV" && exit 1
-[ -z "$BUCKET" ] && echo "Missing variable,'terraform_bucket', in $ENV" && exit 1
-
-pushd $PROVIDER > /dev/null
+pushd $PROVIDER
 terraform output -json
-popd > /dev/null
+popd
