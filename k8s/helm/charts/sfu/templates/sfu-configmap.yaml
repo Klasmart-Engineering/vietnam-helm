@@ -33,7 +33,7 @@ data:
             command: [ "sh", "-c" ]
             args:
             - |
-              export HOSTNAME_OVERRIDE=$POD_NAME.$SERVICE_NAME.$NAMESPACE.svc.cluster.local;
+              export HOSTNAME_OVERRIDE=$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local;
               npm start
             env:
               - name: NODE_ENV
