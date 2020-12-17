@@ -25,12 +25,32 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: flyway/flyway:latest
+        args:
+          - "migrate"
+          - "-user=$(db_username)"
+          - "-url=jdbc:mysql://$(db_hostname):$(db_port)/$(db_name)"
+          - "-password=$(MYSQL_PASSWORD)"
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: mysql-password
+        envFrom:
+          - configMapRef:
+              name: {{ include "kl2.fullname" . }}-cm
+        volumeMounts:
+          - name: sql-migration
+            mountPath: /flyway/sql
       containers:
       - name: {{ .Chart.Name }}
         command: [ "sh", "-c" ]
         args:
         - |
-          export connection_string=$(echo $connection_string | sed "s/xxxxxx/$MYSQL_PASSWORD/g")
+          export connection_string="$(db_username):$(MYSQL_PASSWORD)@tcp($(db_hostname):$(db_port))/$(db_name)?$(db_options)"
           ./handler
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
@@ -49,4 +69,8 @@ spec:
                 key: mysql-password
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: sql-migration
+          configMap:
+            name: {{ include "kl2.fullname" . }}-sql-cm
 
