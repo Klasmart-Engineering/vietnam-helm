@@ -96,6 +96,30 @@ releases:
             cpu: 200m
             memory: 400Mi
 
+  - name: vietnam-kl2-static
+    namespace: okc
+    chart: ../charts/kl2-static
+    values:
+      - imagePullSecrets:
+          - name: ecr-registry
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - kl2{{ .Environment.Values.kl_domain }}
+                secretName: "letsencrypt-kl2{{ .Environment.Values.kl_domain }}"
+          hosts:
+            - host: kl2{{ .Environment.Values.kl_domain }}
+              paths:
+                - "/"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi
+
   - name: vietnam-hub
     namespace: okc
     chart: ../charts/hub
@@ -178,7 +202,7 @@ releases:
           hosts:
             - host: kl2{{ .Environment.Values.kl_domain }}
               paths:
-                - "/"
+                - "/contents"
       - configuration:
           db_hostname: mysql-primary.persistence
 

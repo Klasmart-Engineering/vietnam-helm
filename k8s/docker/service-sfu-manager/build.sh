@@ -2,7 +2,7 @@
 set -x
 set -e
 
-if [[ "$1" == "--push" ]]; then
+if [[ "$1" != "--nopush" ]]; then
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
 REGION=$AWS_DEFAULT_REGION
 if [[ -z "$REGION" ]]; then
@@ -19,7 +19,7 @@ fi
 echo Build docker image
 docker build -t "$URL/vietnam-sfu-manager:latest" .
 
-if [[ "$1" == "--push" ]]; then
+if [[ "$1" != "--nopush" ]]; then
     echo Docker login
     aws ecr get-login-password | docker login --username AWS --password-stdin "$URL"
 
