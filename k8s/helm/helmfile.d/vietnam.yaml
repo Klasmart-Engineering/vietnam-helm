@@ -202,7 +202,7 @@ releases:
           hosts:
             - host: kl2{{ .Environment.Values.kl_domain }}
               paths:
-                - "/contents"
+                - "/v1"
       - configuration:
           db_hostname: mysql-primary.persistence
 
