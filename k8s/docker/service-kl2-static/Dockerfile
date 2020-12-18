@@ -1,10 +1,11 @@
 FROM node:alpine AS build
 
 COPY ./cms-frontend-web /src
+COPY ./env.vn.production /src/.env.production
 
 RUN cd /src &&\
     yarn install &&\
-    yarn build
+    ENV=production yarn build
 
 FROM nginx:alpine
 
