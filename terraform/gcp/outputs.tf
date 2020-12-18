@@ -9,3 +9,7 @@ output "terraform_subnet" {
 output "service_account_config_connector" {
   value = module.gke.service_account_config_connector
 }
+
+output "service_account_cluster" {
+  value = module.gke.service_account_cluster
+}

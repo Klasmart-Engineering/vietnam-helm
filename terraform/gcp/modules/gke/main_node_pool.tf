@@ -1,14 +1,14 @@
 resource "google_container_node_pool" "primary" {
   provider = google-beta
   cluster  = google_container_cluster.cluster.name
-  name     = "kidsloop"
-  location = var.terraform_region
-  project  = var.terraform_project
+  name     = var.cluster_name
+  location = var.region
+  project  = var.project
   
-  initial_node_count = "1"
-   autoscaling {
-    min_node_count = "1"
-    max_node_count = "5"
+  initial_node_count = var.node_count_initial
+  autoscaling {
+    min_node_count = var.node_count_min
+    max_node_count = var.node_count_max
   }
   
   management {
@@ -17,11 +17,11 @@ resource "google_container_node_pool" "primary" {
   }
 
   node_config {
-    image_type   = "COS"
-    machine_type = "n1-highcpu-4"
+    image_type   = "COS" 
+    machine_type = var.node_type
     preemptible  = false # Don't want nodes failing during calls particularly
-    disk_size_gb = 20
-    disk_type    = "pd-standard"
+    disk_size_gb = var.node_disk_size
+    disk_type    = var.node_disk_type
     service_account = google_service_account.cluster.email
 
     oauth_scopes = [
@@ -33,19 +33,9 @@ resource "google_container_node_pool" "primary" {
     }
 
     tags = [
-      "gke-public",
+      "gke-public", # For network firewall
     ]
     
-  }
-
-  timeouts {
-    create = "30m"
-    update = "30m"
-    delete = "30m"
-  }
-
-  lifecycle {
-    ignore_changes = [initial_node_count]
   }
 }
 

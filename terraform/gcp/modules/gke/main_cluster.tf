@@ -1,24 +1,22 @@
 resource "google_container_cluster" "cluster" {
   provider      = google-beta
-  name          = "kidsloop"
-  description   = "Kubernetes cluster for KidsLoop deployment"
-  location      = var.terraform_region
-  project       = var.terraform_project
+  name          = var.cluster_name
+  location      = var.region
+  project       = var.project
   network       = var.vpc
   subnetwork    = var.subnet
     
-  logging_service    = "logging.googleapis.com/kubernetes"
-  monitoring_service = "monitoring.googleapis.com/kubernetes" 
-  min_master_version = data.google_container_engine_versions.location.latest_master_version
+  logging_service    = "logging.googleapis.com/kubernetes"     # Lets use Stackdriver
+  monitoring_service = "monitoring.googleapis.com/kubernetes"  # Lets use Stackdriver
+  min_master_version = data.google_container_engine_versions.gke.latest_master_version
   
-  enable_shielded_nodes = true
-  enable_intranode_visibility = true
-
-  networking_mode = "VPC_NATIVE"
-  
+  enable_shielded_nodes       = true          # https://cloud.google.com/kubernetes-engine/docs/how-to/shielded-gke-nodes
+  enable_intranode_visibility = true          # https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility
+  networking_mode             = "VPC_NATIVE"  # Required for private service networking to services
+                                              # https://cloud.google.com/kubernetes-engine/docs/how-to/alias-ips
   network_policy {
-    enabled = true
-    provider = "CALICO"
+    enabled = true                            # Networking policy will allow us to go multi-tenant but lay dormant otherwise
+    provider = "CALICO"                       # https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy
   }
 
   ip_allocation_policy {
@@ -28,12 +26,12 @@ resource "google_container_cluster" "cluster" {
 
   master_auth {
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = true   # We'd like certificate, not basic authentication
     }
   }
 
   workload_identity_config {
-    identity_namespace = "${var.terraform_project}.svc.id.goog"
+    identity_namespace = "${var.project}.svc.id.goog"   # https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
   }
 
   maintenance_policy {
@@ -44,11 +42,11 @@ resource "google_container_cluster" "cluster" {
 
   database_encryption {
     state    = "ENCRYPTED"
-    key_name = google_kms_crypto_key.cluster.id
+    key_name = google_kms_crypto_key.cluster.id 
   }
 
   vertical_pod_autoscaling {
-    enabled = false
+    enabled = true
   }
   
   addons_config {
@@ -72,11 +70,6 @@ resource "google_container_cluster" "cluster" {
   # Must be set and then deleted for some reason
   initial_node_count       = 1
   remove_default_node_pool = true
-  lifecycle {
-    ignore_changes = [
-      node_config,
-    ]
-  }
 
 }
 

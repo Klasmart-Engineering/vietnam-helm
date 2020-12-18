@@ -3,5 +3,5 @@ output "vpc" {
 }
 
 output "subnet" {
-  value = google_compute_subnetwork.vpc_subnet.self_link
+  value = google_compute_subnetwork.vpc.self_link
 }

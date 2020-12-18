@@ -21,14 +21,14 @@ provider "google-beta" {
 
 module "vpc" {
   source  = "./modules/vpc"
-  terraform_project = var.terraform_project
-  terraform_region  = var.terraform_region
+  project = var.terraform_project
+  region  = var.terraform_region
 }
 
 module "gke" {
   source  = "./modules/gke"
-  terraform_project = var.terraform_project
-  terraform_region  = var.terraform_region
+  project = var.terraform_project
+  region  = var.terraform_region
   vpc     = module.vpc.vpc
   subnet  = module.vpc.subnet
 }
