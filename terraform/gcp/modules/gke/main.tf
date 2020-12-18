@@ -1,8 +1,8 @@
 data "google_container_engine_versions" "location" {
-  location = var.region
-  project  = var.project
+  location = var.terraform_region
+  project  = var.terraform_project
 }
        
 data "google_project" "project" {
-  project_id = var.project
+  project_id = var.terraform_project
 }

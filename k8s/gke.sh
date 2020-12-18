@@ -15,14 +15,17 @@ echo -e $TFOUTPUT > $TFOUTPUT_FILE
 popd
 
 # Update config connector
-#helm-gke/scripts/bootstrap_config_connector.sh $TFOUTPUT_FILE
+gke/scripts/bootstrap_config_connector.sh $TFOUTPUT_FILE
+
+# Enable GCP services
+gke/scripts/enable_gcp_services.sh $TFOUTPUT_FILE
 
 # Create single yaml env file
 ../scripts/python/env_all_yaml.py $ENV
 
 # Helm
 echo -e "\nRunning Helm"
-pushd helm-gke
+pushd gke
 helmfile -e $ENV apply
 popd
 

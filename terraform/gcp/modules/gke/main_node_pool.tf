@@ -2,8 +2,8 @@ resource "google_container_node_pool" "primary" {
   provider = google-beta
   cluster  = google_container_cluster.cluster.name
   name     = "kidsloop"
-  location = var.region
-  project  = var.project
+  location = var.terraform_region
+  project  = var.terraform_project
   
   initial_node_count = "1"
    autoscaling {

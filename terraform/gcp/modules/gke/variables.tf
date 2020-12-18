@@ -1,9 +1,9 @@
-variable "project"  {
+variable "terraform_project"  {
   description = "GCP project ID to create the K8s cluster in"
   type        = string
 }
 
-variable "region"  {
+variable "terraform_region"  {
   description = "GCP region code to create the K8s cluster in"
   type        = string
 }

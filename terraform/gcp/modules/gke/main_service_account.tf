@@ -3,7 +3,7 @@
 resource "google_service_account" "cluster" {
   account_id   = "kidsloop-cluster"
   display_name = "Kidsloop Cluster"
-  project      = var.project
+  project      = var.terraform_project
 }
 
 locals {
@@ -17,7 +17,7 @@ locals {
 
 resource "google_project_iam_member" "cluster" {
   for_each = toset(local.all_service_account_roles)
-  project = var.project
+  project = var.terraform_project
   role    = each.value
   member  = "serviceAccount:${google_service_account.cluster.email}"
 }
@@ -36,11 +36,11 @@ resource "google_service_account_key" "cluster" {
 resource "google_service_account" "config_connector" {
   account_id   = "kidsloop-config-connector"
   display_name = "Kidsloop Config Connector"
-  project      = var.project
+  project      = var.terraform_project
 }
 
 resource "google_project_iam_member" "config_connector" {
-  project = var.project
+  project = var.terraform_project
   role    = "roles/owner"
   member  = "serviceAccount:${google_service_account.config_connector.email}"
 }
@@ -48,6 +48,6 @@ resource "google_project_iam_member" "config_connector" {
 resource "google_service_account_iam_member" "config_connector" {
   service_account_id = google_service_account.config_connector.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "serviceAccount:${var.project}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
+  member             = "serviceAccount:${var.terraform_project}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
 }
 

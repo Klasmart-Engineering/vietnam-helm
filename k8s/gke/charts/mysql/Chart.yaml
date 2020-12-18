@@ -1,0 +1,6 @@
+apiVersion: v2
+name: GKE CC MySQL
+description: GKE Config Connector deployment of MySQL
+type: application
+version: 0.1.0
+appVersion: 0.1.0

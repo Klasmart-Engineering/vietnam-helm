@@ -2,8 +2,8 @@ resource "google_container_cluster" "cluster" {
   provider      = google-beta
   name          = "kidsloop"
   description   = "Kubernetes cluster for KidsLoop deployment"
-  location      = var.region
-  project       = var.project
+  location      = var.terraform_region
+  project       = var.terraform_project
   network       = var.vpc
   subnetwork    = var.subnet
     
@@ -33,7 +33,7 @@ resource "google_container_cluster" "cluster" {
   }
 
   workload_identity_config {
-    identity_namespace = "${var.project}.svc.id.goog"
+    identity_namespace = "${var.terraform_project}.svc.id.goog"
   }
 
   maintenance_policy {

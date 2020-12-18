@@ -9,26 +9,26 @@ terraform {
 
 provider "google" {
   version = "~> 3.50.0"
-  project = var.project
-  region  = var.region
+  project = var.terraform_project
+  region  = var.terraform_region
 }
 
 provider "google-beta" {
   version = "~> 3.50.0"
-  project = var.project
-  region  = var.region
+  project = var.terraform_project
+  region  = var.terraform_region
 }
 
 module "vpc" {
   source  = "./modules/vpc"
-  project = var.project
-  region  = var.region
+  terraform_project = var.terraform_project
+  terraform_region  = var.terraform_region
 }
 
 module "gke" {
   source  = "./modules/gke"
-  project = var.project
-  region  = var.region
+  terraform_project = var.terraform_project
+  terraform_region  = var.terraform_region
   vpc     = module.vpc.vpc
   subnet  = module.vpc.subnet
 }

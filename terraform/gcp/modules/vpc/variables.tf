@@ -1,2 +1,2 @@
-variable "project" {}
-variable "region"  {}
+variable "terraform_project" {}
+variable "terraform_region"  {}

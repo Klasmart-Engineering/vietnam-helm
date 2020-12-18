@@ -1,6 +1,6 @@
 resource "google_kms_key_ring" "cluster" {
   name     = "cluster-keyring"
-  location = var.region
+  location = var.terraform_region
 }
 
 resource "google_kms_crypto_key" "cluster" {
