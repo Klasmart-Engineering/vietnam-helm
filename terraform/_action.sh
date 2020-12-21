@@ -13,5 +13,6 @@ TFVARS=$(tfvars_path $ENV)
 echo -e "\nPROVIDER:    $PROVIDER\nENVIRONMENT: $ENV\nTFVARS:      $ENUM_TERRAFORM_VAR_FILE"
 echo_line
 pushd $PROVIDER
+./bootstrap.sh 
 terraform $ACTION -var-file="$TFVARS"
 popd
