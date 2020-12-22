@@ -3,7 +3,7 @@ kind: RedisInstance
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: "kidsloop"
+  name: "kidsloop-99999"
 spec:
   displayName: "kidsloop"
   memorySizeGb: 1

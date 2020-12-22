@@ -5,7 +5,7 @@ source ../../scripts/bash/functions.sh
 #
 # This script expects aws-cli-v2 to be installed.
 # It will not work with aws-cli v1.18
-#
+#  --> Must be run with client configured to Kidsloop AWS account
 
 REGION=${AWS_REGION:-ap-northeast-2}
 export AWS_DEFAULT_REGION=$REGION
@@ -15,7 +15,7 @@ SECRET_NAME=${SECRET_NAME:-ecr-registry}
 NAMESPACE=${NAMESPACE:-okc}
 DRY_RUN=${DRY_RUN:-"no"}
 
-TOKEN=$(aws ecr get-login-password)
+TOKEN=$(aws ecr get-login-password --region $REGION)
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
 echo "ENV variables setup done."
 

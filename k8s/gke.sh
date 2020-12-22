@@ -17,8 +17,8 @@ popd
 # Update config connector
 gke/scripts/bootstrap_config_connector.sh $TFOUTPUT_FILE
 
-# Enable GCP services
-gke/scripts/enable_gcp_services.sh $TFOUTPUT_FILE
+# Delete default network (if exists)
+gke/scripts/delete_default_network.sh $TFOUTPUT_FILE
 
 # Create single yaml env file
 ../scripts/python/env_all_yaml.py $ENV

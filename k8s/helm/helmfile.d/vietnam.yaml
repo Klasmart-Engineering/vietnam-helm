@@ -2,13 +2,13 @@
 environments:
   default:
     values:
-      - ../../../env/vietnam/config.json
+      - ../../../env/vietnam/.env.yaml
   indonesia:
     values:
-      - ../../../env/indonesia/config.json
+      - ../../../env/indonesia/.env.yaml
   oc:
     values:
-      - ../../../env/oc/config.json
+      - ../../../env/oc/.env.yaml
 
 releases:
 
@@ -148,6 +148,7 @@ releases:
     namespace: okc
     chart: ../charts/live
     values:
+      - prometheus_enabled: {{ .Environment.Values.helm_prometheus.enabled }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:

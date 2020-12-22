@@ -3,10 +3,9 @@ kind: SQLDatabase
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: "kidsloop-mysql-99999"
+  name: "kidsloop-postgresql-99999"
 spec:
   charset: utf8mb4
   collation: utf8mb4_bin
   instanceRef:
-    name: kidsloop-mysql-99999
-
+    name: kidsloop-postgresql-99999

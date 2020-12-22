@@ -1,16 +1,16 @@
 environments:
   indonesia:
     values:
-      - ../../../env/indonesia/.env.yaml
+      - ../../env/indonesia/.env.yaml
   oc:
     values:
-      - ../../../env/oc/.env.yaml
+      - ../../env/oc/.env.yaml
       
 releases:
 
   - name: gke-redis
     namespace: config-connector
-    chart: ../charts/redis
+    chart: charts/redis
     values:
       - gcp:
           region: {{ .Environment.Values.terraform_region }}
@@ -19,11 +19,19 @@ releases:
   
   - name: gke-mysql
     namespace: config-connector
-    chart: ../charts/mysql
+    chart: charts/mysql
     values:
       - gcp:
           region: {{ .Environment.Values.terraform_region }}
           network: {{ .Environment.Values.terraform_vpc.value }}
           project: {{ .Environment.Values.terraform_project }}
 
+  - name: gke-postgresql
+    namespace: config-connector
+    chart: charts/postgresql
+    values:
+      - gcp:
+          region: {{ .Environment.Values.terraform_region }}
+          network: {{ .Environment.Values.terraform_vpc.value }}
+          project: {{ .Environment.Values.terraform_project }}
 

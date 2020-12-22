@@ -37,6 +37,6 @@ variable "flowlogs_sampling" {
 
 variable "vpc_peering_range_size" {
     type        = number
-    default     = 24
+    default     = 17
     description = "Sample rate for collection of VPC Flow Logs (0->1)"
 }

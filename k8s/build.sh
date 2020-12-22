@@ -9,13 +9,13 @@ DOCKER=$2
 
 pushd docker
 
-if [[ (-z $DOCKER) || "$DOCKER" = "service-hub" ]]
-then
-    pushd service-hub
-     echo_heading "Building HUB service Docker image"
-    ./build.sh
-    popd
-fi
+#if [[ (-z $DOCKER) || "$DOCKER" = "service-hub" ]]
+#then
+#    pushd service-hub
+#     echo_heading "Building HUB service Docker image"
+#    ./build.sh
+#    popd
+#fi
 
 if [[ (-z "$DOCKER")  || "$DOCKER" = "service-sfu-manager" ]]
 then
@@ -29,6 +29,14 @@ if [[ (-z "$DOCKER")  || "$DOCKER" = "service-static" ]]
 then
     pushd service-static
      echo_heading "Building Static service Docker image"
+    ./build.sh
+    popd
+fi
+
+if [[ (-z "$DOCKER")  || "$DOCKER" = "service-kl2-static" ]]
+then
+    pushd service-kl2-static
+     echo_heading "Building KL2 Static service Docker image"
     ./build.sh
     popd
 fi

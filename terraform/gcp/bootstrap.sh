@@ -7,4 +7,6 @@ gcloud services enable \
   iamcredentials.googleapis.com \
   cloudkms.googleapis.com \
   compute.googleapis.com \
-  container.googleapis.com
+  container.googleapis.com \
+  redis.googleapis.com \
+  sqladmin.googleapis.com

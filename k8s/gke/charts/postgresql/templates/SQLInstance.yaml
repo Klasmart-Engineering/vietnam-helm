@@ -3,9 +3,9 @@ kind: SQLInstance
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: kidsloop-mysql-99999
+  name: kidsloop-postgresql-99999
 spec:
-  databaseVersion: MYSQL_5_7
+  databaseVersion: POSTGRES_11
   region: {{ .Values.gcp.region }}
   settings:
     availabilityType: "REGIONAL"
@@ -14,8 +14,8 @@ spec:
     diskSize: 10
     diskType: PD_SSD
     backupConfiguration:
-      binaryLogEnabled: true
       enabled: true
+      pointInTimeRecoveryEnabled: true
     ipConfiguration:
       requireSsl: true
       privateNetworkRef: 

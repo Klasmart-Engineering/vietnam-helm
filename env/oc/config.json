@@ -1,6 +1,6 @@
 {
     "provider": "gcp",
-    "terraform_bucket": "oc-kl-indonesia-terraform",
+    "terraform_bucket": "ockl-indonesia-terraform",
     "k8s_namespace_monitoring": "monitoring",
     "k8s_namespace_kidsloop": "okc",
     "k8s_namespace_persistence": "persistence",

@@ -13,8 +13,6 @@ POSTGRESQL=$(../scripts/python/env_var.py $ENV "k8s_postgresql")
 [ -z "$POSTGRESQL" ] && echo "Missing variable,'k8s_postgresql', in $ENV" && exit 1
 PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
 [ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
-PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
-[ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
 FLUENTBIT=$(../scripts/python/env_var.py $ENV "k8s_fluentbit")
 [ -z "$FLUENTBIT" ] && echo "Missing variable,'k8s_fluentbit', in $ENV" && exit 1
 
@@ -66,7 +64,7 @@ TXT="AWS credentials Secret for cronjob to refresh ECR token"
 if [[ (-z "$SVC") || ("$SVC" = "ecr") ]]
 then
     echo_heading "Generating $TXT"
-    ./make_credentials.sh $ENV
+    ./make_credentials_ecr.sh $ENV
 else
     echo_heading "Skipping $TXT"
 fi

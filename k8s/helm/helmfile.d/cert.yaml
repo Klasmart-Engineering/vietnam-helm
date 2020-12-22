@@ -1,13 +1,13 @@
 environments:
   default:
     values:
-      - ../../../env/vietnam/config.json
+      - ../../../env/vietnam/.env.yaml
   indonesia:
     values:
-      - ../../../env/indonesia/config.json
+      - ../../../env/indonesia/.env.yaml
   oc:
     values:
-      - ../../../env/oc/config.json
+      - ../../../env/oc/.env.yaml
           
 repositories:
 
