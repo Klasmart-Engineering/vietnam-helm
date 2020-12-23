@@ -2,23 +2,23 @@ apiVersion: sql.cnrm.cloud.google.com/v1beta1
 kind: SQLInstance
 metadata:
   annotations:
-    cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: kidsloop-postgresql-99999
+    cnrm.cloud.google.com/project-id : "{{ .Values.gcp.project }}"
+  name: "{{ .Values.gcp.postgresql_name }}"
 spec:
-  databaseVersion: POSTGRES_11
-  region: {{ .Values.gcp.region }}
+  databaseVersion: "{{ .Values.gcp.postgresql_version }}"
+  region: "{{ .Values.gcp.region }}"
   settings:
     availabilityType: "REGIONAL"
-    tier: db-f1-micro
+    tier: "{{ .Values.gcp.postgresql_tier }}"
     diskAutoresize: true
-    diskSize: 10
-    diskType: PD_SSD
+    diskSize: {{ .Values.gcp.postgresql_disk_size }}
+    diskType: "{{ .Values.gcp.postgresql_disk_type }}"
     backupConfiguration:
       enabled: true
       pointInTimeRecoveryEnabled: true
     ipConfiguration:
       requireSsl: true
       privateNetworkRef: 
-        external: {{ .Values.gcp.network }}
+        external: "{{ .Values.gcp.network }}"
         #requireSsl: true
         

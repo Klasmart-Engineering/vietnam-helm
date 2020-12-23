@@ -25,6 +25,14 @@ releases:
           region: {{ .Environment.Values.terraform_region }}
           network: {{ .Environment.Values.terraform_vpc.value }}
           project: {{ .Environment.Values.terraform_project }}
+          mysql_name: {{ .Environment.Values.gcp.mysql.name }}
+          mysql_version: {{ .Environment.Values.gcp.mysql.version }}
+          mysql_tier: {{ .Environment.Values.gcp.mysql.tier }}
+          mysql_charset: {{ .Environment.Values.gcp.mysql.charset }}
+          mysql_collation: {{ .Environment.Values.gcp.mysql.collation }}
+          mysql_disk_size: {{ .Environment.Values.gcp.mysql.disk.size }}
+          mysql_disk_type: {{ .Environment.Values.gcp.mysql.disk.type }}
+          mysql_user: {{ .Environment.Values.gcp.mysql.user }}
 
   - name: gke-postgresql
     namespace: config-connector
@@ -34,4 +42,12 @@ releases:
           region: {{ .Environment.Values.terraform_region }}
           network: {{ .Environment.Values.terraform_vpc.value }}
           project: {{ .Environment.Values.terraform_project }}
+          postgresql_name: {{ .Environment.Values.gcp.postgresql.name }}
+          postgresql_version: {{ .Environment.Values.gcp.postgresql.version }}
+          postgresql_tier: {{ .Environment.Values.gcp.postgresql.tier }}
+          postgresql_charset: {{ .Environment.Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Environment.Values.gcp.postgresql.collation }}
+          postgresql_disk_size: {{ .Environment.Values.gcp.postgresql.disk.size }}
+          postgresql_disk_type: {{ .Environment.Values.gcp.postgresql.disk.type }}
+          postgresql_user: {{ .Environment.Values.gcp.postgresql.user }}
 

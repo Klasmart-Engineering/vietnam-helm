@@ -28,5 +28,33 @@
     },
     "helm_mysql": {
         "enabled": false
+    },
+
+
+    "gcp": {
+        "mysql": {
+            "name":      "kidsloop-mysql-99995",
+            "version":   "MYSQL_5_7",
+            "tier":      "db-f1-micro",
+            "charset":   "utf8mb4",
+            "collation": "utf8mb4_bin",
+            "user":      "kidsloop-mysql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
+        "postgresql": {
+            "name": "kidsloop-postgresql-99994",
+            "version":   "POSTGRES_11",
+            "tier":      "db-f1-micro",
+            "charset":   "utf8mb4",
+            "collation": "utf8mb4_bin",
+            "user":      "kidsloop-postgresql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        }
     }
 }

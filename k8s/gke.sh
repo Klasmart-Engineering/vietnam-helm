@@ -34,3 +34,5 @@ rm $TFOUTPUT_FILE
 echo " - $TFOUTPUT_FILE"
 rm $CONFIG_FILE
 echo -e " - $CONFIG_FILE\n"
+
+gke/scripts/get_mysql_config.sh

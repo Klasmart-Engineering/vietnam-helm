@@ -7,10 +7,6 @@ env_validate "$ENV"
 
 SVC=$2
 
-MYSQL=$(../scripts/python/env_var.py $ENV "k8s_mysql")
-[ -z "$MYSQL" ] && echo "Missing variable,'k8s_mysql', in $ENV" && exit 1
-POSTGRESQL=$(../scripts/python/env_var.py $ENV "k8s_postgresql")
-[ -z "$POSTGRESQL" ] && echo "Missing variable,'k8s_postgresql', in $ENV" && exit 1
 PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
 [ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
 FLUENTBIT=$(../scripts/python/env_var.py $ENV "k8s_fluentbit")
@@ -19,9 +15,9 @@ FLUENTBIT=$(../scripts/python/env_var.py $ENV "k8s_fluentbit")
 
 pushd bootstrap
 
-
+# Used for both Bitnami helm deployment and config connector SQLUser
 TXT="MySQL passwords as K8s Secrets"
-if [[ "$MYSQL" = "bitnami" && ((-z "$SVC") || "$SVC" = "mysql") ]]
+if [[ (-z "$SVC") || ("$SVC" = "mysql") ]]
 then
     echo_heading "Generating $TXT"
     ./make_secret_mysql.sh $ENV
@@ -29,9 +25,9 @@ else
     echo_heading "Skipping $TXT"
 fi
 
-
+# Used for both Bitnami helm deployment and config connector SQLUser
 TXT="PostgreSQL passwords as K8s Secrets"
-if [[ "$POSTGRESQL" = "bitnami" && ((-z "$SVC") || "$SVC" = "postgresql") ]]
+if [[ (-z "$SVC") || ("$SVC" = "postgresql") ]]
 then
     echo_heading "Generating $TXT"
     ./make_secret_postgresql.sh $ENV
