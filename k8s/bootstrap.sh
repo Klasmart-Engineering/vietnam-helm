@@ -7,10 +7,10 @@ env_validate "$ENV"
 
 SVC=$2
 
-PROMETHEUS=$(../scripts/python/env_var.py $ENV "k8s_prometheus")
-[ -z "$PROMETHEUS" ] && echo "Missing variable,'k8s_prometheus', in $ENV" && exit 1
-FLUENTBIT=$(../scripts/python/env_var.py $ENV "k8s_fluentbit")
-[ -z "$FLUENTBIT" ] && echo "Missing variable,'k8s_fluentbit', in $ENV" && exit 1
+PROMETHEUS=$(../scripts/python/env_is_enabled.py $ENV helm_prometheus)
+[ -z "$PROMETHEUS" ] && echo "Missing variable,'helm_prometheus', in $ENV" && exit 1
+FLUENTBIT=$(../scripts/python/env_is_enabled.py $ENV helm_fluentbit)
+[ -z "$FLUENTBIT" ] && echo "Missing variable,'helm_fluentbit', in $ENV" && exit 1
 
 
 pushd bootstrap

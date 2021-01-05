@@ -50,6 +50,6 @@ resource "google_service_account_iam_member" "config_connector" {
   service_account_id = google_service_account.config_connector.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${var.project}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
-  depends_on = [google_service_account.config_connector]
+  depends_on = [google_container_cluster.cluster]
 }
 

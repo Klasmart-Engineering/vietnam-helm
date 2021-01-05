@@ -4,10 +4,6 @@
     "k8s_namespace_monitoring": "monitoring",
     "k8s_namespace_kidsloop": "okc",
     "k8s_namespace_persistence": "persistence",
-    "k8s_prometheus": "gke",
-    "k8s_fluentbit": "gke",
-    "k8s_mysql": "config-connector",
-    "k8s_postgresql": "config-connector",
     "k8s_storage_class": "standard",
     "kl_domain": "-beta.kidsloop.id",
 
