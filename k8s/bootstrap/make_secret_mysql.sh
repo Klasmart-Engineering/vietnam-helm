@@ -32,8 +32,13 @@ kubectl create secret generic mysql \
 
 if [[ "$DRY_RUN" != "yes" ]]; then
   create_namespace_if_not_exists $NS_PERSISTENCE
+<<<<<<< HEAD
   create_namespace_if_not_exists $NS_KIDSLOOP
   
+=======
+  create_namespace_if_not_exists "$NS_KIDSLOOP"
+  label_namespace_for_redis "$NS_KIDSLOOP"
+>>>>>>> cb47060 (Ensure redis-namespace label is applied to KL namespace and make ECR AWS creds idempotent)
   kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE mysql
   kubectl apply -f mysql-secret.yaml
   
