@@ -7,7 +7,6 @@ ENUM_NS_PERSISTENCE_VAR="k8s_namespace_persistence"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-
 function env_validate {
     ENV=$1
     if [ -z $ENV ]
@@ -62,6 +61,13 @@ function create_namespace_if_not_exists() {
     if ! kubectl get namespaces -o json | jq -r ".items[].metadata.name" | grep $1
     then
         kubectl create namespace $1
+    fi
+}
+
+function label_namespace_for_redis() {
+    if [[ "$(kubectl get ns $1 -o json | jq '.metadata | .labels | ."redis-namespace"' -r)" != "true" ]]
+    then
+        kubectl label namespace $1 redis-namespace="true"
     fi
 }
 

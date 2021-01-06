@@ -24,6 +24,7 @@ while read secret_access_key; do
 done
 
 create_namespace_if_not_exists "$NS_KIDSLOOP"
+label_namespace_for_redis "$NS_KIDSLOOP"
 
 CREDS=$(cat <<EOF | base64 | sed 's/^/    /g'
 [default]

@@ -30,7 +30,7 @@ kubectl create secret generic postgresql \
 if [[ "$DRY_RUN" != "yes" ]]; then
   create_namespace_if_not_exists $NS_PERSISTENCE
   create_namespace_if_not_exists $NS_KIDSLOOP
-
+  label_namespace_for_redis "$NS_KIDSLOOP"
   kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE postgresql
   kubectl apply -f postgresql-secret.yaml
   

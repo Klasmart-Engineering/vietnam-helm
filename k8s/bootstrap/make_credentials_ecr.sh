@@ -8,6 +8,11 @@ env_validate "$ENV"
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
+if kubectl get secret -n $NS_KIDSLOOP aws-credentials; then
+  echo "AWS credentials already exist in cluster"
+  exit 0
+fi
+
 echo -n "Access Key ID: "
 while read access_key_id; do
   if [[ ! -z "$access_key_id" ]]; then
@@ -23,6 +28,7 @@ while read secret_access_key; do
 done
 
 create_namespace_if_not_exists "$NS_KIDSLOOP"
+label_namespace_for_redis "$NS_KIDSLOOP"
 
 CREDS=$(cat <<EOF | base64 | sed 's/^/    /g'
 [default]

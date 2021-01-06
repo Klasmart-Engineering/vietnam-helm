@@ -50,7 +50,7 @@ TXT="initial ECR token secret for pulling KidsLoop container images"
 if [[ (-z "$SVC") || ("$SVC" = "ecr") ]]
 then
     echo_heading "Installing $TXT"
-    ./make_secret_ecr.sh
+    ./make_secret_ecr.sh $ENV
 else
     echo_heading "Skipping $TXT"
 fi
