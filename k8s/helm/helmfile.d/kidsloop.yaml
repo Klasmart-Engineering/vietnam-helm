@@ -211,5 +211,7 @@ releases:
                 - "/v1"
       - configuration:
           db_hostname: {{ .Environment.Values.mysql_host }}
+          db_name: {{ .Environment.Values.mysql_database }}
+          db_username: {{ .Environment.Values.mysql_username }}
           redis_host: {{ .Environment.Values.redis_host }}
 

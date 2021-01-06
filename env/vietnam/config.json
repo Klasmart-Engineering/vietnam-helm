@@ -10,6 +10,7 @@
     "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
     "mysql_host": "mysql-primary.persistence.svc",
     "mysql_username": "dbc_yyd",
+    "mysql_database": "kidsloop2",
 
     "helm_cert": {
         "enabled": true

@@ -86,8 +86,8 @@ releases:
     values:
       - auth:
           existingSecret: mysql
-          database: kidsloop2
-          username: dbc_yyd
+          database: {{ .Environment.Values.mysql_database }}
+          username: {{ .Environment.Values.mysql_username }} 
       - architecture: replication
       - metrics:
           enabled: true
