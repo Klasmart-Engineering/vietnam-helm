@@ -6,11 +6,17 @@ ENV=$1
 env_validate "$ENV"
 
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
-NS_PERSISTENCE=$(../../scripts/python/env_var.py $ENV $ENUM_NS_PERSISTENCE_VAR)
-PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
-
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
-[ -z "$NS_PERSISTENCE" ] && echo "Missing variable,'$ENUM_NS_PERSISTENCE_VAR', in $ENV" && exit 1
+
+
+PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
+if [[ $PROVIDER = "gcp" ]]; then
+  NS_PERSISTENCE=config-connector
+else
+  NS_PERSISTENCE=$(../../scripts/python/env_var.py $ENV $ENUM_NS_PERSISTENCE_VAR)
+  [ -z "$NS_PERSISTENCE" ] && echo "Missing variable,'$ENUM_NS_PERSISTENCE_VAR', in $ENV" && exit 1
+fi
+
 
 DRY_RUN=${DRY_RUN:-"no"}
 
@@ -24,26 +30,18 @@ kubectl create secret generic mysql \
   > mysql-secret.yaml
 
 
-function copy_secret {
-  NEW_NAMESPACE=$1
-  create_namespace_if_not_exists "$NEW_NAMESPACE"
-  kubectl delete secret --ignore-not-found=true -n $NEW_NAMESPACE mysql
-  kubectl get secret mysql --namespace=$NS_PERSISTENCE -o yaml | \
-  sed "s/namespace: $NS_PERSISTENCE/namespace: $NEW_NAMESPACE/" | \
-  kubectl apply --namespace=$NEW_NAMESPACE -f -
-} 
-
-
 if [[ "$DRY_RUN" != "yes" ]]; then
   create_namespace_if_not_exists $NS_PERSISTENCE
+  create_namespace_if_not_exists $NS_KIDSLOOP
+  
   kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE mysql
   kubectl apply -f mysql-secret.yaml
-  copy_secret $NS_KIDSLOOP
-
-  if [[ $PROVIDER = "gcp" ]]; then
-    copy_secret config-connector
-  fi
-   
+  
+  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP mysql
+  kubectl get secret mysql --namespace=$NS_PERSISTENCE -o yaml | \
+    sed "s/namespace: $NS_PERSISTENCE/namespace: $NS_KIDSLOOP/" | \
+    kubectl apply --namespace=$NS_KIDSLOOP -f -
+ 
 else
   echo "Would run:"
   echo "  kubectl delete secret -n $NS_PERSISTENCE mysql"

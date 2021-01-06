@@ -16,10 +16,6 @@ TFOUTPUT=$(./output.sh $ENV)
 echo -e $TFOUTPUT > $TFOUTPUT_FILE
 popd
 
-# Write GKE file
-GKE=$(gke/scripts/generate_gke_env.sh $ENV)
-echo -e $GKE > $GKE_FILE
-
 # Update config connector
 gke/scripts/bootstrap_config_connector.sh $TFOUTPUT_FILE
 
@@ -34,5 +30,10 @@ echo -e "\nRunning Helm"
 pushd gke
 helmfile -e $ENV apply
 popd
+
+# Write GKE file and rewrite all YAML file
+GKE=$(gke/scripts/generate_gke_env.sh $ENV)
+echo -e $GKE > $GKE_FILE
+../scripts/python/env_all_yaml.py $ENV
 
 # Leave files in place for main Helm run - to override default vars in helmfiles
