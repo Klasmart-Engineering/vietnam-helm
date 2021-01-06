@@ -17,8 +17,6 @@ spec:
       enabled: true
       pointInTimeRecoveryEnabled: true
     ipConfiguration:
-      requireSsl: true
       privateNetworkRef: 
         external: "{{ .Values.gcp.network }}"
-        #requireSsl: true
         

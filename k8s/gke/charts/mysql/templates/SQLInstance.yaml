@@ -17,7 +17,7 @@ spec:
       binaryLogEnabled: true
       enabled: true
     ipConfiguration:
-      requireSsl: true
+      requireSsl: false
       privateNetworkRef: 
         external: "{{ .Values.gcp.network }}"
         #requireSsl: true
