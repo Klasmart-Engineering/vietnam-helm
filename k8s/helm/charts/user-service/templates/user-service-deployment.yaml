@@ -38,7 +38,7 @@ spec:
           - name: POSTGRES_USERNAME
             value: "kidsloop"
           - name: POSTGRES_DOMAIN
-            value: "postgresql-ha-pgpool.persistence.svc.cluster.local"
+            value: "{{ .Values.postgresql_host }}"
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_DB

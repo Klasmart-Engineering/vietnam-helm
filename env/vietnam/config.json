@@ -6,6 +6,11 @@
     "k8s_storage_class": "premium-hdd",
     "kl_domain": "-beta.kidsloop.vn",
 
+    "redis_host": "redis-master.persistence.svc",
+    "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
+    "mysql_host": "mysql-primary.persistence.svc",
+    "mysql_username": "dbc_yyd",
+
     "helm_cert": {
         "enabled": true
     },

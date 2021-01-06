@@ -6,13 +6,19 @@ ENV=$1
 env_validate $ENV
 
 TFOUTPUT_FILE=$(env_path $ENV ".gcp-terraform-output.json")
+GKE_FILE=$(env_path $ENV ".gcp-config-connnector.json")
 CONFIG_FILE=$(env_path $ENV ".env.yaml")
+
 
 # Write TFOUTPUT file
 pushd ../terraform
 TFOUTPUT=$(./output.sh $ENV)
 echo -e $TFOUTPUT > $TFOUTPUT_FILE
 popd
+
+# Write GKE file
+GKE=$(gke/scripts/generate_gke_env.sh $ENV)
+echo -e $GKE > $GKE_FILE
 
 # Update config connector
 gke/scripts/bootstrap_config_connector.sh $TFOUTPUT_FILE
@@ -29,10 +35,4 @@ pushd gke
 helmfile -e $ENV apply
 popd
 
-echo -e "\nRemoving:"
-rm $TFOUTPUT_FILE
-echo " - $TFOUTPUT_FILE"
-rm $CONFIG_FILE
-echo -e " - $CONFIG_FILE\n"
-
-gke/scripts/get_mysql_config.sh
+# Leave files in place for main Helm run - to override default vars in helmfiles

@@ -9,7 +9,6 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-redisHost: redis-master.persistence.svc
 redisPort: 6379
 
 ingress:

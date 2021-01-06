@@ -16,7 +16,12 @@ releases:
           region: {{ .Environment.Values.terraform_region }}
           network: {{ .Environment.Values.terraform_vpc.value }}
           project: {{ .Environment.Values.terraform_project }}
-  
+          redis_name: {{ .Environment.Values.gcp.redis.name }}
+          redis_display_name: {{ .Environment.Values.gcp.redis.display_name }}
+          redis_version: {{ .Environment.Values.gcp.redis.version }}
+          redis_memory_size: {{ .Environment.Values.gcp.redis.memory_size }}
+          redis_tier: {{ .Environment.Values.gcp.redis.tier }}
+
   - name: gke-mysql
     namespace: config-connector
     chart: charts/mysql

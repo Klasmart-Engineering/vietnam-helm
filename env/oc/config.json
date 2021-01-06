@@ -51,6 +51,13 @@
                 "size": 10, 
                 "type": "PD_SSD"
             }
+        },
+        "redis": {
+            "name": "kidsloop-99999",
+            "display_name": "kidsloop",
+            "version": "REDIS_5_0",
+            "memory_size": 1,
+            "tier": "STANDARD_HA"
         }
     }
 }

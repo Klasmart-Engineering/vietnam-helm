@@ -3,13 +3,13 @@ kind: RedisInstance
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: "kidsloop-99999"
+  name: "{{ .Values.gcp.redis_name }}"
 spec:
-  displayName: "kidsloop"
-  memorySizeGb: 1
+  displayName: "{ .Values.gcp.redis_display_name }}"
+  memorySizeGb: {{ .Values.gcp.redis_memory_size }}
   authorizedNetworkRef:
-    external: {{ .Values.gcp.network }}
-  redisVersion:  "REDIS_5_0"
-  region: {{ .Values.gcp.region }}
-  tier: "STANDARD_HA"
+    external: "{{ .Values.gcp.network }}"
+  redisVersion:  "{{ .Values.gcp.redis_version }}"
+  region: "{{ .Values.gcp.region }}"
+  tier: "{{ .Values.gcp.redis_tier }}"
 

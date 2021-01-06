@@ -1,0 +1,3 @@
+.env.yaml
+.gcp-config-connnector.json
+.gcp-terraform-output.json

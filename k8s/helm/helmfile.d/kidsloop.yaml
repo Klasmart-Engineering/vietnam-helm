@@ -46,6 +46,8 @@ releases:
             memory: 512Mi
       - sfuManagerConfiguration:
           promHost: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+      - redisHost: {{ .Environment.Values.redis_host }}
+
 
   - name: vietnam-sfu-gateway
     namespace: okc
@@ -70,6 +72,7 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
+      - redisHost: {{ .Environment.Values.redis_host }}
 
 
   - name: vietnam-static
@@ -168,6 +171,7 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
+      - redisHost: {{ .Environment.Values.redis_host }}
 
   - name: vietnam-user-service
     namespace: okc
@@ -187,6 +191,7 @@ releases:
             - host: api{{ .Environment.Values.kl_domain }}
               paths:
                 - "/user"
+      - postgresql_host: {{ .Environment.Values.postgresql_host }}
 
   - name: vietnam-kl2
     namespace: okc
@@ -205,5 +210,6 @@ releases:
               paths:
                 - "/v1"
       - configuration:
-          db_hostname: mysql-primary.persistence
+          db_hostname: {{ .Environment.Values.mysql_host }}
+          redis_host: {{ .Environment.Values.redis_host }}
 
