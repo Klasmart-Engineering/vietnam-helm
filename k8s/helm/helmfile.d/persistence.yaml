@@ -3,7 +3,7 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   
 environments:
-  default:
+  vietnam:
     values:
       - ../../../env/vietnam/.env.yaml
   indonesia:

@@ -6,7 +6,7 @@ repositories:
     url: https://fluent.github.io/helm-charts
 
 environments:
-  default:
+  vietnam:
     values:
       - ../../../env/vietnam/.env.yaml
   indonesia:

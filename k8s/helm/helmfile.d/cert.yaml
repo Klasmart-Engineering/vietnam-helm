@@ -1,5 +1,5 @@
 environments:
-  default:
+  vietnam:
     values:
       - ../../../env/vietnam/.env.yaml
   indonesia:
@@ -27,7 +27,7 @@ releases:
   - name: letsencrypt
     namespace: cert-manager
     condition: helm_cert.enabled
-    chart: ../helm/letsencrypt
+    chart: ../charts/letsencrypt
 
     
 
