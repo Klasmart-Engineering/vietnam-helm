@@ -3,9 +3,9 @@ environments:
   vietnam:
     values:
       - ../../../env/vietnam/.env.yaml
-  indonesia:
+  indonesia-staging:
     values:
-      - ../../../env/indonesia/.env.yaml
+      - ../../../env/indonesia-staging/.env.yaml
   oc:
     values:
       - ../../../env/oc/.env.yaml
@@ -102,6 +102,7 @@ releases:
   - name: vietnam-kl2-static
     namespace: okc
     chart: ../charts/kl2-static
+    condition: helm_service_kl2_static.enabled
     values:
       - imagePullSecrets:
           - name: ecr-registry

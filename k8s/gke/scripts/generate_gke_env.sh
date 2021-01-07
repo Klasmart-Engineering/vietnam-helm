@@ -6,6 +6,7 @@ ENV=$1
 env_validate $ENV
 
 CONFIG=$(cat ../env/$ENV/config.json)
+PROJECT=$(cat ../env/$ENV/tfvars.json | jq -r '.terraform_project')
 MYSQL_NAME=$(echo $CONFIG | jq -r '.gcp .mysql .name')
 MYSQL_USER=$(echo $CONFIG | jq -r '.gcp .mysql .user')
 POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
@@ -20,5 +21,6 @@ echo "{
     \"mysql_database\": \"$MYSQL_NAME\",
     \"mysql_username\": \"$MYSQL_USER\",
     \"postgresql_host\": \"$POSTGRES_IP\", 
-    \"redis_host\": \"$REDIS_IP\" 
+    \"redis_host\": \"$REDIS_IP\",
+    \"service_kl2_static_bucket\": \"$PROJECT-service-kl2-static-cdn\"
 }"

@@ -9,9 +9,9 @@ environments:
   vietnam:
     values:
       - ../../../env/vietnam/.env.yaml
-  indonesia:
+  indonesia-staging:
     values:
-      - ../../../env/indonesia/.env.yaml
+      - ../../../env/indonesia-staging/.env.yaml
   oc:
     values:
       - ../../../env/oc/.env.yaml

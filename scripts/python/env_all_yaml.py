@@ -16,7 +16,6 @@ if (len(sys.argv)>1):
         with open(os.path.join(ENV_PATH, filename),'r') as f:
             return f.read()
 
-    print ("\nCombining env json into single YAML file:")
     for f in os.listdir(ENV_PATH):
         if f.endswith(".json"):
             print(" - %s" % (f,))

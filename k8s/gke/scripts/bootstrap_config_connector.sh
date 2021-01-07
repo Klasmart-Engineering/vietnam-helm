@@ -4,7 +4,7 @@ set -e
 TFOUTPUT=$1
 SERVICE_ACCOUNT=$(cat $TFOUTPUT | jq -r '.service_account_config_connector .value')
 
-echo -e "\nSetting config connector service account to: $SERVICE_ACCOUNT"
+echo -e "Setting config connector service account to: $SERVICE_ACCOUNT"
 
 cat << EOF > .config_connector.yaml
 # configconnector.yaml

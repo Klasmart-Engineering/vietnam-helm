@@ -1,7 +1,7 @@
 environments:
-  indonesia:
+  indonesia-staging:
     values:
-      - ../../env/indonesia/.env.yaml
+      - ../../env/indonesia-staging/.env.yaml
   oc:
     values:
       - ../../env/oc/.env.yaml
@@ -56,3 +56,11 @@ releases:
           postgresql_disk_type: {{ .Environment.Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Environment.Values.gcp.postgresql.user }}
 
+  - name: gke-service-kl2-static
+    namespace: config-connector
+    chart: charts/service-kl2-static
+    values:
+      - gcp:
+          region: {{ .Environment.Values.terraform_region }}
+          project: {{ .Environment.Values.terraform_project }}
+          
