@@ -22,8 +22,8 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 30; done;" ]
+        #command: [ "/bin/bash", "-c", "--" ]
+        #args: [ "while true; do sleep 30; done;" ]
         ports:
           - name: http
             protocol: TCP
@@ -36,7 +36,7 @@ spec:
           - name: ROUTE_PREFIX
             value: "/user"
           - name: POSTGRES_USERNAME
-            value: "kidsloop"
+            value: "postgres"
           - name: POSTGRES_DOMAIN
             value: "{{ .Values.postgresql_host }}"
           - name: POSTGRES_PORT
