@@ -12,7 +12,7 @@ spec:
     - host: hub{{ .Values.domain }}
       http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: vietnam-hub-svc
               servicePort: 80
@@ -20,12 +20,12 @@ spec:
     - host: kl2{{ .Values.domain }}    
       http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: vietnam-kl2-static-svc
               servicePort: 80
 
-          - path: /v1
+          - path: /v1/*
             backend:
               serviceName: vietnam-kl2-svc
               servicePort: 80
@@ -33,17 +33,17 @@ spec:
     - host: live{{ .Values.domain }}    
       http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: vietnam-static-svc
               servicePort: 80
 
-          - path: /sfu
+          - path: /sfu/*
             backend:
               serviceName: vietnam-sfu-gateway-svc
               servicePort: 80
 
-          - path: /graphql
+          - path: /graphql/*
             backend:
               serviceName: vietnam-live-svc
               servicePort: 80
@@ -51,7 +51,7 @@ spec:
     - host: api{{ .Values.domain }}    
       http:
         paths:
-          - path: /user
+          - path: /user/*
             backend:
               serviceName: vietnam-user-service-svc
               servicePort: 80
