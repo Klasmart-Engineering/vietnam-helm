@@ -1,0 +1,103 @@
+environments:
+  vietnam:
+    values:
+      - ../../../env/vietnam/.env.yaml
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  oc:
+    values:
+      - ../../../env/oc/.env.yaml
+
+releases:
+
+  # INGRESSES
+  # ---------------------------------------------------------------------------------------
+  # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
+  # This provides an ingress endpoint for inbound traffic
+
+  {{- if eq .Environment.Values.provider "bizflycloud" }}
+  - name: ingress
+    namespace: default
+    chart: ingress-nginx/ingress-nginx
+    version: ~3.8.0
+
+
+  {{- else if eq .Environment.Values.provider "gcp" }}
+  
+  - name: ingress
+    namespace: okc
+    chart: ../charts/mono-ingress-gcp
+    values:
+      - domain: {{ .Environment.Values.kl_domain }}
+
+  - name: ingress-backend-config-hub
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: hub
+      - cdn:
+          enabled: true
+      - healthCheck:
+          requestPath: /
+          port: 80
+  
+  - name: ingress-backend-config-kl2-static
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: kl2-static
+      - cdn:
+          enabled: true
+      - healthCheck:
+          requestPath: /
+          port: 80
+        
+  - name: ingress-backend-config-kl2
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: kl2
+      - healthCheck:
+          requestPath: /v1/ping
+          port: 8088  
+
+  - name: ingress-backend-config-static
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: static
+      - cdn:
+          enabled: true
+      - healthCheck:
+          requestPath: /
+          port: 80
+
+  - name: ingress-backend-config-sfu-gateway
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: sfu-gateway
+      - healthCheck:
+          requestPath: /server-health
+          port: 8080
+
+  - name: ingress-backend-config-live
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: live
+      - healthCheck:
+          requestPath: /metrics
+          port: 8080
+  
+  - name: ingress-backend-config-user
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: user
+      - healthCheck:
+          requestPath: /.well-known/apollo/server-health
+          port: 8080
+
+  {{- end}}

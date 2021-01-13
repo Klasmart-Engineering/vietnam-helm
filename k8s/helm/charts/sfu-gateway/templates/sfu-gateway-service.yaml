@@ -4,6 +4,10 @@ metadata:
   name: {{ include "sfu-gateway.fullname" . }}-svc
   labels:
     {{- include "sfu-gateway.labels" . | nindent 4 }}
+  {{- if eq .Values.provider "gcp"}}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sfu-gateway"}'
+  {{- end}}
 spec:
   ports:
   - name: http

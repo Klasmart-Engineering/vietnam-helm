@@ -4,6 +4,10 @@ metadata:
   name: {{ include "live.fullname" . }}-svc
   labels:
     {{- include "live.labels" . | nindent 4 }}
+  {{- if eq .Values.provider "gcp"}}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "live"}'
+  {{- end}}
 spec:
   ports:
   - name: http

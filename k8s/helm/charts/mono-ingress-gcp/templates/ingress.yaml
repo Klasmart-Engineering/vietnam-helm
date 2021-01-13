@@ -56,17 +56,3 @@ spec:
               serviceName: vietnam-user-service-svc
               servicePort: 80
 
-
-
-
-
-
-#OK
-#vietnam-kl2-static-svc
-#vietnam-static-svc
-
-#NOTOK
-#vietnam-live-svc
-#vietnam-kl2-svc
-#vietnam-user-service-svc
-#vietnam-sfu-gateway-svc

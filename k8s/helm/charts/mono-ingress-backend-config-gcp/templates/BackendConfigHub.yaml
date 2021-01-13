@@ -1,0 +1,19 @@
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: {{ .Values.name }}
+spec:
+  timeoutSec: {{ .Values.timeoutSec }}
+  cdn:
+    enabled: {{ .Values.cdn.enabled }}
+  connectionDraining:
+    drainingTimeoutSec: {{ .Values.connectionDraining.drainingTimeoutSec }}
+  healthCheck:
+    requestPath: {{ .Values.healthCheck.requestPath }}
+    type: {{ .Values.healthCheck.type }}
+    port: {{ .Values.healthCheck.port }}
+    checkIntervalSec: {{ .Values.healthCheck.checkIntervalSec }}
+    timeoutSec: {{ .Values.healthCheck.timeoutSec }}
+    healthyThreshold: {{ .Values.healthCheck.healthyThreshold }}
+    unhealthyThreshold: {{ .Values.healthCheck.unhealthyThreshold }}
+    

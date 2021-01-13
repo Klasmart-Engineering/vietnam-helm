@@ -4,6 +4,10 @@ metadata:
   name: {{ include "kl2-static.fullname" . }}-svc
   labels:
     {{- include "kl2-static.labels" . | nindent 4 }}
+  {{- if eq .Values.provider "gcp"}}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "kl2-static"}'
+  {{- end}}
 spec:
   ports:
   - name: http

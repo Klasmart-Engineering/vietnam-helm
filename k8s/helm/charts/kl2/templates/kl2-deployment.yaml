@@ -58,10 +58,6 @@ spec:
           - name: http
             protocol: TCP
             containerPort: 8088
-        readinessProbe:
-          httpGet:
-            path: /v1/ping
-            port: 8088
         envFrom:
           - configMapRef:
               name: {{ include "kl2.fullname" . }}-cm

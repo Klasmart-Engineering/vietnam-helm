@@ -4,6 +4,10 @@ metadata:
   name: {{ include "hub.fullname" . }}-svc
   labels:
     {{- include "hub.labels" . | nindent 4 }}
+  {{- if eq .Values.provider "gcp"}}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "hub"}'
+  {{- end}}
 spec:
   ports:
   - name: http

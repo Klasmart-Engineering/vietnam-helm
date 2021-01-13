@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mono-ingress-backend-config-gcp
+description: Monolithic single ingress BackendConfig for GCP
+type: application
+version: 0.1.0
+appVersion: 0.1.0
