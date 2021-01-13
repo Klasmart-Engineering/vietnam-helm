@@ -56,6 +56,16 @@ releases:
           postgresql_disk_type: {{ .Environment.Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Environment.Values.gcp.postgresql.user }}
 
+
+  - name: gke-ingress-support
+    namespace: config-connector
+    chart: charts/ingress-support
+    values:
+      - gcp:
+          project: {{ .Environment.Values.terraform_project }}
+          compute_address_name: ingress-https-load-balancer
+
+
   # For future use - K8s 1.19 supports Ingress with GCP Storage bucket backend
   #- name: gke-service-hub
   #  namespace: config-connector

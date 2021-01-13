@@ -1,0 +1,10 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeAddress
+metadata:
+  name: {{ .Values.gcp.compute_address_name }}
+  annotations:
+    cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
+spec:
+  addressType: EXTERNAL
+  ipVersion: IPV4
+  location: global

@@ -12,6 +12,7 @@ POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
+kubectl --namespace config-connector wait --for=condition=READY computeaddress ingress-https-load-balancer --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY sqlinstance $MYSQL_NAME --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY sqldatabase $MYSQL_NAME --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY sqluser $MYSQL_USER --timeout 300s
