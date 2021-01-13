@@ -5,11 +5,10 @@
     "k8s_namespace_kidsloop": "okc",
     "k8s_namespace_persistence": "persistence",
     "k8s_storage_class": "standard",
+    "k8s_service_type": "NodePort",
     "kl_domain": "-beta.kidsloop.id",
+    
 
-    "helm_cert": {
-        "enabled": false
-    },
     "helm_prometheus": {
         "enabled": false
     },
@@ -25,13 +24,10 @@
     "helm_mysql": {
         "enabled": false
     },
-    "helm_service_kl2_static": {
-        "enabled": false
-    },
-
+   
     "gcp": {
         "mysql": {
-            "name":      "kidsloop-mysql-99999",
+            "name":      "kidsloop-mysql-99995",
             "version":   "MYSQL_5_7",
             "tier":      "db-f1-micro",
             "charset":   "utf8mb4",
@@ -43,11 +39,11 @@
             }
         },
         "postgresql": {
-            "name": "kidsloop-postgresql-99999",
+            "name": "kidsloop-postgresql-99993",
             "version":   "POSTGRES_11",
             "tier":      "db-f1-micro",
-            "charset":   "utf8mb4",
-            "collation": "utf8mb4_bin",
+            "charset":   "UTF8",
+            "collation": "en_US.UTF8",
             "user":      "kidsloop-postgresql",
             "disk": {
                 "size": 10, 
@@ -55,7 +51,7 @@
             }
         },
         "redis": {
-            "name": "kidsloop-99999",
+            "name": "kidsloop-99995",
             "display_name": "kidsloop",
             "version": "REDIS_5_0",
             "memory_size": 1,

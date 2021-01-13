@@ -1,0 +1,10 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeTargetHTTPProxy
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
+  name: {{ .Values.bucket_id }}
+spec:
+  location: global
+  urlMapRef:
+    name: {{ .Values.bucket_id }}

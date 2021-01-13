@@ -4,6 +4,7 @@
     "k8s_namespace_kidsloop": "okc",
     "k8s_namespace_persistence": "persistence",
     "k8s_storage_class": "premium-hdd",
+    "k8s_service_type": "ClusterIP",
     "kl_domain": "-beta.kidsloop.vn",
 
     "redis_host": "redis-master.persistence.svc",
@@ -12,9 +13,6 @@
     "mysql_username": "dbc_yyd",
     "mysql_database": "kidsloop2",
 
-    "helm_cert": {
-        "enabled": true
-    },
     "helm_prometheus": {
         "enabled": true
     },
@@ -30,10 +28,7 @@
     "helm_mysql": {
         "enabled": true
     },
-    "helm_service_kl2_static": {
-        "enabled": true
-    },
-
+   
     "base_url_user": "https://api.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net"
 

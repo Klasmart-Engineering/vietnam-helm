@@ -1,0 +1,72 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mono-ingress
+  annotations:
+     kubernetes.io/ingress.class: "gce"
+    
+spec:
+
+  rules:
+  
+    - host: hub{{ .Values.domain }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vietnam-hub-svc
+              servicePort: 80
+
+    - host: kl2{{ .Values.domain }}    
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vietnam-kl2-static-svc
+              servicePort: 80
+
+          - path: /v1
+            backend:
+              serviceName: vietnam-kl2-svc
+              servicePort: 80
+    
+    - host: live{{ .Values.domain }}    
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vietnam-static-svc
+              servicePort: 80
+
+          - path: /sfu
+            backend:
+              serviceName: vietnam-sfu-gateway-svc
+              servicePort: 80
+
+          - path: /graphql
+            backend:
+              serviceName: vietnam-live-svc
+              servicePort: 80
+
+    - host: api{{ .Values.domain }}    
+      http:
+        paths:
+          - path: /user
+            backend:
+              serviceName: vietnam-user-service-svc
+              servicePort: 80
+
+
+
+
+
+
+#OK
+#vietnam-kl2-static-svc
+#vietnam-static-svc
+
+#NOTOK
+#vietnam-live-svc
+#vietnam-kl2-svc
+#vietnam-user-service-svc
+#vietnam-sfu-gateway-svc

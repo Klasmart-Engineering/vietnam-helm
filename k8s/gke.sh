@@ -34,6 +34,7 @@ pushd gke
 helmfile -e $ENV apply
 popd
 
+# Wait for GKE resources
 echo -e "\n\nWATING FOR RESOURCES TO BECOME READY" && echo_line
 gke/scripts/wait_for_resources.sh $ENV
 
@@ -43,7 +44,8 @@ GKE=$(gke/scripts/generate_gke_env.sh $ENV)
 echo -e $GKE > $GKE_FILE
 ../scripts/python/env_all_yaml.py $ENV
 
-echo -e "\n\nFILLING STATIC BUCKETS" && echo_line
-gke/scripts/fill_buckets.sh $ENV
+# For future use - K8s 1.19 supports Ingress with GCP Storage bucket backend
+#echo -e "\n\nFILLING STATIC BUCKETS" && echo_line
+#gke/scripts/fill_buckets.sh $ENV
 
 # Leave files in place for main Helm run - to override default vars in helmfiles

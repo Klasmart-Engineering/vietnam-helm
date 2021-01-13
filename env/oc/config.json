@@ -5,11 +5,9 @@
     "k8s_namespace_kidsloop": "okc",
     "k8s_namespace_persistence": "persistence",
     "k8s_storage_class": "standard",
+    "k8s_service_type": "LoadBalancer",
     "kl_domain": "-oc.kidsloop.vn",
-
-    "helm_cert": {
-        "enabled": false
-    },
+    
     "helm_prometheus": {
         "enabled": false
     },
@@ -25,10 +23,8 @@
     "helm_mysql": {
         "enabled": false
     },
-    "helm_service_kl2_static": {
-        "enabled": false
-    },
-
+   
+    
     "gcp": {
         "mysql": {
             "name":      "kidsloop-mysql-99995",

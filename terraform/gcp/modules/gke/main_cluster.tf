@@ -14,11 +14,6 @@ resource "google_container_cluster" "cluster" {
   enable_intranode_visibility = true          # https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility
   networking_mode             = "VPC_NATIVE"  # Required for private service networking to services
                                               # https://cloud.google.com/kubernetes-engine/docs/how-to/alias-ips
-  network_policy {
-    enabled = true                            # Networking policy will allow us to go multi-tenant but lay dormant otherwise
-    provider = "CALICO"                       # https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy
-  }
-
   ip_allocation_policy {
     cluster_ipv4_cidr_block  = "" # Let GCP choose
     services_ipv4_cidr_block = "" # Let GCP choose
@@ -48,6 +43,10 @@ resource "google_container_cluster" "cluster" {
   vertical_pod_autoscaling {
     enabled = true
   }
+
+  #cluster_autoscaling {
+  #  enabled = true
+  #}
   
   addons_config {
     http_load_balancing {
@@ -57,7 +56,7 @@ resource "google_container_cluster" "cluster" {
       disabled = false
     }
     network_policy_config {
-      disabled = false
+      disabled = true
     }
     dns_cache_config {
       enabled = true

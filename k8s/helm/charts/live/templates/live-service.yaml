@@ -9,7 +9,7 @@ spec:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: http
+    targetPort: 8080
   selector:
     {{- include "live.selectorLabels" . | nindent 4 }}
-  type: ClusterIP
+  type: {{ .Values.serviceType }}

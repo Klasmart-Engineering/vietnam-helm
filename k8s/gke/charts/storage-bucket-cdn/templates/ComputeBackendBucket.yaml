@@ -3,10 +3,10 @@ kind: ComputeBackendBucket
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
-  name: "{{ .Values.gcp.project }}-service-kl2-static-cdn"
+  name: {{ .Values.bucket_id }}
 spec:
   bucketRef:
-    name: "{{ .Values.gcp.project }}-service-kl2-static-cdn"
+    name: {{ .Values.bucket_id }}
   enableCdn: true
   #cdnPolicy:
     #cacheMode:

@@ -19,5 +19,3 @@ kubectl --namespace config-connector wait --for=condition=READY sqlinstance $POS
 kubectl --namespace config-connector wait --for=condition=READY sqldatabase $POSTGRESQL_NAME --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY sqluser $POSTGRESQL_USER --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY redisinstance $REDIS_NAME --timeout 300s
-kubectl --namespace config-connector wait --for=condition=READY computebackendbucket  --timeout 300s
-kubectl --namespace config-connector wait --for=condition=READY storagebucket --timeout 300s

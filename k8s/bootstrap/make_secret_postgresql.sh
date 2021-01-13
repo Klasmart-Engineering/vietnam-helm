@@ -34,8 +34,8 @@ if [[ "$DRY_RUN" != "yes" ]]; then
   kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE postgresql
   kubectl apply -f postgresql-secret.yaml
   
-  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP mysql
-  kubectl get secret mysql --namespace=$NS_PERSISTENCE -o yaml | \
+  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP postgresql
+  kubectl get secret postgresql --namespace=$NS_PERSISTENCE -o yaml | \
     sed "s/namespace: $NS_PERSISTENCE/namespace: $NS_KIDSLOOP/" | \
     kubectl apply --namespace=$NS_KIDSLOOP -f -
   

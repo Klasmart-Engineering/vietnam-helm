@@ -20,14 +20,12 @@ releases:
     namespace: cert-manager
     chart: jetstack/cert-manager
     version: ~1.0.4
-    condition: helm_cert.enabled
     values:
       - installCRDs: true
 
-  - name: letsencrypt
-    namespace: cert-manager
-    condition: helm_cert.enabled
-    chart: ../charts/letsencrypt
+  # - name: letsencrypt
+  #   namespace: cert-manager
+  #   chart: ../charts/letsencrypt
 
     
 

@@ -56,11 +56,12 @@ releases:
           postgresql_disk_type: {{ .Environment.Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Environment.Values.gcp.postgresql.user }}
 
-  - name: gke-service-kl2-static
-    namespace: config-connector
-    chart: charts/service-kl2-static
-    values:
-      - gcp:
-          region: {{ .Environment.Values.terraform_region }}
-          project: {{ .Environment.Values.terraform_project }}
-          
+  # For future use - K8s 1.19 supports Ingress with GCP Storage bucket backend
+  #- name: gke-service-hub
+  #  namespace: config-connector
+  #  chart: charts/storage-bucket-cdn
+  #  values:
+  #    - bucket_id: "{{ .Environment.Values.terraform_project }}-service-hub-cdn"
+  #    - gcp:
+  #        region: {{ .Environment.Values.terraform_region }}
+  #        project: {{ .Environment.Values.terraform_project }}
