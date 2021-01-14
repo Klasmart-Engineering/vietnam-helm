@@ -116,6 +116,9 @@ releases:
             - host: kl2{{ .Environment.Values.kl_domain }}
               paths:
                 - "/"
+      - image:
+          tag: {{ .Environment.Name }}
+          
       - resources:
           requests:
             cpu: 100m
