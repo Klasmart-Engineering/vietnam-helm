@@ -9,6 +9,8 @@
 
     "redis_host": "redis-master.persistence.svc",
     "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
+    "postgresql_username": "postgres",
+    "postgresql_database": "kidsloop",
     "mysql_host": "mysql-primary.persistence.svc",
     "mysql_username": "dbc_yyd",
     "mysql_database": "kidsloop2",

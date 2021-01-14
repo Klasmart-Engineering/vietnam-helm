@@ -272,6 +272,8 @@ releases:
               paths:
                 - "/user"
       - postgresql_host: {{ .Environment.Values.postgresql_host }}
+      - postgresql_username: {{ .Environment.Values.postgresql_username }}
+      - postgresql_database: {{ .Environment.Values.postgresql_database}}
 
 
       
