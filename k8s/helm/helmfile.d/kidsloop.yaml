@@ -89,7 +89,10 @@ releases:
           db_name: {{ .Environment.Values.mysql_database }}
           db_username: {{ .Environment.Values.mysql_username }}
           redis_host: {{ .Environment.Values.redis_host }}
-
+          ams_endpoint: https://api{{ .Environment.Values.kl_domain }}/user
+          cors_domain_list: https://*{{ .Environment.Values.kl_domain }}
+          # This should be removed with new image
+          ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
 
 
   # KL2 STATIC
@@ -274,9 +277,3 @@ releases:
       - postgresql_host: {{ .Environment.Values.postgresql_host }}
       - postgresql_username: {{ .Environment.Values.postgresql_username }}
       - postgresql_database: {{ .Environment.Values.postgresql_database}}
-
-
-      
-  
-
-  

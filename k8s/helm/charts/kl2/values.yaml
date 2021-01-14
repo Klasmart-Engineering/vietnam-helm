@@ -80,6 +80,8 @@ configuration:
   # if `storage_sig_mode` is set as true, this env can be set to `native`, and operation of signing is done by bucket. Or we should define another value for this env, and add some code to deal with it.
   storage_download_mode: cloudfront
   #
+  storage_protocol: "s3"
+  #
   storage_region: ap-northeast-2
   # if this is set to be `ture` then all request to resources should be signed
   storage_sig_mode: "false"
