@@ -37,7 +37,7 @@ if [[ (-z "$DOCKER")  || "$DOCKER" = "service-kl2-static" ]]
 then
     pushd service-kl2-static
      echo_heading "Building KL2 Static service Docker image"
-    ./build.sh
+    ./build.sh $ENV
     popd
 fi
 

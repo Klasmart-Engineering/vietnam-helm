@@ -17,10 +17,10 @@ releases:
   # This provides an ingress endpoint for inbound traffic
 
   {{- if eq .Environment.Values.provider "bizflycloud" }}
-  - name: ingress
+  - name: nginx-ingress
     namespace: default
     chart: ingress-nginx/ingress-nginx
-    version: ~3.8.0
+    version: 3.8.0
 
 
   {{- else if eq .Environment.Values.provider "gcp" }}
