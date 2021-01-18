@@ -19,7 +19,7 @@ echo "\
 PUBLIC_URL=.
 REACT_APP_KO_BASE_API=$BASE_URL_USER
 REACT_APP_BASE_API=\"v1\"
-REACT_APP_H5P_API=$BASE_URL_H5P" > .env.build
+REACT_APP_H5P_API=$BASE_URL_H5P" > .env.production
 
 echo -e "\n\nYARN INSTALL" && echo_line
 yarn install
@@ -27,6 +27,6 @@ yarn install
 echo -e "\n\nYARN BUILD" && echo_line
 ENV=build yarn build
 
-rm .env.build
+rm .env.production
 popd
     

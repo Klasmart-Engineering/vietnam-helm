@@ -31,7 +31,7 @@
         "enabled": true
     },
    
-    "base_url_user": "https://api.kidsloop.vn/user/",
+    "base_url_user": "https://api-beta.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net"
 
 }
