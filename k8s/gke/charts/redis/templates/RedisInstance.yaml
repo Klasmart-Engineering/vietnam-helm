@@ -5,7 +5,7 @@ metadata:
     cnrm.cloud.google.com/project-id : {{ .Values.gcp.project }}
   name: "{{ .Values.gcp.redis_name }}"
 spec:
-  displayName: "{ .Values.gcp.redis_display_name }}"
+  displayName: {{ .Values.gcp.redis_display_name }}
   memorySizeGb: {{ .Values.gcp.redis_memory_size }}
   authorizedNetworkRef:
     external: "{{ .Values.gcp.network }}"

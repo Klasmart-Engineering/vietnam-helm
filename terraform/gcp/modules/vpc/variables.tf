@@ -35,8 +35,8 @@ variable "flowlogs_sampling" {
     description = "Sample rate for collection of VPC Flow Logs (0->1)"
 }
 
-variable "vpc_peering_range_size" {
+variable "vpc_peering_range_prefix" {
     type        = number
     default     = 17
-    description = "Sample rate for collection of VPC Flow Logs (0->1)"
+    description = "Range of the Private Services Access Range"
 }

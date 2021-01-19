@@ -1,5 +1,11 @@
 
-resource "google_compute_network" "vpc" {
+# PRIVATE SERVICE ACCESS
+# Private Google Access: doesn't work for instances with public ips 
+# Private Service Connect: still in preview
+# Private Services Access: will do for now
+# https://cloud.google.com/vpc/docs/private-access-options
+ 
+ resource "google_compute_network" "vpc" {
   name                    = var.network_name
   project                 = var.project
   auto_create_subnetworks = "false"       # We don't want global subnetworks
@@ -15,35 +21,18 @@ resource "google_compute_router" "vpc" {
 }
 
 
+
 resource "google_compute_subnetwork" "vpc" {
   name          = var.network_name
   project       = var.project
   region        = var.region
   ip_cidr_range = var.subnet_cidr
   network       = google_compute_network.vpc.self_link
-  private_ip_google_access = true # We must have private google access, don't want to traverse public internet
+  private_ip_google_access = false 
   log_config {
     aggregation_interval = var.flowlogs_interval
     flow_sampling        = var.flowlogs_sampling
     metadata             = "INCLUDE_ALL_METADATA" # Yes, all metadata
-  }
-}
-
-
-resource "google_compute_router_nat" "vpc" {
-  name    = var.network_name
-  project = var.project
-  region  = var.region
-  router  = google_compute_router.vpc.name
-  nat_ip_allocate_option = "AUTO_ONLY" # Can we be bothered? No - let GCP allocate NAT IPs
-  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS" # Allow our subnet to access the NAT
-  subnetwork {
-    name                    = google_compute_subnetwork.vpc.self_link
-    source_ip_ranges_to_nat = ["ALL_IP_RANGES"] # We'll allow all IP ranges, in case we add secondary IP range to the subnet and forget
-  }
-  log_config {
-    enable = true
-    filter = "ALL"  # We want all logs (for everything) for now - could reduce this to errors later when the system is more stable.
   }
 }
 
@@ -70,7 +59,7 @@ resource "google_compute_global_address" "vpc" {
   name          = var.network_name
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
-  prefix_length = var.vpc_peering_range_size
+  prefix_length = var.vpc_peering_range_prefix
   project       = var.project
   network       = google_compute_network.vpc.self_link
 }
