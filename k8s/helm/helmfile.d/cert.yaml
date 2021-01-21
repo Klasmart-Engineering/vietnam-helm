@@ -16,6 +16,8 @@ repositories:
 
 releases:
 
+  {{- if eq .Environment.Values.provider "bizflycloud" }}
+  
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
@@ -23,10 +25,10 @@ releases:
     values:
       - installCRDs: true
 
-  # - name: letsencrypt
-  #   namespace: cert-manager
-  #   chart: ../charts/letsencrypt
+  - name: letsencrypt
+    namespace: cert-manager
+    chart: ../charts/letsencrypt
 
-    
+  {{- end }}  
 
   

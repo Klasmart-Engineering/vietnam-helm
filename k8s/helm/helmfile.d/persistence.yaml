@@ -15,11 +15,12 @@ environments:
 
 releases:
 
+  {{- if eq .Environment.Values.provider "bizflycloud" }}
+
   - name: redis
     namespace: persistence
     chart: bitnami/redis
     version: ~11.3.4
-    condition: helm_redis.enabled
     values:
       - cluster:
           slaveCount: 3
@@ -59,7 +60,6 @@ releases:
   - name: postgresql-ha
     namespace: persistence
     chart: bitnami/postgresql-ha
-    condition: helm_postgresql.enabled
     values:
       - global:
           storageClass: {{ .Environment.Values.k8s_storage_class }}
@@ -82,7 +82,6 @@ releases:
     namespace: persistence
     chart: bitnami/mysql
     version: ~8.0.0
-    condition: helm_mysql.enabled
     values:
       - auth:
           existingSecret: mysql
@@ -108,3 +107,4 @@ releases:
             memory: 256Mi
             cpu: 250m
 
+  {{- end}}

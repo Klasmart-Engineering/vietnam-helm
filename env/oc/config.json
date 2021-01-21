@@ -14,15 +14,6 @@
     "helm_fluentbit": {
         "enabled": false
     },
-    "helm_redis": {
-        "enabled": false
-    },
-    "helm_postgresql": {
-        "enabled": false
-    },
-    "helm_mysql": {
-        "enabled": false
-    },
    
     
     "gcp": {
