@@ -1,6 +1,0 @@
-apiVersion: v2
-name: GKE CC CDN Service KL2 Static
-description: GKE CC CDN Bucket for Kidsloop KL2 Static Service
-type: application
-version: 0.1.0
-appVersion: 0.1.0
