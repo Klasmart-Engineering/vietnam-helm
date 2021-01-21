@@ -7,7 +7,7 @@ resource "google_service_account" "cluster" {
 }
 
 locals {
-  all_service_account_roles = [
+  cluster_service_account_roles = [
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
     "roles/monitoring.viewer",
@@ -16,7 +16,7 @@ locals {
 }
 
 resource "google_project_iam_member" "cluster" {
-  for_each = toset(local.all_service_account_roles)
+  for_each = toset(local.cluster_service_account_roles)
   project = var.project
   role    = each.value
   member  = "serviceAccount:${google_service_account.cluster.email}"
@@ -39,12 +39,21 @@ resource "google_service_account" "config_connector" {
   project      = var.project
 }
 
-resource "google_project_iam_member" "config_connector" {
-  project = var.project
-  role    = "roles/owner"
-  member  = "serviceAccount:${google_service_account.config_connector.email}"
-  depends_on = [google_service_account.config_connector]
+locals {
+  config_connector_service_account_roles = [
+    "roles/compute.publicIpAdmin",
+    "roles/cloudsql.admin",
+    "roles/redis.admin",
+  ]
 }
+
+resource "google_project_iam_member" "config_connector" {
+  for_each = toset(local.config_connector_service_account_roles)
+  project = var.project
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.config_connector.email}"
+}
+
 
 resource "google_service_account_iam_member" "config_connector" {
   service_account_id = google_service_account.config_connector.name
