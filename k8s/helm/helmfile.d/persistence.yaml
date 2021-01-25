@@ -62,13 +62,13 @@ releases:
     chart: bitnami/postgresql-ha
     values:
       - global:
-          storageClass: {{ .Environment.Values.k8s_storage_class }}
+          storageClass: standard
           postgresql:
             existingSecret: postgresql
             database: kidsloop
       - persistence:
           size: 8Gi
-          storageClass: {{ .Environment.Values.k8s_storage_class }}
+          storageClass: standard
       - pgpool:
           enabled: true
           replicaCount: 2
@@ -93,12 +93,12 @@ releases:
       - primary:
           persistence:
             size: 8Gi
-            storageClass: {{ .Environment.Values.k8s_storage_class }}
+            storageClass: standard
       - secondary:
           replicaCount: 2
           persistence:
             size: 8Gi
-            storageClass: {{ .Environment.Values.k8s_storage_class }}
+            storageClass: standard
       - resources:
           limits:
             memory: 256Mi

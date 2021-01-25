@@ -1,10 +1,7 @@
 {
     "provider": "gcp",
     "terraform_bucket": "kidsloop-indonesia-terraform",
-    "k8s_namespace_monitoring": "monitoring",
     "k8s_namespace_kidsloop": "okc",
-    "k8s_namespace_persistence": "persistence",
-    "k8s_storage_class": "standard",
     "k8s_service_type": "NodePort",
     "kl_domain": "-beta.kidsloop.id",
     

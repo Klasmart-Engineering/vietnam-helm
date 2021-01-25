@@ -13,8 +13,7 @@ PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
 if [[ $PROVIDER = "gcp" ]]; then
   NS_PERSISTENCE=config-connector
 else
-  NS_PERSISTENCE=$(../../scripts/python/env_var.py $ENV $ENUM_NS_PERSISTENCE_VAR)
-  [ -z "$NS_PERSISTENCE" ] && echo "Missing variable,'$ENUM_NS_PERSISTENCE_VAR', in $ENV" && exit 1
+  NS_PERSISTENCE=persistence
 fi
 
 

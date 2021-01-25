@@ -1,9 +1,6 @@
 ENUM_TERRAFORM_VAR_FILE="tfvars.json"
 ENUM_SHARED_VAR_FILE="config.json"
-
-ENUM_NS_MONITORING_VAR="k8s_namespace_monitoring"
 ENUM_NS_KIDSLOOP_VAR="k8s_namespace_kidsloop"
-ENUM_NS_PERSISTENCE_VAR="k8s_namespace_persistence"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
