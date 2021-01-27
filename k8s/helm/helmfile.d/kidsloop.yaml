@@ -5,9 +5,6 @@ environments:
   indonesia-staging:
     values:
       - ../../../env/indonesia-staging/.env.yaml
-  oc:
-    values:
-      - ../../../env/oc/.env.yaml
 
 releases:
 
