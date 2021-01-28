@@ -1,0 +1,10 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: mono-ingress
+spec:
+  domains:
+    - hub{{ .Values.domain }}
+    - kl2{{ .Values.domain }}
+    - live{{ .Values.domain }}  
+    - api{{ .Values.domain }} 
