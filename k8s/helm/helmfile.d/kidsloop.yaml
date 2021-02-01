@@ -81,6 +81,15 @@ releases:
             - host: kl2{{ .Environment.Values.kl_domain }}
               paths:
                 - "/v1"
+      
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
       - configuration:
           db_hostname: {{ .Environment.Values.mysql_host }}
           db_name: {{ .Environment.Values.mysql_database }}
@@ -277,3 +286,10 @@ releases:
       - postgresql_host: {{ .Environment.Values.postgresql_host }}
       - postgresql_username: {{ .Environment.Values.postgresql_username }}
       - postgresql_database: {{ .Environment.Values.postgresql_database}}
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
