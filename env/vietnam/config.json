@@ -20,6 +20,13 @@
     },
    
     "base_url_user": "https://api-beta.kidsloop.vn/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net"
+    "base_url_h5p": "https://h5p.kidsloop.net",
 
+    "storage": {
+        "endpoint": "https://ss-hn-1.bizflycloud.vn",
+        "region": "us-east-1",
+        "bucket": "ssb-hanoi-dev-kidsloop",
+        "protocol": "s3",
+        "download_mode": "native"
+    }
 }

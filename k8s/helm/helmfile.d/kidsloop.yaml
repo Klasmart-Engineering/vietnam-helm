@@ -97,6 +97,13 @@ releases:
           redis_host: {{ .Environment.Values.redis_host }}
           ams_endpoint: https://api{{ .Environment.Values.kl_domain }}/user
           cors_domain_list: https://*{{ .Environment.Values.kl_domain }}
+          {{ if .Environment.Values.storage }}
+          storage_endpoint: {{ .Environment.Values.storage.endpoint }}
+          storage_region: {{ .Environment.Values.storage.region }}
+          storage_bucket: {{ .Environment.Values.storage.bucket }}
+          storage_protocol: {{ .Environment.Values.storage.protocol }}
+          storage_download_mode: {{ .Environment.Values.storage.download_mode }}
+          {{ end }}
           # This should be removed with new image
           ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
 
