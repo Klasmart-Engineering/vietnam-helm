@@ -67,10 +67,17 @@ spec:
               secretKeyRef:
                 name: mysql
                 key: mysql-password
+        volumeMounts:
+          - name: s3-bucket-secret
+            mountPath: /root/.aws
+            readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: sql-migration
           configMap:
             name: {{ include "kl2.fullname" . }}-sql-cm
+        - name: s3-bucket-secret
+          secret:
+            secretName: {{ include "kl2.fullname" . }}-s3-secret
 
