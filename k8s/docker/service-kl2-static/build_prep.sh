@@ -15,6 +15,10 @@ git submodule update --init -- cms-frontend-web
 
 pushd cms-frontend-web
 
+echo -e "\n\n"SETTING REGISTRY"" && echo_line
+echo "registry \"https://yarn.npmjs.org\"" > .yarnrc
+
+echo -e "\n\n"SETTING PROD ENVS"" && echo_line
 echo "\
 PUBLIC_URL=.
 REACT_APP_KO_BASE_API=$BASE_URL_USER
