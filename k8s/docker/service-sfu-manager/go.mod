@@ -8,6 +8,7 @@ require (
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/prometheus/client_golang v1.8.0
+	github.com/prometheus/common v0.14.0
 	go.uber.org/zap v1.16.0
 	k8s.io/api v0.18.12
 	k8s.io/apimachinery v0.18.12
