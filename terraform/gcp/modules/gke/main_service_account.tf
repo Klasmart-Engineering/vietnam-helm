@@ -44,6 +44,7 @@ locals {
     "roles/compute.publicIpAdmin",
     "roles/cloudsql.admin",
     "roles/redis.admin",
+    "roles/iam.serviceAccountAdmin"
   ]
 }
 
@@ -61,4 +62,28 @@ resource "google_service_account_iam_member" "config_connector" {
   member             = "serviceAccount:${var.project}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
   depends_on = [google_container_cluster.cluster]
 }
+
+
+# Cloud SQL Proxy
+
+
+resource "google_service_account" "cloudsql_proxy" {
+  account_id   = "cloudsql-proxy"
+  display_name = "cloudsql-proxy"
+  project      = var.project
+}
+
+locals {
+  cloudsql_proxy_service_account_roles = [
+    "roles/cloudsql.admin"
+  ]
+}
+
+resource "google_project_iam_member" "cloudsql_proxy" {
+  for_each = toset(local.cloudsql_proxy_service_account_roles)
+  project = var.project
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.cloudsql_proxy.email}"
+}
+
 
