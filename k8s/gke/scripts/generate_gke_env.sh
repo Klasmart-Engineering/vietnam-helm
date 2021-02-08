@@ -13,16 +13,24 @@ POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
+KIDSLOOP_NAMESPACE=$(echo $CONFIG | jq -r '.k8s_namespace_kidsloop')
+
 MYSQL_IP=$(kubectl get sqlinstance $MYSQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
 POSTGRESQL_IP=$(kubectl get sqlinstance $POSTGRESQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
 REDIS_IP=$(kubectl get redisinstance $REDIS_NAME -n config-connector -o jsonpath="{.status .host}")
+
+MYSQL_PROXY_IP=$(kubectl get service cloud-sql-proxy-mysql -n $KIDSLOOP_NAMESPACE -o jsonpath="{.spec .clusterIP}")
+POSTGRESQL_PROXY_IP=$(kubectl get service cloud-sql-proxy-postgresql -n $KIDSLOOP_NAMESPACE -o jsonpath="{.spec .clusterIP}")
+
 
 echo "{
     \"mysql_host\": \"$MYSQL_IP\",
     \"mysql_database\": \"$MYSQL_NAME\",
     \"mysql_username\": \"$MYSQL_USER\",
+    \"mysql_proxy_ip\": \"$MYSQL_PROXY_IP\",
     \"postgresql_host\": \"$POSTGRESQL_IP\", 
     \"postgresql_database\": \"$POSTGRESQL_NAME\",
     \"postgresql_username\": \"$POSTGRESQL_USER\", 
+    \"postgresql_proxy_ip\": \"$POSTGRESQL_PROXY_IP\",
     \"redis_host\": \"$REDIS_IP\"
 }"

@@ -38,6 +38,11 @@ popd
 echo -e "\n\nWATING FOR RESOURCES TO BECOME READY" && echo_line
 gke/scripts/wait_for_resources.sh $ENV
 
+# Wait for GKE resources
+echo -e "\n\nAPPLYING WORKLOAD IDENTITY" && echo_line
+gke/scripts/apply_workload_identity.sh $ENV
+
+
 # Write GKE file and rewrite all YAML file
 echo -e "\n\nWRITING GKE CONFIG FILE: $GKE_FILE" && echo_line
 GKE=$(gke/scripts/generate_gke_env.sh $ENV)
@@ -49,3 +54,5 @@ echo -e $GKE > $GKE_FILE
 #gke/scripts/fill_buckets.sh $ENV
 
 # Leave files in place for main Helm run - to override default vars in helmfiles
+
+

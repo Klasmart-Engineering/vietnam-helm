@@ -11,6 +11,7 @@ MYSQL_USER=$(echo $CONFIG | jq -r '.gcp .mysql .user')
 POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
+KIDSLOOP_NAMESPACE=$(echo $CONFIG | jq -r '.k8s_namespace_kidsloop')
 
 kubectl --namespace config-connector wait --for=condition=READY computeaddress ingress-https-load-balancer --timeout 300s
 kubectl --namespace config-connector wait --for=condition=READY sqlinstance $MYSQL_NAME --timeout 300s

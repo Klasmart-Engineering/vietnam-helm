@@ -22,6 +22,12 @@ releases:
           redis_memory_size: {{ .Values.gcp.redis.memory_size }}
           redis_tier: {{ .Values.gcp.redis.tier }}
 
+
+  - name: cloudsql-proxy
+    namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
+    chart: charts/cloud-sql-proxy
+
+
   - name: gke-mysql
     namespace: config-connector
     chart: charts/mysql
@@ -38,6 +44,18 @@ releases:
           mysql_disk_size: {{ .Values.gcp.mysql.disk.size }}
           mysql_disk_type: {{ .Values.gcp.mysql.disk.type }}
           mysql_user: {{ .Values.gcp.mysql.user }}
+      
+  - name: gke-mysql-sql-proxy
+    namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
+    chart: charts/mysql-sql-proxy
+    values:
+      - gcp:
+          region: {{ .Environment.Values.terraform_region }}
+          project: {{ .Environment.Values.terraform_project }}
+          mysql_name: {{ .Environment.Values.gcp.mysql.name }}
+    needs:
+      - config-connector/gke-mysql
+      - {{ .Environment.Values.k8s_namespace_kidsloop }}/cloudsql-proxy
 
   - name: gke-postgresql
     namespace: config-connector
@@ -56,6 +74,19 @@ releases:
           postgresql_disk_type: {{ .Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Values.gcp.postgresql.user }}
 
+  - name: gke-postgresql-sql-proxy
+    namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
+    chart: charts/postgresql-sql-proxy
+    values:
+      - gcp:
+          region: {{ .Environment.Values.terraform_region }}
+          project: {{ .Environment.Values.terraform_project }}
+          postgresql_name: {{ .Environment.Values.gcp.postgresql.name }}
+    needs:
+      - config-connector/gke-postgresql
+      - {{ .Environment.Values.k8s_namespace_kidsloop }}/cloudsql-proxy
+      
+
 
   - name: gke-ingress-support
     namespace: config-connector
@@ -64,6 +95,10 @@ releases:
       - gcp:
           project: {{ .Values.terraform_project }}
           compute_address_name: ingress-https-load-balancer
+
+
+
+
 
 
   # For future use - K8s 1.19 supports Ingress with GCP Storage bucket backend

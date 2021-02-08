@@ -72,6 +72,12 @@ releases:
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - project: {{ .Environment.Values.terraform_project }}
+      - region: {{ .Environment.Values.terraform_region }}
+      {{- if eq .Values.provider "gcp" }}
+      - db_instance: {{ .Environment.Values.gcp.mysql.name }}
+      - mysql_proxy_ip:  {{ .Environment.Values.mysql_proxy_ip}}
+      {{- end}}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
@@ -109,6 +115,7 @@ releases:
           {{ end }}
           # This should be removed with new image
           ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
+          
 
 
   # KL2 STATIC

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-sql-proxy-postgresql
+  labels:
+    cloudSQLProxy: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cloudSQLProxy: postgresql
+  template:
+    metadata:
+      labels:
+        cloudSQLProxy: postgresql
+    spec:
+      containers:
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.postgresql_name }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+    
+      serviceAccountName: cloudsql-proxy

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-sql-proxy-mysql
+  labels:
+    cloudSQLProxy: mysql
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cloudSQLProxy: mysql
+  template:
+    metadata:
+      labels:
+        cloudSQLProxy: mysql
+    spec:
+      containers:
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.mysql_name }}=tcp:3306"
+        securityContext:
+          runAsNonRoot: true  
+    
+      serviceAccountName: cloudsql-proxy

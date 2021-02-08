@@ -31,7 +31,11 @@ spec:
         args:
           - "migrate"
           - "-user=$(db_username)"
-          - "-url=jdbc:mysql://$(db_hostname):$(db_port)/$(db_name)"
+          {{- if eq .Values.provider "gcp" }}
+          - "-url=jdbc:mysql://{{ .Values.mysql_proxy_ip }}:$(db_port)/$(db_name)"
+          {{- else }}
+          - "-url=jdbc:mysql://$(db_host):$(db_port)/$(db_name)"
+          {{- end}}
           - "-password=$(MYSQL_PASSWORD)"
         env:
           - name: MYSQL_PASSWORD
@@ -49,9 +53,15 @@ spec:
       - name: {{ .Chart.Name }}
         command: [ "sh", "-c" ]
         args:
+        {{- if eq .Values.provider "gcp" }}
+        - |
+          export connection_string="$(db_username):$(MYSQL_PASSWORD)@tcp(localhost:$(db_port))/$(db_name)?$(db_options)"
+          ./handler
+        {{- else }}
         - |
           export connection_string="$(db_username):$(MYSQL_PASSWORD)@tcp($(db_hostname):$(db_port))/$(db_name)?$(db_options)"
           ./handler
+        {{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         ports:
@@ -73,6 +83,18 @@ spec:
             readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.db_instance }}=tcp:{{ .Values.configuration.db_port }}"
+        securityContext:
+          runAsNonRoot: true  
+      {{- end }}
+
       volumes:
         - name: sql-migration
           configMap:
@@ -81,3 +103,7 @@ spec:
           secret:
             secretName: {{ include "kl2.fullname" . }}-s3-secret
 
+      
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}

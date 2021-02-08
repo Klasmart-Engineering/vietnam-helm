@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-sql-proxy-postgresql
+spec:
+  ports:
+
+  - name: mysql
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  
+  selector:
+    cloudSQLProxy: postgresql
+
+  type: ClusterIP
