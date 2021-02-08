@@ -5,16 +5,24 @@ terraform {
     #bucket = [passed via -backend-config on command line]
     prefix  = "main"
   }
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 3.50.0"
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 3.50.0"
+    }
+  }
 }
 
 provider "google" {
-  version = "~> 3.50.0"
-  project = var.terraform_project
   region  = var.terraform_region
+  project = var.terraform_project
 }
 
 provider "google-beta" {
-  version = "~> 3.50.0"
   project = var.terraform_project
   region  = var.terraform_region
 }
