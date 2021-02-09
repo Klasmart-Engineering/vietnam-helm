@@ -1,9 +1,9 @@
 {
     "provider": "gcp",
-    "terraform_bucket": "kidsloop-indonesia-terraform",
+    "terraform_bucket": "kidsloop-indonesia-terraform-prod",
     "k8s_namespace_kidsloop": "okc",
     "k8s_service_type": "NodePort",
-    "kl_domain": "-beta.kidsloop.id",
+    "kl_domain": ".kidsloop.id",
     
 
     "helm_prometheus": {
@@ -48,7 +48,7 @@
     },
 
     "storage": "",
-    
-    "base_url_user": "https://api-beta.kidsloop.id/user/",
+
+    "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.net"
 }
