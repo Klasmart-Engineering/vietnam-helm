@@ -1,0 +1,52 @@
+{
+    "provider": "gcp",
+    "terraform_bucket": "kidsloop-indonesia-terraform-prod",
+    "k8s_namespace_kidsloop": "okc",
+    "k8s_service_type": "NodePort",
+    "kl_domain": ".kidsloop.id",
+    
+
+    "helm_prometheus": {
+        "enabled": false
+    },
+    "helm_fluentbit": {
+        "enabled": false
+    },
+   
+    "gcp": {
+        "mysql": {
+            "name":      "kidsloop-mysql-99999",
+            "version":   "MYSQL_5_7",
+            "tier":      "db-f1-micro",
+            "charset":   "utf8mb4",
+            "collation": "utf8mb4_bin",
+            "user":      "kidsloop-mysql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
+        "postgresql": {
+            "name": "kidsloop-postgresql-99999",
+            "version":   "POSTGRES_11",
+            "tier":      "db-f1-micro",
+            "charset":   "UTF8",
+            "collation": "en_US.UTF8",
+            "user":      "kidsloop-postgresql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
+        "redis": {
+            "name": "kidsloop-99999",
+            "display_name": "kidsloop",
+            "version": "REDIS_5_0",
+            "memory_size": 1,
+            "tier": "STANDARD_HA"
+        }
+    },
+
+    "base_url_user": "https://api.kidsloop.id/user/",
+    "base_url_h5p": "https://h5p.kidsloop.net"
+}
