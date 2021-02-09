@@ -2,7 +2,10 @@ environments:
   indonesia-staging:
     values:
       - ../../env/indonesia-staging/.env.yaml
-      
+  indonesia-production:
+    values:
+      - ../../env/indonesia-production/.env.yaml
+
 releases:
 
   - name: gke-redis
@@ -10,48 +13,48 @@ releases:
     chart: charts/redis
     values:
       - gcp:
-          region: {{ .Environment.Values.terraform_region }}
-          network: {{ .Environment.Values.terraform_vpc.value }}
-          project: {{ .Environment.Values.terraform_project }}
-          redis_name: {{ .Environment.Values.gcp.redis.name }}
-          redis_display_name: {{ .Environment.Values.gcp.redis.display_name }}
-          redis_version: {{ .Environment.Values.gcp.redis.version }}
-          redis_memory_size: {{ .Environment.Values.gcp.redis.memory_size }}
-          redis_tier: {{ .Environment.Values.gcp.redis.tier }}
+          region: {{ .Values.terraform_region }}
+          network: {{ .Values.terraform_vpc.value }}
+          project: {{ .Values.terraform_project }}
+          redis_name: {{ .Values.gcp.redis.name }}
+          redis_display_name: {{ .Values.gcp.redis.display_name }}
+          redis_version: {{ .Values.gcp.redis.version }}
+          redis_memory_size: {{ .Values.gcp.redis.memory_size }}
+          redis_tier: {{ .Values.gcp.redis.tier }}
 
   - name: gke-mysql
     namespace: config-connector
     chart: charts/mysql
     values:
       - gcp:
-          region: {{ .Environment.Values.terraform_region }}
-          network: {{ .Environment.Values.terraform_vpc.value }}
-          project: {{ .Environment.Values.terraform_project }}
-          mysql_name: {{ .Environment.Values.gcp.mysql.name }}
-          mysql_version: {{ .Environment.Values.gcp.mysql.version }}
-          mysql_tier: {{ .Environment.Values.gcp.mysql.tier }}
-          mysql_charset: {{ .Environment.Values.gcp.mysql.charset }}
-          mysql_collation: {{ .Environment.Values.gcp.mysql.collation }}
-          mysql_disk_size: {{ .Environment.Values.gcp.mysql.disk.size }}
-          mysql_disk_type: {{ .Environment.Values.gcp.mysql.disk.type }}
-          mysql_user: {{ .Environment.Values.gcp.mysql.user }}
+          region: {{ .Values.terraform_region }}
+          network: {{ .Values.terraform_vpc.value }}
+          project: {{ .Values.terraform_project }}
+          mysql_name: {{ .Values.gcp.mysql.name }}
+          mysql_version: {{ .Values.gcp.mysql.version }}
+          mysql_tier: {{ .Values.gcp.mysql.tier }}
+          mysql_charset: {{ .Values.gcp.mysql.charset }}
+          mysql_collation: {{ .Values.gcp.mysql.collation }}
+          mysql_disk_size: {{ .Values.gcp.mysql.disk.size }}
+          mysql_disk_type: {{ .Values.gcp.mysql.disk.type }}
+          mysql_user: {{ .Values.gcp.mysql.user }}
 
   - name: gke-postgresql
     namespace: config-connector
     chart: charts/postgresql
     values:
       - gcp:
-          region: {{ .Environment.Values.terraform_region }}
-          network: {{ .Environment.Values.terraform_vpc.value }}
-          project: {{ .Environment.Values.terraform_project }}
-          postgresql_name: {{ .Environment.Values.gcp.postgresql.name }}
-          postgresql_version: {{ .Environment.Values.gcp.postgresql.version }}
-          postgresql_tier: {{ .Environment.Values.gcp.postgresql.tier }}
-          postgresql_charset: {{ .Environment.Values.gcp.postgresql.charset }}
-          postgresql_collation: {{ .Environment.Values.gcp.postgresql.collation }}
-          postgresql_disk_size: {{ .Environment.Values.gcp.postgresql.disk.size }}
-          postgresql_disk_type: {{ .Environment.Values.gcp.postgresql.disk.type }}
-          postgresql_user: {{ .Environment.Values.gcp.postgresql.user }}
+          region: {{ .Values.terraform_region }}
+          network: {{ .Values.terraform_vpc.value }}
+          project: {{ .Values.terraform_project }}
+          postgresql_name: {{ .Values.gcp.postgresql.name }}
+          postgresql_version: {{ .Values.gcp.postgresql.version }}
+          postgresql_tier: {{ .Values.gcp.postgresql.tier }}
+          postgresql_charset: {{ .Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Values.gcp.postgresql.collation }}
+          postgresql_disk_size: {{ .Values.gcp.postgresql.disk.size }}
+          postgresql_disk_type: {{ .Values.gcp.postgresql.disk.type }}
+          postgresql_user: {{ .Values.gcp.postgresql.user }}
 
 
   - name: gke-ingress-support
@@ -59,7 +62,7 @@ releases:
     chart: charts/ingress-support
     values:
       - gcp:
-          project: {{ .Environment.Values.terraform_project }}
+          project: {{ .Values.terraform_project }}
           compute_address_name: ingress-https-load-balancer
 
 
@@ -68,7 +71,7 @@ releases:
   #  namespace: config-connector
   #  chart: charts/storage-bucket-cdn
   #  values:
-  #    - bucket_id: "{{ .Environment.Values.terraform_project }}-service-hub-cdn"
+  #    - bucket_id: "{{ .Values.terraform_project }}-service-hub-cdn"
   #    - gcp:
-  #        region: {{ .Environment.Values.terraform_region }}
-  #        project: {{ .Environment.Values.terraform_project }}
+  #        region: {{ .Values.terraform_region }}
+  #        project: {{ .Values.terraform_project }}

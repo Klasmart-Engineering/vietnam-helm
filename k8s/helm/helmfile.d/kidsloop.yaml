@@ -5,6 +5,9 @@ environments:
   indonesia-staging:
     values:
       - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
 
 releases:
 
@@ -36,18 +39,18 @@ releases:
     namespace: okc
     chart: ../charts/hub
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - hub{{ .Environment.Values.kl_domain }}      
-                secretName: "letsencrypt-hub{{ .Environment.Values.kl_domain }}" 
+                  - hub{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-hub{{ .Values.kl_domain }}" 
           hosts:
-            - host: hub{{ .Environment.Values.kl_domain }}
+            - host: hub{{ .Values.kl_domain }}
               paths:
                 - "/"
       - resources:
@@ -67,18 +70,18 @@ releases:
     namespace: okc
     chart: ../charts/kl2
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - kl2{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-kl2{{ .Environment.Values.kl_domain }}"
+                  - kl2{{ .Values.kl_domain }}
+                secretName: "letsencrypt-kl2{{ .Values.kl_domain }}"
           hosts:
-            - host: kl2{{ .Environment.Values.kl_domain }}
+            - host: kl2{{ .Values.kl_domain }}
               paths:
                 - "/v1"
       
@@ -91,18 +94,18 @@ releases:
             memory: 512Mi
 
       - configuration:
-          db_hostname: {{ .Environment.Values.mysql_host }}
-          db_name: {{ .Environment.Values.mysql_database }}
-          db_username: {{ .Environment.Values.mysql_username }}
-          redis_host: {{ .Environment.Values.redis_host }}
-          ams_endpoint: https://api{{ .Environment.Values.kl_domain }}/user
-          cors_domain_list: https://*{{ .Environment.Values.kl_domain }}
-          {{ if .Environment.Values.storage }}
-          storage_endpoint: {{ .Environment.Values.storage.endpoint }}
-          storage_region: {{ .Environment.Values.storage.region }}
-          storage_bucket: {{ .Environment.Values.storage.bucket }}
-          storage_protocol: {{ .Environment.Values.storage.protocol }}
-          storage_download_mode: {{ .Environment.Values.storage.download_mode }}
+          db_hostname: {{ .Values.mysql_host }}
+          db_name: {{ .Values.mysql_database }}
+          db_username: {{ .Values.mysql_username }}
+          redis_host: {{ .Values.redis_host }}
+          ams_endpoint: https://api{{ .Values.kl_domain }}/user
+          cors_domain_list: https://*{{ .Values.kl_domain }}
+          {{ if .Values.storage }}
+          storage_endpoint: {{ .Values.storage.endpoint }}
+          storage_region: {{ .Values.storage.region }}
+          storage_bucket: {{ .Values.storage.bucket }}
+          storage_protocol: {{ .Values.storage.protocol }}
+          storage_download_mode: {{ .Values.storage.download_mode }}
           {{ end }}
           # This should be removed with new image
           ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
@@ -115,18 +118,18 @@ releases:
     namespace: okc
     chart: ../charts/kl2-static
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - kl2{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-kl2{{ .Environment.Values.kl_domain }}"
+                  - kl2{{ .Values.kl_domain }}
+                secretName: "letsencrypt-kl2{{ .Values.kl_domain }}"
           hosts:
-            - host: kl2{{ .Environment.Values.kl_domain }}
+            - host: kl2{{ .Values.kl_domain }}
               paths:
                 - "/"
       - image:
@@ -149,9 +152,9 @@ releases:
     namespace: okc
     chart: ../charts/live
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
-      - prometheus_enabled: {{ .Environment.Values.helm_prometheus.enabled }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - prometheus_enabled: {{ .Values.helm_prometheus.enabled }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
@@ -160,10 +163,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
           hosts:
-            - host: live{{ .Environment.Values.kl_domain }}
+            - host: live{{ .Values.kl_domain }}
               paths:
                 - "/graphql"
       - resources:
@@ -173,7 +176,7 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
-      - redisHost: {{ .Environment.Values.redis_host }}
+      - redisHost: {{ .Values.redis_host }}
 
 
 
@@ -184,8 +187,8 @@ releases:
     namespace: okc
     chart: ../charts/sfu
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - hostNetworking: true
@@ -198,7 +201,7 @@ releases:
             memory: 512Mi
       - sfuManagerConfiguration:
           promHost: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
-      - redisHost: {{ .Environment.Values.redis_host }}
+      - redisHost: {{ .Values.redis_host }}
 
 
 
@@ -209,18 +212,18 @@ releases:
     namespace: okc
     chart: ../charts/sfu-gateway
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
           hosts:
-            - host: live{{ .Environment.Values.kl_domain }}
+            - host: live{{ .Values.kl_domain }}
               paths:
                 - "/sfu"
       - resources:
@@ -230,7 +233,7 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
-      - redisHost: {{ .Environment.Values.redis_host }}
+      - redisHost: {{ .Values.redis_host }}
 
 
       
@@ -241,8 +244,8 @@ releases:
     namespace: okc
     chart: ../charts/static
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
           - name: ecr-registry
       - ingress:
@@ -251,10 +254,10 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Environment.Values.kl_domain }}"
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
           hosts:
-            - host: live{{ .Environment.Values.kl_domain }}
+            - host: live{{ .Values.kl_domain }}
               paths:
                 - "/"
       - resources:
@@ -274,8 +277,8 @@ releases:
     namespace: okc
     chart: ../charts/user-service
     values:
-      - provider: {{ .Environment.Values.provider }}
-      - serviceType: {{ .Environment.Values.k8s_service_type }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
       - image:
           repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
       - imagePullSecrets:
@@ -284,15 +287,15 @@ releases:
           tls:
             - endpoint:
                 hosts:
-                  - api{{ .Environment.Values.kl_domain }}
-                secretName: "letsencrypt-api{{ .Environment.Values.kl_domain }}"
+                  - api{{ .Values.kl_domain }}
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}"
           hosts:
-            - host: api{{ .Environment.Values.kl_domain }}
+            - host: api{{ .Values.kl_domain }}
               paths:
                 - "/user"
-      - postgresql_host: {{ .Environment.Values.postgresql_host }}
-      - postgresql_username: {{ .Environment.Values.postgresql_username }}
-      - postgresql_database: {{ .Environment.Values.postgresql_database}}
+      - postgresql_host: {{ .Values.postgresql_host }}
+      - postgresql_username: {{ .Values.postgresql_username }}
+      - postgresql_database: {{ .Values.postgresql_database}}
       - resources:
           requests:
             cpu: 250m

@@ -12,7 +12,10 @@ environments:
   indonesia-staging:
     values:
       - ../../../env/indonesia-staging/.env.yaml
-      
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+
 releases:
 
   - name: prometheus

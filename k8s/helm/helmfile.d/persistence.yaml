@@ -9,10 +9,13 @@ environments:
   indonesia-staging:
     values:
       - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
 
 releases:
 
-  {{- if eq .Environment.Values.provider "bizflycloud" }}
+  {{- if eq .Values.provider "bizflycloud" }}
 
   - name: redis
     namespace: persistence
@@ -82,8 +85,8 @@ releases:
     values:
       - auth:
           existingSecret: mysql
-          database: {{ .Environment.Values.mysql_database }}
-          username: {{ .Environment.Values.mysql_username }} 
+          database: {{ .Values.mysql_database }}
+          username: {{ .Values.mysql_username }} 
       - architecture: replication
       - metrics:
           enabled: true

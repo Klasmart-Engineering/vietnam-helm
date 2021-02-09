@@ -5,6 +5,9 @@ environments:
   indonesia-staging:
     values:
       - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
 
 releases:
 
@@ -13,20 +16,20 @@ releases:
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
 
-  {{- if eq .Environment.Values.provider "bizflycloud" }}
+  {{- if eq .Values.provider "bizflycloud" }}
   - name: nginx-ingress
     namespace: default
     chart: ingress-nginx/ingress-nginx
     version: 3.8.0
 
 
-  {{- else if eq .Environment.Values.provider "gcp" }}
+  {{- else if eq .Values.provider "gcp" }}
   
   - name: ingress
     namespace: okc
     chart: ../charts/mono-ingress-gcp
     values:
-      - domain: {{ .Environment.Values.kl_domain }}
+      - domain: {{ .Values.kl_domain }}
 
   - name: ingress-backend-config-hub
     namespace: okc
