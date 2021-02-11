@@ -21,7 +21,7 @@ spec:
         command:
           - "/cloud_sql_proxy"
           - "-ip_address_types=PRIVATE"
-          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.mysql_name }}=tcp:3306"
+          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.mysql_name }}=tcp:0.0.0.0:3306"
         securityContext:
           runAsNonRoot: true  
     

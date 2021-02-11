@@ -20,7 +20,7 @@ spec:
         command:
           - "/cloud_sql_proxy"
           - "-ip_address_types=PRIVATE"
-          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.postgresql_name }}=tcp:5432"
+          - "-instances={{ .Values.gcp.project }}:{{ .Values.gcp.region }}:{{ .Values.gcp.postgresql_name }}=tcp:0.0.0.0:5432"
         securityContext:
           runAsNonRoot: true  
     

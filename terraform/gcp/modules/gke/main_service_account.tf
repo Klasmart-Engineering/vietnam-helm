@@ -42,6 +42,7 @@ resource "google_service_account" "config_connector" {
 locals {
   config_connector_service_account_roles = [
     "roles/compute.publicIpAdmin",
+    "roles/compute.loadBalancerAdmin",
     "roles/cloudsql.admin",
     "roles/redis.admin",
     "roles/iam.serviceAccountAdmin"

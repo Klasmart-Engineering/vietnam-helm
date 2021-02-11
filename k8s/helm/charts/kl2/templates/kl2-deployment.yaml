@@ -77,10 +77,12 @@ spec:
               secretKeyRef:
                 name: mysql
                 key: mysql-password
+        {{ if .Values.storage_endpoint }}
         volumeMounts:
           - name: s3-bucket-secret
             mountPath: /root/.aws
             readOnly: true
+        {{ end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
 
@@ -99,11 +101,13 @@ spec:
         - name: sql-migration
           configMap:
             name: {{ include "kl2.fullname" . }}-sql-cm
+        {{ if .Values.storage_endpoint }}
         - name: s3-bucket-secret
           secret:
             secretName: {{ include "kl2.fullname" . }}-s3-secret
-
-      
+        {{ end }}
+        
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
       {{- end }}
+
