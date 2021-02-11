@@ -5,9 +5,19 @@ source ../scripts/bash/functions.sh
 ENV=$1
 env_validate $ENV
 
+# Check that we're logged into the correct GCP project
+CURRENT_GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
+EXPECTED_GOOGLE_CLOUD_PROJECT=$(../scripts/python/env_var.py $ENV "terraform_project")
+if [ "$CURRENT_GOOGLE_CLOUD_PROJECT" != "$EXPECTED_GOOGLE_CLOUD_PROJECT" ]; then
+    echo "ERROR: Please login to GCP project: $CURRENT_GOOGLE_CLOUD_PROJECT"
+    exit 1
+fi
+
 TFOUTPUT_FILE=$(env_path $ENV ".gcp-terraform-output.json")
 GKE_FILE=$(env_path $ENV ".gcp-config-connnector.json")
 CONFIG_FILE=$(env_path $ENV ".env.yaml")
+
+
 
 # Write TFOUTPUT file
 echo -e "\nWRITING TFOUTPUT FILE"
