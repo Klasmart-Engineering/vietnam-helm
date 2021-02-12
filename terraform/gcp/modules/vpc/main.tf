@@ -37,8 +37,8 @@ resource "google_compute_subnetwork" "vpc" {
 }
 
 
-resource "google_compute_firewall" "vpc" {
-  name          = var.network_name
+resource "google_compute_firewall" "webrtc" {
+  name          = "${var.network_name}-sfu-webrtc"
   project       = var.project
   network       = google_compute_network.vpc.self_link
   target_tags   = ["gke-public"]
@@ -46,7 +46,8 @@ resource "google_compute_firewall" "vpc" {
   source_ranges = ["0.0.0.0/0"] # Allow from all - don't know where traffic wil be coming from
   priority      = "1000"
   allow {
-    protocol = "all"  # TODO Must restrict to essential access (e.g. SFU) to GKE later
+    protocol = "UDP"  # SFU only requires UDP
+    ports    = ["5000-52000", "6666"]
   }
   log_config {
     metadata = "INCLUDE_ALL_METADATA" # We want all logs (for everything) for now 
