@@ -15,7 +15,7 @@
    
     "gcp": {
         "mysql": {
-            "name":      "kidsloop-mysql-99999",
+            "name":      "kidsloop-mysql-99998",
             "version":   "MYSQL_5_7",
             "tier":      "db-f1-micro",
             "charset":   "utf8mb4",

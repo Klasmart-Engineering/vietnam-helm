@@ -37,8 +37,13 @@ spec:
             value: "/user"
           - name: POSTGRES_USERNAME
             value: "{{ .Values.postgresql_username }}"
+          {{- if eq .Values.provider "gcp" }}
+          - name: POSTGRES_DOMAIN
+            value: "127.0.0.1"
+          {{- else }}
           - name: POSTGRES_DOMAIN
             value: "{{ .Values.postgresql_host }}"
+          {{- end }}
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_DB
@@ -51,3 +56,18 @@ spec:
             
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+      
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+      {{- end }}
+
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}

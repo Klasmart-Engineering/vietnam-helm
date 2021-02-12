@@ -20,4 +20,4 @@ spec:
       ipv4Enabled: false  # No public IP address
       privateNetworkRef: 
         external: "{{ .Values.gcp.network }}"
-        
+      requireSsl: true 
