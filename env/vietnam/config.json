@@ -28,5 +28,9 @@
         "bucket": "ssb-hanoi-dev-kidsloop",
         "protocol": "s3",
         "download_mode": "native"
+    },
+
+    "image_versions": {
+        "kl2_static": "15077f4-vietnam"
     }
 }
