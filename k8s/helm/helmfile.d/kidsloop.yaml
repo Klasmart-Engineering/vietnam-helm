@@ -140,8 +140,7 @@ releases:
               paths:
                 - "/"
       - image:
-          tag: {{ .Environment.Name }}
-          
+          tag: {{ .Values | get "image_versions.kl2_static" .Environment.Name }}
       - resources:
           requests:
             cpu: 100m
