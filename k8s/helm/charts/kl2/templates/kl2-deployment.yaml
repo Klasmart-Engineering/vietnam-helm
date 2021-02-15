@@ -34,7 +34,7 @@ spec:
           {{- if eq .Values.provider "gcp" }}
           - "-url=jdbc:mysql://{{ .Values.mysql_proxy_ip}}:$(db_port)/$(db_name)"
           {{- else }}
-          - "-url=jdbc:mysql://$(db_host):$(db_port)/$(db_name)"
+          - "-url=jdbc:mysql://$(db_hostname):$(db_port)/$(db_name)"
           {{- end}}
           - "-password=$(MYSQL_PASSWORD)"
         env:
@@ -78,7 +78,7 @@ spec:
               secretKeyRef:
                 name: mysql
                 key: mysql-password
-        {{ if .Values.storage_endpoint }}
+        {{ if .Values.configuration.storage_endpoint }}
         volumeMounts:
           - name: s3-bucket-secret
             mountPath: /root/.aws
@@ -102,7 +102,7 @@ spec:
         - name: sql-migration
           configMap:
             name: {{ include "kl2.fullname" . }}-sql-cm
-        {{ if .Values.storage_endpoint }}
+        {{ if .Values.configuration.storage_endpoint }}
         - name: s3-bucket-secret
           secret:
             secretName: {{ include "kl2.fullname" . }}-s3-secret
