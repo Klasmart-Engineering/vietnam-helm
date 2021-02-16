@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 BASE_URL_USER := $(shell ../../../scripts/python/env_var.py "$(ENV)" "base_url_user")
 BASE_URL_H5P := $(shell ../../../scripts/python/env_var.py "$(ENV)" "base_url_h5p")
 
