@@ -6,7 +6,8 @@ source ../../../scripts/bash/functions.sh
 ENV=$1
 env_validate $ENV
 
-./build_prep.sh $ENV
+export ENV
+make clean cms-frontend-web/build
 
 if [[ "$1" != "--nopush" ]]; then
     ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
