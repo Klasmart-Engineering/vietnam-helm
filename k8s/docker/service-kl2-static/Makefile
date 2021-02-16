@@ -20,7 +20,10 @@ cms-frontend-web/.yarnrc:
 	echo "registry \"https://yarn.npmjs.org\"" > cms-frontend-web/.yarnrc
 
 cms-frontend-web/.env.production:
-	test -z "$(BASE_URL_USER)" || echo "Missing variable, 'base_url_user', in $(ENV)"
+	echo "BASE_URL_USER should not be empty"
+	test ! -z "$(BASE_URL_USER)"
+	echo "BASE_URL_H5P should not be empty"
+	test ! -z "$(BASE_URL_H5P)"
 	echo "PUBLIC_URL=." > cms-frontend-web/.env.production
 	echo "REACT_APP_KO_BASE_API=$(BASE_URL_USER)" >> cms-frontend-web/.env.production
 	echo "REACT_APP_BASE_API=v1" >> cms-frontend-web/.env.production
