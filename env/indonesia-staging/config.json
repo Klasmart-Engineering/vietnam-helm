@@ -50,5 +50,10 @@
     "storage": "",
     
     "base_url_user": "https://api-beta.kidsloop.id/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net"
+    "base_url_h5p": "https://h5p.kidsloop.net",
+
+    "image_versions": {
+        "kl2_static": "ecedc13-indonesia-staging",
+        "sfu_manager": "a7e5b75"
+    }
 }

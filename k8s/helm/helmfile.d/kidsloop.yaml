@@ -193,6 +193,10 @@ releases:
     namespace: okc
     chart: ../charts/sfu
     values:
+      - image:
+          tag: {{ .Values | get "image_versions.sfu_manager" "latest" }}
+      - sfuImage:
+          tag: {{ .Values | get "image_versions.sfu" "latest" }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
