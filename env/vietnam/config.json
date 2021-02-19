@@ -11,6 +11,7 @@
     "mysql_host": "mysql-primary.persistence.svc",
     "mysql_username": "dbc_yyd",
     "mysql_database": "kidsloop2",
+    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-dev",
 
     "helm_prometheus": {
         "enabled": true

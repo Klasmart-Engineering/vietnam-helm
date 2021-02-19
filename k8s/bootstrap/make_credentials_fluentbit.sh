@@ -5,10 +5,6 @@ source ../../scripts/bash/functions.sh
 ENV=$1
 env_validate "$ENV"
 
-NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
-[ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
-
-
 echo -n "Access Key ID: "
 while read access_key_id; do
   if [[ ! -z "$access_key_id" ]]; then
@@ -23,8 +19,8 @@ while read secret_access_key; do
   fi
 done
 
-create_namespace_if_not_exists "$NS_KIDSLOOP"
-label_namespace_for_redis "$NS_KIDSLOOP"
+create_namespace_if_not_exists "monitoring"
+label_namespace_for_redis "monitoring"
 
 CREDS=$(cat <<EOF | base64 | sed 's/^/    /g'
 [default]
@@ -38,7 +34,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: aws-credentials-fluentbit
-  namespace: $NS_KIDSLOOP
+  namespace: monitoring
 data:
   credentials: |
 $CREDS
