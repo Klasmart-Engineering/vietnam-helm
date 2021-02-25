@@ -67,7 +67,7 @@ fi
 
 
 TXT="AWS credentials Secret for Fluentbit log shipping"
-if [[ "$FLUENTBIT" = "fluent" && ((-z "$SVC") || "$SVC" = "fluentbit") ]]
+if [[ "$FLUENTBIT" = True && ((-z "$SVC") || "$SVC" = "fluentbit") ]]
 then
     echo_heading "Generating $TXT"
     ./make_credentials_fluentbit.sh $ENV
