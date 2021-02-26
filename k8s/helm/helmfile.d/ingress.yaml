@@ -1,5 +1,5 @@
 environments:
-  vietnam-beta
+  vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
   indonesia-staging:
