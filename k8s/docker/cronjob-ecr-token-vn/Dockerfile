@@ -17,8 +17,9 @@ RUN apt update && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin
 
-COPY make_secret_ecr.sh .
-RUN chmod +x make_secret_ecr.sh
+COPY make_secret_ecr_vn.sh .
+RUN chmod +x make_secret_ecr_vn.sh
 
 ENTRYPOINT [ "/bin/sh", "-c" ]
-CMD [ "./make_secret_ecr.sh", "$NS_KIDSLOOP" ]
+CMD [ "./make_secret_ecr_vn.sh", "$NS_KIDSLOOP" ]
+

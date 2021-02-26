@@ -12,7 +12,6 @@ PROMETHEUS=$(../scripts/python/env_is_enabled.py $ENV helm_prometheus)
 FLUENTBIT=$(../scripts/python/env_is_enabled.py $ENV helm_fluentbit)
 [ -z "$FLUENTBIT" ] && echo "Missing variable,'helm_fluentbit', in $ENV" && exit 1
 
-
 pushd bootstrap
 
 # Used for both Bitnami helm deployment and config connector SQLUser
@@ -45,19 +44,8 @@ else
     echo_heading "Skipping $TXT"
 fi
 
-
-TXT="initial ECR token secret for pulling KidsLoop container images"
-if [[ (-z "$SVC") || ("$SVC" = "ecr") ]]
-then
-    echo_heading "Installing $TXT"
-    ./make_secret_ecr.sh $ENV
-else
-    echo_heading "Skipping $TXT"
-fi
-
-
-TXT="AWS credentials Secret for cronjob to refresh ECR token"
-if [[ (-z "$SVC") || ("$SVC" = "ecr") ]]
+TXT="Store AWS credentials for ECR as a Secret (for refresh ECR token cronjob)"
+if [[ (-z "$SVC") || ("$SVC" = "ecr-credentials") ]]
 then
     echo_heading "Generating $TXT"
     ./make_credentials_ecr.sh $ENV
@@ -65,6 +53,32 @@ else
     echo_heading "Skipping $TXT"
 fi
 
+TXT="Store AWS credentials for ECR *Vietnam* as a Secret (for refresh ECR token cronjob)"
+if [[ (-z "$SVC") || ("$SVC" = "ecr-credentials-vn") ]]
+then
+    echo_heading "Generating $TXT"
+    ./make_credentials_ecr_vn.sh $ENV
+else
+    echo_heading "Skipping $TXT"
+fi
+
+TXT="Initial token secret for pulling ECR container images (refreshed by cron job)"
+if [[ (-z "$SVC") || ("$SVC" = "ecr-registry") ]]
+then
+    echo_heading "Installing $TXT"
+    ./make_secret_ecr.sh
+else
+    echo_heading "Skipping $TXT"
+fi
+
+TXT="Initial token secret for pulling ECR *Vietnam* container images (refreshed by cron job)"
+if [[ (-z "$SVC") || ("$SVC" = "ecr-registry-vn") ]]
+then
+    echo_heading "Installing $TXT"
+    ./make_secret_ecr_vn.sh
+else
+    echo_heading "Skipping $TXT"
+fi
 
 TXT="AWS credentials Secret for Fluentbit log shipping"
 if [[ "$FLUENTBIT" = True && ((-z "$SVC") || "$SVC" = "fluentbit") ]]
