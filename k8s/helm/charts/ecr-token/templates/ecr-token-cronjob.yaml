@@ -1,33 +1,30 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "ecr-token.fullname" . }}-cronjob
-  labels:
-    {{- include "ecr-token.labels" . | nindent 4 }}
+  name: ecr-token-cronjob{{.Values.suffix}}
+  labels: 
+    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    app.kubernetes.io/name: {{ .Chart.Name  }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote}}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   jobTemplate:
     spec:
       template:
         spec:
-          serviceAccountName: {{ include "ecr-token.fullname" . }}-serviceaccount
+          serviceAccountName: ecr-token-serviceaccount{{.Values.suffix}}
           imagePullSecrets:
-            - name: {{ .Values.ecrTokenSecret }}
+            - name: ecr-registry{{.Values.suffix}}
           restartPolicy: OnFailure
           containers:
-            - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
-              name: {{ .Chart.Name }}
+            - image: {{.Values.image}}
+              imagePullPolicy: Always
+              name: ecr-token
               env:
                 - name: NAMESPACE
                   value: {{ .Release.Namespace }}
                 - name: SECRET_NAME
-                  value: "{{ .Values.ecrTokenSecret }}"
-              volumeMounts:
-                - name: aws-credentials
-                  mountPath: "/root/.aws"
-                  readOnly: true
-          volumes:
-            - name: aws-credentials
-              secret:
-                secretName: {{ .Values.awsCredentialsSecret }}
-  schedule: "{{ .Values.refreshSchedule }}"
+                  value: ecr-registry{{.Values.suffix}}
+
+  schedule: "0 */6 * * *"

@@ -1,45 +1,23 @@
 #!/bin/bash
-set -xeuo pipefail
-source ../../scripts/bash/functions.sh
+set +xeuo pipefail
 
-ENV=$1
-
-#
 # This script expects aws-cli-v2 to be installed.
 # It will not work with aws-cli v1.18
-#  --> Must be run with client configured to Kidsloop AWS account
 
-REGION=${AWS_REGION:-ap-northeast-2}
-export AWS_DEFAULT_REGION=$REGION
-echo "Region: $REGION"
+export AWS_DEFAULT_REGION=ap-northeast-2
+export AWS_ACCESS_KEY_ID=$(kubectl get secret -n okc ecr-credentials-pull -o jsonpath='{.data.aws_access_key_id}' | base64 --decode)
+export AWS_SECRET_ACCESS_KEY=$(kubectl get secret -n okc ecr-credentials-pull -o jsonpath='{.data.secret_access_key}' | base64 --decode)
 
-SECRET_NAME=${SECRET_NAME:-ecr-registry}
-NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
-DRY_RUN=${DRY_RUN:-"no"}
-
-TOKEN=$(aws ecr get-login-password --region $REGION)
-ACCOUNT=$(aws sts get-caller-identity | jq '.Account' -r)
-echo "ENV variables setup done."
-
-create_namespace_if_not_exists "$NS_KIDSLOOP"
-label_namespace_for_redis "$NS_KIDSLOOP"
-
-kubectl create secret docker-registry $SECRET_NAME \
+kubectl create secret docker-registry ecr-registry \
     --dry-run=client \
     -o yaml \
-    -n $NS_KIDSLOOP \
-    --docker-server="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com" \
+    -n okc \
+    --docker-server="494634321140.dkr.ecr.ap-northeast-2.amazonaws.com" \
     --docker-username=AWS \
-    --docker-password="${TOKEN}" \
+    --docker-password="$(aws ecr get-login-password)" \
     --docker-email="foo@bar.com" > ecr-secret.yaml
 
-if [[ "$DRY_RUN" != "yes" ]]; then
-  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP $SECRET_NAME
-  kubectl apply -f ecr-secret.yaml
-else
-  echo "Would run:"
-  echo "  kubectl delete secret -n $NS_KIDSLOOP $SECRET_NAME"
-  echo "  kubectl apply -f ecr-secret.yaml"
-fi
+kubectl delete secret --ignore-not-found=true -n okc ecr-registry
+kubectl apply -f ecr-secret.yaml 
 
 rm ecr-secret.yaml
