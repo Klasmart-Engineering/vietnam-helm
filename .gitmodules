@@ -1,3 +1,0 @@
-[submodule "k8s/docker/service-kl2-static/cms-frontend-web"]
-	path = k8s/docker/service-kl2-static/cms-frontend-web
-	url = git@bitbucket.org:calmisland/cms-frontend-web.git
