@@ -50,6 +50,8 @@
     "storage": "",
     
     "static_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-hub",
+    "static_pull_secret": "ecr-registry",
+    
     "base_url_user": "https://api-beta.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 

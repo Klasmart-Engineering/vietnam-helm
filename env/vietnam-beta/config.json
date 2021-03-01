@@ -32,7 +32,9 @@
     },
 
     "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-beta",
-    
+    "static_pull_secret": "ecr-registry-vn",
+
+
     "image_versions": {
         "kl2_static": "ecedc13-vietnam",
         "sfu_manager": "a7e5b75"

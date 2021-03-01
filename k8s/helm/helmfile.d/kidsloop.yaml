@@ -65,7 +65,7 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
-          - name: ecr-registry-vn
+          - name: {{ .Values.static_pull_secret }}
       - image:
           repository: {{ .Values.static_repository }}
       - ingress:
