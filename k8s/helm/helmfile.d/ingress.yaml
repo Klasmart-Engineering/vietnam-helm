@@ -10,7 +10,8 @@ environments:
       - ../../../env/indonesia-production/.env.yaml
 
 repositories:
-  - name: nginx-ingress
+
+  - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
 
 releases:
@@ -21,10 +22,10 @@ releases:
   # This provides an ingress endpoint for inbound traffic
 
   {{- if eq .Values.provider "bizflycloud" }}
-  - name: nginx-ingress
+  - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
-    version: 3.8.0
+    version: 3.23.0
 
 
   {{- else if eq .Values.provider "gcp" }}
