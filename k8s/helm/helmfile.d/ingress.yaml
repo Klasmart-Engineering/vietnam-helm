@@ -9,6 +9,10 @@ environments:
     values:
       - ../../../env/indonesia-production/.env.yaml
 
+repositories:
+  - name: nginx-ingress
+    url: https://kubernetes.github.io/ingress-nginx
+
 releases:
 
   # INGRESSES
