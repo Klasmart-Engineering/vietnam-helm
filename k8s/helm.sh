@@ -37,7 +37,7 @@ CONFIG_FILE=$(env_path $ENV ".env.yaml")
 rm $TFOUTPUT_FILE || true
 
 # Create single yaml env file
-../scripts/python/env_all_yaml.py $ENV
+python3 ../scripts/python/env_all_yaml.py $ENV
 
 # Helm
 echo -e "\nRunning Helm"
