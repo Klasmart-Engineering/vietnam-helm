@@ -28,13 +28,13 @@ releases:
     condition: helm_prometheus.enabled
     values:
       - global:
-          storageClass: premium-hdd
+          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
       - operator:
           createCustomResource: false
       - prometheus:
           persistence:
             enabled: true
-            storageClass: premium-hdd
+            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
             size: 8Gi
       - alertmanager:
           enabled: false

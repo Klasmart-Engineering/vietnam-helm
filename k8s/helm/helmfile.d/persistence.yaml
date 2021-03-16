@@ -65,13 +65,13 @@ releases:
     chart: bitnami/postgresql-ha
     values:
       - global:
-          storageClass: premium-hdd
+          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
           postgresql:
             existingSecret: postgresql
             database: kidsloop
       - persistence:
           size: 8Gi
-          storageClass: premium-hdd
+          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
       - pgpool:
           enabled: true
           replicaCount: 2
@@ -96,12 +96,12 @@ releases:
       - primary:
           persistence:
             size: 8Gi
-            storageClass: premium-hdd
+            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
       - secondary:
           replicaCount: 2
           persistence:
             size: 8Gi
-            storageClass: premium-hdd
+            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
       - resources:
           limits:
             memory: 256Mi
