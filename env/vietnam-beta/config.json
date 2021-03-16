@@ -12,6 +12,7 @@
     "mysql_username": "dbc_yyd",
     "mysql_database": "kidsloop2",
     "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-dev",
+    "persistentvolumeclaim_storage_class": "premium-hdd",
 
     "helm_prometheus": {
         "enabled": true
