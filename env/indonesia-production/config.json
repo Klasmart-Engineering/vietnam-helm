@@ -4,6 +4,7 @@
     "k8s_namespace_kidsloop": "okc",
     "k8s_service_type": "NodePort",
     "kl_domain": ".kidsloop.id",
+    "domain": "kidsloop.id",
     
 
     "helm_prometheus": {

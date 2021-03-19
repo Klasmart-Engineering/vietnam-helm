@@ -31,6 +31,8 @@ spec:
         env:
           - name: NODE_ENV
             value: "beta"
+          - name: DOMAIN
+            value: {{ .Values.domain }}
           - name: PORT
             value: "8080"
           - name: ROUTE_PREFIX
