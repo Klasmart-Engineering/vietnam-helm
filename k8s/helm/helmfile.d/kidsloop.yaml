@@ -334,6 +334,7 @@ releases:
             - host: api{{ .Values.kl_domain }}
               paths:
                 - "/user"
+      - domain: {{ .Values.domain }}
       - postgresql_host: {{ .Values.postgresql_host }}
       - postgresql_username: {{ .Values.postgresql_username }}
       - postgresql_database: {{ .Values.postgresql_database}}
