@@ -1,4 +1,7 @@
 environments:
+  vietnam-dev:
+    values:
+      - ../../../env/vietnam-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
