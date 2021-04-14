@@ -33,6 +33,10 @@
         "download_mode": "native"
     },
 
+    "user_service_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev",
+    "user_service_image_tag": "latest",
+    "user_service_image_pull_secrets": "ecr-registry-vn",
+
     "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-beta",
     "static_pull_secret": "ecr-registry-vn",
 

@@ -278,7 +278,7 @@ releases:
 
 
       
-  # STATIC
+  # LIVE STATIC
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-static
@@ -321,9 +321,10 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
-          repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          repository: {{ .Values.user_service_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          tag: {{ .Values.user_service_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.user_service_image_pull_secrets }}
       - ingress:
           tls:
             - endpoint:
@@ -337,7 +338,7 @@ releases:
       - domain: {{ .Values.domain }}
       - postgresql_host: {{ .Values.postgresql_host }}
       - postgresql_username: {{ .Values.postgresql_username }}
-      - postgresql_database: {{ .Values.postgresql_database}}
+      - postgresql_database: {{ .Values.postgresql_database }}
       {{- if eq .Values.provider "gcp" }}
       - postgresql_instance: {{ .Environment.Values.gcp.postgresql.name }}
       - project: {{ .Environment.Values.terraform_project }}
