@@ -39,10 +39,23 @@ rm $TFOUTPUT_FILE || true
 # Create single yaml env file
 python3 ../scripts/python/env_all_yaml.py $ENV
 
+# build up some useful helmfile flags
+RELEASES_FLAG=""
+SKIPDEPS_FLAG=""
+
+for VAR in "$@"; do
+    case $VAR in
+        --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
+        --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
+    esac
+done
+
 # Helm
 echo -e "\nRunning Helm"
+[[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
+[[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 pushd helm
-helmfile -e $ENV $CMD
+helmfile -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
 popd
 
 #rm $CONFIG_FILE  || true

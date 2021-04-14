@@ -15,6 +15,8 @@ It is assumed that you have the appropriate AWS (`~/.aws/credentials`) and Kuber
 configuration setup and your environment variables are setup such that the correct AWS account and correct
 Kubernetes cluster are targetted.
 
+You'll also need `pyyaml`. Example installation on MacOS is `python3 -m pip install pyyaml` - adapt to your system accordingly.
+
 ## Installation
 
 ### Bootstrap
@@ -130,3 +132,35 @@ To apply changes to cluster:
 $ helmfile apply
 ```
 
+### Using the helper script `helm.sh`
+
+The `helm.sh` helper script eventually invokes `helmfile <cmd>` where `<cmd>` is one of the standard
+helmfile commands, defaulting to `apply`. Before executing `helmfile`, the script does other routines
+such as writing values from config json files into `.env.yaml` files. It can be used manually or as
+part of an automated CI/CD process (e.g. invoked within a Concourse/Jenkins runner).
+
+For more details, head straight to the [`k8s/helm.sh`](./k8s/helm.sh) file and inspect the script to see what it does.
+
+Execution syntax:
+```bash
+./helm.sh <env> <cmd> [--release=<release-name>] [--skip-deps]
+```
+
+Note that the `--skip-deps` argument is not applicable to all helmfile commands (but only a selected few)
+
+Example basic usage:
+```bash
+# run `helm diff` for the `vietnam-beta` env on *all* chart releases
+./helm.sh vietnam-beta diff
+```
+
+Example advanced usage:
+```bash
+# run `helm diff` for the `vietnam-production` env
+# on *only* the `vietnam-user-service` release
+# while skipping dependency updates
+./helm.sh vietnam-production diff --release=vietnam-user-service --skip-deps
+
+# run `helm apply` for the `vietnam-beta` env on *only* the `vietnam-user-service` and `vietnam-sfu` releases
+./helm.sh vietnam-beta apply --release=vietnam-user-service --release=vietnam-sfu
+```
