@@ -40,9 +40,16 @@
     "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-beta",
     "static_pull_secret": "ecr-registry-vn",
 
+    "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
+    "sfu_manager_image_tag": "latest",
+    "sfu_manager_image_pull_secrets": "ecr-registry-infra",
+
+    "sfu_image_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu",
+    "sfu_image_tag": "latest",
+    "sfu_image_pull_secrets": "ecr-registry",
+
 
     "image_versions": {
-        "kl2_static": "ecedc13-vietnam",
-        "sfu_manager": "a7e5b75"
+        "kl2_static": "ecedc13-vietnam"
     }
 }

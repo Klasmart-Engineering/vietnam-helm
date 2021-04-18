@@ -16,14 +16,14 @@ spec:
         redis-client: "true"
     spec:
       serviceAccountName: {{ include "sfu.fullname" . }}-serviceaccount
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.sfuManagerImage.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        image: "{{ .Values.sfuManagerImage.repository }}:{{ .Values.sfuManagerImage.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.sfuManagerImage.pullPolicy }}"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         env:
