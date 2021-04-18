@@ -6,6 +6,9 @@ ENV=$1
 CMD=${2:-apply}
 env_validate "$ENV"
 
+# if the 2nd arg starts with a dash, it means the helm command is skipped and a flag
+# e.g. `--release=*` is used in its place. We also default the helm cmd to `apply` in this case
+[[ $CMD == -* ]] && CMD="apply"
 
 PROVIDER=$(../scripts/python/env_var.py $ENV "provider")
 
@@ -52,6 +55,7 @@ done
 
 # Helm
 echo -e "\nRunning Helm"
+echo "helmfile command: $CMD"
 [[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
 [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 pushd helm
