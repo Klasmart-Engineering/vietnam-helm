@@ -15,7 +15,9 @@ It is assumed that you have the appropriate AWS (`~/.aws/credentials`) and Kuber
 configuration setup and your environment variables are setup such that the correct AWS account and correct
 Kubernetes cluster are targetted.
 
-You'll also need `pyyaml`. Example installation on MacOS is `python3 -m pip install pyyaml` - adapt to your system accordingly.
+You'll also need:
+- `pyyaml` - example installation on MacOS is `python3 -m pip install pyyaml` - adapt to your specific system accordingly
+- `jq` - example installation on MacOS is `brew install jq` - adapt to your specific system accordingly
 
 ## Installation
 
