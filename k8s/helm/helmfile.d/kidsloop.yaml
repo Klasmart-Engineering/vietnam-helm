@@ -259,8 +259,11 @@ releases:
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.sfu_gateway_image_repository }}
+          tag: {{ .Values.sfu_gateway_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
       - ingress:
           tls:
             - endpoint:
