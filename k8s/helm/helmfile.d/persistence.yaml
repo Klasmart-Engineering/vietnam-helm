@@ -30,6 +30,7 @@ releases:
     namespace: persistence
     chart: bitnami/redis
     version: ~11.3.4
+    condition: helm_redis.enabled
     values:
       - cluster:
           slaveCount: 3
@@ -74,6 +75,7 @@ releases:
     namespace: persistence
     chart: bitnami/postgresql-ha
     version: ~6.7.0
+    condition: helm_postgresql.enabled
     values:
       - global:
           storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
@@ -100,6 +102,7 @@ releases:
     namespace: persistence
     chart: bitnami/mysql
     version: ~8.0.0
+    condition: helm_mysql.enabled
     values:
       - auth:
           existingSecret: mysql

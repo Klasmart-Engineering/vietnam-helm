@@ -25,17 +25,15 @@ repositories:
 
 releases:
 
-  {{- if .Values.helm_cert_manager.enabled }}
-  
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
     version: ~1.0.4
+    condition: helm_cert_manager.enabled
     values:
       - installCRDs: true
 
   - name: letsencrypt
     namespace: cert-manager
     chart: ../charts/letsencrypt
-
-  {{- end }} 
+    condition: helm_cert_manager.enabled

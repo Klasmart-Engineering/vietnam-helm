@@ -35,6 +35,7 @@ releases:
     namespace: default
     chart: ingress-nginx/ingress-nginx
     version: 3.23.0
+    condition: helm_nginx_ingress.enabled
 
 
   {{- else if eq .Values.provider "gcp" }}
