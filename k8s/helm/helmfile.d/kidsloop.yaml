@@ -1,7 +1,10 @@
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -42,7 +45,7 @@ releases:
   # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
   # images from the Kidsloop docker ECR.
 
-{{- if eq .Values.provider "bizflycloud" }}
+{{- if .Values.helm_ecr_token_vietnam.enabled }}
   - name: ecr-token-vn
     namespace: okc
     chart: ../charts/ecr-token

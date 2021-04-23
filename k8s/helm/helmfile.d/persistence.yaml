@@ -3,9 +3,12 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -21,7 +24,7 @@ environments:
 
 releases:
 
-  {{- if eq .Values.provider "bizflycloud" }}
+  {{- if .Values.helm_redis.enabled }}
 
   - name: redis
     namespace: persistence
@@ -63,6 +66,10 @@ releases:
             cpu: 200m
             memory: 512Mi
 
+  {{- end}}
+
+  {{- if .Values.helm_postgresql.enabled }}
+
   - name: postgresql-ha
     namespace: persistence
     chart: bitnami/postgresql-ha
@@ -84,6 +91,10 @@ releases:
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
             CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
+  {{- end}}
+
+  {{- if .Values.helm_mysql.enabled }}
 
   - name: mysql
     namespace: persistence

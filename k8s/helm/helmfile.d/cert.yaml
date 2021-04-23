@@ -1,7 +1,10 @@
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml      
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -22,7 +25,7 @@ repositories:
 
 releases:
 
-  {{- if eq .Values.provider "bizflycloud" }}
+  {{- if .Values.helm_cert_manager.enabled }}
   
   - name: cert-manager
     namespace: cert-manager
@@ -35,6 +38,4 @@ releases:
     namespace: cert-manager
     chart: ../charts/letsencrypt
 
-  {{- end }}  
-
-  
+  {{- end }} 

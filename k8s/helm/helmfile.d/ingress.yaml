@@ -1,7 +1,10 @@
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -27,7 +30,7 @@ releases:
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
 
-  {{- if eq .Values.provider "bizflycloud" }}
+  {{- if .Values.helm_nginx_ingress.enabled }}
   - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
