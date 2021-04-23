@@ -26,7 +26,7 @@ releases:
   # images from the Kidsloop docker ECR.
 
   - name: ecr-token
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/ecr-token
     version: ~0.1.0
     values:
@@ -44,10 +44,9 @@ releases:
   # ---------------------------------------------------------------------------------------
   # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
   # images from the Kidsloop docker ECR.
-
-{{- if .Values.helm_ecr_token_vietnam.enabled }}
+ 
   - name: ecr-token-vn
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/ecr-token
     version: ~0.1.0
     condition: helm_ecr_token_vietnam.enabled
@@ -61,15 +60,13 @@ releases:
           limits:
             cpu: 200m
             memory: 200Mi
-{{- end }}
-
 
   # HUB
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
   
   - name: vietnam-hub
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/hub
     values:
       - provider: {{ .Values.provider }}
@@ -102,7 +99,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-kl2
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/kl2
     values:
       - provider: {{ .Values.provider }}
@@ -157,7 +154,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-kl2-static
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/kl2-static
     values:
       - provider: {{ .Values.provider }}
@@ -190,7 +187,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-live
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live
     values:
       - provider: {{ .Values.provider }}
@@ -225,7 +222,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-sfu
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu
     values:
       - image:
@@ -254,7 +251,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-sfu-gateway
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu-gateway
     values:
       - provider: {{ .Values.provider }}
@@ -286,7 +283,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-static
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/static
     values:
       - provider: {{ .Values.provider }}
@@ -319,7 +316,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-user-service
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:
       - provider: {{ .Values.provider }}

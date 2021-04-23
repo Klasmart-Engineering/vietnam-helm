@@ -24,8 +24,6 @@ environments:
 
 releases:
 
-  {{- if .Values.helm_redis.enabled }}
-
   - name: redis
     namespace: persistence
     chart: bitnami/redis
@@ -67,10 +65,6 @@ releases:
             cpu: 200m
             memory: 512Mi
 
-  {{- end}}
-
-  {{- if .Values.helm_postgresql.enabled }}
-
   - name: postgresql-ha
     namespace: persistence
     chart: bitnami/postgresql-ha
@@ -93,10 +87,6 @@ releases:
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
             CREATE EXTENSION IF NOT EXISTS "pg_trgm";
-
-  {{- end}}
-
-  {{- if .Values.helm_mysql.enabled }}
 
   - name: mysql
     namespace: persistence
@@ -127,5 +117,3 @@ releases:
           requests:
             memory: 256Mi
             cpu: 250m
-
-  {{- end}}

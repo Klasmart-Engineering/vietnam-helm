@@ -30,7 +30,6 @@ releases:
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
 
-  {{- if .Values.helm_nginx_ingress.enabled }}
   - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
@@ -38,7 +37,7 @@ releases:
     condition: helm_nginx_ingress.enabled
 
 
-  {{- else if eq .Values.provider "gcp" }}
+  {{- if eq .Values.provider "gcp" }}
   
   - name: ingress
     namespace: okc
