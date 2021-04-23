@@ -1,6 +1,6 @@
 {
     "provider": "bizflycloud",
-    "k8s_namespace_kidsloop": "okc",
+    "k8s_namespace_kidsloop": "klvn",
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".dev.kidsloop.vn",
 
