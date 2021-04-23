@@ -23,15 +23,9 @@
     "helm_cert_manager": {
         "enabled": true
     },
-    "helm_redis": {
+    "helm_persistence": {
         "enabled": false
     },
-    "helm_postgresql": {
-        "enabled": false
-    },    
-    "helm_mysql": {
-        "enabled": false
-    },   
     "helm_nginx_ingress": {
         "enabled": false
     },   
