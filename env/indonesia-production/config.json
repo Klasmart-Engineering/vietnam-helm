@@ -72,5 +72,8 @@
     "static_pull_secret": "ecr-registry",
     
     "base_url_user": "https://api.kidsloop.id/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net"
+    "base_url_h5p": "https://h5p.kidsloop.net",
+
+    "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest",
+    "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token"
 }

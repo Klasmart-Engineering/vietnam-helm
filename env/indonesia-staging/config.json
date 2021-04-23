@@ -76,5 +76,8 @@
     "image_versions": {
         "kl2_static": "ecedc13-indonesia-staging",
         "sfu_manager": "a7e5b75"
-    }
+    },
+
+    "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest",
+    "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token"
 }
