@@ -31,7 +31,7 @@ releases:
     version: ~0.1.0
     values:
       - suffix: ""
-      - image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest
+      - image: {{ .Values.ecr_token_repository }}
       - resources:
           requests:
             cpu: 100m
@@ -52,7 +52,7 @@ releases:
     condition: helm_ecr_token_vietnam.enabled
     values:
       - suffix: "-vn"
-      - image: 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token
+      - image: {{ .Values.ecr_token_vn_repository }}
       - resources:
           requests:
             cpu: 100m
