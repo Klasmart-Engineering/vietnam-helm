@@ -33,9 +33,24 @@ releases:
   - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
-    version: 3.23.0
     condition: helm_nginx_ingress.enabled
-
+    version: 3.29.0
+    values:
+      - controller:
+          config:
+            ssl-redirect: "false"
+            ssl-protocols: "SSLv3 TLSv1 TLSv1.1 TLSv1.2"
+            use-forwarded-headers: "true"
+            forwarded-for-header: "true"
+            proxy-add-original-uri-header: "true"
+            use-gzip: "true"
+          service:
+            annotations:
+              nginx.ingress.kubernetes.io/configuration-snippet: |
+                more_set_headers "Access-Control-Allow-Origin: $http_origin";
+              nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+              nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
+              nginx.ingress.kubernetes.io/enable-cors: "true"
 
   {{- if eq .Values.provider "gcp" }}
   
