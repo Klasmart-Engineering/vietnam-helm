@@ -1,9 +1,8 @@
 {
-    "provider": "bizflycloud",
+    "provider": "vngcloud",
     "k8s_namespace_kidsloop": "okc",
     "k8s_service_type": "ClusterIP",
-    "kl_domain": ".kidsloop.vn",
-    "domain": "kidsloop.vn",
+    "kl_domain": "-vng.dev.kidsloop.vn",
 
     "redis_host": "redis-master.persistence.svc",
     "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
@@ -12,8 +11,8 @@
     "mysql_host": "mysql-primary.persistence.svc",
     "mysql_username": "dbc_yyd",
     "mysql_database": "kidsloop2",
-    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-prd",
-    "persistentvolumeclaim_storage_class": "enterprise-hdd",
+    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-sre-dev",
+    "persistentvolumeclaim_storage_class": "premium-hdd",
 
     "helm_prometheus": {
         "enabled": true
@@ -25,33 +24,33 @@
         "enabled": true
     },
     "helm_redis": {
-        "enabled": true
+        "enabled": false
     },
     "helm_postgresql": {
-        "enabled": true
+        "enabled": false
     },    
     "helm_mysql": {
-        "enabled": true
+        "enabled": false
     },   
     "helm_nginx_ingress": {
-        "enabled": true
+        "enabled": false
     },   
     "helm_ecr_token_vietnam": {
         "enabled": true
     },   
-           
-    "base_url_user": "https://api.kidsloop.vn/user/",
+
+    "base_url_user": "https://api.dev.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
         "endpoint": "https://ss-hn-1.bizflycloud.vn",
         "region": "us-east-1",
-        "bucket": "ssb-hanoi-prd-kidsloop",
+        "bucket": "ssb-hanoi-sre-dev-kidsloop",
         "protocol": "s3",
         "download_mode": "native"
     },
 
-    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-prod",
+    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-sre-dev",
     "static_pull_secret": "ecr-registry-vn",
 
 

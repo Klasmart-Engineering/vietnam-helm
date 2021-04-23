@@ -12,7 +12,25 @@
     "helm_fluentbit": {
         "enabled": false
     },
-   
+    "helm_cert_manager": {
+        "enabled": false
+    },
+    "helm_redis": {
+        "enabled": false
+    },
+    "helm_postgresql": {
+        "enabled": false
+    },    
+    "helm_mysql": {
+        "enabled": false
+    },   
+    "helm_nginx_ingress": {
+        "enabled": false
+    },   
+    "helm_ecr_token_vietnam": {
+        "enabled": false
+    },   
+        
     "gcp": {
         "mysql": {
             "name":      "kidsloop-mysql-99998",

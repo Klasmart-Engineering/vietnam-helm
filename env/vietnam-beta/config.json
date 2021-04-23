@@ -21,7 +21,25 @@
     "helm_fluentbit": {
         "enabled": true
     },
-   
+    "helm_cert_manager": {
+        "enabled": true
+    },
+    "helm_redis": {
+        "enabled": true
+    },
+    "helm_postgresql": {
+        "enabled": true
+    },    
+    "helm_mysql": {
+        "enabled": true
+    },   
+    "helm_nginx_ingress": {
+        "enabled": true
+    },   
+    "helm_ecr_token_vietnam": {
+        "enabled": true
+    },   
+
     "base_url_user": "https://api-beta.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
