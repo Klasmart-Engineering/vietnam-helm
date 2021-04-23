@@ -38,6 +38,9 @@
     "helm_ecr_token_vietnam": {
         "enabled": true
     },   
+    "helm_ecr_token_infra": {
+        "enabled": true
+    },
 
     "base_url_user": "https://api.dev.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
@@ -60,5 +63,6 @@
     },
 
     "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:sre-dev",
-    "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token:latest"
+    "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token:latest",
+    "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest"
 }
