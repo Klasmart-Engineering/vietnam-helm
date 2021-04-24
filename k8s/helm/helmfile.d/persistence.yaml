@@ -3,9 +3,12 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -21,12 +24,11 @@ environments:
 
 releases:
 
-  {{- if eq .Values.provider "bizflycloud" }}
-
   - name: redis
     namespace: persistence
     chart: bitnami/redis
     version: ~11.3.4
+    condition: helm_persistence.enabled
     values:
       - cluster:
           slaveCount: 3
@@ -67,6 +69,7 @@ releases:
     namespace: persistence
     chart: bitnami/postgresql-ha
     version: ~6.7.0
+    condition: helm_persistence.enabled
     values:
       - global:
           storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
@@ -89,6 +92,7 @@ releases:
     namespace: persistence
     chart: bitnami/mysql
     version: ~8.0.0
+    condition: helm_persistence.enabled
     values:
       - auth:
           existingSecret: mysql
@@ -113,5 +117,3 @@ releases:
           requests:
             memory: 256Mi
             cpu: 250m
-
-  {{- end}}

@@ -1,19 +1,18 @@
 {
-    "provider": "bizflycloud",
-    "k8s_namespace_kidsloop": "okc",
+    "provider": "vngcloud",
+    "k8s_namespace_kidsloop": "klvn",
     "k8s_service_type": "ClusterIP",
-    "kl_domain": "-beta.kidsloop.vn",
-    "domain": "kidsloop.vn",
+    "kl_domain": "-vng.dev.kidsloop.vn",
 
-    "redis_host": "redis-master.persistence.svc",
-    "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
-    "postgresql_username": "postgres",
+    "redis_host": "10.0.1.10",
+    "postgresql_host": "10.0.1.9",
+    "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloop",
-    "mysql_host": "mysql-primary.persistence.svc",
-    "mysql_username": "dbc_yyd",
+    "mysql_host": "10.0.1.6",
+    "mysql_username": "kidslooproot",
     "mysql_database": "kidsloop2",
-    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-dev",
-    "persistentvolumeclaim_storage_class": "premium-hdd",
+    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-sre-dev",
+    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
     "helm_prometheus": {
         "enabled": true
@@ -25,10 +24,10 @@
         "enabled": true
     },
     "helm_persistence": {
-        "enabled": true
+        "enabled": false
     },
     "helm_nginx_ingress": {
-        "enabled": true
+        "enabled": false
     },   
     "helm_ecr_token_vietnam": {
         "enabled": true
@@ -37,22 +36,18 @@
         "enabled": true
     },
 
-    "base_url_user": "https://api-beta.kidsloop.vn/user/",
+    "base_url_user": "https://api.dev.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
         "endpoint": "https://ss-hn-1.bizflycloud.vn",
         "region": "us-east-1",
-        "bucket": "ssb-hanoi-dev-kidsloop",
+        "bucket": "ssb-hanoi-sre-dev-kidsloop",
         "protocol": "s3",
         "download_mode": "native"
     },
 
-    "user_service_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "latest",
-    "user_service_image_pull_secrets": "ecr-registry-vn",
-
-    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-beta",
+    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-sre-dev",
     "static_pull_secret": "ecr-registry-vn",
 
 
