@@ -37,6 +37,11 @@ spec:
             value: "8080"
           - name: ROUTE_PREFIX
             value: "/user"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: database-url
           - name: POSTGRES_USERNAME
             value: "{{ .Values.postgresql_username }}"
           {{- if eq .Values.provider "gcp" }}

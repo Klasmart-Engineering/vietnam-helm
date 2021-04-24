@@ -48,6 +48,10 @@
     },
 
     "storage": "",
+
+    "user_service_image_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service",
+    "user_service_image_tag": "latest",
+    "user_service_image_pull_secrets": "ecr-registry",
     
     "static_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-hub",
     "static_pull_secret": "ecr-registry",
