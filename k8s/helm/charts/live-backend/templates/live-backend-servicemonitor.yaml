@@ -2,9 +2,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "live.fullname" . }}-sm
+  name: {{ include "live-backend.fullname" . }}-sm
   labels:
-    {{- include "live.labels" . | nindent 4 }}
+    {{- include "live-backend.labels" . | nindent 4 }}
 spec:
   endpoints:
   - port: http

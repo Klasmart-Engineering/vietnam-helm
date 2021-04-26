@@ -1,12 +1,12 @@
 {{- if not (eq .Values.provider "gcp") }}
 
-{{ $fullname := include "kl2-static.fullname" .}}
+{{ $fullname := include "cms-backend.fullname" .}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullname }}-ingress
   labels:
-    {{- include "kl2-static.labels" . | nindent 4 }}
+    {{- include "cms-backend.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -35,4 +35,4 @@ spec:
         {{- end }}
   {{- end }}
 
-{{- end}}
+{{- end }}

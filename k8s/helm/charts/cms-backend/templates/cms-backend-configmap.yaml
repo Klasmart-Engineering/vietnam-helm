@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "kl2.fullname" . }}-cm
+  name: {{ include "cms-backend.fullname" . }}-cm
 data:
   {{- toYaml .Values.configuration | nindent 2 }}
 

@@ -83,16 +83,17 @@ releases:
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
   
-  - name: vietnam-hub
+  - name: hub
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/hub
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
-          - name: {{ .Values.static_pull_secret }}
+          - name: {{ .Values.hub_image_pull_secrets }}
       - image:
-          repository: {{ .Values.static_repository }}
+          repository: {{ .Values.hub_image_repository }}
+          tag: {{ .Values.hub_image_tag }}
       - ingress:
           tls:
             - endpoint:
@@ -116,28 +117,31 @@ releases:
   # KL2
   # ---------------------------------------------------------------------------------------
   
-  - name: vietnam-kl2
+  - name: cms-backend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/kl2
+    chart: ../charts/cms-backend
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.cms_backend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          tag: {{ .Values.cms_backend_image_tag }}
+      - imagePullSecrets:
+          - name: {{ .Values.cms_backend_image_pull_secrets }}      
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Environment.Values.terraform_project }}
       - region: {{ .Environment.Values.terraform_region }}
       - db_instance: {{ .Environment.Values.gcp.mysql.name }}
       - mysql_proxy_ip:  {{ .Environment.Values.mysql_proxy_ip}}
       {{- end}}
-      - imagePullSecrets:
-          - name: ecr-registry
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - kl2{{ .Values.kl_domain }}
-                secretName: "letsencrypt-kl2{{ .Values.kl_domain }}"
+                  - cms{{ .Values.kl_domain }}
+                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
           hosts:
-            - host: kl2{{ .Values.kl_domain }}
+            - host: cms{{ .Values.kl_domain }}
               paths:
                 - "/v1"
       
@@ -155,8 +159,9 @@ releases:
           db_username: {{ .Values.mysql_username }}
           redis_host: {{ .Values.redis_host }}
           ams_endpoint: https://api{{ .Values.kl_domain }}/user
-          cors_domain_list: https://*{{ .Values.kl_domain }}
+          cors_domain_list: https://hub{{ .Values.kl_domain }}
           {{ if .Values.storage }}
+          storage_accelerate: "false"
           storage_endpoint: {{ .Values.storage.endpoint }}
           storage_region: {{ .Values.storage.region }}
           storage_bucket: {{ .Values.storage.bucket }}
@@ -168,29 +173,30 @@ releases:
           
 
 
-  # KL2 STATIC
+  # CMS FRONTEND
   # ---------------------------------------------------------------------------------------
   
-  - name: vietnam-kl2-static
+  - name: cms-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/kl2-static
+    chart: ../charts/cms-frontend
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.cms_frontend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          tag: {{ .Values.cms_frontend_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.cms_frontend_image_pull_secrets }}
       - ingress:
           tls:
             - endpoint:
                 hosts:
-                  - kl2{{ .Values.kl_domain }}
-                secretName: "letsencrypt-kl2{{ .Values.kl_domain }}"
+                  - cms{{ .Values.kl_domain }}
+                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
           hosts:
-            - host: kl2{{ .Values.kl_domain }}
+            - host: cms{{ .Values.kl_domain }}
               paths:
                 - "/"
-      - image:
-          tag: {{ .Values | get "image_versions.kl2_static" .Environment.Name }}
       - resources:
           requests:
             cpu: 100m
@@ -201,18 +207,21 @@ releases:
  
  
  
-  # LIVE BE
+  # LIVE BACKEND
   # ---------------------------------------------------------------------------------------
 
-  - name: vietnam-live
+  - name: live-backend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/live
+    chart: ../charts/live-backend
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - prometheus_enabled: {{ .Values.helm_prometheus.enabled }}
+      - image:
+          repository: {{ .Values.live_backend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          tag: {{ .Values.live_backend_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.live_backend_image_pull_secrets }}
       - ingress:
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
@@ -239,7 +248,7 @@ releases:
   # SFU
   # ---------------------------------------------------------------------------------------
 
-  - name: vietnam-sfu
+  - name: sfu
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu
     values:
@@ -272,7 +281,7 @@ releases:
   # SFU-GATEWAY
   # ---------------------------------------------------------------------------------------
 
-  - name: vietnam-sfu-gateway
+  - name: sfu-gateway
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu-gateway
     values:
@@ -304,17 +313,20 @@ releases:
 
 
       
-  # LIVE STATIC
+  # LIVE FRONTEND
   # ---------------------------------------------------------------------------------------
 
-  - name: vietnam-static
+  - name: live-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/static
+    chart: ../charts/live-frontend
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.live_frontend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          tag: {{ .Values.live_frontend_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.live_frontend_image_pull_secrets }}
       - ingress:
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
@@ -340,7 +352,7 @@ releases:
   # USER SERVICE
   # ---------------------------------------------------------------------------------------
   
-  - name: vietnam-user-service
+  - name: user-service
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:

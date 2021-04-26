@@ -51,8 +51,9 @@
     "user_service_image_tag": "latest",
     "user_service_image_pull_secrets": "ecr-registry-vn",
 
-    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-sre-dev",
-    "static_pull_secret": "ecr-registry-vn",
+    "hub_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "sre-dev",
+    "hub_image_pull_secrets": "ecr-registry-vn",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "latest",
@@ -66,11 +67,21 @@
     "sfu_gateway_image_tag": "KI-196-bitbucket-pipeline-sfu-gw-latest",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
+    "live_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "sre-dev",
+    "live_frontend_image_pull_secrets": "ecr-registry-vn",
 
-    "image_versions": {
-        "kl2_static": "ecedc13-vietnam",
-        "sfu_manager": "a7e5b75"
-    },
+    "live_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "latest",
+    "live_backend_image_pull_secrets": "ecr-registry-vn",
+
+    "cms_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-frontend",
+    "cms_frontend_image_tag": "sre-dev",
+    "cms_frontend_image_pull_secrets": "ecr-registry-vn",
+
+    "cms_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-backend",
+    "cms_backend_image_tag": "latest",
+    "cms_backend_image_pull_secrets": "ecr-registry-vn",
 
     "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:sre-dev",
     "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token:latest",

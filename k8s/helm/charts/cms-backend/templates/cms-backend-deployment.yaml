@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kl2.fullname" . }}
+  name: {{ include "cms-backend.fullname" . }}
   labels:
-    {{- include "kl2.labels" . | nindent 4 }}
+    {{- include "cms-backend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "kl2.selectorLabels" . | nindent 6 }}
+      {{- include "cms-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "kl2.selectorLabels" . | nindent 8 }}
+        {{- include "cms-backend.selectorLabels" . | nindent 8 }}
         redis-client: "true"
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/kl2-configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/cms-backend-configmap.yaml") . | sha256sum }}
     spec:
       {{- if .Values.hostNetworking }}
       hostNetwork: true
@@ -45,7 +45,7 @@ spec:
                 key: mysql-password
         envFrom:
           - configMapRef:
-              name: {{ include "kl2.fullname" . }}-cm
+              name: {{ include "cms-backend.fullname" . }}-cm
         volumeMounts:
           - name: sql-migration
             mountPath: /flyway/sql
@@ -71,7 +71,7 @@ spec:
             containerPort: 8088
         envFrom:
           - configMapRef:
-              name: {{ include "kl2.fullname" . }}-cm
+              name: {{ include "cms-backend.fullname" . }}-cm
         env:
           - name: MYSQL_PASSWORD
             valueFrom:
@@ -101,11 +101,11 @@ spec:
       volumes:
         - name: sql-migration
           configMap:
-            name: {{ include "kl2.fullname" . }}-sql-cm
+            name: {{ include "cms-backend.fullname" . }}-sql-cm
         {{ if .Values.configuration.storage_endpoint }}
         - name: s3-bucket-secret
           secret:
-            secretName: {{ include "kl2.fullname" . }}-s3-secret
+            secretName: {{ include "cms-backend.fullname" . }}-s3-secret
         {{ end }}
         
       {{- if eq .Values.provider "gcp" }}

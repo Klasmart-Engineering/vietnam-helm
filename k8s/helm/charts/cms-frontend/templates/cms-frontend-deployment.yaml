@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "live.fullname" . }}
+  name: {{ include "cms-frontend.fullname" . }}
   labels:
-    {{- include "live.labels" . | nindent 4 }}
+    {{- include "cms-frontend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "live.selectorLabels" . | nindent 6 }}
+      {{- include "cms-frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "live.selectorLabels" . | nindent 8 }}
+        {{- include "cms-frontend.selectorLabels" . | nindent 8 }}
         redis-client: "true"
     spec:
       {{- if .Values.hostNetworking }}
@@ -31,16 +31,6 @@ spec:
           - name: http
             protocol: TCP
             containerPort: 8080
- 
-        env:
-          - name: NODE_ENV
-            value: "beta"
-          - name: PORT
-            value: "8080"
-          - name: REDIS_HOST
-            value: {{ .Values.redisHost }}
-          - name: REDIS_PORT
-            value: {{ .Values.redisPort | quote }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
 

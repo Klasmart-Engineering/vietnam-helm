@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "static.fullname" . }}
+  name: {{ include "live-frontend.fullname" . }}
   labels:
-    {{- include "static.labels" . | nindent 4 }}
+    {{- include "live-frontend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "static.selectorLabels" . | nindent 6 }}
+      {{- include "live-frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "static.selectorLabels" . | nindent 8 }}
+        {{- include "live-frontend.selectorLabels" . | nindent 8 }}
         redis-client: "true"
     spec:
       {{- if .Values.hostNetworking }}

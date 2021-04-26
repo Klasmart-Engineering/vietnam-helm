@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "kl2-static.fullname" . }}-svc
+  name: {{ include "cms-frontend.fullname" . }}-svc
   labels:
-    {{- include "kl2-static.labels" . | nindent 4 }}
+    {{- include "cms-frontend.labels" . | nindent 4 }}
   {{- if eq .Values.provider "gcp"}}
   annotations:
-    cloud.google.com/backend-config: '{"default": "kl2-static"}'
+    cloud.google.com/backend-config: '{"default": "cms-frontend"}'
   {{- end}}
 spec:
   ports:
@@ -15,5 +15,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    {{- include "kl2-static.selectorLabels" . | nindent 4 }}
+    {{- include "cms-frontend.selectorLabels" . | nindent 4 }}
   type: {{ .Values.serviceType }}
