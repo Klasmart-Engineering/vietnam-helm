@@ -374,14 +374,6 @@ releases:
               paths:
                 - "/user"
       - domain: {{ .Values.domain }}
-      - postgresql_host: {{ .Values.postgresql_host }}
-      - postgresql_username: {{ .Values.postgresql_username }}
-      - postgresql_database: {{ .Values.postgresql_database }}
-      {{- if eq .Values.provider "gcp" }}
-      - postgresql_instance: {{ .Environment.Values.gcp.postgresql.name }}
-      - project: {{ .Environment.Values.terraform_project }}
-      - region: {{ .Environment.Values.terraform_region }}
-      {{- end}}
       - resources:
           requests:
             cpu: 250m
