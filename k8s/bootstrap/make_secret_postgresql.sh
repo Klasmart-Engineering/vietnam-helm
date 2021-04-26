@@ -6,6 +6,10 @@ ENV=$1
 env_validate "$ENV"
 
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+POSTGRESQL_HOST=$(../../scripts/python/env_var.py $ENV postgresql_host)
+POSTGRESQL_USERNAME=$(../../scripts/python/env_var.py $ENV postgresql_username)
+POSTGRESQL_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_database)
+
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
 PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
@@ -19,7 +23,7 @@ fi
 DRY_RUN=${DRY_RUN:-"no"}
 
 POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
-DATABASE_URL="postgres://postgres:$POSTGRESQL_PASSWORD@postgresql-ha-pgpool.persistence.svc/kidsloop"
+DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST/$POSTGRESQL_DATABASE"
 
 kubectl create secret generic postgresql \
   --dry-run=client \
