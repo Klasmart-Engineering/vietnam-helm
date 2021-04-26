@@ -37,12 +37,14 @@ spec:
               fieldPath: metadata.namespace
         - name: SERVICE_NAME
           value: vietnam-sfu
-        image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu:latest
+        # this is only the default value; it is configurable via deploy env vars
+        # see `sfu-configmap.yaml` & `env/*/config.json for more details
+        image: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu:latest
         imagePullPolicy: Always
         name: sfu
       dnsPolicy: ClusterFirstWithHostNet
       enableServiceLinks: true
       hostNetwork: true
       imagePullSecrets:
-      - name: ecr-registry
+      - name: ecr-registry-infra
       restartPolicy: Never
