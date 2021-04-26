@@ -18,11 +18,15 @@ fi
 
 DRY_RUN=${DRY_RUN:-"no"}
 
+POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
+DATABASE_URL="postgres://postgres:$POSTGRESQL_PASSWORD@postgresql-ha-pgpool.persistence.svc/kidsloop"
+
 kubectl create secret generic postgresql \
   --dry-run=client \
   -o yaml \
   -n $NS_PERSISTENCE \
-  --from-literal=postgresql-password="$(pwgen -s 20 1)" \
+  --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
+  --from-literal=database-url="$DATABASE_URL" \
   --from-literal=repmgr-password="$(pwgen -s 20 1)" > postgresql-secret.yaml
 
 
