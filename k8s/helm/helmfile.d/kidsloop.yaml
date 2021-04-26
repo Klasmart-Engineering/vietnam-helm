@@ -83,7 +83,11 @@ releases:
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
   
+<<<<<<< HEAD
   - name: hub
+=======
+  - name: vietnam-hub
+>>>>>>> master
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/hub
     values:
@@ -117,9 +121,15 @@ releases:
   # KL2
   # ---------------------------------------------------------------------------------------
   
+<<<<<<< HEAD
   - name: cms-backend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-backend
+=======
+  - name: vietnam-kl2
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/kl2
+>>>>>>> master
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
@@ -176,9 +186,15 @@ releases:
   # CMS FRONTEND
   # ---------------------------------------------------------------------------------------
   
+<<<<<<< HEAD
   - name: cms-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-frontend
+=======
+  - name: vietnam-kl2-static
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/kl2-static
+>>>>>>> master
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
@@ -210,9 +226,15 @@ releases:
   # LIVE BACKEND
   # ---------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
   - name: live-backend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live-backend
+=======
+  - name: vietnam-live
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/live
+>>>>>>> master
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
@@ -248,7 +270,11 @@ releases:
   # SFU
   # ---------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
   - name: sfu
+=======
+  - name: vietnam-sfu
+>>>>>>> master
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu
     values:
@@ -281,7 +307,11 @@ releases:
   # SFU-GATEWAY
   # ---------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
   - name: sfu-gateway
+=======
+  - name: vietnam-sfu-gateway
+>>>>>>> master
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu-gateway
     values:
@@ -316,9 +346,15 @@ releases:
   # LIVE FRONTEND
   # ---------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
   - name: live-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live-frontend
+=======
+  - name: vietnam-static
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/static
+>>>>>>> master
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
@@ -352,7 +388,11 @@ releases:
   # USER SERVICE
   # ---------------------------------------------------------------------------------------
   
+<<<<<<< HEAD
   - name: user-service
+=======
+  - name: vietnam-user-service
+>>>>>>> master
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:
