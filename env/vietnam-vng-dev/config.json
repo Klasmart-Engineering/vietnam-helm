@@ -3,6 +3,7 @@
     "k8s_namespace_kidsloop": "klvn",
     "k8s_service_type": "ClusterIP",
     "kl_domain": "-vng.dev.kidsloop.vn",
+    "domain": "kidsloop.vn",
 
     "redis_host": "10.0.1.10",
     "postgresql_host": "10.0.1.9",
@@ -11,14 +12,14 @@
     "mysql_host": "10.0.1.6",
     "mysql_username": "kidslooproot",
     "mysql_database": "kidsloop2",
-    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-sre-dev",
+    "fluentbit_cloudwatch_log_stream": "vn-vngcloud-vng-dev",
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
     "helm_prometheus": {
-        "enabled": true
+        "enabled": false
     },
     "helm_fluentbit": {
-        "enabled": true
+        "enabled": false
     },
     "helm_cert_manager": {
         "enabled": true

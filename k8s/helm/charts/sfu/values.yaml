@@ -20,10 +20,10 @@ redisPort: 6379
 resources: {}
 
 sfuManagerConfiguration:
-  job: "/etc/vietnam-sfu-manager/job.yaml"
+  job: "/etc/sfu-manager/job.yaml"
   desiredPodsGetter: "prometheus"
-  pods: 6
-  promDesiredAvailable: 6
+  pods: 2
+  promDesiredAvailable: 2
   promHost: "http://example.com"
   promAvailableQuery: 'min(sfuCount{type="available"})'
   promTotalQuery: 'max(sfuCount{type="total"})'

@@ -33,7 +33,7 @@ spec:
               fieldPath: metadata.name
         volumeMounts:
         - name: config
-          mountPath: /etc/vietnam-sfu-manager
+          mountPath: /etc/sfu-manager
       volumes:
       - name: config
         configMap:

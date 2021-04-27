@@ -3,6 +3,7 @@
     "k8s_namespace_kidsloop": "klvn",
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".dev.kidsloop.vn",
+    "domain": "kidsloop.vn",
 
     "redis_host": "redis-master.persistence.svc",
     "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
