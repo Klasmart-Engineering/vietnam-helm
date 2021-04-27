@@ -39,7 +39,7 @@ spec:
           value: sfu
         # this is only the default value; it is configurable via deploy env vars
         # see `sfu-configmap.yaml` & `env/*/config.json for more details
-        image: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu:latest
+        image: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu:ki-168-bitbucket-pipeline-sfu-23
         imagePullPolicy: Always
         name: sfu
       dnsPolicy: ClusterFirstWithHostNet

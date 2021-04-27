@@ -149,7 +149,7 @@ func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job, desiredPodsCha
 					zap.Int("newJobs", 1),
 					zap.Int("sfuCount", len(filteredJobs)))
 
-				job.Name = fmt.Sprintf("vietnam-sfu-%s", rand.String(6))
+				job.Name = fmt.Sprintf("sfu-%s", rand.String(6))
 				job.Namespace = namespace
 
 				isController := true
