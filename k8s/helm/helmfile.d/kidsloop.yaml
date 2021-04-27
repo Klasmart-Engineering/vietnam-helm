@@ -1,7 +1,10 @@
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -23,12 +26,12 @@ releases:
   # images from the Kidsloop docker ECR.
 
   - name: ecr-token
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/ecr-token
     version: ~0.1.0
     values:
       - suffix: ""
-      - image: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest
+      - image: {{ .Values.ecr_token_repository }}
       - resources:
           requests:
             cpu: 100m
@@ -41,15 +44,15 @@ releases:
   # ---------------------------------------------------------------------------------------
   # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
   # images from the Kidsloop docker ECR.
-
-{{- if eq .Values.provider "bizflycloud" }}
+ 
   - name: ecr-token-vn
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/ecr-token
     version: ~0.1.0
+    condition: helm_ecr_token_vietnam.enabled
     values:
       - suffix: "-vn"
-      - image: 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token
+      - image: {{ .Values.ecr_token_vn_repository }}
       - resources:
           requests:
             cpu: 100m
@@ -57,15 +60,31 @@ releases:
           limits:
             cpu: 200m
             memory: 200Mi
-{{- end }}
 
+
+
+  - name: ecr-token-infra
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/ecr-token
+    version: ~0.1.0
+    condition: helm_ecr_token_infra.enabled
+    values:
+      - suffix: "-infra"
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi           
 
   # HUB
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
   
   - name: vietnam-hub
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/hub
     values:
       - provider: {{ .Values.provider }}
@@ -98,7 +117,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-kl2
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/kl2
     values:
       - provider: {{ .Values.provider }}
@@ -153,7 +172,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-kl2-static
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/kl2-static
     values:
       - provider: {{ .Values.provider }}
@@ -186,7 +205,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-live
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live
     values:
       - provider: {{ .Values.provider }}
@@ -221,7 +240,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-sfu
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu
     values:
       - sfuManagerImage:
@@ -254,7 +273,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-sfu-gateway
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/sfu-gateway
     values:
       - provider: {{ .Values.provider }}
@@ -289,7 +308,7 @@ releases:
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-static
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/static
     values:
       - provider: {{ .Values.provider }}
@@ -322,7 +341,7 @@ releases:
   # ---------------------------------------------------------------------------------------
   
   - name: vietnam-user-service
-    namespace: okc
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:
       - provider: {{ .Values.provider }}

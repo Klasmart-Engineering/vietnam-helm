@@ -1,7 +1,10 @@
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
@@ -27,14 +30,29 @@ releases:
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
 
-  {{- if eq .Values.provider "bizflycloud" }}
   - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
-    version: 3.23.0
+    condition: helm_nginx_ingress.enabled
+    version: 3.29.0
+    values:
+      - controller:
+          config:
+            ssl-redirect: "false"
+            ssl-protocols: "SSLv3 TLSv1 TLSv1.1 TLSv1.2"
+            use-forwarded-headers: "true"
+            forwarded-for-header: "true"
+            proxy-add-original-uri-header: "true"
+            use-gzip: "true"
+          service:
+            annotations:
+              nginx.ingress.kubernetes.io/configuration-snippet: |
+                more_set_headers "Access-Control-Allow-Origin: $http_origin";
+              nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+              nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
+              nginx.ingress.kubernetes.io/enable-cors: "true"
 
-
-  {{- else if eq .Values.provider "gcp" }}
+  {{- if eq .Values.provider "gcp" }}
   
   - name: ingress
     namespace: okc

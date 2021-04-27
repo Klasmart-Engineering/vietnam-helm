@@ -6,9 +6,12 @@ repositories:
     url: https://fluent.github.io/helm-charts
 
 environments:
-  vietnam-dev:
+  vietnam-sre-dev:
     values:
-      - ../../../env/vietnam-dev/.env.yaml
+      - ../../../env/vietnam-sre-dev/.env.yaml
+  vietnam-vng-dev:
+    values:
+      - ../../../env/vietnam-vng-dev/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml

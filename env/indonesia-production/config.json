@@ -13,7 +13,22 @@
     "helm_fluentbit": {
         "enabled": false
     },
-   
+    "helm_cert_manager": {
+        "enabled": false
+    },
+    "helm_persistence": {
+        "enabled": false
+    },
+    "helm_nginx_ingress": {
+        "enabled": false
+    },   
+    "helm_ecr_token_vietnam": {
+        "enabled": false
+    },   
+    "helm_ecr_token_infra": {
+        "enabled": false
+    },
+
     "gcp": {
         "mysql": {
             "name":      "kidsloop-mysql-99999",
@@ -70,5 +85,9 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
     
     "base_url_user": "https://api.kidsloop.id/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net"
+    "base_url_h5p": "https://h5p.kidsloop.net",
+
+    "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:latest",
+    "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token",
+    "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest"
 }
