@@ -2,13 +2,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   labels:
-    app.kubernetes.io/instance: vietnam-sfu
+    app.kubernetes.io/instance: sfu
     app.kubernetes.io/name: sfu
     redis-client: "true"
 spec:
   template:
     labels:
-      app.kubernetes.io/instance: vietnam-sfu
+      app.kubernetes.io/instance: sfu
       app.kubernetes.io/name: sfu
       redis-client: "true"
     spec:
@@ -24,7 +24,7 @@ spec:
         - name: NODE_ENV
           value: beta
         - name: REDIS_HOST
-          value: redis-master.default.svc
+          value: redis-master.persistence.svc
         - name: REDIS_PORT
           value: "6379"
         - name: POD_NAME
@@ -36,7 +36,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: SERVICE_NAME
-          value: vietnam-sfu
+          value: sfu
         # this is only the default value; it is configurable via deploy env vars
         # see `sfu-configmap.yaml` & `env/*/config.json for more details
         image: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu:latest
