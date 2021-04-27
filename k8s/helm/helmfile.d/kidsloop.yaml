@@ -182,7 +182,7 @@ releases:
  
  
  
-  # LIVE
+  # LIVE BE
   # ---------------------------------------------------------------------------------------
 
   - name: vietnam-live
@@ -224,14 +224,18 @@ releases:
     namespace: okc
     chart: ../charts/sfu
     values:
-      - image:
-          tag: {{ .Values | get "image_versions.sfu_manager" "latest" }}
+      - sfuManagerImage:
+          repository: {{ .Values.sfu_manager_image_repository }}
+          tag: {{ .Values.sfu_manager_image_tag }}
+          imagePullSecrets:
+            - name: {{ .Values.sfu_manager_image_pull_secrets }}
       - sfuImage:
-          tag: {{ .Values | get "image_versions.sfu" "latest" }}
+          repository: {{ .Values.sfu_image_repository }}
+          tag: {{ .Values.sfu_image_tag | default "latest" }}
+          imagePullSecrets:
+            - name: {{ .Values.sfu_image_pull_secrets }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
-          - name: ecr-registry
       - hostNetworking: true
       - resources:
           requests:
@@ -255,8 +259,11 @@ releases:
     values:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.sfu_gateway_image_repository }}
+          tag: {{ .Values.sfu_gateway_image_tag }}
       - imagePullSecrets:
-          - name: ecr-registry
+          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
       - ingress:
           tls:
             - endpoint:

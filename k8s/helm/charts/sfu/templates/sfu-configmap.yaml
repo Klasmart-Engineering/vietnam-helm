@@ -21,7 +21,7 @@ data:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           {{- end }}
-          {{- with .Values.imagePullSecrets }}
+          {{- with .Values.sfuImage.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
           {{- end }}
