@@ -37,24 +37,11 @@ spec:
             value: "8080"
           - name: ROUTE_PREFIX
             value: "/user"
-          - name: POSTGRES_USERNAME
-            value: "{{ .Values.postgresql_username }}"
-          {{- if eq .Values.provider "gcp" }}
-          - name: POSTGRES_DOMAIN
-            value: "127.0.0.1"
-          {{- else }}
-          - name: POSTGRES_DOMAIN
-            value: "{{ .Values.postgresql_host }}"
-          {{- end }}
-          - name: POSTGRES_PORT
-            value: "5432"
-          - name: POSTGRES_DB
-            value: "{{ .Values.postgresql_database }}"
-          - name: POSTGRES_PASSWORD
+          - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
                 name: postgresql
-                key: postgresql-password
+                key: database-url
             
         resources:
           {{- toYaml .Values.resources | nindent 12 }}

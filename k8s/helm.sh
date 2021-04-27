@@ -6,6 +6,9 @@ ENV=$1
 CMD=${2:-apply}
 env_validate "$ENV"
 
+# if the 2nd arg starts with a dash, it means the helm command is skipped and a flag
+# e.g. `--release=*` is used in its place. We also default the helm cmd to `apply` in this case
+[[ $CMD == -* ]] && CMD="apply"
 
 PROVIDER=$(../scripts/python/env_var.py $ENV "provider")
 
@@ -39,10 +42,24 @@ rm $TFOUTPUT_FILE || true
 # Create single yaml env file
 python3 ../scripts/python/env_all_yaml.py $ENV
 
+# build up some useful helmfile flags
+RELEASES_FLAG=""
+SKIPDEPS_FLAG=""
+
+for VAR in "$@"; do
+    case $VAR in
+        --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
+        --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
+    esac
+done
+
 # Helm
 echo -e "\nRunning Helm"
+echo "helmfile command: $CMD"
+[[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
+[[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 pushd helm
-helmfile -e $ENV $CMD
+helmfile -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
 popd
 
 #rm $CONFIG_FILE  || true
