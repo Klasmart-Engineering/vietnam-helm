@@ -56,9 +56,9 @@
     "hub_image_tag": "production",
     "hub_image_pull_secrets": "ecr-registry-vn",
 
-    "sfu_manager_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "latest",
-    "sfu_manager_image_pull_secrets": "ecr-registry-vn",
+    "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
+    "sfu_manager_image_tag": "vietnam-bfc-production-17",
+    "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
     "sfu_image_tag": "KI-168-bitbucket-pipeline-sfu-latest",
