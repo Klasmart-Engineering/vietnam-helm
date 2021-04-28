@@ -127,7 +127,7 @@ func manageJobs(logger *zap.Logger, jobConfigChan <-chan *v1.Job, desiredPodsCha
 			}
 
 			jobs, err := clientset.BatchV1().Jobs(namespace).List(context.TODO(), metav1.ListOptions{
-				LabelSelector: "app.kubernetes.io/instance=vietnam-sfu",
+				LabelSelector: "app.kubernetes.io/instance=sfu",
 			})
 			if err != nil {
 				panic(err)
