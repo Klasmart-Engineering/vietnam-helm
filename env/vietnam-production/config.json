@@ -57,7 +57,7 @@
     "hub_image_pull_secrets": "ecr-registry-vn",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "vietnam-bfc-production-17",
+    "sfu_manager_image_tag": "vietnam-test-sfu-build-20",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
