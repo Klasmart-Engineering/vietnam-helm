@@ -65,7 +65,7 @@ func main() {
 	goflenfig.EnvPrefix("SFU_MANAGER_")
 	goflenfig.StringVar(&jobConfig, "job", "job.yaml", "The template for creating a job")
 	goflenfig.StringVar(&desiredPodsGetterChoice, "desired-pods-getter", "http", "The desired pod getter to use")
-	goflenfig.IntVar(&initialDesiredPods, "pods", 6, "The inital number of desired pods")
+	goflenfig.IntVar(&initialDesiredPods, "pods", 1, "The inital number of desired pods")
 	// Initalise desired pod getters
 	for _, d := range desiredPodsGetters {
 		d.Init()

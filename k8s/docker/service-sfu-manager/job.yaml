@@ -47,4 +47,4 @@ spec:
       hostNetwork: true
       imagePullSecrets:
       - name: ecr-registry-infra
-      restartPolicy: Never
+      restartPolicy: Always
