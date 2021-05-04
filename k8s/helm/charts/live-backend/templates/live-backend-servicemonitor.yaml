@@ -1,0 +1,17 @@
+{{- if .Values.prometheus_enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "live-backend.fullname" . }}-sm
+  labels:
+    {{- include "live-backend.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: http
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+ {{- end }}

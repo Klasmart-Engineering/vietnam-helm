@@ -28,7 +28,7 @@ releases:
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
-    version: ~1.0.4
+    version: ~1.2.0
     condition: helm_cert_manager.enabled
     values:
       - installCRDs: true

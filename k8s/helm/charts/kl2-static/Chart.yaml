@@ -1,6 +1,0 @@
-apiVersion: v2
-name: kl2-static
-description: KL2 Static Assets Chart
-type: application
-version: 0.1.0
-appVersion: 0.1.0

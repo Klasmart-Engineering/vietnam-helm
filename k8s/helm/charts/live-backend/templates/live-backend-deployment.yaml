@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "live-backend.fullname" . }}
+  labels:
+    {{- include "live-backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "live-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "live-backend.selectorLabels" . | nindent 8 }}
+        redis-client: "true"
+    spec:
+      {{- if .Values.hostNetworking }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+ 
+        env:
+          - name: NODE_ENV
+            value: "beta"
+          - name: PORT
+            value: "8080"
+          - name: REDIS_HOST
+            value: {{ .Values.redisHost }}
+          - name: REDIS_PORT
+            value: {{ .Values.redisPort | quote }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+

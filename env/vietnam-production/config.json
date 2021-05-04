@@ -52,27 +52,38 @@
     "user_service_image_tag": "latest",
     "user_service_image_pull_secrets": "ecr-registry-vn",
 
-    "static_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-prod",
-    "static_pull_secret": "ecr-registry-vn",
+    "hub_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "production",
+    "hub_image_pull_secrets": "ecr-registry-vn",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "latest",
+    "sfu_manager_image_tag": "vietnam-bfc-production-17",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "KI-168-bitbucket-pipeline-sfu-latest",
+    "sfu_image_tag": "ki-168-bitbucket-pipeline-sfu-23",
     "sfu_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "KI-196-bitbucket-pipeline-sfu-gw-latest",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
+    "live_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "production",
+    "live_frontend_image_pull_secrets": "ecr-registry-vn",
 
-    "image_versions": {
-        "kl2_static": "ecedc13-vietnam",
-        "sfu_manager": "a7e5b75"
-    },
+    "live_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "latest",
+    "live_backend_image_pull_secrets": "ecr-registry-vn",
 
+    "cms_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-frontend",
+    "cms_frontend_image_tag": "production",
+    "cms_frontend_image_pull_secrets": "ecr-registry-vn",
+
+    "cms_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-backend",
+    "cms_backend_image_tag": "latest",
+    "cms_backend_image_pull_secrets": "ecr-registry-vn",
+    
     "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:sre-dev",
     "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token:latest",
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest"
