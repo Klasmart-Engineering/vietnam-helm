@@ -52,9 +52,9 @@
     "user_service_image_tag": "latest",
     "user_service_image_pull_secrets": "ecr-registry-vn",
 
-    "hub_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "vng-dev",
-    "hub_image_pull_secrets": "ecr-registry-vn",
+    "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "vn-sre-update-cms-domain-name-vn-test-latest",
+    "hub_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "vietnam-test-sfu-build",
