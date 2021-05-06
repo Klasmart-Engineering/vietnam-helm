@@ -48,9 +48,9 @@
         "download_mode": "native"
     },
 
-    "user_service_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "latest",
-    "user_service_image_pull_secrets": "ecr-registry-vn",
+    "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
+    "user_service_image_tag": "master-latest",
+    "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "vn-sre-update-cms-domain-name-vn-beta-latest",
