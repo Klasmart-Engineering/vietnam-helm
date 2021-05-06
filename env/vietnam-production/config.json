@@ -68,9 +68,9 @@
     "sfu_gateway_image_tag": "KI-196-bitbucket-pipeline-sfu-gw-latest",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
-    "live_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "production",
-    "live_frontend_image_pull_secrets": "ecr-registry-vn",
+    "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "vnsre-56-change-vietnam-env-vn-prod-latest",
+    "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "latest",
