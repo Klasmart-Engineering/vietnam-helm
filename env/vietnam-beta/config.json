@@ -53,7 +53,7 @@
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "vn-sre-update-cms-domain-name-vn-beta-latest",
+    "hub_image_tag": "release-test-vn-beta-latest",
     "hub_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
