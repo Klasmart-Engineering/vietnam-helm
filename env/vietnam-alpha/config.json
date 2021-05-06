@@ -72,9 +72,9 @@
     "live_frontend_image_tag": "vnsre-56-change-vietnam-env-vn-alpha-latest",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
-    "live_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-backend",
-    "live_backend_image_tag": "latest",
-    "live_backend_image_pull_secrets": "ecr-registry-vn",
+    "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "master-latest",
+    "live_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-frontend",
     "cms_frontend_image_tag": "alpha",
