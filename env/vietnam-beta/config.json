@@ -69,7 +69,7 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "vnsre-56-change-vietnam-env-vn-beta-latest",
+    "live_frontend_image_tag": "master-vn-beta-latest",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
