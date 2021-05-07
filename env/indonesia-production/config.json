@@ -77,15 +77,15 @@
     "hub_image_pull_secrets": "ecr-registry",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "latest",
+    "sfu_manager_image_tag": "master-latest",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "KI-168-bitbucket-pipeline-sfu-latest",
+    "sfu_image_tag": "master-latest",
     "sfu_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
-    "sfu_gateway_image_tag": "KI-196-bitbucket-pipeline-sfu-gw-latest",
+    "sfu_gateway_image_tag": "master-latest",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-static",
