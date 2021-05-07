@@ -22,7 +22,17 @@ fi
 
 DRY_RUN=${DRY_RUN:-"no"}
 
-POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
+if [[ $PROVIDER = "vngcloud" ]]; then
+  echo -n "Please input postgresql password:"
+  while read vngcloud_postgresql_password; do
+    if [[ ! -z "$vngcloud_postgresql_password" ]]; then
+      break
+    fi
+  done
+  POSTGRESQL_PASSWORD="$vngcloud_postgresql_password"
+else
+  POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
+fi  
 DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST/$POSTGRESQL_DATABASE"
 
 kubectl create secret generic postgresql \

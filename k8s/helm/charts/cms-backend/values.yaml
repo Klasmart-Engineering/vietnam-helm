@@ -83,7 +83,7 @@ configuration:
   storage_protocol: "s3"
   #
   storage_region: ap-northeast-2
-  # if this is set to be `ture` then all request to resources should be signed
+  # if this is set to be `true` then all request to resources should be signed
   storage_sig_mode: "false"
 
 ingress:

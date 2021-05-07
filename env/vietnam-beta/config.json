@@ -48,13 +48,13 @@
         "download_mode": "native"
     },
 
-    "user_service_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "latest",
-    "user_service_image_pull_secrets": "ecr-registry-vn",
+    "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
+    "user_service_image_tag": "master-latest",
+    "user_service_image_pull_secrets": "ecr-registry-infra",
 
-    "hub_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "beta",
-    "hub_image_pull_secrets": "ecr-registry-vn",
+    "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "release-test-vn-beta-latest",
+    "hub_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "master-latest",
@@ -68,13 +68,13 @@
     "sfu_gateway_image_tag": "master-latest",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
-    "live_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "beta",
-    "live_frontend_image_pull_secrets": "ecr-registry-vn",
+    "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "master-vn-beta-latest",
+    "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
-    "live_backend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-live-backend",
-    "live_backend_image_tag": "latest",
-    "live_backend_image_pull_secrets": "ecr-registry-vn",
+    "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "master-latest",
+    "live_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-cms-frontend",
     "cms_frontend_image_tag": "beta",
