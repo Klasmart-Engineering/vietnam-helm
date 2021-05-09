@@ -1,7 +1,4 @@
 environments:
-  vietnam-sre-dev:
-    values:
-      - ../../../env/vietnam-sre-dev/.env.yaml
   vietnam-alpha:
     values:
       - ../../../env/vietnam-alpha/.env.yaml
