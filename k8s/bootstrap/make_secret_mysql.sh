@@ -19,13 +19,41 @@ fi
 
 DRY_RUN=${DRY_RUN:-"no"}
 
+if [[ $PROVIDER = "vngcloud" ]]; then
+  echo -n "Please input MySQL password:"
+  while read vngcloud_mysql_password; do
+    if [[ ! -z "$vngcloud_mysql_password" ]]; then
+      break
+    fi
+  done
+  MYSQL_PASSWORD="$vngcloud_mysql_password"
+  echo -n "Please input MySQL root password:"
+  while read vngcloud_mysql_root_password; do
+    if [[ ! -z "$vngcloud_mysql_root_password" ]]; then
+      break
+    fi
+  done
+  MYSQL_ROOT_PASSWORD="$vngcloud_mysql_root_password"
+  echo -n "Please input MySQL replication password:"
+  while read vngcloud_mysql_replication_password; do
+    if [[ ! -z "$vngcloud_mysql_replication_password" ]]; then
+      break
+    fi
+  done
+  MYSQL_REP_PASSWORD="$vngcloud_mysql_replication_password"    
+else
+  MYSQL_PASSWORD="$(pwgen -s 20 1)"
+  MYSQL_ROOT_PASSWORD="$(pwgen -s 20 1)"
+  MYSQL_REP_PASSWORD="$(pwgen -s 20 1)"
+fi  
+
 kubectl create secret generic mysql \
   --dry-run=client \
   -o yaml \
   -n $NS_PERSISTENCE \
-  --from-literal=mysql-root-password="$(pwgen -s 20 1)" \
-  --from-literal=mysql-replication-password="$(pwgen -s 20 1)" \
-  --from-literal=mysql-password="$(pwgen -s 20 1)" \
+  --from-literal=mysql-root-password="$MYSQL_ROOT_PASSWORD" \
+  --from-literal=mysql-replication-password="$MYSQL_REP_PASSWORD" \
+  --from-literal=mysql-password="$MYSQL_PASSWORD" \
   > mysql-secret.yaml
 
 
