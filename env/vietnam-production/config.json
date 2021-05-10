@@ -1,34 +1,34 @@
 {
-    "provider": "bizflycloud",
-    "k8s_namespace_kidsloop": "okc",
+    "provider": "vngcloud",
+    "k8s_namespace_kidsloop": "klvn",
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".kidsloop.vn",
     "domain": "kidsloop.vn",
 
-    "redis_host": "redis-master.persistence.svc",
-    "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
-    "postgresql_username": "postgres",
+    "redis_host": "10.0.2.9",
+    "postgresql_host": "10.0.2.4",
+    "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloop",
-    "mysql_host": "mysql-primary.persistence.svc",
-    "mysql_username": "dbc_yyd",
+    "mysql_host": "10.0.2.5",
+    "mysql_username": "kidslooproot",
     "mysql_database": "kidsloop2",
-    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-prd",
-    "persistentvolumeclaim_storage_class": "enterprise-hdd",
+    "fluentbit_cloudwatch_log_stream": "vn-vngcloud-prd",
+    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
     "helm_prometheus": {
-        "enabled": true
+        "enabled": false
     },
     "helm_fluentbit": {
-        "enabled": true
+        "enabled": false
     },
     "helm_cert_manager": {
         "enabled": true
     },
     "helm_persistence": {
-        "enabled": true
+        "enabled": false
     },
     "helm_nginx_ingress": {
-        "enabled": true
+        "enabled": false
     },   
     "helm_ecr_token_vietnam": {
         "enabled": true
@@ -41,9 +41,9 @@
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
-        "endpoint": "https://ss-hn-1.bizflycloud.vn",
-        "region": "us-east-1",
-        "bucket": "ssb-hanoi-prd-kidsloop",
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "region": "HCM01",
+        "bucket": "kidsloop-cms-backend-production",
         "protocol": "s3",
         "download_mode": "native"
     },
@@ -61,7 +61,7 @@
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "master-latest",
+    "sfu_image_tag": "KI-168-bitbucket-pipeline-sfu-latest",
     "sfu_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
