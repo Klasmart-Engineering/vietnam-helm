@@ -49,7 +49,7 @@
     },
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-latest",
+    "user_service_image_tag": "master-1301",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
