@@ -43,9 +43,9 @@
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
-        "endpoint": "https://ss-hn-1.bizflycloud.vn",
-        "region": "us-east-1",
-        "bucket": "ssb-hanoi-dev-kidsloop",
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "region": "HCM01",
+        "bucket": "kidsloop-cms-backend-beta",
         "protocol": "s3",
         "download_mode": "native"
     },
