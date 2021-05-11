@@ -270,7 +270,7 @@ releases:
             cpu: 500m
             memory: 512Mi
       - sfuManagerConfiguration:
-          promHost: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          promHost: {{ .Values.prometheus_host }}
       - redisHost: {{ .Values.redis_host }}
 
 

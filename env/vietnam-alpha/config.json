@@ -15,6 +15,8 @@
     "fluentbit_cloudwatch_log_stream": "vn-vngcloud-alpha",
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
+    "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
+
     "helm_prometheus": {
         "enabled": false
     },
