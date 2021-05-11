@@ -1,34 +1,36 @@
 {
-    "provider": "bizflycloud",
-    "k8s_namespace_kidsloop": "okc",
+    "provider": "vngcloud",
+    "k8s_namespace_kidsloop": "klvn-beta",
     "k8s_service_type": "ClusterIP",
-    "kl_domain": "-beta.kidsloop.vn",
+    "kl_domain": ".beta.kidsloop.vn",
     "domain": "kidsloop.vn",
 
-    "redis_host": "redis-master.persistence.svc",
-    "postgresql_host": "postgresql-ha-pgpool.persistence.svc",
-    "postgresql_username": "postgres",
-    "postgresql_database": "kidsloop",
-    "mysql_host": "mysql-primary.persistence.svc",
-    "mysql_username": "dbc_yyd",
-    "mysql_database": "kidsloop2",
-    "fluentbit_cloudwatch_log_stream": "vn-bizflycloud-dev",
-    "persistentvolumeclaim_storage_class": "premium-hdd",
+    "redis_host": "10.0.1.10",
+    "postgresql_host": "10.0.1.9",
+    "postgresql_username": "kidslooproot",
+    "postgresql_database": "kidsloopbeta",
+    "mysql_host": "10.0.1.6",
+    "mysql_username": "kidslooproot",
+    "mysql_database": "kidsloop2beta",
+    "fluentbit_cloudwatch_log_stream": "vn-vngcloud-beta",
+    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
+    "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
+    
     "helm_prometheus": {
-        "enabled": true
+        "enabled": false
     },
     "helm_fluentbit": {
-        "enabled": true
+        "enabled": false
     },
     "helm_cert_manager": {
-        "enabled": true
+        "enabled": false
     },
     "helm_persistence": {
-        "enabled": true
+        "enabled": false
     },
     "helm_nginx_ingress": {
-        "enabled": true
+        "enabled": false
     },   
     "helm_ecr_token_vietnam": {
         "enabled": true
@@ -37,13 +39,13 @@
         "enabled": true
     },
 
-    "base_url_user": "https://api-beta.kidsloop.vn/user/",
+    "base_url_user": "https://api.beta.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
-        "endpoint": "https://ss-hn-1.bizflycloud.vn",
-        "region": "us-east-1",
-        "bucket": "ssb-hanoi-dev-kidsloop",
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "region": "HCM01",
+        "bucket": "kidsloop-cms-backend-beta",
         "protocol": "s3",
         "download_mode": "native"
     },
