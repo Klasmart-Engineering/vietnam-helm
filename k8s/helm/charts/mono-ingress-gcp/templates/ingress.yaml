@@ -16,7 +16,7 @@ spec:
         paths:
           - path: /*
             backend:
-              serviceName: vietnam-hub-svc
+              serviceName: hub-svc
               servicePort: 80
 
     - host: kl2{{ .Values.domain }}    
@@ -24,12 +24,12 @@ spec:
         paths:
           - path: /*
             backend:
-              serviceName: vietnam-kl2-static-svc
+              serviceName: cms-frontend-svc
               servicePort: 80
 
           - path: /v1/*
             backend:
-              serviceName: vietnam-kl2-svc
+              serviceName: cms-backend-svc
               servicePort: 80
     
     - host: live{{ .Values.domain }}    
@@ -37,17 +37,17 @@ spec:
         paths:
           - path: /*
             backend:
-              serviceName: vietnam-static-svc
+              serviceName: live-frontend-svc
               servicePort: 80
 
           - path: /sfu/*
             backend:
-              serviceName: vietnam-sfu-gateway-svc
+              serviceName: sfu-gateway-svc
               servicePort: 80
 
           - path: /graphql/*
             backend:
-              serviceName: vietnam-live-svc
+              serviceName: live-backend-svc
               servicePort: 80
 
     - host: api{{ .Values.domain }}    
@@ -55,6 +55,33 @@ spec:
         paths:
           - path: /user/*
             backend:
-              serviceName: vietnam-user-service-svc
+              serviceName: user-service-svc
               servicePort: 80
 
+    - host: auth{{ .Values.domain }}    
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: auth-frontend-svc
+              servicePort: 80
+
+          - path: /refresh/*
+            backend:
+              serviceName: auth-backend-svc
+              servicePort: 80
+
+          - path: /signout/*
+            backend:
+              serviceName: auth-backend-svc
+              servicePort: 80
+
+          - path: /transfer/*
+            backend:
+              serviceName: auth-backend-svc
+              servicePort: 80
+
+          - path: /switch/*
+            backend:
+              serviceName: auth-backend-svc
+              servicePort: 80

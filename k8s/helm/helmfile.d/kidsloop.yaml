@@ -141,7 +141,6 @@ releases:
             - host: cms{{ .Values.kl_domain }}
               paths:
                 - "/v1"
-      
       - resources:
           requests:
             cpu: 250m
@@ -158,7 +157,7 @@ releases:
           ams_endpoint: https://api{{ .Values.kl_domain }}/user
           cors_domain_list: https://hub{{ .Values.kl_domain }}
           {{ if .Values.storage }}
-          storage_accelerate: "false"
+          storage_accelerate: "true"
           storage_endpoint: {{ .Values.storage.endpoint }}
           storage_region: {{ .Values.storage.region }}
           storage_bucket: {{ .Values.storage.bucket }}
@@ -344,8 +343,6 @@ releases:
             cpu: 200m
             memory: 400Mi
 
-
-   
   # USER SERVICE
   # ---------------------------------------------------------------------------------------
   
@@ -356,8 +353,8 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
-          repository: {{ .Values.user_service_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
-          tag: {{ .Values.user_service_image_tag }}
+          repository: "{{ .Values.user_service_image_repository }}"
+          tag: "{{ .Values.user_service_image_tag }}"
       - imagePullSecrets:
           - name: {{ .Values.user_service_image_pull_secrets }}
       - ingress:
@@ -371,6 +368,10 @@ releases:
               paths:
                 - "/user"
       - domain: {{ .Values.domain }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      {{- end}}}
       - resources:
           requests:
             cpu: 250m
@@ -378,3 +379,64 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
+
+  # AUTH-BACKEND
+  # ---------------------------------------------------------------------------------------
+  # 
+  
+  - name: auth-backend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/auth-backend
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.auth_backend_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.auth_backend_image_repository }}"
+          tag: {{ .Values.auth_backend_image_tag }}
+      - domain: {{ .Values.domain }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      # - ingress:
+      #     tls:
+      #       - endpoint:
+      #           hosts:
+      #             - hub{{ .Values.kl_domain }}      
+      #           secretName: "letsencrypt-hub{{ .Values.kl_domain }}" 
+      #     hosts:
+      #       - host: hub{{ .Values.kl_domain }}
+      #         paths:
+      #           - "/"
+      # - resources:
+      #     requests:
+      #       cpu: 100m
+      #       memory: 400Mi
+      #     limits:
+      #       cpu: 200m
+      #       memory: 800Mi
+
+
+  # AUTH-FRONTEND
+  # ---------------------------------------------------------------------------------------
+  # 
+  
+  - name: auth-frontend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/auth-frontend
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.auth_frontend_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.auth_frontend_image_repository }}"
+          tag: {{ .Values.auth_frontend_image_tag }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi

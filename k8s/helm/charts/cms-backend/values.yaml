@@ -73,7 +73,7 @@ configuration:
   # DO NOT MODIFY
   show_sql: "true"
   # unused, this is for amazon s3 upload accelerate
-  # storage_accelerate: true
+  storage_accelerate: "true"
   # bucket name
   storage_bucket: cdk-kl2-test-kl2-s3resources
   # if `storage_sig_mode` is set as false, this env can be set to `cloudfront`, all static file path will be returned as $cdn_path/static_file_path, $cdn_path is configured above.

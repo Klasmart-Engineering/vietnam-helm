@@ -1,13 +1,15 @@
-nameOverride: ""
-fullnameOverride: ""
 replicaCount: 1
-imagePullSecrets: []
 
+domain: kidloop.net
 
 image:
-  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend
   pullPolicy: Always
   tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
 
 ingress:
   annotations: {
@@ -23,6 +25,6 @@ ingress:
         secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
       }
   ]
-  
+
 resources: {}
 

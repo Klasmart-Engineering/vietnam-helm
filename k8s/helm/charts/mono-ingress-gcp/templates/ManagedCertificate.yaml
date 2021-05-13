@@ -8,3 +8,4 @@ spec:
     - kl2{{ .Values.domain }}
     - live{{ .Values.domain }}  
     - api{{ .Values.domain }} 
+    - auth{{ .Values.domain }} 

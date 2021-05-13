@@ -22,7 +22,7 @@ REDIS_IP=$(kubectl get redisinstance $REDIS_NAME -n config-connector -o jsonpath
 MYSQL_PROXY_IP=$(kubectl get service cloud-sql-proxy-mysql -n $KIDSLOOP_NAMESPACE -o jsonpath="{.spec .clusterIP}")
 
 echo "{
-    \"mysql_host\": \"$MYSQL_IP\",
+    \"mysql_host\": \"cloud-sql-proxy-mysql\",
     \"mysql_database\": \"$MYSQL_NAME\",
     \"mysql_username\": \"$MYSQL_USER\",
     \"mysql_proxy_ip\": \"$MYSQL_PROXY_IP\",
