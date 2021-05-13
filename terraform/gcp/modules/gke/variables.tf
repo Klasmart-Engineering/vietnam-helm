@@ -36,7 +36,7 @@ variable "maintenance_window" {
 
 variable "node_count_initial" {
   type    = number
-  default = 1
+  default = 2
 }
 
 variable "node_count_min" {
@@ -46,7 +46,7 @@ variable "node_count_min" {
 
 variable "node_count_max" {
   type    = number
-  default = 1
+  default = 3
 }
 
 variable "node_type" {

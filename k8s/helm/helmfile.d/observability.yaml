@@ -24,6 +24,8 @@ environments:
 
 releases:
 
+{{- if ne .Values.provider "gcp" }}
+
   - name: prometheus
     namespace: monitoring
     chart: bitnami/kube-prometheus
@@ -67,3 +69,4 @@ releases:
                 log_stream_prefix k8s-
 
 
+{{- end }}

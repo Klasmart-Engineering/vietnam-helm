@@ -22,6 +22,8 @@ repositories:
 
 releases:
 
+{{- if ne .Values.provider "gcp" }}
+
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
@@ -34,3 +36,6 @@ releases:
     namespace: cert-manager
     chart: ../charts/letsencrypt
     condition: helm_cert_manager.enabled
+
+
+{{- end }}

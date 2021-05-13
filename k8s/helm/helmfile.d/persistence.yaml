@@ -21,6 +21,8 @@ environments:
 
 releases:
 
+{{- if ne .Values.provider "gcp" }}
+
   - name: redis
     namespace: persistence
     chart: bitnami/redis
@@ -114,3 +116,5 @@ releases:
           requests:
             memory: 256Mi
             cpu: 250m
+
+{{- end }}

@@ -14,6 +14,7 @@ echo -e "\nBOOTSTRAP\n"
 echo -e "Enabling Google Services"
 
 gcloud services enable --project $PROJECT \
+  cloudresourcemanager.googleapis.com \
   servicenetworking.googleapis.com \
   servicemanagement.googleapis.com \
   iamcredentials.googleapis.com \

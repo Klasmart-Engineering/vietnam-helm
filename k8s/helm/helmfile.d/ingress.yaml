@@ -26,6 +26,8 @@ releases:
   # ---------------------------------------------------------------------------------------
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
+  
+  {{- if ne .Values.provider "gcp" }}
 
   - name: ingress-nginx
     namespace: default
@@ -49,7 +51,7 @@ releases:
               nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
               nginx.ingress.kubernetes.io/enable-cors: "true"
 
-  {{- if eq .Values.provider "gcp" }}
+  {{- else }}
   
   - name: ingress
     namespace: okc
@@ -68,36 +70,25 @@ releases:
           requestPath: /
           port: 80
   
-  - name: ingress-backend-config-kl2-static
+  - name: ingress-backend-config-cms-frontend
     namespace: okc
     chart:  ../charts/mono-ingress-backend-config-gcp
     values: 
-      - name: kl2-static
+      - name: cms-frontend
       - cdn:
           enabled: true
       - healthCheck:
           requestPath: /
           port: 80
         
-  - name: ingress-backend-config-kl2
+  - name: ingress-backend-config-cms-backend
     namespace: okc
     chart:  ../charts/mono-ingress-backend-config-gcp
     values: 
-      - name: kl2
+      - name: cms-backend
       - healthCheck:
           requestPath: /v1/ping
-          port: 8088  
-
-  - name: ingress-backend-config-static
-    namespace: okc
-    chart:  ../charts/mono-ingress-backend-config-gcp
-    values: 
-      - name: static
-      - cdn:
-          enabled: true
-      - healthCheck:
-          requestPath: /
-          port: 80
+          port: 8088
 
   - name: ingress-backend-config-sfu-gateway
     namespace: okc
@@ -108,22 +99,51 @@ releases:
           requestPath: /server-health
           port: 8080
 
-  - name: ingress-backend-config-live
+  - name: ingress-backend-config-live-backend
     namespace: okc
     chart:  ../charts/mono-ingress-backend-config-gcp
     values: 
-      - name: live
+      - name: live-backend
       - healthCheck:
           requestPath: /metrics
           port: 8080
-  
-  - name: ingress-backend-config-user
+
+  - name: ingress-backend-config-live-frontend
     namespace: okc
     chart:  ../charts/mono-ingress-backend-config-gcp
     values: 
-      - name: user
+      - name: live-frontend
+      - cdn:
+          enabled: true
+      - healthCheck:
+          requestPath: /
+          port: 80
+  
+  - name: ingress-backend-config-user-service
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: user-service
       - healthCheck:
           requestPath: /.well-known/apollo/server-health
+          port: 8080
+
+  - name: ingress-backend-config-auth-frontend
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: auth-frontend
+      - healthCheck:
+          requestPath: /
+          port: 80
+  
+  - name: ingress-backend-config-auth-backend
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: auth-backend
+      - healthCheck:
+          requestPath: /
           port: 8080
 
   {{- end}}

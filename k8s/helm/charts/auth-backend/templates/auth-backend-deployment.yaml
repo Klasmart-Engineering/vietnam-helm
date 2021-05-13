@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "auth-backend.fullname" . }}
+  labels:
+    {{- include "auth-backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "auth-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "auth-backend.selectorLabels" . | nindent 8 }}
+        redis-client: "true"
+    spec:
+      {{- if .Values.hostNetworking }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+        - name: DOMAIN
+          value: {{ .Values.domain }}
+        - name: PORT
+          value: "8080"
+        - name: ROUTE_PREFIX
+          value: "/auth/"
+        - name: JWT_ISSUER
+          value: "kidsloop"
+        - name: JWT_ACCESS_TOKEN_DURATION
+          value: "900"
+        - name: JWT_REFRESH_TOKEN_DURATION
+          value: "1206000"
+        - name: AWS_REGION
+          value: "ap-northeast-2"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-pers-secrets
+              key: access-key-id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-pers-secrets
+              key: secret-access-key
+        - name: AWS_SECRET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: aws-pers-secrets
+              key: secret-name
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-url
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+      {{- end }}
+
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}
