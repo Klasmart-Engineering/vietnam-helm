@@ -164,6 +164,7 @@ releases:
           storage_bucket: {{ .Values.storage.bucket }}
           storage_protocol: {{ .Values.storage.protocol }}
           storage_download_mode: {{ .Values.storage.download_mode }}
+          cdn_path: {{ .Values.storage.cdn_path }}
           {{ end }}
           # This should be removed with new image
           ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
