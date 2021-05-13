@@ -3,8 +3,8 @@
     "terraform_bucket": "kidsloop-indonesia-terraform",
     "k8s_namespace_kidsloop": "okc",
     "k8s_service_type": "NodePort",
-    "kl_domain": "-beta.kidsloop.id",
-    "domain": "kidsloop.id",
+    "kl_domain": ".beta.kidsloop.id",
+    "domain": "beta.kidsloop.id",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     
@@ -66,8 +66,8 @@
 
     "storage": "",
     
-    "base_url_user": "https://api-beta.kidsloop.id/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net",
+    "base_url_user": "https://api.beta.kidsloop.id/user/",
+    "base_url_h5p": "https://h5p.alpha.kidsloop.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "master-id-beta-latest",

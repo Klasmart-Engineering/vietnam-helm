@@ -371,7 +371,8 @@ releases:
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
-      {{- end}}}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end }}
       - resources:
           requests:
             cpu: 250m
@@ -399,23 +400,23 @@ releases:
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
-      # - ingress:
-      #     tls:
-      #       - endpoint:
-      #           hosts:
-      #             - hub{{ .Values.kl_domain }}      
-      #           secretName: "letsencrypt-hub{{ .Values.kl_domain }}" 
-      #     hosts:
-      #       - host: hub{{ .Values.kl_domain }}
-      #         paths:
-      #           - "/"
-      # - resources:
-      #     requests:
-      #       cpu: 100m
-      #       memory: 400Mi
-      #     limits:
-      #       cpu: 200m
-      #       memory: 800Mi
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - auth{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
+          hosts:
+            - host: auth{{ .Values.kl_domain }}
+              paths:
+                - "/"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 400Mi
+          limits:
+            cpu: 200m
+            memory: 800Mi
 
 
   # AUTH-FRONTEND
