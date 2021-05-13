@@ -16,8 +16,12 @@
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
  
     "prometheus_host": "http://magnum-prometheus-operator-prometheus.kube-system.svc.cluster.local:9090",
+<<<<<<< HEAD
     "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090", 
     
+=======
+
+>>>>>>> master
     "helm_prometheus": {
         "enabled": false
     },
