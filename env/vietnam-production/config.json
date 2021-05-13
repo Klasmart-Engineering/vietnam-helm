@@ -16,6 +16,8 @@
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
  
     "prometheus_host": "http://magnum-prometheus-operator-prometheus.kube-system.svc.cluster.local:9090",
+    "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090", 
+    
 
     "helm_prometheus": {
         "enabled": false
@@ -47,7 +49,8 @@
         "region": "HCM01",
         "bucket": "kidsloop-cms-backend-production",
         "protocol": "s3",
-        "download_mode": "native"
+        "download_mode": "cloudfront",
+        "cdn_path": "https://ilt35rslitobj.vcdn.cloud"
     },
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",

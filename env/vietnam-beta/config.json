@@ -47,7 +47,8 @@
         "region": "HCM01",
         "bucket": "kidsloop-cms-backend-beta",
         "protocol": "s3",
-        "download_mode": "native"
+        "download_mode": "cloudfront",
+        "cdn_path": "https://ejpe8pu1udobj.vcdn.cloud"
     },
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
