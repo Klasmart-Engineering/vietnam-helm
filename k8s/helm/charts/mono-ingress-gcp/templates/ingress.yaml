@@ -19,7 +19,7 @@ spec:
               serviceName: hub-svc
               servicePort: 80
 
-    - host: kl2{{ .Values.domain }}    
+    - host: cms{{ .Values.domain }}    
       http:
         paths:
           - path: /*
