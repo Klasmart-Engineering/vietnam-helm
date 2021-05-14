@@ -105,7 +105,7 @@ releases:
     values: 
       - name: live-backend
       - healthCheck:
-          requestPath: /metrics
+          requestPath: /.well-known/apollo/server-health
           port: 8080
 
   - name: ingress-backend-config-live-frontend
