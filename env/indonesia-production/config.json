@@ -70,7 +70,7 @@
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "master-id-beta-latest",
+    "auth_frontend_image_tag": "master-id-prod-latest",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
@@ -82,15 +82,15 @@
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-id-beta",
+    "cms_frontend_image_tag": "dev-global-alpha-id-prod-latest",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-test-id-beta-latest",
+    "hub_image_tag": "dev-id-prod-latest",
     "hub_image_pull_secrets": "ecr-registry-infra",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "master-id-beta-latest",
+    "live_frontend_image_tag": "master-id-prod-latest",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
