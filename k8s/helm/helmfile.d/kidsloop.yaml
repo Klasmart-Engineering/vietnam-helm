@@ -411,13 +411,14 @@ releases:
             - host: auth{{ .Values.kl_domain }}
               paths:
                 - "/"
-      - resources:
-          requests:
-            cpu: 100m
-            memory: 400Mi
-          limits:
-            cpu: 200m
-            memory: 800Mi
+      # auth-backend fails due to insuficient memory. That's why we don't set limits yet
+      # - resources:
+      #     requests:
+      #       cpu: 100m
+      #       memory: 400Mi
+      #     limits:
+      #       cpu: 200m
+      #       memory: 800Mi
 
 
   # AUTH-FRONTEND

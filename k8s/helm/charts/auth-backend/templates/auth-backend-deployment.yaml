@@ -49,17 +49,17 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: aws-pers-secrets
+              name: aws-secrets
               key: access-key-id
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: aws-pers-secrets
+              name: aws-secrets
               key: secret-access-key
         - name: AWS_SECRET_NAME
           valueFrom:
             secretKeyRef:
-              name: aws-pers-secrets
+              name: aws-secrets
               key: secret-name
         - name: DATABASE_URL
           valueFrom:

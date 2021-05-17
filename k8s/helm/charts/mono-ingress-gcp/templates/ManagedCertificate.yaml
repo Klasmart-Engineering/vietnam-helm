@@ -5,7 +5,7 @@ metadata:
 spec:
   domains:
     - hub{{ .Values.domain }}
-    - kl2{{ .Values.domain }}
+    - cms{{ .Values.domain }}
     - live{{ .Values.domain }}  
     - api{{ .Values.domain }} 
     - auth{{ .Values.domain }} 
