@@ -143,7 +143,7 @@ releases:
     values: 
       - name: auth-backend
       - healthCheck:
-          requestPath: /
+          requestPath: /.well-known/express/server-health
           port: 8080
 
   {{- end}}
