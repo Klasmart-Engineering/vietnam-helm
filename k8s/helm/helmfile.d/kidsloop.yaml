@@ -76,6 +76,29 @@ releases:
             cpu: 200m
             memory: 200Mi           
 
+
+
+  - name: mysql-backup
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/mysql-backup
+    version: ~0.1.0
+    condition: helm_db_backup.enabled
+    values:
+      - image: {{ .Values.mysql_backup_repository }}
+      - mysql_host: {{ .Values.mysql_host }}
+      - mysql_username: {{ .Values.mysql_username }}
+      - mysql_database: {{ .Values.mysql_database }}
+      - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
+      - storage_region: {{ .Values.helm_db_backup.region }}
+      - storage_bucket: {{ .Values.helm_db_backup.bucket }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi    
+
   # HUB
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
@@ -398,9 +421,11 @@ releases:
           repository: "{{ .Values.auth_backend_image_repository }}"
           tag: {{ .Values.auth_backend_image_tag }}
       - domain: {{ .Values.domain }}
+      {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end}}}
       - ingress:
           tls:
             - endpoint:
