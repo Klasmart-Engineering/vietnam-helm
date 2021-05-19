@@ -425,7 +425,7 @@ releases:
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
-      {{- end}}}
+      {{- end }}
       - ingress:
           tls:
             - endpoint:
