@@ -1,0 +1,30 @@
+{{- if not (eq .Values.provider "gcp") }}
+
+{{ $fullname := include "h5p_service.fullname" .}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: live-{{ $fullname }}-ingress
+  labels:
+    {{- include "h5p_service.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.liveHost }}
+      secretName: "letsencrypt-{{ .Values.liveHost }}"
+    {{- end }}
+  rules:
+  - host: {{ .Values.liveHost }}
+    http:
+      paths:
+        - path: /h5p
+          backend:
+            serviceName: {{ $fullname }}-svc
+            servicePort: 80
+
+{{- end}}

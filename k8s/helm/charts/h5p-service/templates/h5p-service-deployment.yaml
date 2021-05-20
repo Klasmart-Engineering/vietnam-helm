@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "h5p_service.fullname" . }}
+  labels:
+    {{- include "h5p_service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "h5p_service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "h5p_service.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        #command: [ "/bin/bash", "-c", "--" ]
+        #args: [ "while true; do sleep 30; done;" ]
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: NODE_ENV
+            value: "beta"
+          - name: XAPI_ENDPOINT
+            value: {{ .Values.xapi_endpoint }}
+          {{ if .Values.h5p_storage }}
+          - name: CONTENTSTORAGE
+            value: {{ .Values.h5p_storage.content_storage }}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: h5p-s3-secret
+                key: aws-access-key-id
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: h5p-s3-secret
+                key: aws-secret-access-key
+          - name: AWS_S3_ENDPOINT
+            value: {{ .Values.h5p_storage.endpoint }}
+          - name: CONTENT_AWS_S3_BUCKET
+            value: {{ .Values.h5p_storage.content_storage_bucket }}
+          - name: TEMPORARYSTOAGE
+            value: {{ .Values.h5p_storage.temporary_storage }}
+          - name: TEMPORARY_AWS_S3_BUCKET
+            value: {{ .Values.h5p_storage.temporary_storage_bucket }}
+          - name: MONGODB_URL
+            value: {{ .Values.h5p_storage.mongodb_url }}
+          - name: MONGODB_DB
+            value: {{ .Values.h5p_storage.mongodb_database }}
+          - name: MONGODB_USER
+            value: {{ .Values.h5p_storage.mongodb_username }}
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: h5p-mongodb-secret
+                key: mongodb-password
+          - name: CONTENT_MONGO_COLLECTION
+            value: {{ .Values.h5p_storage.mongodb_collection_name }}
+          {{ end }}
+            
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+      {{- end }}
+
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}

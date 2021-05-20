@@ -59,6 +59,22 @@
         "cdn_path": "https://ilt35rslitobj.vcdn.cloud"
     },
 
+    "mongodb": {
+        "url": "mongodb+srv://cluster0.u9bjk.mongodb.net",
+        "username": "kidslooproot",
+        "database": "kidsloop-production",
+        "collection_name": "h5p"
+    },
+
+    "h5p_storage": {
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "content_storage": "mongos3",
+        "content_storage_bucket": "kidsloop-h5p-content-production",
+        "temporary_storage": "s3",
+        "temporary_storage_bucket": "kidsloop-h5p-temporary-production"
+    },
+    "h5p_xapi_endpoint": "wss://api.kidsloop.net/xapi/graphql",
+    
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "master-vn-prod-latest",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
@@ -103,8 +119,13 @@
     "user_service_image_tag": "master-1301",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
+    "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
+    "h5p_service_image_tag": "alpha",
+    "h5p_service_image_pull_secrets": "ecr-registry-infra",
+
     "ecr_token_repository": "494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-ecr-token:sre-dev",
     "ecr_token_vn_repository": "242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-ecr-token:latest",
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
-    "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest"
+    "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
+    "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"
 }

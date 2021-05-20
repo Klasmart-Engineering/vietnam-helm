@@ -99,6 +99,31 @@ releases:
             cpu: 200m
             memory: 200Mi    
 
+
+
+  - name: postgresql-backup
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/postgresql-backup
+    version: ~0.1.0
+    condition: helm_db_backup.enabled
+    values:
+      - image: {{ .Values.postgresql_backup_repository }}
+      - postgresql_host: {{ .Values.postgresql_host }}
+      - postgresql_username: {{ .Values.postgresql_username }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
+      - storage_region: {{ .Values.helm_db_backup.region }}
+      - storage_bucket: {{ .Values.helm_db_backup.bucket }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi 
+  
+  
+  
   # HUB
   # ---------------------------------------------------------------------------------------
   # Only deploy to BizFlyCloud - on other clouds depoy to Storage bucket and CDN  
@@ -461,6 +486,16 @@ releases:
       - image:
           repository: "{{ .Values.auth_frontend_image_repository }}"
           tag: {{ .Values.auth_frontend_image_tag }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - auth{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
+          hosts:
+            - host: auth{{ .Values.kl_domain }}
+              paths:
+                - "/auth"
       - resources:
           requests:
             cpu: 100m
@@ -468,3 +503,54 @@ releases:
           limits:
             cpu: 200m
             memory: 400Mi
+
+
+
+  # H5P SERVICE
+  # ---------------------------------------------------------------------------------------
+  
+  - name: h5p-service
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/h5p-service
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.h5p_service_image_repository }}
+          tag: {{ .Values.h5p_service_image_tag }}
+      - imagePullSecrets:
+          - name: {{ .Values.h5p_service_image_pull_secrets }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - h5p{{ .Values.kl_domain }}
+                secretName: "letsencrypt-h5p{{ .Values.kl_domain }}"
+          hosts:
+            - host: h5p{{ .Values.kl_domain }}
+              paths:
+                - "/"
+      - domain: {{ .Values.domain }}
+      - liveHost: live{{ .Values.kl_domain }}
+      - xapi_endpoint: {{ .Values.h5p_xapi_endpoint }}
+      {{ if .Values.h5p_storage }}
+      - h5p_storage:
+          mongodb_url: {{ .Values.mongodb.url }}
+          mongodb_username: {{ .Values.mongodb.username }}
+          mongodb_database: {{ .Values.mongodb.database }}
+          mongodb_collection_name: {{ .Values.mongodb.collection_name }}
+          endpoint: {{ .Values.h5p_storage.endpoint }}
+          content_storage: {{ .Values.h5p_storage.content_storage }}
+          content_storage_bucket: {{ .Values.h5p_storage.content_storage_bucket }}
+          temporary_storage: {{ .Values.h5p_storage.temporary_storage }}
+          temporary_storage_bucket: {{ .Values.h5p_storage.temporary_storage_bucket }}
+      {{ end }}
+
+      # TODO: performance testing or optimized performance the resources.
+      # - resources: 
+      #     requests:
+      #       cpu: 200m
+      #       memory: 1000Mi
+      #     limits:
+      #       cpu: 256m
+      #       memory: 1024Mi

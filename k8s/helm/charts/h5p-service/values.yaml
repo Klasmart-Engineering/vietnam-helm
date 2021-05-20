@@ -1,0 +1,35 @@
+nameOverride: ""
+fullnameOverride: ""
+replicaCount: 1
+imagePullSecrets: []
+
+
+image:
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service
+  pullPolicy: Always
+  tag: latest
+
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt",
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m,
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "100m",
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600",
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600",
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600",
+    # nginx.ingress.kubernetes.io/server-snippet: "keepalive_timeout 3600s;client_body_timeout 3600s;client_header_timeout 3600s;"
+  }
+  hosts: {
+  }
+  tls: [
+      endpoint: {
+        hosts: [
+          "vn-bfc.dev.kidsloop.net"
+        ],
+        secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+      }
+  ]
+  
+resources: {}
+
