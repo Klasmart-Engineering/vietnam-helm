@@ -495,7 +495,7 @@ releases:
           hosts:
             - host: auth{{ .Values.kl_domain }}
               paths:
-                - "/auth"
+                - "/"
       - resources:
           requests:
             cpu: 100m
