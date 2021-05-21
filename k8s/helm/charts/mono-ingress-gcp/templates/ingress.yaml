@@ -66,22 +66,22 @@ spec:
               serviceName: auth-frontend-svc
               servicePort: 80
 
-          - path: /refresh/*
+          - path: /refresh
             backend:
               serviceName: auth-backend-svc
               servicePort: 80
 
-          - path: /signout/*
+          - path: /signout
             backend:
               serviceName: auth-backend-svc
               servicePort: 80
 
-          - path: /transfer/*
+          - path: /transfer
             backend:
               serviceName: auth-backend-svc
               servicePort: 80
 
-          - path: /switch/*
+          - path: /switch
             backend:
               serviceName: auth-backend-svc
               servicePort: 80

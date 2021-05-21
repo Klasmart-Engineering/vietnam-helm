@@ -36,39 +36,37 @@ spec:
           value: {{ .Values.domain }}
         - name: PORT
           value: "8080"
-        - name: ROUTE_PREFIX
-          value: "/auth/"
         - name: JWT_ISSUER
           value: "kidsloop"
         - name: JWT_ACCESS_TOKEN_DURATION
           value: "900"
         - name: JWT_REFRESH_TOKEN_DURATION
           value: "1206000"
-        - name: AWS_REGION
-          value: "ap-northeast-2"
-        - name: AWS_ACCESS_KEY_ID
+        - name: JWT_ALGORITHM
           valueFrom:
             secretKeyRef:
-              name: aws-secrets
-              key: access-key-id
-        - name: AWS_SECRET_ACCESS_KEY
+              name: auth-jwt-credentials
+              key: jwt-algorithm
+        - name: JWT_PRIVATE_KEY_PASSPHRASE
           valueFrom:
             secretKeyRef:
-              name: aws-secrets
-              key: secret-access-key
-        - name: AWS_SECRET_NAME
-          valueFrom:
-            secretKeyRef:
-              name: aws-secrets
-              key: secret-name
+              name: auth-jwt-credentials
+              key: jwt_private_passphrase
+        - name: JWT_PRIVATE_KEY_FILENAME
+          value: /key/private_key
+        - name: JWT_PUBLIC_KEY_FILENAME
+          value: /key/public_key
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: postgresql
               key: database-url
+        volumeMounts:
+          - name: auth-jwt-credentials
+            mountPath: /key
+            readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
-
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
@@ -79,7 +77,10 @@ spec:
         securityContext:
           runAsNonRoot: true  
       {{- end }}
-
+      volumes:
+        - name: auth-jwt-credentials
+          secret:
+            secretName: auth-jwt-credentials
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
       {{- end }}
