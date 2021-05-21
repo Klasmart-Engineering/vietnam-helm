@@ -1,14 +1,14 @@
 replicaCount: 1
 
 sfuManagerImage:
-  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu-manager
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager
   pullPolicy: Always
-  tag: latest
+  tag: master-latest
 
 sfuImage:
-  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-sfu
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu
   pullPolicy: Always
-  tag: latest
+  tag: master-latest
 
 imagePullSecrets: []
 nameOverride: ""

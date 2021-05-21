@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-live
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend
   pullPolicy: Always
-  tag: latest
+  tag: master-latest
 
 imagePullSecrets: []
 nameOverride: ""

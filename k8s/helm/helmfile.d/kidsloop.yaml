@@ -17,26 +17,6 @@ environments:
 
 releases:
 
-  # ECR TOKEN
-  # ---------------------------------------------------------------------------------------
-  # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
-  # images from the Kidsloop docker ECR.
-
-  - name: ecr-token
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/ecr-token
-    version: ~0.1.0
-    values:
-      - suffix: ""
-      - image: {{ .Values.ecr_token_repository }}
-      - resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 200m
-            memory: 200Mi
-
   # ECR TOKEN - VIETNAM
   # ---------------------------------------------------------------------------------------
   # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
@@ -49,7 +29,12 @@ releases:
     condition: helm_ecr_token_vietnam.enabled
     values:
       - suffix: "-vn"
-      - image: {{ .Values.ecr_token_vn_repository }}
+      - secret_name: "ecr-registry-vn"
+      - credential_secret_name: "ecr-credentials-vn-pull"
+      - aws_region: "ap-southeast-1"
+      - aws_account_id: "242787759841"
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
       - resources:
           requests:
             cpu: 100m
@@ -58,7 +43,10 @@ releases:
             cpu: 200m
             memory: 200Mi
 
-
+  # ECR TOKEN
+  # ---------------------------------------------------------------------------------------
+  # This provides an cron job which refreshes the AWS ECR token to allow download of docker
+  # images from the Kidsloop docker ECR.
 
   - name: ecr-token-infra
     namespace: {{ .Values.k8s_namespace_kidsloop }}
@@ -67,7 +55,12 @@ releases:
     condition: helm_ecr_token_infra.enabled
     values:
       - suffix: "-infra"
+      - secret_name: "ecr-registry-infra"
+      - credential_secret_name: "ecr-credentials-infra-pull"       
+      - aws_region: "eu-west-2"
+      - aws_account_id: "942095822719"
       - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
       - resources:
           requests:
             cpu: 100m
@@ -169,7 +162,7 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
-          repository: {{ .Values.cms_backend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          repository: {{ .Values.cms_backend_image_repository }} 
           tag: {{ .Values.cms_backend_image_tag }}
       - imagePullSecrets:
           - name: {{ .Values.cms_backend_image_pull_secrets }}      
@@ -228,7 +221,7 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
-          repository: {{ .Values.cms_frontend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          repository: {{ .Values.cms_frontend_image_repository }} 
           tag: {{ .Values.cms_frontend_image_tag }}
       - imagePullSecrets:
           - name: {{ .Values.cms_frontend_image_pull_secrets }}
@@ -263,7 +256,7 @@ releases:
       - serviceType: {{ .Values.k8s_service_type }}
       - prometheus_enabled: {{ .Values.helm_prometheus.enabled }}
       - image:
-          repository: {{ .Values.live_backend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          repository: {{ .Values.live_backend_image_repository }} 
           tag: {{ .Values.live_backend_image_tag }}
       - imagePullSecrets:
           - name: {{ .Values.live_backend_image_pull_secrets }}
@@ -368,7 +361,7 @@ releases:
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
-          repository: {{ .Values.live_frontend_image_repository }} # e.g. 242787759841.dkr.ecr.ap-southeast-1.amazonaws.com/kidsloop-user-sre-dev | 494634321140.dkr.ecr.ap-northeast-2.amazonaws.com/vietnam-user-service
+          repository: {{ .Values.live_frontend_image_repository }} 
           tag: {{ .Values.live_frontend_image_tag }}
       - imagePullSecrets:
           - name: {{ .Values.live_frontend_image_pull_secrets }}

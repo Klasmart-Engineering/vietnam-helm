@@ -15,7 +15,7 @@ spec:
         spec:
           serviceAccountName: ecr-token-serviceaccount{{.Values.suffix}}
           imagePullSecrets:
-            - name: ecr-registry{{.Values.suffix}}
+            - name: {{.Values.image_pull_secret}}
           restartPolicy: OnFailure
           containers:
             - image: {{.Values.image}}
@@ -25,6 +25,11 @@ spec:
                 - name: NAMESPACE
                   value: {{ .Release.Namespace }}
                 - name: SECRET_NAME
-                  value: ecr-registry{{.Values.suffix}}
-
+                  value: {{.Values.secret_name}}                
+                - name: CREDENTIAL_SECRET_NAME
+                  value: {{.Values.credential_secret_name}} 
+                - name: AWS_REGION
+                  value: {{.Values.aws_region}}
+                - name: AWS_ACCOUNT_ID
+                  value: "{{.Values.aws_account_id}}"
   schedule: "0 */6 * * *"
