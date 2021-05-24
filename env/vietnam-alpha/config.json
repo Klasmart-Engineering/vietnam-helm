@@ -3,7 +3,7 @@
     "k8s_namespace_kidsloop": "klvn-alpha",
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".alpha.kidsloop.vn",
-    "domain": "kidsloop.vn",
+    "domain": "alpha.kidsloop.vn",
 
     "redis_host": "10.0.1.19",
     "postgresql_host": "10.0.1.17",

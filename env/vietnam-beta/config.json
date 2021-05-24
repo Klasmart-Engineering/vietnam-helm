@@ -3,7 +3,7 @@
     "k8s_namespace_kidsloop": "klvn-beta",
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.vn",
-    "domain": "kidsloop.vn",
+    "domain": "beta.kidsloop.vn",
 
     "redis_host": "10.0.1.19",
     "postgresql_host": "10.0.1.17",
