@@ -454,7 +454,10 @@ releases:
           hosts:
             - host: auth{{ .Values.kl_domain }}
               paths:
-                - "/"
+                - "/signout"
+                - "/refresh"
+                - "/transfer"
+                - "/switch"
       # auth-backend fails due to insuficient memory. That's why we don't set limits yet
       # - resources:
       #     requests:
