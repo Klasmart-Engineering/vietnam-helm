@@ -74,3 +74,7 @@ variable "service_account_name_config_connector" {
   default = "kidsloop-config-connector"
 }
 
+variable "node_poolsfu" {
+  type    = string
+  default = "poolsfu"
+}
