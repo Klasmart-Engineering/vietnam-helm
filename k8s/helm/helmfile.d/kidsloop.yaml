@@ -207,7 +207,8 @@ releases:
           cdn_path: {{ .Values.storage.cdn_path }}
           {{ end }}
           # This should be removed with new image
-          ams_assessment_jwt_public_key_path: ./jwt_public_key.pem
+          ams_assessment_jwt_public_key_path: ./ams_assessment_jwt_public_key.pem
+          h5p_endpoint: https://assessment{{ .Values.kl_domain }}/graphql/
           
 
 
@@ -453,7 +454,10 @@ releases:
           hosts:
             - host: auth{{ .Values.kl_domain }}
               paths:
-                - "/"
+                - "/signout"
+                - "/refresh"
+                - "/transfer"
+                - "/switch"
       # auth-backend fails due to insuficient memory. That's why we don't set limits yet
       # - resources:
       #     requests:
