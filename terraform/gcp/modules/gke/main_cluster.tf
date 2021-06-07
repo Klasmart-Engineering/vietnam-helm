@@ -8,7 +8,8 @@ resource "google_container_cluster" "cluster" {
     
   logging_service    = "logging.googleapis.com/kubernetes"     # Lets use Stackdriver
   monitoring_service = "monitoring.googleapis.com/kubernetes"  # Lets use Stackdriver
-  min_master_version = data.google_container_engine_versions.gke.latest_master_version
+  # min_master_version = data.google_container_engine_versions.gke.latest_master_version
+  min_master_version = "1.19.10-gke.1600"
   
   enable_shielded_nodes       = true          # https://cloud.google.com/kubernetes-engine/docs/how-to/shielded-gke-nodes
   enable_intranode_visibility = true          # https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility
