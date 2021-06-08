@@ -89,5 +89,14 @@ else
     echo_heading "Skipping $TXT"
 fi
 
+# Create secret if cloud provider is GCP
+# Create mongodb atlas db user secret if secret doesn't exist yet
+CLOUD_PROVIDER=$(../../scripts/python/env_var.py $ENV provider)
+if [[ $CLOUD_PROVIDER == 'gcp' ]]
+then
+    ./make_secret_h5p_mongodb_atlas.sh
+else
+    echo "Atlas db user not needed if cloud provider is not gcp!"
+fi
 
 popd

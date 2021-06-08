@@ -93,7 +93,7 @@ spec:
         command:
           - "/cloud_sql_proxy"
           - "-ip_address_types=PRIVATE"
-          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.db_instance }}=tcp:{{ .Values.configuration.db_port }}"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.mysql_instance }}=tcp:{{ .Values.configuration.db_port }}"
         securityContext:
           runAsNonRoot: true  
       {{- end }}

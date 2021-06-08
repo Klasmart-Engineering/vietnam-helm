@@ -169,7 +169,7 @@ releases:
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Environment.Values.terraform_project }}
       - region: {{ .Environment.Values.terraform_region }}
-      - db_instance: {{ .Environment.Values.gcp.mysql.name }}
+      - mysql_instance: {{ .Environment.Values.gcp.mysql.name }}
       - mysql_proxy_ip:  {{ .Environment.Values.mysql_proxy_ip}}
       {{- end}}
       - ingress:
@@ -477,6 +477,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/auth-frontend
     values:
+      - replicaCount: 1
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
@@ -543,7 +544,11 @@ releases:
           temporary_storage: {{ .Values.h5p_storage.temporary_storage }}
           temporary_storage_bucket: {{ .Values.h5p_storage.temporary_storage_bucket }}
       {{ end }}
-
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{ end }}
       # TODO: performance testing or optimized performance the resources.
       # - resources: 
       #     requests:
