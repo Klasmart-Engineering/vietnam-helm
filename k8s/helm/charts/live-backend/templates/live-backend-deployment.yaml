@@ -41,6 +41,13 @@ spec:
             value: {{ .Values.redisHost }}
           - name: REDIS_PORT
             value: {{ .Values.redisPort | quote }}
+          - name: ASSESSMENT_ENDPOINT
+            value: {{ .Values.assessmentEndpoint }}
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: database-url
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
 
