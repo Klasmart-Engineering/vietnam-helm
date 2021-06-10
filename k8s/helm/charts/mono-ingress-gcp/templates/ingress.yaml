@@ -85,3 +85,11 @@ spec:
             backend:
               serviceName: auth-backend-svc
               servicePort: 80
+
+    - host: h5ptest{{ .Values.domain }}    
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: h5p-service-svc
+              servicePort: 80

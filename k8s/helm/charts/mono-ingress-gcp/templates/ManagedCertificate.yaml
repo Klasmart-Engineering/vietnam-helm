@@ -8,4 +8,5 @@ spec:
     - cms{{ .Values.domain }}
     - live{{ .Values.domain }}  
     - api{{ .Values.domain }} 
-    - auth{{ .Values.domain }} 
+    - auth{{ .Values.domain }}
+    - h5ptest{{ .Values.domain }}

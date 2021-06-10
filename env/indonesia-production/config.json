@@ -72,16 +72,28 @@
 
     "storage": "",
 
-    "mongodb": "",
+    "h5p_storage": {
+        "endpoint": "TBD",
+        "content_storage": "TBD",
+        "content_storage_bucket": "TBD",
+        "temporary_storage": "TBD",
+        "temporary_storage_bucket": "TBD"
+    },
 
-    "h5p_storage": "",
-    "h5p_xapi_endpoint": "",
+    "mongodb": {
+        "url": "mongodb+srv://cluster-test.edwwi.mongodb.net",
+        "username": "kidslooproot",
+        "database": "kidsloop-production",
+        "collection_name": "h5p"
+    },
+
+    "h5p_xapi_endpoint": "wss://api.kidsloop.id/xapi/graphql",
 
     "base_url_user": "https://api.kidsloop.id/user/",
-    "base_url_h5p": "https://h5p.kidsloop.net",
+    "base_url_h5p": "https://h5p.kidsloop.id",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "master-id-prod-latest",
+    "auth_frontend_image_tag": "hotfix-webpack-prod-mode-id-prod-9693299",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",

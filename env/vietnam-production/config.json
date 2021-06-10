@@ -116,7 +116,11 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
+<<<<<<< HEAD
     "user_service_image_tag": "master-df9968f",
+=======
+    "user_service_image_tag": "master-8b5efea",
+>>>>>>> origin
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
