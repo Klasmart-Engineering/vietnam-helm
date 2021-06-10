@@ -84,11 +84,11 @@
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "vietnam-master-vn-prod-2278ceb",
+    "cms_frontend_image_tag": "dev-global-alpha-vn-prod-latest",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-113",
+    "cms_backend_image_tag": "dev-global-alpha-87",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
