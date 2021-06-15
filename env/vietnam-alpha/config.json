@@ -74,7 +74,7 @@
     "h5p_xapi_endpoint": "wss://api.kidsloop.net/xapi/graphql",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "feature-auth-35-provide-region-specific-service--vn-alpha-8c878c5",
+    "auth_frontend_image_tag": "release-alpha-vn-alpha-bbc3251",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
@@ -82,19 +82,19 @@
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "vietnam-master-vn-alpha-2278ceb",
+    "cms_frontend_image_tag": "vietnam-alpha-dcff94dd",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-113",
+    "cms_backend_image_tag": "dev-global-alpha-130",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-alpha-vn-alpha-9e53fe7",
+    "hub_image_tag": "release-alpha-vn-alpha-8f7f29b",
     "hub_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "vietnam-master-vn-alpha-0b10731",
+    "live_frontend_image_tag": "vietnam-alpha-vn-alpha-fc5e6e0",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
@@ -102,23 +102,23 @@
     "live_backend_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "master-latest",
+    "sfu_manager_image_tag": "master-766921f",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "ki-269-sfu-investigation-67",
+    "sfu_image_tag": "master-c0f42a2",
     "sfu_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
-    "sfu_gateway_image_tag": "master-latest",
+    "sfu_gateway_image_tag": "master-ba9cc3d",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-df9968f",
+    "user_service_image_tag": "vietnam-alpha-61ef11b",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "alpha-60",
+    "h5p_service_image_tag": "alpha-61",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",    
