@@ -76,6 +76,7 @@
 
     "h5p_storage": "",
     "h5p_xapi_endpoint": "",
+    "assessment_xapi_endpoint": "",
     
     "base_url_user": "https://api.beta.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.alpha.kidsloop.net",
