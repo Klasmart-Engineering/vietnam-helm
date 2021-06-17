@@ -282,7 +282,11 @@ releases:
             memory: 512Mi
       - redisHost: {{ .Values.redis_host }}
       - assessmentEndpoint: https://cms{{ .Values.kl_domain }}/v1/assessments
-
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{ end }}
 
 
   # SFU
