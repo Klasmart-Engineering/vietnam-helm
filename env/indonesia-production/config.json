@@ -87,7 +87,8 @@
         "collection_name": "h5p"
     },
 
-    "h5p_xapi_endpoint": "",
+    "h5p_xapi_endpoint": "wss://api.kidsloop.id/xapi/graphql",
+    "assessment_xapi_endpoint": "",
 
     "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.id",
