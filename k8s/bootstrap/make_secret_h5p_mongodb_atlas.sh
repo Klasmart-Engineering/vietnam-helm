@@ -12,14 +12,14 @@ env_validate "$ENV"
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
-SECRET_NAME=mongodb-atlas-cluster-kidslooproots
+SECRET_NAME=mongodb-atlas-cluster-kidslooproot
 
 # create kubernetes secret if it doesn't exist yet
-result=`kubectl -n okc get secret --ignore-not-found $SECRET_NAME`
+result=`kubectl -n $NS_KIDSLOOP get secret --ignore-not-found $SECRET_NAME`
 if [ "$result" ]; then
-    echo "Kubernetes secret $KUBERNETES_SECRET already exists!"
+    echo "Kubernetes secret $SECRET_NAME already exists!"
 else
-    echo "Creating kubernetes secret $KUBERNETES_SECRET"
+    echo "Creating kubernetes secret $SECRET_NAME"
     MONGODB_ATLAS_USER_PASSWORD="$(pwgen -s 20 1)"
     kubectl create secret generic $SECRET_NAME \
       --dry-run=client \

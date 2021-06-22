@@ -14,7 +14,13 @@ environments:
   indonesia-production:
     values:
       - ../../../env/indonesia-production/.env.yaml
-  
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
 repositories:
 
   - name: jetstack
@@ -22,7 +28,7 @@ repositories:
 
 releases:
 
-{{- if ne .Values.provider "gcp" }}
+  {{- if ne .Values.provider "gcp" }}
 
   - name: cert-manager
     namespace: cert-manager
@@ -38,4 +44,4 @@ releases:
     condition: helm_cert_manager.enabled
 
 
-{{- end }}
+  {{- end }}

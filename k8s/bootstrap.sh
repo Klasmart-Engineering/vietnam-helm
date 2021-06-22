@@ -11,6 +11,8 @@ PROMETHEUS=$(../scripts/python/env_is_enabled.py $ENV helm_prometheus)
 [ -z "$PROMETHEUS" ] && echo "Missing variable,'helm_prometheus', in $ENV" && exit 1
 FLUENTBIT=$(../scripts/python/env_is_enabled.py $ENV helm_fluentbit)
 [ -z "$FLUENTBIT" ] && echo "Missing variable,'helm_fluentbit', in $ENV" && exit 1
+CLOUD_PROVIDER=$(../scripts/python/env_var.py $ENV provider)
+[ -z "$CLOUD_PROVIDER" ] && echo "Missing variable,'provider', in $ENV" && exit 1
 
 pushd bootstrap
 
@@ -91,10 +93,9 @@ fi
 
 # Create secret if cloud provider is GCP
 # Create mongodb atlas db user secret if secret doesn't exist yet
-CLOUD_PROVIDER=$(../../scripts/python/env_var.py $ENV provider)
 if [[ $CLOUD_PROVIDER == 'gcp' ]]
 then
-    ./make_secret_h5p_mongodb_atlas.sh
+    ./make_secret_h5p_mongodb_atlas.sh $ENV
 else
     echo "Atlas db user not needed if cloud provider is not gcp!"
 fi

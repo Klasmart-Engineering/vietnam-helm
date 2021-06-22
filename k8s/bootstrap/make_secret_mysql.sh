@@ -7,15 +7,18 @@ env_validate "$ENV"
 
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
-
-
+MYSQL_HOST=$(../../scripts/python/env_var.py $ENV mysql_host)
 PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
+MYSQL_USERNAME=$(../../scripts/python/env_var.py $ENV mysql_username)
+MYSQL_DATABASE=$(../../scripts/python/env_var.py $ENV mysql_database)
+SECRET_NAME=mysql
+
 if [[ $PROVIDER = "gcp" ]]; then
   NS_PERSISTENCE=config-connector
+  MYSQL_HOST=127.0.0.1
 else
   NS_PERSISTENCE=persistence
 fi
-
 
 DRY_RUN=${DRY_RUN:-"no"}
 
@@ -47,32 +50,39 @@ else
   MYSQL_REP_PASSWORD="$(pwgen -s 20 1)"
 fi  
 
-kubectl create secret generic mysql \
+DATABASE_URL="mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOST:3306/$MYSQL_DATABASE"
+
+# create k8s secret manifest
+kubectl create secret generic $SECRET_NAME \
   --dry-run=client \
   -o yaml \
-  -n $NS_PERSISTENCE \
   --from-literal=mysql-root-password="$MYSQL_ROOT_PASSWORD" \
   --from-literal=mysql-replication-password="$MYSQL_REP_PASSWORD" \
   --from-literal=mysql-password="$MYSQL_PASSWORD" \
-  > mysql-secret.yaml
+  --from-literal=mysql-url="$DATABASE_URL" \
+  > $SECRET_NAME.yaml
 
+for namespace in $NS_PERSISTENCE $NS_KIDSLOOP
+do
+  if [[ "$DRY_RUN" != "yes" ]]; then
+    # create namespace if namespace doesn't exist
+    create_namespace_if_not_exists $namespace
+    if [ $namespace == $NS_KIDSLOOP ]; then label_namespace_for_redis "$NS_KIDSLOOP"; fi
 
-if [[ "$DRY_RUN" != "yes" ]]; then
-  create_namespace_if_not_exists $NS_PERSISTENCE
-  create_namespace_if_not_exists "$NS_KIDSLOOP"
-  label_namespace_for_redis "$NS_KIDSLOOP"
-  kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE mysql
-  kubectl apply -f mysql-secret.yaml
-  
-  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP mysql
-  kubectl get secret mysql --namespace=$NS_PERSISTENCE -o yaml | \
-    sed "s/namespace: $NS_PERSISTENCE/namespace: $NS_KIDSLOOP/" | \
-    kubectl apply --namespace=$NS_KIDSLOOP -f -
- 
-else
-  echo "Would run:"
-  echo "  kubectl delete secret -n $NS_PERSISTENCE mysql"
-  echo "  kubectl apply -f mysql-secret.yaml"
-fi
+    # create secret if secret doesn't exist
+    result=`kubectl -n $namespace get secret --ignore-not-found $SECRET_NAME`
+    if [ "$result" ]; then
+        echo "Kubernetes secret $SECRET_NAME in namespace $namespace already exists!"
+    else
+        echo "Creating kubernetes secret $SECRET_NAME in namespace $namespace"
+        kubectl -n $namespace apply -f $SECRET_NAME.yaml
+    fi
+  else
+    echo "Would run:"
+    echo "  kubectl delete secret -n $namespace $SECRET_NAME"
+    echo "  kubectl -n $namespace apply -f $SECRET_NAME.yaml"
+  fi
+done
 
-rm mysql-secret.yaml
+# remove k8s secret manifest
+rm $SECRET_NAME.yaml

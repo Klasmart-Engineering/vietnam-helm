@@ -6,19 +6,20 @@ ENV=$1
 env_validate "$ENV"
 
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+[ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
+PROVIDER=$(../../scripts/python/env_var.py $ENV provider)
 POSTGRESQL_HOST=$(../../scripts/python/env_var.py $ENV postgresql_host)
 POSTGRESQL_USERNAME=$(../../scripts/python/env_var.py $ENV postgresql_username)
 POSTGRESQL_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_database)
+SECRET_NAME=postgresql
+REPMGR_PASSWORD="$(pwgen -s 20 1)"
 
-[ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
-
-PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
 if [[ $PROVIDER = "gcp" ]]; then
   NS_PERSISTENCE=config-connector
+  POSTGRESQL_HOST=127.0.0.1
 else
   NS_PERSISTENCE=persistence
 fi
-
 
 DRY_RUN=${DRY_RUN:-"no"}
 
@@ -32,34 +33,41 @@ if [[ $PROVIDER = "vngcloud" ]]; then
   POSTGRESQL_PASSWORD="$vngcloud_postgresql_password"
 else
   POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
-fi  
-DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST/$POSTGRESQL_DATABASE"
-
-kubectl create secret generic postgresql \
-  --dry-run=client \
-  -o yaml \
-  -n $NS_PERSISTENCE \
-  --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
-  --from-literal=database-url="$DATABASE_URL" \
-  --from-literal=repmgr-password="$(pwgen -s 20 1)" > postgresql-secret.yaml
-
-
-if [[ "$DRY_RUN" != "yes" ]]; then
-  create_namespace_if_not_exists $NS_PERSISTENCE
-  create_namespace_if_not_exists $NS_KIDSLOOP
-  label_namespace_for_redis "$NS_KIDSLOOP"
-  kubectl delete secret --ignore-not-found=true -n $NS_PERSISTENCE postgresql
-  kubectl apply -f postgresql-secret.yaml
-  
-  kubectl delete secret --ignore-not-found=true -n $NS_KIDSLOOP postgresql
-  kubectl get secret postgresql --namespace=$NS_PERSISTENCE -o yaml | \
-    sed "s/namespace: $NS_PERSISTENCE/namespace: $NS_KIDSLOOP/" | \
-    kubectl apply --namespace=$NS_KIDSLOOP -f -
-  
-else
-  echo "Would run:"
-  echo "  kubectl delete secret -n $NS_PERSISTENCE postgresql"
-  echo "  kubectl apply -f postgresql-secret.yaml"
 fi
 
-rm postgresql-secret.yaml
+DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST"
+
+# create k8s secret manifest
+kubectl create secret generic $SECRET_NAME \
+  --dry-run=client \
+  -o yaml \
+  --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
+  --from-literal=database-url="${DATABASE_URL}/${POSTGRESQL_DATABASE}" \
+  --from-literal=assessment-database-url="${DATABASE_URL}/assessment" \
+  --from-literal=repmgr-password="$REPMGR_PASSWORD" \
+  > $SECRET_NAME.yaml
+
+for namespace in $NS_PERSISTENCE $NS_KIDSLOOP
+do
+  if [[ "$DRY_RUN" != "yes" ]]; then
+    # create namespace if namespace doesn't exist
+    create_namespace_if_not_exists $namespace
+    if [ $namespace == $NS_KIDSLOOP ]; then label_namespace_for_redis "$NS_KIDSLOOP"; fi
+
+    # create secret if secret doesn't exist
+    result=`kubectl -n $namespace get secret --ignore-not-found $SECRET_NAME`
+    if [ "$result" ]; then
+        echo "Kubernetes secret $SECRET_NAME in namespace $namespace already exists!"
+    else
+        echo "Creating kubernetes secret $SECRET_NAME in namespace $namespace"
+        kubectl -n $namespace apply -f $SECRET_NAME.yaml
+    fi
+  else
+    echo "Would run:"
+    echo "  kubectl delete secret -n $namespace $SECRET_NAME"
+    echo "  kubectl -n $namespace apply -f $SECRET_NAME.yaml"
+  fi
+done
+
+# remove k8s secret manifest
+rm $SECRET_NAME.yaml
