@@ -22,6 +22,8 @@ configuration:
   # cdn_open: true
   # this is the cdn domain of resources bucket
   cdn_path: https://res-kl2-test.kidsloop.net
+  # this is an additional configuration that only uses for Vietnam 
+  live_assets_url_prefix: https://cdn.kidsloop.vn 
   # this is used to cdn url signature
   # cdn_private_key_path: ./cdn_private_key.pem
   # just as a label, and unused
