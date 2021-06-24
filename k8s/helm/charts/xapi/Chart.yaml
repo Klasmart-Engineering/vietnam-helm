@@ -1,0 +1,6 @@
+apiVersion: v2
+name: xapi
+description: Kidsloop xAPI Service
+type: application
+version: 0.1.0
+appVersion: 0.1.0

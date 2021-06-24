@@ -11,6 +11,7 @@ MYSQL_NAME=$(echo $CONFIG | jq -r '.gcp .mysql .name')
 MYSQL_USER=$(echo $CONFIG | jq -r '.gcp .mysql .user')
 POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
+POSTGRESQL_ASSESSMENT_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .assessment_database')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
 KIDSLOOP_NAMESPACE=$(echo $CONFIG | jq -r '.k8s_namespace_kidsloop')
@@ -28,6 +29,7 @@ echo "{
     \"mysql_proxy_ip\": \"$MYSQL_PROXY_IP\",
     \"postgresql_host\": \"$POSTGRESQL_IP\", 
     \"postgresql_database\": \"$POSTGRESQL_NAME\",
+    \"postgresql_assessment_database\": \"$POSTGRESQL_ASSESSMENT_DB\",
     \"postgresql_username\": \"$POSTGRESQL_USER\", 
     \"redis_host\": \"$REDIS_IP\"
 }"

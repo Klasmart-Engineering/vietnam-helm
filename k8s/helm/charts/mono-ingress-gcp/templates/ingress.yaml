@@ -57,6 +57,14 @@ spec:
             backend:
               serviceName: user-service-svc
               servicePort: 80
+          - path: /xapi
+            backend:
+              serviceName: xapi-svc
+              servicePort: 80
+          - path: /assessment
+            backend:
+              serviceName: assessment-svc
+              servicePort: 80
 
     - host: auth{{ .Values.domain }}    
       http:

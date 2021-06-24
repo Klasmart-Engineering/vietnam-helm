@@ -163,4 +163,22 @@ releases:
           requestPath: /
           port: 8080
 
+  - name: ingress-backend-config-h5p-xapi
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: xapi
+      - healthCheck:
+          requestPath: /
+          port: 8080
+
+  - name: ingress-backend-config-assessment
+    namespace: okc
+    chart:  ../charts/mono-ingress-backend-config-gcp
+    values: 
+      - name: assessment
+      - healthCheck:
+          requestPath: /
+          port: 8080
+
   {{- end}}

@@ -9,6 +9,7 @@
     "postgresql_host": "10.0.1.17",
     "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloopbeta",
+    "postgresql_assessment_database": "kidsloopbeta",
     "mysql_host": "10.0.1.18",
     "mysql_username": "kidslooproot",
     "mysql_database": "kidsloop2beta",
@@ -71,6 +72,13 @@
         "temporary_storage": "s3",
         "temporary_storage_bucket": "kidsloop-h5p-temporary-beta"
     },
+
+    "dynamodb_aws_region": "ap-southeast-1",
+    "dynamodb_table_name": "kl-beta-xapi",
+    "elasticsearch_url": "",
+    "elasticsearch_username": "",
+    "firehose_steam_name": "",
+
     "h5p_xapi_endpoint": "wss://api.alpha.kidsloop.net/xapi/graphql",
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
     
@@ -121,7 +129,15 @@
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "alpha-61",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
-   
+
+    "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
+    "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
+    "xapi_image_pull_secrets": "ecr-registry-infra",
+
+    "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
+    "assessment_image_tag": "alpha-239d2bc",
+    "assessment_image_pull_secrets": "ecr-registry-infra",
+
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"

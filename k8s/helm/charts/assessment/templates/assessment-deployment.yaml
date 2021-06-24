@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "assessment.fullname" . }}
+  labels:
+    {{- include "assessment.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "assessment.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "assessment.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.hostNetworking }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: ROUTE_PREFIX
+            value: "/assessment"
+          - name: USER_SERVICE_API_URL
+            value: {{ .Values.user_api_endpoint }}
+          - name: CMS_DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: mysql-url
+          - name: USER_DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: database-url
+          - name: ASSESSMENT_DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: assessment-database-url
+          - name: AWS_REGION
+            value: {{ .Values.aws_region }}            
+          - name: DYNAMODB_TABLE_NAME
+            value: {{ .Values.dynamodb_table_name }}
+        volumeMounts:
+          - name: xapi-dynamodb-secret
+            mountPath: /root/.aws
+            readOnly: true  
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      {{- if eq .Values.provider "gcp" }}
+      - name: postgres-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+      - name: mysql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.mysql_instance }}=tcp:3306"
+        securityContext:
+          runAsNonRoot: true
+      serviceAccountName: cloudsql-proxy 
+      {{- end }}
+      volumes:
+        - name: xapi-dynamodb-secret
+          secret:
+            secretName: xapi-dynamodb-secret

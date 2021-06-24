@@ -7,6 +7,7 @@ env_validate "$ENV"
 
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
+
 MYSQL_HOST=$(../../scripts/python/env_var.py $ENV mysql_host)
 PROVIDER=$(../../scripts/python/env_var.py $ENV "provider")
 MYSQL_USERNAME=$(../../scripts/python/env_var.py $ENV mysql_username)
@@ -48,7 +49,7 @@ else
   MYSQL_PASSWORD="$(pwgen -s 20 1)"
   MYSQL_ROOT_PASSWORD="$(pwgen -s 20 1)"
   MYSQL_REP_PASSWORD="$(pwgen -s 20 1)"
-fi  
+fi
 
 DATABASE_URL="mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOST:3306/$MYSQL_DATABASE"
 

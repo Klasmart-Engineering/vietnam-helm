@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "xapi.fullname" . }}
+  labels:
+    {{- include "xapi.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "xapi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "xapi.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        #command: [ "/bin/bash", "-c", "--" ]
+        #args: [ "while true; do sleep 30; done;" ]
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: NODE_ENV
+            value: "beta"
+          - name: DOMAIN
+            value: {{ .Values.domain }}
+          - name: PORT
+            value: "8080"
+          - name: ROUTE_PREFIX
+            value: "/xapi"
+          - name: AWS_REGION
+            value: {{ .Values.aws_region }}            
+          - name: DYNAMODB_TABLE_NAME
+            value: {{ .Values.dynamodb_table_name }}
+          - name: ELASTICSEARCH_USERNAME
+            value: {{ .Values.elasticsearch_username }}
+          - name: FIREHOSE_STREAM_NAME
+            value: {{ .Values.firehose_steam_name }}
+          - name: ELASTICSEARCH_URL
+            valueFrom:
+              secretKeyRef:
+                name: elasticsearch
+                key: elasticsearch-url
+          - name: ELASTICSEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: elasticsearch
+                key: elasticsearch-password
+        volumeMounts:
+          - name: xapi-dynamodb-secret
+            mountPath: /root/.aws
+            readOnly: true
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true  
+      {{- end }}
+      volumes:
+        - name: xapi-dynamodb-secret
+          secret:
+            secretName: xapi-dynamodb-secret
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}

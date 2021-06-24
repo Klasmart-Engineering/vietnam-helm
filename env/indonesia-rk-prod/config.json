@@ -5,7 +5,8 @@
     "k8s_service_type": "NodePort",
     "kl_domain": ".rumahkisah.net",
     "domain": "rumahkisah.net",
-    
+    "env": "prod",
+
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     
     "helm_prometheus": {
@@ -51,6 +52,7 @@
         },
         "postgresql": {
             "name": "kidsloop-postgresql-99999",
+            "assessment_database": "assessment",
             "version":   "POSTGRES_11",
             "tier":      "db-f1-micro",
             "charset":   "UTF8",
@@ -70,7 +72,14 @@
         }
     },
 
-    "storage": "",
+    "storage": {
+        "endpoint": "TBD",
+        "region": "TBD",
+        "bucket": "TBD",
+        "protocol": "s3",
+        "download_mode": "TBD",
+        "cdn_path": "TBD"
+    },
 
     "h5p_storage": {
         "endpoint": "TBD",
@@ -87,7 +96,11 @@
         "collection_name": "h5p"
     },
 
-    "h5p_xapi_endpoint": "",
+    "dynamodb_aws_region": "ap-southeast-1",
+    "dynamodb_table_name": "id-rk-prod",
+    "elasticsearch_url": "",
+    "elasticsearch_username": "",
+    "firehose_steam_name": "",
 
     "base_url_user": "https://api.rumahkisah.net/user/",
     "base_url_h5p": "https://h5p.rumahkisah.net",
@@ -139,6 +152,14 @@
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "alpha-cbd36b3",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
+
+    "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
+    "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
+    "xapi_image_pull_secrets": "ecr-registry-infra",
+
+    "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
+    "assessment_image_tag": "alpha-239d2bc",
+    "assessment_image_pull_secrets": "ecr-registry-infra",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",

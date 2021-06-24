@@ -173,10 +173,10 @@ releases:
       - imagePullSecrets:
           - name: {{ .Values.cms_backend_image_pull_secrets }}      
       {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Environment.Values.terraform_project }}
-      - region: {{ .Environment.Values.terraform_region }}
-      - mysql_instance: {{ .Environment.Values.gcp.mysql.name }}
-      - mysql_proxy_ip:  {{ .Environment.Values.mysql_proxy_ip}}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - mysql_instance: {{ .Values.mysql_database }}
+      - mysql_proxy_ip:  {{ .Values.mysql_proxy_ip}}
       {{- end}}
       - ingress:
           tls:
@@ -215,7 +215,7 @@ releases:
           {{ end }}
           # This should be removed with new image
           ams_assessment_jwt_public_key_path: ./ams_assessment_jwt_public_key.pem
-          h5p_endpoint: {{ .Values.assessment_xapi_endpoint }}
+          h5p_endpoint: https://api{{ .Values.kl_domain }}/assessment/graphql
           
 
 
@@ -544,7 +544,7 @@ releases:
                 - "/"
       - domain: {{ .Values.domain }}
       - liveHost: live{{ .Values.kl_domain }}
-      - xapi_endpoint: {{ .Values.h5p_xapi_endpoint }}
+      - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
       {{ if .Values.h5p_storage }}
       - h5p_storage:
           mongodb_url: {{ .Values.mongodb.url }}
@@ -570,3 +570,91 @@ releases:
       #     limits:
       #       cpu: 256m
       #       memory: 1024Mi
+
+
+
+  # XAPI SERVICE
+  # ---------------------------------------------------------------------------------------
+  
+  - name: xapi
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/xapi
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: "{{ .Values.xapi_image_repository }}"
+          tag: "{{ .Values.xapi_image_tag }}"
+      - imagePullSecrets:
+          - name: {{ .Values.xapi_image_pull_secrets }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}"
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/xapi"
+      - domain: {{ .Values.domain }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end }}
+      - aws_region: {{ .Values.dynamodb_aws_region }}
+      - dynamodb_table_name: {{ .Values.dynamodb_table_name }}
+      - elasticsearch_username: {{ .Values.elasticsearch_username }}
+      - firehose_steam_name: {{ .Values.firehose_steam_name }}
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+
+
+  # Assessment
+  # ---------------------------------------------------------------------------------------
+  # 
+  - name: assessment
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/assessment
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.assessment_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.assessment_image_repository }}"
+          tag: {{ .Values.assessment_image_tag }}
+      - domain: {{ .Values.domain }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      - mysql_instance: {{ .Values.mysql_database }}
+      {{- end }}
+      - aws_region: {{ .Values.dynamodb_aws_region }}
+      - dynamodb_table_name: {{ .Values.dynamodb_table_name }}
+      - user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}" 
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/assessment"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi

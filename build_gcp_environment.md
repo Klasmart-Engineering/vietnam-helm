@@ -137,5 +137,8 @@ kubectl -n okc create secret generic h5p-mongodb-secret \
 # build gcp config connector resources (postgres db, mysql db, redis)
 bash gke.sh indonesia-rk-prod
 
+# create aws secrets for cms-backend storage
+cd bootstrap
+bash make_secret_cms_backend_s3.sh $ENV_NAME
 
 ```

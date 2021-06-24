@@ -8,9 +8,11 @@ env_validate "$ENV"
 NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
 [ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 PROVIDER=$(../../scripts/python/env_var.py $ENV provider)
+
 POSTGRESQL_HOST=$(../../scripts/python/env_var.py $ENV postgresql_host)
 POSTGRESQL_USERNAME=$(../../scripts/python/env_var.py $ENV postgresql_username)
-POSTGRESQL_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_database)
+POSTGRESQL_USER_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_database)
+POSTGRESQL_ASSESSMENT_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_assessment_database)
 SECRET_NAME=postgresql
 REPMGR_PASSWORD="$(pwgen -s 20 1)"
 
@@ -33,19 +35,20 @@ if [[ $PROVIDER = "vngcloud" ]]; then
   POSTGRESQL_PASSWORD="$vngcloud_postgresql_password"
 else
   POSTGRESQL_PASSWORD="$(pwgen -s 20 1)"
-fi
+fi  
 
 DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST"
+DATABASE_USER_URL="$DATABASE_URL/$POSTGRESQL_USER_DATABASE"
+DATABASE_ASSESSMENT_URL="$DATABASE_URL/$POSTGRESQL_ASSESSMENT_DATABASE"
 
 # create k8s secret manifest
 kubectl create secret generic $SECRET_NAME \
   --dry-run=client \
   -o yaml \
   --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
-  --from-literal=database-url="${DATABASE_URL}/${POSTGRESQL_DATABASE}" \
-  --from-literal=assessment-database-url="${DATABASE_URL}/assessment" \
-  --from-literal=repmgr-password="$REPMGR_PASSWORD" \
-  > $SECRET_NAME.yaml
+  --from-literal=database-url="$DATABASE_USER_URL" \
+  --from-literal=assessment-database-url="$DATABASE_ASSESSMENT_URL" \
+  --from-literal=repmgr-password="$(pwgen -s 20 1)" > $SECRET_NAME.yaml
 
 for namespace in $NS_PERSISTENCE $NS_KIDSLOOP
 do
