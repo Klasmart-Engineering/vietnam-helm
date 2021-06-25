@@ -62,4 +62,4 @@ pushd helm
 helmfile -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
 popd
 
-#rm $CONFIG_FILE  || true
+rm $CONFIG_FILE  || true

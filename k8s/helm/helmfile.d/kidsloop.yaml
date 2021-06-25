@@ -632,12 +632,15 @@ releases:
           repository: "{{ .Values.assessment_image_repository }}"
           tag: {{ .Values.assessment_image_tag }}
       - domain: {{ .Values.domain }}
+      - cms_db: {{ .Values.mysql_database }}
+      - cms_db_user: {{ .Values.mysql_assessment_username }}
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
       - mysql_instance: {{ .Values.mysql_database }}
       {{- end }}
+      - mysql_host: {{ .Values.mysql_host }}
       - aws_region: {{ .Values.dynamodb_aws_region }}
       - dynamodb_table_name: {{ .Values.dynamodb_table_name }}
       - user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql

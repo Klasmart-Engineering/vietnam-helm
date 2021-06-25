@@ -12,6 +12,7 @@
     "postgresql_assessment_database": "kidsloop",
     "mysql_host": "10.0.2.5",
     "mysql_username": "kidslooproot",
+    "mysql_assessment_username": "kidslooproot",
     "mysql_database": "kidsloop2",
     "fluentbit_cloudwatch_log_stream": "vn-vngcloud-prd",
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",

@@ -9,6 +9,7 @@ CONFIG=$(cat ../env/$ENV/config.json)
 PROJECT=$(cat ../env/$ENV/tfvars.json | jq -r '.terraform_project')
 MYSQL_NAME=$(echo $CONFIG | jq -r '.gcp .mysql .name')
 MYSQL_USER=$(echo $CONFIG | jq -r '.gcp .mysql .user')
+MYSQL_ASSESSMENT_USER=$(echo $CONFIG | jq -r '.gcp .mysql .assessment_user')
 POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 POSTGRESQL_ASSESSMENT_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .assessment_database')
@@ -26,6 +27,7 @@ echo "{
     \"mysql_host\": \"$MYSQL_IP\",
     \"mysql_database\": \"$MYSQL_NAME\",
     \"mysql_username\": \"$MYSQL_USER\",
+    \"mysql_assessment_username\": \"$MYSQL_ASSESSMENT_USER\",
     \"mysql_proxy_ip\": \"$MYSQL_PROXY_IP\",
     \"postgresql_host\": \"$POSTGRESQL_IP\", 
     \"postgresql_database\": \"$POSTGRESQL_NAME\",

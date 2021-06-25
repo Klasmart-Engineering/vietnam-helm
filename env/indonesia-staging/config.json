@@ -44,6 +44,7 @@
             "charset":   "utf8mb4",
             "collation": "utf8mb4_bin",
             "user":      "kidsloop-mysql",
+            "assessment_user": "mysql-assessment-user",
             "disk": {
                 "size": 10, 
                 "type": "PD_SSD"

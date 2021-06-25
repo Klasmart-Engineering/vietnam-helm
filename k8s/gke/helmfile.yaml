@@ -50,7 +50,16 @@ releases:
           mysql_disk_size: {{ .Values.gcp.mysql.disk.size }}
           mysql_disk_type: {{ .Values.gcp.mysql.disk.type }}
           mysql_user: {{ .Values.gcp.mysql.user }}
-      
+
+  - name: mysql-assessment-user
+    namespace: config-connector
+    chart: charts/mysql-user
+    values:
+      - gcp:
+          project: {{ .Values.terraform_project }}
+          mysql_name: {{ .Values.gcp.mysql.name }}
+          mysql_user: {{ .Values.gcp.mysql.assessment_user }}
+
   - name: gke-mysql-sql-proxy
     namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
     chart: charts/mysql-sql-proxy

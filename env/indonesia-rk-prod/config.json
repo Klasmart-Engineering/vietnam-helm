@@ -45,6 +45,7 @@
             "charset":   "utf8mb4",
             "collation": "utf8mb4_bin",
             "user":      "kidsloop-mysql",
+            "assessment_user": "mysql-assessment-user",
             "disk": {
                 "size": 10, 
                 "type": "PD_SSD"
@@ -106,7 +107,7 @@
     "base_url_h5p": "https://h5p.rumahkisah.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "opsbau-49-create-rk-webpack-config-id-rk_prod-d2f6967",
+    "auth_frontend_image_tag": "pipeline-testing-id-rk_prod-2213535",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",

@@ -1,0 +1,15 @@
+apiVersion: sql.cnrm.cloud.google.com/v1beta1
+kind: SQLUser
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id : "{{ .Values.gcp.project }}"
+  name: {{ include "mysql-user.fullname" . }}
+spec:
+  instanceRef:
+    name: "{{ .Values.gcp.mysql_name }}"
+  host: "%"
+  password:
+    valueFrom:
+      secretKeyRef:
+        key: "mysql-password"     # "{{ include "mysql-user.fullname" . }}-secret" we could use a separate secret for every user in the future
+        name: "mysql"
