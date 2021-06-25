@@ -33,7 +33,9 @@ data:
             command: [ "sh", "-c" ]
             args:
             - |
-              export HOSTNAME_OVERRIDE=$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local;
+              export PUBLIC_ADDRESS=$(curl icanhazip.com) && echo $PUBLIC_ADDRESS && \
+              export HOSTNAME_OVERRIDE=$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local && \
+              echo $HOSTNAME_OVERRIDE;
               npm start
             env:
               - name: NODE_ENV
@@ -42,6 +44,8 @@ data:
                 value: {{ .Values.redisHost }}
               - name: REDIS_PORT
                 value: {{ .Values.redisPort | quote }}
+              - name: NUM_CPU_CORES
+                value: "1"  
               - name: POD_NAME
                 valueFrom:
                   fieldRef:
