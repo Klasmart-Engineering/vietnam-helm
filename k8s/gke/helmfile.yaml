@@ -108,3 +108,9 @@ releases:
           project: {{ .Values.terraform_project }}
           compute_address_name: ingress-https-load-balancer
 
+  - name: whitelabel-storage
+    namespace: config-connector
+    chart: charts/whitelabel-bucket
+    values:
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}

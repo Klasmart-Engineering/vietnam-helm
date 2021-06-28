@@ -42,7 +42,20 @@ spec:
               secretKeyRef:
                 name: postgresql
                 key: database-url
-
+        {{- if eq .Values.provider "gcp" }}
+          - name: STORAGE_BUCKET
+            value: {{ .Values.whitelabel_storage_bucket }}
+          - name: STORAGE_PROVIDER
+            value: {{ .Values.provider }}
+          - name: STORAGE_GOOGLE_KEY_FILE_NAME
+            value: /key/sa-privatekey
+          - name: STORAGE_PROJECT_ID
+            value: {{ .Values.project }}
+        volumeMounts:
+          - name: whitelabel-storage-sa-key
+            mountPath: /key
+            readOnly: true
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       
@@ -55,8 +68,9 @@ spec:
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
           runAsNonRoot: true  
-      {{- end }}
-
-      {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
+      volumes:
+        - name: whitelabel-storage-sa-key
+          secret:
+            secretName: whitelabel-storage-sa-key
       {{- end }}

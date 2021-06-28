@@ -72,6 +72,9 @@
             "tier": "STANDARD_HA"
         }
     },
+    
+    "whitelabel_storage_provider": "google",
+    "whitelabel_storage_bucket": "whitelabel-bucket-kl-idn-rumah-kisah-prod",
 
     "storage": {
         "endpoint": "TBD",

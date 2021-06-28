@@ -141,4 +141,8 @@ bash gke.sh indonesia-rk-prod
 cd bootstrap
 bash make_secret_cms_backend_s3.sh $ENV_NAME
 
+# in GCP Console go to IAM&Admin>Service Accounts and generate json key
+# create whitelabel-storage-sa-key secret
+kubectl -n okc create secret generic whitelabel-storage-sa-key \
+--from-file=sa-privatekey=/path/to/file
 ```

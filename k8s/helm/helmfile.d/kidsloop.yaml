@@ -425,6 +425,8 @@ releases:
               paths:
                 - "/user"
       - domain: {{ .Values.domain }}
+      - whitelabel_storage_bucket: {{ .Values.whitelabel_storage_bucket }}
+      - whitelabel_storage_provider: {{ .Values.whitelabel_storage_provider }}
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}

@@ -45,7 +45,8 @@ locals {
     "roles/compute.loadBalancerAdmin",
     "roles/cloudsql.admin",
     "roles/redis.admin",
-    "roles/iam.serviceAccountAdmin"
+    "roles/iam.serviceAccountAdmin",
+    "roles/storage.admin"
   ]
 }
 
