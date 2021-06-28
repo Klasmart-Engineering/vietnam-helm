@@ -27,7 +27,7 @@ repositories:
 
 releases:
 
-{{- if eq .Values.provider "gcp" }}
+{{- if eq .Values.provider "gcp-do-not-deploy-yet" }}
 
 # atlas operator and crds
 - name: mongodb-atlas-operator

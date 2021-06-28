@@ -130,7 +130,7 @@
     "hub_image_pull_secrets": "ecr-registry-infra",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "opsbau-47-create-rk-webpack-config-id-rk_prod-8e4968c",
+    "live_frontend_image_tag": "release-production-in-prod-df99e0c",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",

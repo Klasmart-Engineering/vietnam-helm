@@ -31,15 +31,23 @@ if [ "$PROVIDER" = "gcp" ]; then
         exit 1
     fi
 
+    # Write TFOUTPUT file
+    TFOUTPUT_FILE=$(env_path $ENV ".gcp-terraform-output.json")
+    echo -e "\nWRITING TFOUTPUT FILE"
+    pushd ../terraform
+    TFOUTPUT=$(./output.sh $ENV)
+    echo -e $TFOUTPUT > $TFOUTPUT_FILE
+    popd
+
+    # Write GKE file
+    GKE_FILE=$(env_path $ENV ".gcp-config-connnector.json")
+    GKE=$(gke/scripts/generate_gke_env.sh $ENV)
+    echo -e $GKE > $GKE_FILE
+
 fi
 
-
-TFOUTPUT_FILE=$(env_path $ENV ".gcp-terraform-output.json")
-CONFIG_FILE=$(env_path $ENV ".env.yaml")
-
-rm $TFOUTPUT_FILE || true
-
 # Create single yaml env file
+CONFIG_FILE=$(env_path $ENV ".env.yaml")
 python3 ../scripts/python/env_all_yaml.py $ENV
 
 # build up some useful helmfile flags
@@ -63,3 +71,8 @@ helmfile -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
 popd
 
 rm $CONFIG_FILE  || true
+if [ "$PROVIDER" = "gcp" ]; then
+    rm $TFOUTPUT_FILE  || true
+    rm $GKE_FILE  || true
+fi
+
