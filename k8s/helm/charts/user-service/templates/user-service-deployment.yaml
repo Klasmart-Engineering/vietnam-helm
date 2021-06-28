@@ -46,7 +46,7 @@ spec:
           - name: STORAGE_BUCKET
             value: {{ .Values.whitelabel_storage_bucket }}
           - name: STORAGE_PROVIDER
-            value: {{ .Values.provider }}
+            value: {{ .Values.whitelabel_storage_provider }}
           - name: STORAGE_GOOGLE_KEY_FILE_NAME
             value: /key/sa-privatekey
           - name: STORAGE_PROJECT_ID

@@ -110,7 +110,7 @@
     "base_url_h5p": "https://h5p.rumahkisah.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "pipeline-testing-id-rk_prod-2213535",
+    "auth_frontend_image_tag": "dev-id-rk_prod-f7ff34d",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
@@ -126,7 +126,7 @@
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "opsbau-58-rumah-kisah-config-id-rk_prod-5af9083",
+    "hub_image_tag": "release-alpha-id-rk_prod-cb21f01",
     "hub_image_pull_secrets": "ecr-registry-infra",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
@@ -150,7 +150,7 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "vietnam-alpha-61ef11b",
+    "user_service_image_tag": "commit-81cd628",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
