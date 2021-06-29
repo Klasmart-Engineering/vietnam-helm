@@ -54,6 +54,9 @@ releases:
       - domain: {{ .Values.domain }}
       - whitelabel_storage_bucket: {{ .Values.whitelabel_storage_bucket }}
       - whitelabel_storage_provider: {{ .Values.whitelabel_storage_provider }}
+      - postgresql_host: {{ .Values.postgresql_host }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - postgresql_username: {{ .Values.postgresql_username }}
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
