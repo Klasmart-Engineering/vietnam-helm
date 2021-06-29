@@ -150,7 +150,7 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "commit-81cd628",
+    "user_service_image_tag": "commit-46e49b4",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
