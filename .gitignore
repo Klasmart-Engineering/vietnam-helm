@@ -6,4 +6,5 @@ ecr-secret.yaml
 mysql-secret.yaml
 .terraform.lock.hcl
 .venv
+.env
 
