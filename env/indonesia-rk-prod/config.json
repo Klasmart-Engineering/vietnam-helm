@@ -77,20 +77,20 @@
     "whitelabel_storage_bucket": "whitelabel-kl-idn-rumah-kisah-prod",
 
     "storage": {
-        "endpoint": "TBD",
-        "region": "TBD",
-        "bucket": "TBD",
+        "endpoint": "s3.ap-southeast-1.amazonaws.com",
+        "region": "ap-southeast-1",
+        "bucket": "klid-rk-prod-cms-res",
         "protocol": "s3",
-        "download_mode": "TBD",
-        "cdn_path": "TBD"
+        "download_mode": "cloudfront",
+        "cdn_path": "https://cdn.rumahkisah.net"
     },
 
     "h5p_storage": {
-        "endpoint": "TBD",
-        "content_storage": "TBD",
-        "content_storage_bucket": "TBD",
-        "temporary_storage": "TBD",
-        "temporary_storage_bucket": "TBD"
+        "endpoint": "s3.ap-southeast-1.amazonaws.com",
+        "content_storage": "mongos3",
+        "content_storage_bucket": "klid-rk-prod-h5p",
+        "temporary_storage": "s3",
+        "temporary_storage_bucket": "klid-rk-prod-h5p-temp"
     },
 
     "mongodb": {
