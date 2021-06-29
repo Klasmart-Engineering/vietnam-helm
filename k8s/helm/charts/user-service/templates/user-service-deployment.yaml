@@ -37,18 +37,26 @@ spec:
             value: "8080"
           - name: ROUTE_PREFIX
             value: "/user"
-          - name: DATABASE_URL
+          - name: DB_HOST
+            value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+          - name: DB_NAME
+            value: {{ .Values.postgresql_database }}
+          - name: DB_USERNAME
+            value: {{ .Values.postgresql_username }}
+          - name: DB_SECRET
             valueFrom:
               secretKeyRef:
                 name: postgresql
-                key: database-url
+                key: postgresql-password
+          - name: DATABASE_URL
+            value: "postgres://$(DB_USERNAME):$(DB_SECRET)@$(DB_HOST)/$(DB_NAME)"
         {{- if eq .Values.provider "gcp" }}
           - name: STORAGE_BUCKET
             value: {{ .Values.whitelabel_storage_bucket }}
           - name: STORAGE_PROVIDER
             value: {{ .Values.whitelabel_storage_provider }}
           - name: STORAGE_GOOGLE_KEY_FILE_NAME
-            value: /key/sa-privatekey
+            value: /key/key.json
           - name: STORAGE_PROJECT_ID
             value: {{ .Values.project }}
         volumeMounts:
@@ -72,5 +80,5 @@ spec:
       volumes:
         - name: whitelabel-storage-sa-key
           secret:
-            secretName: whitelabel-storage-sa-key
+            secretName: whitelabel-bucket
       {{- end }}
