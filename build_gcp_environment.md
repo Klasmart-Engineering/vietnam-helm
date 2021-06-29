@@ -109,6 +109,9 @@ pip install -r requirements.txt
 ## Build GCP infra
 
 ```bash
+
+cd k8s
+
 # create k8s namespaces and secrets
 bash bootstrap.sh indonesia-rk-prod
 
@@ -141,8 +144,7 @@ bash gke.sh indonesia-rk-prod
 cd bootstrap
 bash make_secret_cms_backend_s3.sh $ENV_NAME
 
-# in GCP Console go to IAM&Admin>Service Accounts and generate json key
-# create whitelabel-storage-sa-key secret
-kubectl -n okc create secret generic whitelabel-storage-sa-key \
---from-file=sa-privatekey=/path/to/file
+# install helm releases
+bash helm.sh indonesia-rk-prod diff
+bash helm.sh indonesia-rk-prod apply
 ```
