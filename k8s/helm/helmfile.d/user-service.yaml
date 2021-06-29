@@ -1,0 +1,68 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  - name: whitelabel-storage
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/whitelabel-bucket
+    values:
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - bucket_name: "whitelabel-{{ .Values.terraform_project }}"
+
+  - name: user-service
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/user-service
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: "{{ .Values.user_service_image_repository }}"
+          tag: "{{ .Values.user_service_image_tag }}"
+      - imagePullSecrets:
+          - name: {{ .Values.user_service_image_pull_secrets }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}"
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/user"
+      - domain: {{ .Values.domain }}
+      - whitelabel_storage_bucket: {{ .Values.whitelabel_storage_bucket }}
+      - whitelabel_storage_provider: {{ .Values.whitelabel_storage_provider }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end }}
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi

@@ -48,7 +48,7 @@ spec:
           - name: STORAGE_PROVIDER
             value: {{ .Values.whitelabel_storage_provider }}
           - name: STORAGE_GOOGLE_KEY_FILE_NAME
-            value: /key/sa-privatekey
+            value: /key/key.json
           - name: STORAGE_PROJECT_ID
             value: {{ .Values.project }}
         volumeMounts:
@@ -72,5 +72,5 @@ spec:
       volumes:
         - name: whitelabel-storage-sa-key
           secret:
-            secretName: whitelabel-storage-sa-key
+            secretName: whitelabel-bucket
       {{- end }}

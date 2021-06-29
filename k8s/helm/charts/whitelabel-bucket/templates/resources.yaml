@@ -1,0 +1,59 @@
+apiVersion: storage.cnrm.cloud.google.com/v1beta1
+kind: StorageBucket
+metadata:
+  name: {{ .Values.bucket_name }}
+  labels:
+    {{- include "whitelabel-bucket.labels" . | nindent 4 }}
+  annotations:
+    cnrm.cloud.google.com/force-destroy: "true"
+    cnrm.cloud.google.com/project-id : "{{ .Values.project }}"
+spec:
+  location: {{ .Values.region }}
+  uniformBucketLevelAccess: true
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    {{- include "whitelabel-bucket.labels" . | nindent 4 }}
+  annotations:
+    cnrm.cloud.google.com/project-id : "{{ .Values.project }}"
+spec:
+  displayName: "Whitelabel Bucket Service Account"
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    {{- include "whitelabel-bucket.labels" . | nindent 4 }}
+  annotations:
+    cnrm.cloud.google.com/project-id : "{{ .Values.project }}"
+spec:
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1beta1
+    kind: StorageBucket
+    name: {{ .Values.bucket_name }}
+  bindings:
+    - role: roles/storage.admin
+      members:
+        - "serviceAccount:{{ .Chart.Name }}@{{ .Values.project }}.iam.gserviceaccount.com"
+    - role: roles/storage.objectViewer
+      members:
+        - allUsers
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccountKey
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    {{- include "whitelabel-bucket.labels" . | nindent 4 }}
+  annotations:
+    cnrm.cloud.google.com/project-id : "{{ .Values.project }}"
+spec:
+  publicKeyType: TYPE_X509_PEM_FILE
+  keyAlgorithm: KEY_ALG_RSA_2048
+  privateKeyType: TYPE_GOOGLE_CREDENTIALS_FILE
+  serviceAccountRef:
+    name: {{ .Chart.Name }}
