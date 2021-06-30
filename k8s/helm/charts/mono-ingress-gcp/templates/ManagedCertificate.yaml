@@ -9,4 +9,4 @@ spec:
     - live{{ .Values.domain }}  
     - api{{ .Values.domain }} 
     - auth{{ .Values.domain }}
-    - h5ptest{{ .Values.domain }}
+    #- h5p{{ .Values.domain }}

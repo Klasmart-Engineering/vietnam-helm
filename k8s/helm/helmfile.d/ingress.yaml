@@ -154,14 +154,14 @@ releases:
           requestPath: /.well-known/express/server-health
           port: 8080
 
-  - name: ingress-backend-config-h5p-service
-    namespace: okc
-    chart:  ../charts/mono-ingress-backend-config-gcp
-    values: 
-      - name: h5p-service
-      - healthCheck:
-          requestPath: /
-          port: 8080
+  #- name: ingress-backend-config-h5p-service
+  #  namespace: okc
+  #  chart:  ../charts/mono-ingress-backend-config-gcp
+  #  values: 
+  #    - name: h5p-service
+  #    - healthCheck:
+  #        requestPath: /
+  #        port: 8080
 
   - name: ingress-backend-config-h5p-xapi
     namespace: okc
