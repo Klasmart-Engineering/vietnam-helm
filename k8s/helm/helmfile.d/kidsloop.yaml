@@ -325,6 +325,8 @@ releases:
             memory: 512Mi
       - sfuManagerConfiguration:
           promHost: {{ .Values.prometheus_host }}
+          desiredPodsGetter: {{ .Values.desired_pods_getter }}
+          redisHost: {{ .Values.redis_host }}:6379
       - redisHost: {{ .Values.redis_host }}
 
 
