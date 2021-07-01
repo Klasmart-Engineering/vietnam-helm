@@ -123,7 +123,7 @@
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "opsbau-50-rumah-kisah-config-id-rk_prod-4c31876",
+    "cms_frontend_image_tag": "commit-16890b1a-id-rk-prod",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
