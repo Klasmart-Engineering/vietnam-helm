@@ -35,7 +35,8 @@ releases:
   
   
   - name: ingress-nginx
-    namespace: default
+    namespace: ingress-nginx
+    createNamespace: true
     chart: ingress-nginx/ingress-nginx
     condition: helm_nginx_ingress.enabled
     version: 3.29.0
@@ -49,6 +50,7 @@ releases:
             forwarded-for-header: "true"
             proxy-add-original-uri-header: "true"
             use-gzip: "true"
+
           service:
             annotations:
               nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -56,8 +58,7 @@ releases:
               nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
               nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
               nginx.ingress.kubernetes.io/enable-cors: "true"
-
-
+              
 {{- if eq .Values.provider "gcp" }}
 
   - name: ingress
