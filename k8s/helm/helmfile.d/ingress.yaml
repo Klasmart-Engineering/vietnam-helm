@@ -33,8 +33,7 @@ releases:
   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
   # This provides an ingress endpoint for inbound traffic
   
-  {{- if ne .Values.provider "gcp" }}
-
+  
   - name: ingress-nginx
     namespace: default
     chart: ingress-nginx/ingress-nginx
@@ -42,6 +41,7 @@ releases:
     version: 3.29.0
     values:
       - controller:
+          replicaCount: 3
           config:
             ssl-redirect: "false"
             ssl-protocols: "SSLv3 TLSv1 TLSv1.1 TLSv1.2"
@@ -57,8 +57,9 @@ releases:
               nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
               nginx.ingress.kubernetes.io/enable-cors: "true"
 
-  {{- else }}
-  
+
+{{- if eq .Values.provider "gcp" }}
+
   - name: ingress
     namespace: okc
     chart: ../charts/mono-ingress-gcp

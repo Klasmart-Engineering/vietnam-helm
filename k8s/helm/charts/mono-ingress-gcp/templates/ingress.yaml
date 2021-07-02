@@ -3,18 +3,29 @@ kind: Ingress
 metadata:
   name: mono-ingress
   annotations:
-    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/enable-cors: "true"
     kubernetes.io/ingress.global-static-ip-name: "ingress-https-load-balancer"
     networking.gke.io/managed-certificates: mono-ingress
     kubernetes.io/ingress.allow-http: "false"
+    cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
+
+  tls:
+    - hosts:
+      - hub{{ .Values.domain }}
+      - cms{{ .Values.domain }}
+      - live{{ .Values.domain }}   
+      - auth{{ .Values.domain }}  
+      - api{{ .Values.domain }}  
+      secretName: tls-secret
 
   rules:
   
     - host: hub{{ .Values.domain }}
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
               serviceName: hub-svc
               servicePort: 80
@@ -22,12 +33,12 @@ spec:
     - host: cms{{ .Values.domain }}    
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
               serviceName: cms-frontend-svc
               servicePort: 80
 
-          - path: /v1/*
+          - path: /v1/
             backend:
               serviceName: cms-backend-svc
               servicePort: 80
@@ -35,17 +46,17 @@ spec:
     - host: live{{ .Values.domain }}    
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
               serviceName: live-frontend-svc
               servicePort: 80
 
-          - path: /sfu/*
+          - path: /sfu/
             backend:
               serviceName: sfu-gateway-svc
               servicePort: 80
 
-          - path: /graphql/*
+          - path: /graphql/
             backend:
               serviceName: live-backend-svc
               servicePort: 80
@@ -57,10 +68,10 @@ spec:
             backend:
               serviceName: user-service-svc
               servicePort: 80
-          - path: /user/*
-            backend:
-              serviceName: user-service-svc
-              servicePort: 80
+          #- path: /user/
+          #  backend:
+          #    serviceName: user-service-svc
+          #    servicePort: 80
           - path: /xapi
             backend:
               serviceName: xapi-svc
@@ -73,7 +84,7 @@ spec:
     - host: auth{{ .Values.domain }}    
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
               serviceName: auth-frontend-svc
               servicePort: 80

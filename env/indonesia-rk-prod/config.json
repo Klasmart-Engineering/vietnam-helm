@@ -17,13 +17,13 @@
         "enabled": false
     },
     "helm_cert_manager": {
-        "enabled": false
+        "enabled": true
     },
     "helm_persistence": {
         "enabled": false
     },
     "helm_nginx_ingress": {
-        "enabled": false
+        "enabled": true
     },   
     "helm_ecr_token_vietnam": {
         "enabled": false

@@ -28,20 +28,17 @@ repositories:
 
 releases:
 
-  {{- if ne .Values.provider "gcp" }}
-
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
-    version: ~1.2.0
-    condition: helm_cert_manager.enabled
+    version: ~1.4.0
+    force: true
     values:
       - installCRDs: true
 
   - name: letsencrypt
-    namespace: cert-manager
     chart: ../charts/letsencrypt
-    condition: helm_cert_manager.enabled
+    namespace: cert-manager
 
 
-  {{- end }}
+
