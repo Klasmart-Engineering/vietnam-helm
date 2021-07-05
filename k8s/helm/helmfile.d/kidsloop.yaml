@@ -315,7 +315,9 @@ releases:
             - name: {{ .Values.sfu_image_pull_secrets }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
-      - hostNetworking: true
+      # Important - no host networking in GCP, and use pod IP as hostname
+      - hostNetworking: false
+        usePodIp: true
       - resources:
           requests:
             cpu: 250m

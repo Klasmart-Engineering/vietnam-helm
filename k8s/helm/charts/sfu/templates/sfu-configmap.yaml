@@ -34,7 +34,7 @@ data:
             args:
             - |
               export PUBLIC_ADDRESS=$(curl icanhazip.com) && echo $PUBLIC_ADDRESS && \
-              export HOSTNAME_OVERRIDE=$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local && \
+              export HOSTNAME_OVERRIDE={{ if .Values.usePodIp }}$POD_IP{{ else }}$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local{{ end }} && \
               echo $HOSTNAME_OVERRIDE;
               npm start
             env:
@@ -50,6 +50,10 @@ data:
                 valueFrom:
                   fieldRef:
                     fieldPath: metadata.name
+              - name: POD_IP
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.podIP
               - name: POD_NAMESPACE
                 valueFrom:
                   fieldRef:
