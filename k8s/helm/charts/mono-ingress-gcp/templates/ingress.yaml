@@ -9,8 +9,13 @@ metadata:
     networking.gke.io/managed-certificates: mono-ingress
     kubernetes.io/ingress.allow-http: "false"
     cert-manager.io/cluster-issuer: "letsencrypt"
-spec:
+    nginx.ingress.kubernetes.io/websocket-services : "live-frontend-svc,live-backend-svc,sfu-gateway-svc"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/send-timeout: "3600"
 
+spec:
   tls:
     - hosts:
       - hub{{ .Values.domain }}
@@ -56,7 +61,7 @@ spec:
               serviceName: sfu-gateway-svc
               servicePort: 80
 
-          - path: /graphql/
+          - path: /graphql  # Important! No trailing /
             backend:
               serviceName: live-backend-svc
               servicePort: 80

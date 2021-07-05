@@ -1,8 +1,8 @@
-timeoutSec: 30
+timeoutSec: 3600  # Need long timeout to support websockets
 cdn:
   enabled: false
 connectionDraining:
-  drainingTimeoutSec: 60
+  drainingTimeoutSec: 3600     # Need long timeout to support websockets
 healthCheck:
   requestPath: /
   type: HTTP
