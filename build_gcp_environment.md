@@ -145,6 +145,7 @@ cd bootstrap
 bash make_secret_cms_backend_s3.sh $ENV_NAME
 
 # install helm releases
+cd k8s
 bash helm.sh indonesia-rk-prod diff
 bash helm.sh indonesia-rk-prod apply
 ```
