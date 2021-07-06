@@ -39,7 +39,7 @@ releases:
     createNamespace: true
     chart: ingress-nginx/ingress-nginx
     condition: helm_nginx_ingress.enabled
-    version: 3.29.0
+    version: 3.34.0
     values:
       - controller:
           replicaCount: 3
@@ -74,6 +74,12 @@ releases:
     chart: ../charts/mono-ingress-gcp
     values:
       - domain: {{ .Values.kl_domain }}
+{{- if eq .Values.provider "gcp" }}
+      # RK - use H5P in SG
+      - externalServices:
+          h5p:
+            enabled: true
+{{- end }}
 
   - name: ingress-backend-config-hub
     namespace: okc
