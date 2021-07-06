@@ -315,7 +315,12 @@ releases:
             - name: {{ .Values.sfu_image_pull_secrets }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
-      - hostNetworking: true
+      {{- if eq .Values.provider "gcp" }}
+      # Important - use host networking in GCP, and use pod IP as hostname
+      - hostNetworking: true  # SFU addressable over internet
+        usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE
+        useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
+      {{- end }}
       - resources:
           requests:
             cpu: 250m

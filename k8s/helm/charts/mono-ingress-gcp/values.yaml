@@ -1,0 +1,6 @@
+externalServices:
+  h5p:
+    enabled: false
+    externalName: ""  # Use this to set the external H5P url (if required). Default: h5p.{{ .Values.domain }}
+    servicePort: 443
+    serviceProtocol: HTTPS

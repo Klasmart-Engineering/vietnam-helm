@@ -14,7 +14,18 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# If hostNetworking is set, then the SFU pods will run on the host network. They will have access to any public IP
+# interfaces of the node and will be able to receive traffic directly from the public internet if running in the DMZ.
 hostNetworking: false
+
+# If useIp is set, then the SFU gateway will attempt to use an IP address from the list of network interfaces
+# to connect to the SFU pod for routing websocket traffic. The algorithm preferrs public over private and IP4 over IP6.
+useIp: false
+
+# If usePodIpAsHostnameOverride is set, then the pod IP address is used to get
+# sfu-gateway > sfu instance IP resolution working (with .status.ip ) in GCP RK deployment
+usePodIpAsHostnameOverride: false
+
 redisPort: 6379
 
 resources: {}

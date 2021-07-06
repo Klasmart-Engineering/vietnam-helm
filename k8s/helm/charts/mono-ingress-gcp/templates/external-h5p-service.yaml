@@ -1,0 +1,22 @@
+{{- if .Values.externalServices.h5p.enabled }}
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-h5p-svc"
+spec:
+  type: ExternalName
+{{- if .Values.externalServices.h5p.externalName }}
+  externalName: "{{ .Values.externalServices.h5p.externalName }}"
+{{- else }}
+  externalName: h5p{{ .Values.domain }}
+{{- end }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 443
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+{{- end }}

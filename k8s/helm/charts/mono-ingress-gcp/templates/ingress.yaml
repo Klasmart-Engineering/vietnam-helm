@@ -9,19 +9,23 @@ metadata:
     networking.gke.io/managed-certificates: mono-ingress
     kubernetes.io/ingress.allow-http: "false"
     cert-manager.io/cluster-issuer: "letsencrypt"
-spec:
+    nginx.ingress.kubernetes.io/websocket-services: "live-frontend-svc,live-backend-svc,sfu-gateway-svc"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/send-timeout: "3600"
 
+spec:
   tls:
     - hosts:
       - hub{{ .Values.domain }}
       - cms{{ .Values.domain }}
-      - live{{ .Values.domain }}   
-      - auth{{ .Values.domain }}  
-      - api{{ .Values.domain }}  
+      - live{{ .Values.domain }}
+      - auth{{ .Values.domain }}
+      - api{{ .Values.domain }}
       secretName: tls-secret
 
   rules:
-  
     - host: hub{{ .Values.domain }}
       http:
         paths:
@@ -51,12 +55,17 @@ spec:
               serviceName: live-frontend-svc
               servicePort: 80
 
+          # - path: /static/  # Where does static come from?
+          #   backend:
+          #     serviceName: live-frontend-svc
+          #     servicePort: 80
+
           - path: /sfu/
             backend:
               serviceName: sfu-gateway-svc
               servicePort: 80
 
-          - path: /graphql/
+          - path: /graphql  # Important! No trailing /
             backend:
               serviceName: live-backend-svc
               servicePort: 80
@@ -108,11 +117,3 @@ spec:
             backend:
               serviceName: auth-backend-svc
               servicePort: 80
-
-    #- host: h5p{{ .Values.domain }}
-    #  http:
-    #    paths:
-    #      - path: /*
-    #        backend:
-    #          serviceName: h5p-service-svc
-    #          servicePort: 80
