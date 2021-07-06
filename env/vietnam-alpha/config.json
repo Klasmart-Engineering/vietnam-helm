@@ -57,7 +57,8 @@
         "bucket": "kidsloop-cms-backend-alpha",
         "protocol": "s3",
         "download_mode": "cloudfront",
-        "cdn_path": "https://cdn.alpha.kidsloop.vn"
+        "cdn_path": "https://cdn.alpha.kidsloop.vn",
+        "cdn_live": "https://cdn-live.alpha.kidsloop.vn"
     },
 
     "mongodb": {
