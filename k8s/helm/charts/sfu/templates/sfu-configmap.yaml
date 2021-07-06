@@ -33,9 +33,9 @@ data:
             command: [ "sh", "-c" ]
             args:
             - |
-              export PUBLIC_ADDRESS=$(curl icanhazip.com) && echo $PUBLIC_ADDRESS && \
-              export HOSTNAME_OVERRIDE={{ if .Values.usePodIp }}$POD_IP{{ else }}$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local{{ end }} && \
-              echo $HOSTNAME_OVERRIDE;
+              export PUBLIC_ADDRESS=$(curl icanhazip.com) && echo "PUBLIC_ADDRESS: $PUBLIC_ADDRESS" && \
+              export HOSTNAME_OVERRIDE={{ if .Values.usePodIpAsHostnameOverride }}$POD_IP{{ else }}$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local{{ end }} && \
+              echo "HOSTNAME_OVERRIDE: $HOSTNAME_OVERRIDE";
               npm start
             env:
               - name: NODE_ENV
@@ -60,8 +60,11 @@ data:
                     fieldPath: metadata.namespace
               - name: SERVICE_NAME
                 value: {{ include "sfu.fullname" . }}
-              - name: USE_HOSTNAME
+{{- if .Values.useIp }}
+              - name: USE_IP
+                # If set, then the SFU gateway will use the 'PUBLIC_ADDRESS' to connect to the SFU pod for routing websocket traffic.
                 value: "1"
+{{- end }}
             resources:
               {{- toYaml .Values.resources | nindent 16 }}
   config: |
