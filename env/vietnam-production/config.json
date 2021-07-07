@@ -54,6 +54,7 @@
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "storage": {
+        "storage_region": "HCM01",
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",
         "bucket": "kidsloop-cms-backend-production",
@@ -71,6 +72,7 @@
     },
 
     "h5p_storage": {
+
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "content_storage": "mongos3",
         "content_storage_bucket": "kidsloop-h5p-content-production",
@@ -88,27 +90,27 @@
     "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "feature-auth-35-provide-region-specific-service--vn-prod-8c878c5",
+    "auth_frontend_image_tag": "release-alpha-vn-prod-f051194",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
-    "auth_backend_image_tag": "master-fefe321",
+    "auth_backend_image_tag": "master-068668b",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "vietnam-prod-20587fdb",
+    "cms_frontend_image_tag": "dev-global-alpha-vn-prod-2d931ec",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "vietnam-master-2-3-4-latest",
+    "cms_backend_image_tag": "dev-global-alpha-413bb55",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-alpha-vn-prod-9e53fe7",
+    "hub_image_tag": "release-alpha-vn-prod-ce7cf38",
     "hub_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "master-vn-prod-15ffbe9",
+    "live_frontend_image_tag": "release-alpha-vn-prod-d048663",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
@@ -116,7 +118,7 @@
     "live_backend_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "master-latest",
+    "sfu_manager_image_tag": "redis-query-675c1ce",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
@@ -124,15 +126,15 @@
     "sfu_image_pull_secrets": "ecr-registry-infra",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
-    "sfu_gateway_image_tag": "master-latest",
+    "sfu_gateway_image_tag": "master-043b36a",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-8b5efea",
+    "user_service_image_tag": "commit-46e49b4",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production",
+    "h5p_service_image_tag": "alpha-b820dee",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
@@ -140,7 +142,7 @@
     "xapi_image_pull_secrets": "ecr-registry-infra",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "master-51b3743",
+    "assessment_image_tag": "master-405ef54",
     "assessment_image_pull_secrets": "ecr-registry-infra",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
