@@ -46,8 +46,8 @@ resource "google_compute_firewall" "webrtc" {
   source_ranges = ["0.0.0.0/0"] # Allow from all - don't know where traffic wil be coming from
   priority      = "1000"
   allow {
-    protocol = "UDP"  # SFU only requires UDP
-    ports    = ["5000-52000", "6666"]
+    protocol = "UDP" # SFU only requires UDP
+    ports    = ["10000-59000", "6666"]
   }
   log_config {
     metadata = "INCLUDE_ALL_METADATA" # We want all logs (for everything) for now 
