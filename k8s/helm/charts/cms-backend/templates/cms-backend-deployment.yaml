@@ -81,9 +81,6 @@ spec:
       {{- end }}
 
       volumes:
-        - name: sql-migration
-          configMap:
-            name: {{ include "cms-backend.fullname" . }}-sql-cm
         {{ if .Values.configuration.storage_endpoint }}
         - name: s3-bucket-secret
           secret:
