@@ -34,9 +34,10 @@ module "vpc" {
 }
 
 module "gke" {
-  source  = "./modules/gke"
-  project = var.terraform_project
-  region  = var.terraform_region
-  vpc     = module.vpc.vpc
-  subnet  = module.vpc.subnet
+  source    = "./modules/gke"
+  project   = var.terraform_project
+  region    = var.terraform_region
+  vpc       = module.vpc.vpc
+  subnet    = module.vpc.subnet
+  node_type = var.node_type
 }

@@ -83,7 +83,8 @@
         "bucket": "klid-rk-prod-cms-res",
         "protocol": "s3",
         "download_mode": "cloudfront",
-        "cdn_path": "https://res.rumahkisah.net"
+        "cdn_path": "https://res.rumahkisah.net",
+        "cdn_live": "https://res.rumahkisah.net"
     },
 
     "h5p_storage": {
