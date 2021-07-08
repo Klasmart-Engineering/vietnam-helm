@@ -51,6 +51,10 @@
     "base_url_user": "https://api.beta.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
+    "whitelabel_storage_provider": "vngcloud",
+    "whitelabel_storage_bucket": "whitelabel-beta",
+    "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",

@@ -51,6 +51,10 @@
     "base_url_user": "https://api.alpha.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
+    "whitelabel_storage_provider": "vngcloud",
+    "whitelabel_storage_bucket": "whitelabel-alpha",
+    "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",
@@ -102,7 +106,7 @@
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-alpha-vn-alpha-47ed616",
+    "hub_image_tag": "release-alpha-vn-alpha-319e694",
     "hub_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
