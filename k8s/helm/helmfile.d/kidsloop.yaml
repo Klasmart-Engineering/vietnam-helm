@@ -131,6 +131,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/hub
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
@@ -165,6 +166,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-backend
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
@@ -226,6 +228,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-frontend
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
@@ -260,6 +263,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live-backend
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - prometheus_enabled: {{ .Values.helm_prometheus.enabled }}
@@ -378,6 +382,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/live-frontend
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
@@ -413,6 +418,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/auth-backend
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
@@ -457,7 +463,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/auth-frontend
     values:
-      - replicaCount: 1
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - imagePullSecrets:
