@@ -54,6 +54,7 @@
     "whitelabel_storage_provider": "vngcloud",
     "whitelabel_storage_bucket": "whitelabel-beta",
     "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+    "whitelabel_force_local_storage": "true",
 
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
@@ -90,7 +91,7 @@
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-alpha-vn-beta-f051194",
+    "auth_frontend_image_tag": "commit-vn-beta-16b63c6",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
@@ -106,7 +107,7 @@
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-alpha-vn-beta-47ed616",
+    "hub_image_tag": "release-alpha-vn-beta-319e694",
     "hub_image_pull_secrets": "ecr-registry-infra",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
@@ -130,7 +131,7 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "commit-46e49b4",
+    "user_service_image_tag": "master-b5ac119",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",

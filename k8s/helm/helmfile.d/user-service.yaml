@@ -68,6 +68,7 @@ releases:
       - project: {{ .Values.whitelabel_storage_project }}
       - region: {{ .Values.storage.region }}
       - storage_endpoint: {{ .Values.storage.endpoint }}
+      - whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
       {{- end }}
       - resources:
           requests:

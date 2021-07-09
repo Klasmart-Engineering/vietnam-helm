@@ -55,6 +55,8 @@ spec:
           - name: STORAGE_PROVIDER
             value: {{ .Values.whitelabel_storage_provider }}
           {{ if .Values.storage_endpoint }}
+          - name: FORCE_LOCAL_STORAGE
+            value: {{ .Values.whitelabel_force_local_storage }}
           - name: STORAGE_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:

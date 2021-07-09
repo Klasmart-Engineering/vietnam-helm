@@ -54,6 +54,7 @@
     "whitelabel_storage_provider": "vngcloud",
     "whitelabel_storage_bucket": "whitelabel-alpha",
     "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+    "whitelabel_force_local_storage": true,
 
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
