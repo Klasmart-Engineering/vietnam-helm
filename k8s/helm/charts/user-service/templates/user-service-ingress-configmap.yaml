@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # name: {{ include "user_service.fullname" . }}-nginx-ingress-cm
+  name: magnum-nginx-ingress-controller
+  namespace: kube-system
+  labels:
+    {{- include "user_service.nginxIngressConfigMapLabels" . | nindent 4 }}
+data:
+  http-snippet: |
+    map $http_origin $allowed_origin {
+      default you_shall_not_pass; # this is not a joke
+      ~^https://.*\.alpha\.kidsloop\.vn$ $http_origin;
+    }
