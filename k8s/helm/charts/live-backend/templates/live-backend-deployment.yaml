@@ -48,6 +48,25 @@ spec:
               secretKeyRef:
                 name: postgresql
                 key: database-url
+
+          - name: JWT_ISUER
+            value: kidsloops-live
+          - name: JWT_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: live-backend-jwt
+                key: ALGORITHM
+          - name: JWT_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: live-backend-jwt
+                key: PRIVATE_KEY
+          - name: JWT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: live-backend-jwt
+                key: PUBLIC_KEY
+
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
