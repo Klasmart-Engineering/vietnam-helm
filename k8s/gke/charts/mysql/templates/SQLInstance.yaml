@@ -22,4 +22,10 @@ spec:
       privateNetworkRef: 
         external: "{{ .Values.gcp.network }}"
       requireSsl: true
-        
+    databaseFlags:
+    # See here
+    # https://calmisland.atlassian.net/wiki/spaces/SRE/pages/1997471773/CMS+Release
+    - name: innodb_ft_max_token_size
+      value: '84'
+    - name: innodb_ft_min_token_size
+      value: '1'
