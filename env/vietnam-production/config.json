@@ -56,7 +56,7 @@
     "whitelabel_storage_provider": "vngcloud",
     "whitelabel_storage_bucket": "whitelabel-production",
     "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
-    "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+    "whitelabel_force_local_storage": "true",
 
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
@@ -105,7 +105,7 @@
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-f5f2e89",
+    "cms_backend_image_tag": "dev-global-alpha-0e5aa02",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
@@ -133,7 +133,7 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-b5ac119",
+    "user_service_image_tag": "master-4596639",
     "user_service_image_pull_secrets": "ecr-registry-infra",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
