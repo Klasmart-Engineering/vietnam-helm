@@ -112,7 +112,7 @@
     "base_url_h5p": "https://h5p.rumahkisah.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-alpha-id-rk_prod-f051194",
+    "auth_frontend_image_tag": "release-alpha-id-rk_prod-12aef9f",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
@@ -164,7 +164,7 @@
     "xapi_image_pull_secrets": "ecr-registry-infra",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "alpha-405ef54",
+    "assessment_image_tag": "production-19b0247",
     "assessment_image_pull_secrets": "ecr-registry-infra",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
