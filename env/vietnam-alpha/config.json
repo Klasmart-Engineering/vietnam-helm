@@ -74,6 +74,7 @@
     },
 
     "h5p_storage": {
+        "region": "HCM01",
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "content_storage": "mongos3",
         "content_storage_bucket": "kidsloop-h5p-content-alpha",

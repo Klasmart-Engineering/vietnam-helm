@@ -520,6 +520,7 @@ releases:
           mongodb_database: {{ .Values.mongodb.database }}
           mongodb_collection_name: {{ .Values.mongodb.collection_name }}
           endpoint: {{ .Values.h5p_storage.endpoint }}
+          region: {{ .Values.h5p_storage.region }}
           content_storage: {{ .Values.h5p_storage.content_storage }}
           content_storage_bucket: {{ .Values.h5p_storage.content_storage_bucket }}
           temporary_storage: {{ .Values.h5p_storage.temporary_storage }}

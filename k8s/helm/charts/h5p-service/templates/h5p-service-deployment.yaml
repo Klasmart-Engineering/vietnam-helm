@@ -48,9 +48,11 @@ spec:
                 key: aws-secret-access-key
           - name: AWS_S3_ENDPOINT
             value: {{ .Values.h5p_storage.endpoint }}
+          - name: AWS_REGION
+            value: {{ .Values.h5p_storage.region }}
           - name: CONTENT_AWS_S3_BUCKET
             value: {{ .Values.h5p_storage.content_storage_bucket }}
-          - name: TEMPORARYSTOAGE
+          - name: TEMPORARYSTORAGE
             value: {{ .Values.h5p_storage.temporary_storage }}
           - name: TEMPORARY_AWS_S3_BUCKET
             value: {{ .Values.h5p_storage.temporary_storage_bucket }}

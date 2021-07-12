@@ -76,6 +76,7 @@
     },
 
     "h5p_storage": {
+        "region": "HCM01",
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "content_storage": "mongos3",
         "content_storage_bucket": "kidsloop-h5p-content-production",
@@ -93,7 +94,7 @@
     "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "commit-vn-prod-16b63c6",
+    "auth_frontend_image_tag": "commit-vn-prod-9b713dc",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
