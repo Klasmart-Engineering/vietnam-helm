@@ -1,3 +1,14 @@
+liveJwtKey:
+  # If set to true, a live JWT key is supplied (needed for live assessment, etc)
+  enabled: false
+  # Name of existing k8 secret
+  existingSecretName: live-jwt-credentials
+  passphrase:
+    # If the JWT private key is encrypted with a passphrase, use these settings to supply it
+    enabled: false
+    literal: ""
+    secretFieldRef: "jwt_private_passphrase"
+
 replicaCount: 1
 
 image:

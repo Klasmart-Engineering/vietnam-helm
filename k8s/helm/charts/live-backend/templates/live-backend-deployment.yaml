@@ -48,24 +48,41 @@ spec:
               secretKeyRef:
                 name: postgresql
                 key: database-url
-
+          # The issuer is set to kidsloop in other services, but it MUST be set to kidsloop-live in this service
+          {{- if .Values.liveJwtKey.enabled }}
           - name: JWT_ISSUER
-            value: kidsloops-live
+            value: "kidsloop-live"
+          - name: JWT_ACCESS_TOKEN_DURATION
+            value: "900"
+          - name: JWT_REFRESH_TOKEN_DURATION
+            value: "1206000"
           - name: JWT_ALGORITHM
             valueFrom:
               secretKeyRef:
-                name: live-backend-jwt
-                key: ALGORITHM
-          - name: JWT_PRIVATE_KEY
+                name: live-jwt-credentials
+                key: jwt-algorithm
+          - name: JWT_PRIVATE_KEY_FILENAME
+            value: /key/private_key
+          - name: JWT_PUBLIC_KEY_FILENAME
+            value: /key/public_key
+          {{- if .Values.liveJwtKey.passphrase.enabled }}
+          - name: JWT_PRIVATE_KEY_PASSPHRASE
+            {{- if .Values.liveJwtKey.passphrase.literal }}
+            value: {{ .Values.liveJwtKey.passphrase.literal }}
+            {{- else }}
             valueFrom:
               secretKeyRef:
-                name: live-backend-jwt
-                key: PRIVATE_KEY
-          - name: JWT_PUBLIC_KEY
-            valueFrom:
-              secretKeyRef:
-                name: live-backend-jwt
-                key: PUBLIC_KEY
+                name: live-jwt-credentials
+                key: {{ .Values.liveJwtKey.passphrase.secretFieldRef }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+        {{- if .Values.liveJwtKey.enabled }}
+        volumeMounts:
+          - name: live-jwt-credentials
+            mountPath: /key
+            readOnly: true
+        {{- end }}
 
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
@@ -81,4 +98,10 @@ spec:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
+      {{- end }}
+      {{- if .Values.liveJwtKey.enabled }}
+      volumes:
+        - name: live-jwt-credentials
+          secret:
+            secretName: {{ .Values.liveJwtKey.existingSecretName }}
       {{- end }}
