@@ -133,19 +133,39 @@ kubectl -n okc create secret generic auth-jwt-credentials \
 --from-literal=jwt_private_passphrase="TBD" \
 --from-literal=jwt-algorithm="TBD"
 
+# create jwt secret for live-backend
+kubectl -n okc create secret generic live-backend-jwt \
+--from-file=PRIVATE_KEY="TBD" \
+--from-file=PUBLIC_KEY="TBD" \
+--from-literal=PRIVATE_PASSPHRASE="TBD" \
+--from-literal=ALGORITHM="TBD"
+
 # h5p-service mongodb secret
 kubectl -n okc create secret generic h5p-mongodb-secret \
   --from-literal=mongodb-password="TBD"
 
-# build gcp config connector resources (postgres db, mysql db, redis)
-bash gke.sh indonesia-rk-prod
+# create xapi-dynamodb-secret
+CREDS=$(echo '''[default]
+aws_access_key_id = <AWS_ACCESS_KEY_ID>
+aws_secret_access_key = <AWS_SECRET_ACCESS_KEY>
+''')
+kubectl -n okc create secret generic xapi-dynamodb-secret --from-literal=credentials=$CREDS
 
-# create aws secrets for cms-backend storage
+# create cms-backend-s3-secret
+kubectl  -n okc create secret generic cms-backend-s3-secret \
+  --from-literal=aws_access_key_id="<AWS_ACCESS_KEY_ID>" \
+  --from-literal=secret_access_key="<AWS_SECRET_ACCESS_KEY>"
+
+# create secret for elasticsearch
 cd bootstrap
-bash make_secret_cms_backend_s3.sh $ENV_NAME
+bash make_secret_elasticsearch.sh $ENV_NAME
+
+# build gcp config connector resources (postgres db, mysql db, redis)
+cd k8s
+bash gke.sh $ENV_NAME
 
 # install helm releases
 cd k8s
-bash helm.sh indonesia-rk-prod diff
-bash helm.sh indonesia-rk-prod apply
+bash helm.sh $ENV_NAME diff
+bash helm.sh $ENV_NAME apply
 ```

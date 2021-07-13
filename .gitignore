@@ -7,4 +7,5 @@ mysql-secret.yaml
 .terraform.lock.hcl
 .venv
 .env
+credentials
 

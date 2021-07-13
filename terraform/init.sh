@@ -16,5 +16,5 @@ echo_line
 
 pushd $PROVIDER
 rm -rf .terraform
-terraform init -backend-config="bucket=$BUCKET"
+terraform init -upgrade -backend-config="bucket=$BUCKET"
 popd

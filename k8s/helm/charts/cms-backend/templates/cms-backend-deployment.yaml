@@ -80,12 +80,12 @@ spec:
           runAsNonRoot: true  
       {{- end }}
 
-      volumes:
-        {{ if .Values.configuration.storage_endpoint }}
-        - name: s3-bucket-secret
-          secret:
-            secretName: {{ include "cms-backend.fullname" . }}-s3-secret
-        {{ end }}
+      # volumes:
+      #   {{ if .Values.configuration.storage_endpoint }}
+      #   - name: s3-bucket-secret
+      #     secret:
+      #       secretName: {{ include "cms-backend.fullname" . }}-s3-secret
+      #   {{ end }}
         
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
