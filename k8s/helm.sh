@@ -51,11 +51,13 @@ CONFIG_FILE=$(env_path $ENV ".env.yaml")
 python3 ../scripts/python/env_all_yaml.py $ENV
 
 # build up some useful helmfile flags
+DEBUG_FLAG=""
 RELEASES_FLAG=""
 SKIPDEPS_FLAG=""
 
 for VAR in "$@"; do
     case $VAR in
+        --debug      ) DEBUG_FLAG="--debug" ;;
         --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
         --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
     esac
@@ -66,8 +68,9 @@ echo -e "\nRunning Helm"
 echo "helmfile command: $CMD"
 [[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
 [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
+[[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
 pushd helm
-helmfile -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
+helmfile $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
 popd
 
 rm $CONFIG_FILE  || true

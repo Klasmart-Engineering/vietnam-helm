@@ -22,6 +22,7 @@ environments:
       - ../../../env/indonesia-rk-beta/.env.yaml
 
 releases:
+  {{- if eq .Values.provider "gcp" }}
   - name: whitelabel-storage
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/whitelabel-bucket
@@ -29,7 +30,8 @@ releases:
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - bucket_name: "whitelabel-{{ .Values.terraform_project }}"
-
+  {{- end }}
+  
   - name: user-service
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
@@ -61,6 +63,12 @@ releases:
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end }}
+      {{- if eq .Values.provider "vngcloud" }}
+      - project: {{ .Values.whitelabel_storage_project }}
+      - region: {{ .Values.storage.region }}
+      - storage_endpoint: {{ .Values.storage.endpoint }}
+      - whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
       {{- end }}
       - resources:
           requests:

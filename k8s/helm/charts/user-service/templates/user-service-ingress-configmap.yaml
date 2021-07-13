@@ -1,0 +1,21 @@
+{{- if eq .Values.provider "vngcloud" }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # name: {{ include "user_service.fullname" . }}-nginx-ingress-cm
+  # TODO find a future-proof way to associate this ConfigMap with the VNGCloud-provisioned ingress-nginx-controller
+  # such that we don't have to hard-code the ingress-nginx-controller release name (`magnum` in this case)
+  name: magnum-nginx-ingress-controller
+  namespace: kube-system
+  labels:
+    {{- include "user_service.nginxIngressConfigMapLabels" . | nindent 4 }}
+data:
+  http-snippet: |
+    map $http_origin $allowed_origin {
+      default you_shall_not_pass; # this is not a joke
+      # matching e.g. https://*.alpha.kidsloop.vn, https://*.beta.kidsloop.vn, or https://*.kidsloop.vn
+      ~^https://.*\.kidsloop\.vn$ $http_origin;
+    }
+
+{{- end }}
