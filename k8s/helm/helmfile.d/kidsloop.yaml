@@ -286,11 +286,11 @@ releases:
                 - "/graphql"
       - resources:
           requests:
-            cpu: 250m
-            memory: 256Mi
-          limits:
             cpu: 500m
-            memory: 512Mi
+            memory: 1Gi
+          limits:
+            cpu: 512m
+            memory: 2Gi
       - redisHost: {{ .Values.redis_host }}
       - assessmentEndpoint: https://cms{{ .Values.kl_domain }}/v1/assessments
       {{- if eq .Values.provider "gcp" }}
@@ -319,19 +319,17 @@ releases:
             - name: {{ .Values.sfu_image_pull_secrets }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
-      {{- if eq .Values.provider "gcp" }}
       # Important - use host networking in GCP, and use pod IP as hostname
       - hostNetworking: true  # SFU addressable over internet
         usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE
         useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
-      {{- end }}
       - resources:
           requests:
             cpu: 1000m
             memory: 4Gi
           limits:
             cpu: 2000m
-            memory: 8Gi
+            memory: 6Gi
       - sfuManagerConfiguration:
           promHost: {{ .Values.prometheus_host }}
           desiredPodsGetter: {{ .Values.desired_pods_getter }}
@@ -499,6 +497,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/h5p-service
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
@@ -555,6 +554,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/xapi
     values:
+      - replicaCount: 2
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
