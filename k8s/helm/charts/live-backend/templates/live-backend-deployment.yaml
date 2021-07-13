@@ -49,7 +49,7 @@ spec:
                 name: postgresql
                 key: database-url
 
-          - name: JWT_ISUER
+          - name: JWT_ISSUER
             value: kidsloops-live
           - name: JWT_ALGORITHM
             valueFrom:
