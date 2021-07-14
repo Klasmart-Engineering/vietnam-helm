@@ -101,7 +101,7 @@
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
     "auth_backend_image_tag": "master-af653ce",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
-    "auth_backend_replica_count": 2,
+    "auth_backend_replica_count": 3,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
     "cms_frontend_image_tag": "vietnam-master-vn-prod-a8dac52",
@@ -136,7 +136,7 @@
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
     "sfu_image_tag": "master-c0f42a2",
     "sfu_image_pull_secrets": "ecr-registry-infra",
-    "sfu_pods_count": 2,
+    "sfu_pods_count": 3,
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-ba9cc3d",
@@ -146,17 +146,17 @@
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
     "user_service_image_tag": "master-4596639",
     "user_service_image_pull_secrets": "ecr-registry-infra",
-    "user_service_replica_count": 2,
+    "user_service_replica_count": 3,
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "india-a5bc2fd",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
-    "h5p_service_replica_count": 2,
+    "h5p_service_replica_count": 3,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
     "xapi_image_pull_secrets": "ecr-registry-infra",
-    "xapi_replica_count": 2,
+    "xapi_replica_count": 3,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
     "assessment_image_tag": "master-405ef54",
