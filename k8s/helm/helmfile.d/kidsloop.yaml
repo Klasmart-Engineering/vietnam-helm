@@ -335,6 +335,8 @@ releases:
           promHost: {{ .Values.prometheus_host }}
           desiredPodsGetter: {{ .Values.desired_pods_getter }}
           redisHost: {{ .Values.redis_host }}:6379
+          pods: {{ .Values.sfu_pods_count }}
+          promDesiredAvailable: {{ .Values.sfu_pods_count }}
       - redisHost: {{ .Values.redis_host }}
 
 

@@ -134,6 +134,7 @@
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
     "sfu_image_tag": "master-c0f42a2",
     "sfu_image_pull_secrets": "ecr-registry-infra",
+    "sfu_pods_count": 2,
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-043b36a",
