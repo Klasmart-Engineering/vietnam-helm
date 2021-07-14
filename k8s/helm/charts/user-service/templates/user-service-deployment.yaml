@@ -14,6 +14,9 @@ spec:
       labels:
         {{- include "user_service.selectorLabels" . | nindent 8 }}
     spec:
+      nodeSelector:
+        {{- toYaml .Values.nodegroupSelector | nindent 12 }}
+
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,62 +30,30 @@ spec:
         ports:
           - name: http
             protocol: TCP
-            containerPort: 8080
+            containerPort: {{ .Values.userService.port }}
         env:
           - name: NODE_ENV
-            value: "beta"
+            value: "{{ .Values.userService.nodeEnv }}"
           - name: DOMAIN
             value: {{ .Values.domain }}
           - name: PORT
-            value: "8080"
+            value: "{{ .Values.userService.port }}"
           - name: ROUTE_PREFIX
-            value: "/user"
-          - name: DB_HOST
-            value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-          - name: DB_NAME
-            value: {{ .Values.postgresql_database }}
-          - name: DB_USERNAME
-            value: {{ .Values.postgresql_username }}
-          - name: DB_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: postgresql
-                key: postgresql-password
+            value: "{{ .Values.userService.routePrefix }}"
+          {{- if .Values.database.connectionString.existingSecret }}
           - name: DATABASE_URL
-            value: "postgres://$(DB_USERNAME):$(DB_SECRET)@$(DB_HOST)/$(DB_NAME)"
-          - name: STORAGE_BUCKET
-            value: {{ .Values.whitelabel_storage_bucket }}
-          - name: STORAGE_PROVIDER
-            value: {{ .Values.whitelabel_storage_provider }}
-          {{ if .Values.storage_endpoint }}
-          - name: FORCE_LOCAL_STORAGE
-            value: "{{ .Values.whitelabel_force_local_storage }}"
-          - name: STORAGE_ACCESS_KEY_ID
+            valueFrom:
+              {{- with .Values.database.connectionString.existingSecret }}
+              secretKeyRef:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          {{- else if .Values.database.connectionString.value }}
+          - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
-                name: user-s3-secret
-                key: aws_access_key_id
-          - name: STORAGE_SECRET_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: user-s3-secret
-                key: secret_access_key
-          - name: STORAGE_REGION
-            value: {{ .Values.region }}
-          - name: STORAGE_ENDPOINT
-            value: {{ .Values.storage_endpoint }}
-          {{ end }}
-          - name: STORAGE_PROJECT_ID
-            value: {{ .Values.project }}
-        
-        {{- if eq .Values.provider "gcp" }}
-          - name: STORAGE_GOOGLE_KEY_FILE_NAME
-            value: /key/key.json
-        volumeMounts:
-          - name: whitelabel-storage-sa-key
-            mountPath: /key
-            readOnly: true
-        {{- end }}
+                name: {{ .Release.Name }}-postgres
+                key: database-url
+          {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       
@@ -95,9 +66,9 @@ spec:
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
           runAsNonRoot: true  
-      serviceAccountName: cloudsql-proxy
-      volumes:
-        - name: whitelabel-storage-sa-key
-          secret:
-            secretName: whitelabel-bucket
       {{- end }}
+
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}
+

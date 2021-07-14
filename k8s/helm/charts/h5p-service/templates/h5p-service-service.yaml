@@ -6,7 +6,7 @@ metadata:
     {{- include "h5p_service.labels" . | nindent 4 }}
   {{- if eq .Values.provider "gcp"}}
   annotations:
-    cloud.google.com/backend-config: '{"default": "h5p-service"}'
+    cloud.google.com/backend-config: '{"default": "user"}'
   {{- end}}
 spec:
   ports:

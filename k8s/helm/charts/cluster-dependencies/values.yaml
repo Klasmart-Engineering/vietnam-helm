@@ -1,0 +1,291 @@
+# Default values for cluster-dependencies.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+calico:
+  # FOSS alternative to AWS CNI plugin with service mesh and multi-cloud capabilities
+  # Bypass pod/node IP address limit of official AWS CNI plugin
+  # https://docs.aws.amazon.com/eks/latest/userguide/calico.html
+  # https://github.com/aws/amazon-vpc-cni-k8s/blob/master/charts/aws-calico/values.yaml
+  enabled: false
+
+kube-prometheus-stack:
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+  enabled: true
+  prometheus:
+    prometheusSpec:
+
+      ## If true, a nil or {} value for prometheus.prometheusSpec.ruleSelector will cause the
+      ## prometheus resource to be created with selectors based on values in the helm deployment,
+      ## which will also match the PrometheusRule resources created
+      ruleSelectorNilUsesHelmValues: false
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      probeSelectorNilUsesHelmValues: false
+  grafana:
+    # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+    additionalDataSources:
+      - name: Loki
+        url: http://kl-deps-loki.kl-deps.svc.cluster.local:3100
+        orgId: 1
+        type: loki
+    serviceMonitor:
+      enabled: true
+    persistence:
+      type: pvc
+      enabled: true
+      # storageClassName: gp2
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      # annotations: {}
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # selectorLabels: {}
+      # subPath: ""
+      # existingClaim:
+
+    grafana.ini:
+      # Customise settings in the grafana.ini file
+      # https://grafana.com/docs/grafana/latest/administration/configuration/
+      # server:
+      #   # The full public facing url you use in browser, used for redirects and emails
+      #   root_url: 
+
+    ingress:
+      enabled: false
+      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+      # ingressClassName: nginx
+      # Values can be templated
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: grafana.devops.klpsre.com.
+      labels:
+        app: grafana
+      path: /
+      # pathType is only for k8s >= 1.1=
+      pathType: Prefix
+      hosts:
+        - grafana.devops.klpsre.com
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - grafana.devops.klpsre.com
+
+loki-stack:
+  # https://github.com/grafana/helm-charts/blob/main/charts/loki-stack/values.yaml
+  enabled: true
+  loki:
+    enabled: true
+    # https://github.com/grafana/helm-charts/blob/main/charts/loki/values.yaml
+    serviceMonitor:
+      enabled: true
+      # interval: ""
+      # additionalLabels: {}
+      # annotations: {}
+
+    serviceAccount:
+      annotations: {} # TODO - add role
+    # config:
+    #   # https://grafana.com/docs/loki/latest/configuration/examples/
+    #   schema_config:
+    #     configs:
+    #     - from: 2020-05-15
+    #       store: aws
+    #       object_store: s3
+    #       schema: v11
+    #       index:
+    #         prefix: loki_index
+    #         period: 0
+    #   storage_config:
+    #     aws:
+    #       s3: s3://us-east-2/loki-test-bucket-dev-east-2
+    #       dynamodb:
+    #         dynamodb_url: dynamodb://us-east-2
+    #   table_manager:
+    #     retention_deletes_enabled: true
+    #     retention_period: 336h
+
+  promtail:
+    enabled: true
+
+  fluent-bit:
+    enabled: false
+
+  grafana:
+    # not required - already included with kube-prometheus-stack
+    enabled: false
+    sidecar:
+      datasources:
+        enabled: true
+
+  prometheus:
+    # not required - already included with kube-prometheus-stack
+    enabled: false
+
+jaeger:
+  # https://github.com/jaegertracing/helm-charts/blob/main/charts/jaeger/values.yaml
+  enabled: true
+
+aws-load-balancer-controller:
+  enabled: true
+  # https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml
+  # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/
+  clusterName: TODO
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations:
+      eks.amazonaws.com/role-arn: TODO
+
+  # Enable cert-manager
+  enableCertManager: true  # Must install cert-manager first
+
+ingress-nginx:
+  enabled: false
+  # https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml
+  # https://kubernetes.github.io/ingress-nginx/
+  controller:
+    config:
+      use-proxy-protocol: "true"  # Set up binary proxy protocol v2 between NLB and NGINX
+    replicaCount: 2
+    service:
+      enabled: true
+      annotations:
+        # service.beta.kubernetes.io/aws-load-balancer-name: kl-lp-k8-nginx
+        # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/service/nlb/#protocols
+        service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+        service.beta.kubernetes.io/aws-load-balancer-type: "external"  # This doesn't mean internal/external LB, just it tells K8 to use an external controller
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip  # Not sure if this will break calico.
+        # service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"  # Alternative..
+        service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: proxy_protocol_v2.enabled=true,preserve_client_ip.enabled=true
+        # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/service/annotations/
+        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+
+      labels:
+        app: nginx
+
+    metrics:
+      # if this port is changed, change healthz-port: in extraArgs: accordingly
+      port: 10254
+      enabled: true
+      # service:
+      #   annotations: {}
+      #   # prometheus.io/scrape: "true"
+      #   # prometheus.io/port: "10254"
+
+      #   # clusterIP: ""
+
+      #   ## List of IP addresses at which the stats-exporter service is available
+      #   ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+      #   ##
+      #   externalIPs: []
+
+      #   # loadBalancerIP: ""
+      #   loadBalancerSourceRanges: []
+      #   servicePort: 10254
+      #   type: ClusterIP
+      #   # externalTrafficPolicy: ""
+      #   # nodePort: ""
+
+      serviceMonitor:
+        enabled: true
+        additionalLabels: {}
+        # The label to use to retrieve the job name from.
+        # jobLabel: "app.kubernetes.io/name"
+        namespace: ""
+        namespaceSelector: {}
+        # Default: scrape .Release.Namespace only
+        # To scrape all, use the following:
+        # namespaceSelector:
+        #   any: true
+        scrapeInterval: 30s
+        # honorLabels: true
+        targetLabels: []
+        metricRelabelings: []
+
+      prometheusRule:
+        enabled: true
+        # additionalLabels: {}
+        # namespace: ""
+        rules:
+          # These are just examples rules, please adapt them to your needs
+          - alert: NGINXConfigFailed
+            expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
+            for: 1s
+            labels:
+              severity: critical
+            annotations:
+              description: bad ingress config - nginx config test failed
+              summary: uninstall the latest ingress changes to allow config reloads to resume
+          - alert: NGINXCertificateExpiry
+            expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
+            for: 1s
+            labels:
+              severity: critical
+            annotations:
+              description: ssl certificate(s) will expire in less then a week
+              summary: renew expiring certificates to avoid downtime
+          - alert: NGINXTooMany500s
+            expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              description: Too many 5XXs
+              summary: More than 5% of all requests returned 5XX, this requires your attention
+          - alert: NGINXTooMany400s
+            expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              description: Too many 4XXs
+              summary: More than 5% of all requests returned 4XX, this requires your attention
+
+cluster-autoscaler:
+  # https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler
+  enabled: true
+  cloudProvider: aws
+  autoDiscovery:
+    clusterName: TODO
+  awsRegion: TODO
+  rbac:
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: TODO
+
+  ## Are you using Prometheus Operator? Hopefully :)
+  serviceMonitor:
+    enabled: true
+    namespace: kl-deps
+
+  ## Custom PrometheusRule to be defined
+  ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart
+  ## ref: https://github.com/coreos/prometheus-operator#customresourcedefinitions
+  prometheusRule:
+    # prometheusRule.enabled -- If true, creates a Prometheus Operator PrometheusRule.
+    enabled: false
+    # prometheusRule.additionalLabels -- Additional labels to be set in metadata.
+    additionalLabels: {}
+    # prometheusRule.namespace -- Namespace which Prometheus is running in.
+    namespace: monitoring
+    # prometheusRule.interval -- How often rules in the group are evaluated (falls back to `global.evaluation_interval` if not set).
+    interval: null
+    # prometheusRule.rules -- Rules spec template (see https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#rule).
+    rules: []
+
+external-dns: {}
+  # https://github.com/bitnami/charts/tree/master/bitnami/external-dns
+  # https://github.com/bitnami/charts/blob/master/bitnami/external-dns/values.yaml
+
+cert-manager:
+  # Cert manager is not deployed from this chart, but there is a cluster-issuer CRD defined in this chart
+  # which can be deployed by setting letsencrypt to true.
+  clusterissuers:
+    letsencrypt:
+      enabled: false
+      email: devops@calmid.com

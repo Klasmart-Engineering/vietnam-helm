@@ -1,4 +1,5 @@
-{{- if eq .Values.provider "vngcloud" }}
+{{- if not (eq .Values.provider "gcp") }}
+{{- if not (eq .Values.provider "aws") }}
 
 {{ $fullname := include "user_service.fullname" .}}
 apiVersion: networking.k8s.io/v1beta1
@@ -35,4 +36,5 @@ spec:
         {{- end }}
   {{- end }}
 
-{{- end }}
+{{- end}}
+{{- end}}

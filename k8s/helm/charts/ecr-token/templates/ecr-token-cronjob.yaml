@@ -18,7 +18,7 @@ spec:
             - name: {{.Values.image_pull_secret}}
           restartPolicy: OnFailure
           containers:
-            - image: {{.Values.image}}
+            - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: Always
               name: ecr-token
               env:
@@ -32,4 +32,4 @@ spec:
                   value: {{.Values.aws_region}}
                 - name: AWS_ACCOUNT_ID
                   value: "{{.Values.aws_account_id}}"
-  schedule: "0 */6 * * *"
+  schedule: "{{.Values.schedule}}"

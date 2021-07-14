@@ -1,0 +1,13 @@
+{{- if .Values.managed_certificates.enabled }}
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: kidsloop-certs
+spec:
+  domains:
+    - hub.{{ .Values.managed_certificates.domain }}
+    - cms.{{ .Values.managed_certificates.domain }}
+    - live.{{ .Values.managed_certificates.domain }}
+    - api.{{ .Values.managed_certificates.domain }}
+    - auth.{{ .Values.managed_certificates.domain }}
+{{- end }}

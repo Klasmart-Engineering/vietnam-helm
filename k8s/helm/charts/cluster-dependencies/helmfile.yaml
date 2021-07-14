@@ -1,0 +1,173 @@
+# LP - this is just a temporary helmfile to help with debugging the chart
+# See here for helmfile spec: https://github.com/roboll/helmfile#helmfile-
+
+# Chart repositories used from within this state file
+
+# Use `helm-s3` and `helm-git` and whatever Helm Downloader plugins
+# to use repositories other than the official repository or one backend by chartmuseum.
+repositories:
+# To use official "stable" charts a.k.a https://github.com/helm/charts/tree/master/stable
+- name: kube-prometheus-stack
+  url: https://prometheus-community.github.io/helm-charts
+
+# Manages ALB and NLB resources for us
+# - name: aws-load-balancer-controller
+#   url: https://aws.github.io/eks-charts
+
+# Manage ingress with nginx
+- name: ingress-nginx
+  url: https://kubernetes.github.io/ingress-nginx
+
+# Sets up intra-pod networking, network security policies and pod IPs
+- name: eks-charts
+  url: https://aws.github.io/eks-charts
+
+# Autoscaling for K8 node groups in AWS
+- name: autoscaler
+  url: https://kubernetes.github.io/autoscaler
+
+# Cert manager
+# https://cert-manager.io/docs/installation/kubernetes/
+- name: jetstack
+  url: https://charts.jetstack.io
+
+# Default values to set for args along with dedicated keys that can be set by contributors, cli args take precedence over these.
+# In other words, unset values results in no flags passed to helm.
+# See the helm usage (helm SUBCOMMAND -h) for more info on default values when those flags aren't provided.
+helmDefaults:
+  # kubeContext: arn:aws:eks:eu-west-2:942095822719:cluster/kidsloop-lp-eks
+  cleanupOnFail: true               #dedicated default key for helm flag --cleanup-on-fail
+  # additional and global args passed to helm (default "")
+  # args:
+  #   - "--set k=v"
+  # verify the chart before upgrading (only works with packaged charts not directories) (default false)
+  verify: false
+  # wait for k8s resources via --wait. (default false)
+  wait: true
+  # if set and --wait enabled, will wait until all Jobs have been completed before marking the release as successful. It will wait for as long as --timeout (default false, Implemented in Helm3.5)
+  waitForJobs: true
+  # time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks, and waits on pod/pvc/svc/deployment readiness) (default 300)
+  timeout: 300
+  # performs pods restart for the resource if applicable (default false)
+  recreatePods: false
+  # forces resource update through delete/recreate if needed (default false)
+  force: false
+  # enable TLS for request to Tiller (default false)
+  # tls: true
+  # # path to TLS CA certificate file (default "$HELM_HOME/ca.pem")
+  # tlsCACert: "path/to/ca.pem"
+  # # path to TLS certificate file (default "$HELM_HOME/cert.pem")
+  # tlsCert: "path/to/cert.pem"
+  # # path to TLS key file (default "$HELM_HOME/key.pem")
+  # tlsKey: "path/to/key.pem"
+  # limit the maximum number of revisions saved per release. Use 0 for no limit. (default 10)
+  historyMax: 10
+  # when using helm 3.2+, automatically create release namespaces if they do not exist (default true)
+  createNamespace: true
+  # if used with charts museum allows to pull unstable charts for deployment, for example: if 1.2.3 and 1.2.4-dev versions exist and set to true, 1.2.4-dev will be pulled (default false)
+  devel: true
+  # When set to `true`, skips running `helm dep up` and `helm dep build` on this release's chart.
+  # Useful when the chart is broken, like seen in https://github.com/roboll/helmfile/issues/1547
+  skipDeps: false
+
+# these labels will be applied to all releases in a Helmfile. Useful in templating if you have a helmfile per environment or customer and don't want to copy the same label to each release
+commonLabels:
+  app: kl-deps
+  env: dev
+
+# Helmfile runs various helm commands to converge the current state in the live cluster to the desired state defined here.
+releases:
+  # FOSS alternative to AWS CNI plugin with service mesh and multi-cloud capabilities
+  # Bypass pod/node IP address limit of official AWS CNI plugin
+  # https://docs.aws.amazon.com/eks/latest/userguide/calico.html
+  # https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks
+  # https://github.com/aws/amazon-vpc-cni-k8s/blob/master/charts/aws-calico/values.yaml
+  - name: aws-calico               # name of this release
+    namespace: kube-system     # target namespace
+    createNamespace: false                 # helm 3.2+ automatically create release namespace (default true)
+    labels:                                # Arbitrary key value pairs for filtering releases
+      app: kube-system
+    chart: eks-charts/aws-calico           # the chart being installed to create this release, referenced by `repository/chart` syntax
+    version: "0.3.5"                       # the semver of the chart. range constraint is supported
+    missingFileHandler: Warn # set to either "Error" or "Warn". "Error" instructs helmfile to fail when unable to find a values or secrets file. When "Warn", it prints the file and continues.
+    verify: false
+    wait: true
+    waitForJobs: true
+    timeout: 300
+    recreatePods: false
+    force: false
+    installed: true
+    atomic: true
+    # when true, cleans up any new resources created during a failed release (default false)
+    cleanupOnFail: true
+    disableValidation: false
+    disableValidationOnInstall: true  # Required otherwise CRD deployment fails
+    historyMax: 10
+    skipDeps: false
+
+  # Cert manager
+  # https://cert-manager.io/docs/installation/kubernetes/
+  - name: cert-manager               # name of this release
+    namespace: cert-manager          # target namespace
+    labels:                                # Arbitrary key value pairs for filtering releases
+      app: kl-deps
+    set:
+      - name: installCRDs
+        value: true
+    chart: jetstack/cert-manager           # the chart being installed to create this release, referenced by `repository/chart` syntax
+    version: "v1.3.1"                       # the semver of the chart. range constraint is supported
+    missingFileHandler: Warn # set to either "Error" or "Warn". "Error" instructs helmfile to fail when unable to find a values or secrets file. When "Warn", it prints the file and continues.
+    verify: false
+    wait: true
+    waitForJobs: true
+    timeout: 300
+    recreatePods: false
+    force: false
+    installed: true
+    atomic: true
+    # when true, cleans up any new resources created during a failed release (default false)
+    cleanupOnFail: true
+    disableValidation: false
+    disableValidationOnInstall: true  # Required otherwise CRD deployment fails
+    historyMax: 10
+    skipDeps: false
+
+  # Kidsloop cluster level dependencies chart
+  - name: kl-deps                          # name of this release
+    namespace: kl-deps                     # target namespace
+    createNamespace: true                  # helm 3.2+ automatically create release namespace (default true)
+    labels:                                # Arbitrary key value pairs for filtering releases
+      app: kl-deps
+    chart: '.'                             # the chart being installed to create this release, referenced by `repository/chart` syntax
+    version: 1.19.0                        # the semver of the chart. range constraint is supported
+    # condition: vault.enabled               # The values lookup key for filtering releases. Corresponds to the boolean value of `vault.enabled`, where `vault` is an arbitrary value
+    missingFileHandler: Warn # set to either "Error" or "Warn". "Error" instructs helmfile to fail when unable to find a values or secrets file. When "Warn", it prints the file and continues.
+    # Values files used for rendering the chart
+    values:
+      # Value files passed via --values
+      - values.yaml
+    # secrets:
+    #   - vault_secret.yaml
+    # Override helmDefaults options for verify, wait, waitForJobs, timeout, recreatePods and force.
+    verify: false
+    wait: true
+    waitForJobs: true
+    timeout: 300
+    recreatePods: false
+    force: false
+    # set `false` to uninstall this release on sync.  (default true)
+    installed: true
+    # restores previous state in case of failed release (default false)
+    atomic: true
+    # when true, cleans up any new resources created during a failed release (default false)
+    cleanupOnFail: true
+    disableValidation: false
+    # passes --disable-validation to helm 3 diff plugin, this requires diff plugin >= 3.1.2
+    # It is useful when any release contains custom resources for CRDs that is not yet installed onto the cluster.
+    # https://github.com/roboll/helmfile/pull/1618
+    disableValidationOnInstall: true  # Required otherwise CRD deployment fails
+    # limit the maximum number of revisions saved per release. Use 0 for no limit (default 10)
+    historyMax: 10
+    # When set to `true`, skips running `helm dep up` and `helm dep build` on this release's chart.
+    # Useful when the chart is broken, like seen in https://github.com/roboll/helmfile/issues/1547
+    skipDeps: false

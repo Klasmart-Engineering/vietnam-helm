@@ -50,12 +50,3 @@ app.kubernetes.io/name: {{ include "user_service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Nginx Ingress ConfigMap labels
-*/}}
-{{- define "user_service.nginxIngressConfigMapLabels" -}}
-app: nginx-ingress
-app.kubernetes.io/component: controller
-component: controller
-{{- end }}
-

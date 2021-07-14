@@ -1,11 +1,38 @@
 replicaCount: 1
 
-domain: kidloop.net
+envVariables:
+  domain: "alpha.klpsre.com"
 
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend
   pullPolicy: Always
-  tag: latest
+  tag: master-30
+
+authBackend:
+  port: 8080
+  jwt:
+    issuer: kidsloop
+    access_duration_seconds: 900
+    refresh_duration_seconds: 1206000
+    # Either set existingSecret (for a prepopulated secret)
+    # or provide secret details into the chart with --set
+    existingSecret:
+      name: auth-jwt-credentials
+    # secretData:
+    #   jwt_algorithm: RS512
+    #   jwt_private_passphrase: TODO
+    #   jwt_private_key: TODO
+    #   jwt_public_key: TODO
+
+database:
+  connectionString:
+    # Set "existingSecret" to use an existing secret
+    existingSecret:
+      name: user-service-postgres
+      key: database-url
+
+    # Set "value" to insert the connection string into the chart. It will be stored in etcd as a kubernetes secret.
+    value: <database connection string value>
 
 imagePullSecrets: []
 nameOverride: ""
@@ -28,3 +55,21 @@ ingress:
 
 resources: {}
 
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

@@ -2,24 +2,35 @@ nameOverride: ""
 fullnameOverride: ""
 replicaCount: 1
 imagePullSecrets: []
-
+domain: "alpha.kidsloop.net"
+project: ""
+region: ""
+postgresql_instance: ""
 
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user
   pullPolicy: Always
-  tag: latest
+  tag: master-latest
+
+database:
+  connectionString:
+    # Set "existingSecret" to use an existing secret
+    # existingSecret:
+    #   name: <name of secret>
+    #   key: <key in secret>
+
+    # Set "value" to insert the connection string into the chart. It will be stored in etcd as a kubernetes secret.
+    value: <database connection string value>
+
+userService:
+  port: 8080
+  routePrefix: /user
+  nodeEnv: beta
 
 ingress:
-  annotations:
+  annotations: {
     cert-manager.io/cluster-issuer: "letsencrypt"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($request_method = OPTIONS) {
-        more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
-        more_set_headers "Access-Control-Allow-Headers: Content-Type";
-        return 200;
-      }
-      more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
-      more_set_headers "Access-Control-Allow-Credentials: true";
+  }
   hosts: {
   }
   tls: [
@@ -33,3 +44,20 @@ ingress:
   
 resources: {}
 
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

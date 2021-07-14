@@ -1,26 +1,35 @@
-liveJwtKey:
-  # If set to true, a live JWT key is supplied (needed for live assessment, etc)
-  enabled: false
-  # Name of existing k8 secret
-  existingSecretName: live-jwt-credentials
-  passphrase:
-    # If the JWT private key is encrypted with a passphrase, use these settings to supply it
-    enabled: false
-    literal: ""
-    secretFieldRef: "jwt_private_passphrase"
-
+nameOverride: ""
+fullnameOverride: ""
 replicaCount: 1
+imagePullSecrets: []
+domain: "alpha.kidsloop.net"
 
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend
   pullPolicy: Always
   tag: master-latest
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+database:
+  connectionString:
+    # Set "existingSecret" to use an existing secret
+    existingSecret:
+      name: some-secret-name
+      key: database-url
 
+    # Set "value" to insert the connection string into the chart. It will be stored in etcd as a kubernetes secret.
+    value: <database connection string value>
+
+jwt:
+  # the live-backend code is fetching the JWT keys from the AWS secret manager
+  # so only the AWS Secret name should be passed in here
+  # e.g awsSecretName = "/alpha/live-graphql-server"
+  awsSecretName: TODO
+
+redisHost: TODO
 redisPort: 6379
+redisPassword: TODO
+assessmentEndpoint: TODO
+
 
 ingress:
   annotations: {
@@ -39,3 +48,21 @@ ingress:
   
 resources: {}
 
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

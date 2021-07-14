@@ -9,6 +9,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+redisHost: TODO
 redisPort: 6379
 
 ingress:
@@ -28,3 +29,21 @@ ingress:
   
 resources: {}
 
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "public"}
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

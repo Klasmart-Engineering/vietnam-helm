@@ -1,0 +1,150 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "kidsloop.fullname" . }}-ing
+  labels:
+    app: "{{ template "kidsloop.fullname" . }}"
+    chart: "{{ template "kidsloop.chart" . }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+  annotations:
+    {{- if .Values.ingress.certManager }}
+    kubernetes.io/tls-acme: "true"
+    {{- end }}
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  tls:
+  {{- range .Values.ingress.hosts }}
+  {{- if .tls }}
+  - hosts:
+  {{- if .tlsHosts }}
+  {{- range $host := .tlsHosts }}
+    - {{ $host }}
+  {{- end }}
+  {{- else }}
+    - {{ .name }}
+  {{- end }}
+    secretName: {{ .tlsSecret }}
+  {{- end }}
+  {{- end }}
+  rules:
+    - host: auth.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /refresh
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-backend-svc
+                port:
+                  number: 80
+          - path: /signout
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-backend-svc
+                port:
+                  number: 80
+          - path: /transfer
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-backend-svc
+                port:
+                  number: 80
+          - path: /switch
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-backend-svc
+                port:
+                  number: 80
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-frontend-svc
+                port:
+                  number: 80
+    - host: hub.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /auth/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-auth-backend-svc
+                port:
+                  number: 80
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-hub-frontend-svc
+                port:
+                  number: 80
+    - host: cms.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /v1/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-cms-backend-svc
+                port:
+                  number: 80
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-cms-frontend-svc
+                port:
+                  number: 80
+    - host: live.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /sfu/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-sfu-gateway-svc
+                port:
+                  number: 80
+          - path: /graphql/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-live-backend-svc
+                port:
+                  number: 80
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-live-frontend-svc
+                port:
+                  number: 80
+    - host: api.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /user/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kidsloop-user-service-svc
+                port:
+                  number: 80
+    # - host: {{ .Values.ingress.domain }}
+    #   http:
+    #     paths:
+    #       - path: {{ default "/" .path }}
+    #         pathType: ImplementationSpecific
+    #         backend:
+    #           service:
+    #             name: {{ template "kidsloop.fullname" $ }}
+    #             port:
+    #               number: 80
+{{- end }}

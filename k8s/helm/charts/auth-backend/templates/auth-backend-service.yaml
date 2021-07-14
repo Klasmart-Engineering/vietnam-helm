@@ -17,3 +17,4 @@ spec:
   selector:
     {{- include "auth-backend.selectorLabels" . | nindent 4 }}
   type: {{ .Values.serviceType }}
+

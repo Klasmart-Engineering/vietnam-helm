@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "h5p_service.selectorLabels" . | nindent 8 }}
     spec:
+      nodeSelector:
+        {{- toYaml .Values.nodegroupSelector | nindent 12 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -48,11 +50,9 @@ spec:
                 key: aws-secret-access-key
           - name: AWS_S3_ENDPOINT
             value: {{ .Values.h5p_storage.endpoint }}
-          - name: AWS_REGION
-            value: {{ .Values.h5p_storage.region }}
           - name: CONTENT_AWS_S3_BUCKET
             value: {{ .Values.h5p_storage.content_storage_bucket }}
-          - name: TEMPORARYSTORAGE
+          - name: TEMPORARYSTOAGE
             value: {{ .Values.h5p_storage.temporary_storage }}
           - name: TEMPORARY_AWS_S3_BUCKET
             value: {{ .Values.h5p_storage.temporary_storage_bucket }}

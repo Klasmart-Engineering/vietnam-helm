@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend
   pullPolicy: Always
-  tag: latest
+  tag: dev-global-alpha-sre-alpha-120
 
 imagePullSecrets: []
 nameOverride: ""
@@ -26,3 +26,21 @@ ingress:
 
 resources: {}
 
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

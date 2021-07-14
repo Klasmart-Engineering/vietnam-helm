@@ -17,6 +17,8 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/cms-backend-configmap.yaml") . | sha256sum }}
     spec:
+      nodeSelector:
+        {{- toYaml .Values.nodegroupSelector | nindent 12 }}
       {{- if .Values.hostNetworking }}
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -25,7 +27,31 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: flyway/flyway:7.8.1-alpine
+        args:
+          - "migrate"
+          - "-user=$(db_username)"
+          {{- if eq .Values.provider "gcp" }}
+          - "-url=jdbc:mysql://{{ .Values.mysql_proxy_ip}}:$(db_port)/$(db_name)"
+          {{- else }}
+          - "-url=jdbc:mysql://$(db_hostname):$(db_port)/$(db_name)"
+          {{- end}}
+          - "-password=$(MYSQL_PASSWORD)"
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-mysql
+                key: mysql-password
+        envFrom:
+          - configMapRef:
+              name: {{ include "cms-backend.fullname" . }}-cm
+        volumeMounts:
+          - name: sql-migration
+            mountPath: /flyway/sql
+      
       containers:
       - name: {{ .Chart.Name }}
         command: [ "sh", "-c" ]
@@ -52,19 +78,13 @@ spec:
           - name: MYSQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mysql
+                name: {{ .Release.Name }}-mysql
                 key: mysql-password
         {{ if .Values.configuration.storage_endpoint }}
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-              secretKeyRef:
-                name: cms-backend-s3-secret
-                key: aws_access_key_id
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: cms-backend-s3-secret
-                key: secret_access_key
+        volumeMounts:
+          - name: s3-bucket-secret
+            mountPath: /root/.aws
+            readOnly: true
         {{ end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
@@ -75,17 +95,20 @@ spec:
         command:
           - "/cloud_sql_proxy"
           - "-ip_address_types=PRIVATE"
-          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.mysql_instance }}=tcp:{{ .Values.configuration.db_port }}"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.db_instance }}=tcp:{{ .Values.configuration.db_port }}"
         securityContext:
           runAsNonRoot: true  
       {{- end }}
 
-      # volumes:
-      #   {{ if .Values.configuration.storage_endpoint }}
-      #   - name: s3-bucket-secret
-      #     secret:
-      #       secretName: {{ include "cms-backend.fullname" . }}-s3-secret
-      #   {{ end }}
+      volumes:
+        - name: sql-migration
+          configMap:
+            name: {{ include "cms-backend.fullname" . }}-sql-cm
+        {{ if .Values.configuration.storage_endpoint }}
+        - name: s3-bucket-secret
+          secret:
+            secretName: {{ include "cms-backend.fullname" . }}-s3-secret
+        {{ end }}
         
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy

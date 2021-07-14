@@ -1,4 +1,5 @@
-{{- if not (eq .Values.provider "gcp") }}
+{{- if not (eq .Values.provider "gcp")  }}
+{{- if not (eq .Values.provider "aws")  }}
 
 {{ $fullname := include "live-frontend.fullname" .}}
 apiVersion: networking.k8s.io/v1beta1
@@ -12,16 +13,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-      {{- range .endpoint.hosts }}
-      - {{ . | quote }}
-      {{- end }}
-      secretName: {{ .endpoint.secretName }}
-    {{- end }}
-  {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
   - host: {{ .host | quote }}
@@ -35,4 +26,5 @@ spec:
         {{- end }}
   {{- end }}
 
+{{- end}}
 {{- end}}

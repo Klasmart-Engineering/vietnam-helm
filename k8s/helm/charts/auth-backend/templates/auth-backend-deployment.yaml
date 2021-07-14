@@ -15,6 +15,9 @@ spec:
         {{- include "auth-backend.selectorLabels" . | nindent 8 }}
         redis-client: "true"
     spec:
+      nodeSelector:
+        {{- toYaml .Values.nodegroupSelector | nindent 12 }}
+
       {{- if .Values.hostNetworking }}
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -30,37 +33,63 @@ spec:
         ports:
           - name: http
             protocol: TCP
-            containerPort: 8080
+            containerPort: {{ .Values.authBackend.port }}
         env:
         - name: DOMAIN
-          value: {{ .Values.domain }}
+          value: {{ .Values.envVariables.domain }}
         - name: PORT
-          value: "8080"
+          value: "{{ .Values.authBackend.port }}"
         - name: JWT_ISSUER
-          value: "kidsloop"
+          value: "{{ .Values.authBackend.jwt.issuer }}"
         - name: JWT_ACCESS_TOKEN_DURATION
-          value: "900"
+          value: "{{ .Values.authBackend.jwt.access_duration_seconds }}"
         - name: JWT_REFRESH_TOKEN_DURATION
-          value: "1206000"
+          value: "{{ .Values.authBackend.jwt.refresh_duration_seconds }}"
+        {{- if .Values.authBackend.jwt.existingSecret }}
         - name: JWT_ALGORITHM
           valueFrom:
             secretKeyRef:
-              name: auth-jwt-credentials
-              key: jwt-algorithm
+              name: {{ .Values.authBackend.jwt.existingSecret.name }}
+              key: jwt_algorithm
         - name: JWT_PRIVATE_KEY_PASSPHRASE
           valueFrom:
             secretKeyRef:
-              name: auth-jwt-credentials
+              name: {{ .Values.authBackend.jwt.existingSecret.name }}
               key: jwt_private_passphrase
         - name: JWT_PRIVATE_KEY_FILENAME
           value: /key/private_key
         - name: JWT_PUBLIC_KEY_FILENAME
           value: /key/public_key
+        {{- else if .Values.authBackend.jwt.secretData }}
+        - name: JWT_ALGORITHM
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-auth-jwt-credentials
+              key: jwt_algorithm
+        - name: JWT_PRIVATE_KEY_PASSPHRASE
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-auth-jwt-credentials
+              key: jwt_private_passphrase
+        - name: JWT_PRIVATE_KEY_FILENAME
+          value: /key/private_key
+        - name: JWT_PUBLIC_KEY_FILENAME
+          value: /key/public_key
+        {{- end }}
+        {{- if .Values.database.connectionString.existingSecret }}
+        - name: DATABASE_URL
+          valueFrom:
+            {{- with .Values.database.connectionString.existingSecret }}
+            secretKeyRef:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+        {{- else if .Values.database.connectionString.value }}
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: postgresql
+              name: {{ .Release.Name }}-postgres
               key: database-url
+        {{- end }}
         volumeMounts:
           - name: auth-jwt-credentials
             mountPath: /key
@@ -75,12 +104,16 @@ spec:
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
-          runAsNonRoot: true  
+          runAsNonRoot: true
       {{- end }}
       volumes:
         - name: auth-jwt-credentials
           secret:
-            secretName: auth-jwt-credentials
+            {{- if .Values.authBackend.jwt.existingSecret }}
+            secretName: {{ .Values.authBackend.jwt.existingSecret.name }}
+            {{- else if .Values.authBackend.jwt.secretData }}
+            secretName: {{ .Release.Name }}-auth-jwt-credentials
+            {{- end}}
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
       {{- end }}

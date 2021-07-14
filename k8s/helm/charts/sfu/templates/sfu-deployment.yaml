@@ -32,23 +32,9 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         volumeMounts:
-        # This appears to have no effect
         - name: config
           mountPath: /etc/sfu-manager
-
-        # Mount only job.yaml again on the root path
-        - name: config-jobconfig
-          mountPath: /job.yaml
-          subPath: job.yaml
       volumes:
-      # This appears to have no effect
       - name: config
         configMap:
           name: {{ include "sfu.fullname" . }}-cm
-      # Mount only job.yaml again on the root path
-      - name: config-jobconfig
-        configMap:
-          name: {{ include "sfu.fullname" . }}-cm
-          items:
-          - key: job.yaml
-            path: job.yaml

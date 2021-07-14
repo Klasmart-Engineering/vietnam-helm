@@ -15,14 +15,19 @@ spec:
         {{- include "live-backend.selectorLabels" . | nindent 8 }}
         redis-client: "true"
     spec:
-      {{- if .Values.hostNetworking }}
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
-      {{- end }}
+      nodeSelector:
+        {{- toYaml .Values.nodegroupSelector | nindent 12 }}
+
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+      {{- if .Values.hostNetworking }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -31,7 +36,6 @@ spec:
           - name: http
             protocol: TCP
             containerPort: 8080
- 
         env:
           - name: NODE_ENV
             value: "beta"
@@ -39,69 +43,40 @@ spec:
             value: "8080"
           - name: REDIS_HOST
             value: {{ .Values.redisHost }}
+          - name: REDIS_PASS
+            value: {{ .Values.redisPassword }}
           - name: REDIS_PORT
             value: {{ .Values.redisPort | quote }}
           - name: ASSESSMENT_ENDPOINT
             value: {{ .Values.assessmentEndpoint }}
+          - name: AWS_SECRET_NAME
+            value: {{ .Values.jwt.awsSecretName }}
+          {{- if .Values.database.connectionString.existingSecret }}
+          - name: DATABASE_URL
+            valueFrom:
+              {{- with .Values.database.connectionString.existingSecret }}
+              secretKeyRef:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          {{- else if .Values.database.connectionString.value }}
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
-                name: postgresql
+                name: {{ .Release.Name }}-postgres
                 key: database-url
-          # The issuer is set to kidsloop in other services, but it MUST be set to kidsloop-live in this service
-          {{- if .Values.liveJwtKey.enabled }}
-          - name: JWT_ISSUER
-            value: "kidsloop-live"
-          - name: JWT_ACCESS_TOKEN_DURATION
-            value: "900"
-          - name: JWT_REFRESH_TOKEN_DURATION
-            value: "1206000"
-          - name: JWT_ALGORITHM
-            valueFrom:
-              secretKeyRef:
-                name: live-jwt-credentials
-                key: jwt-algorithm
-          - name: JWT_PRIVATE_KEY_FILENAME
-            value: /key/private_key
-          - name: JWT_PUBLIC_KEY_FILENAME
-            value: /key/public_key
-          {{- if .Values.liveJwtKey.passphrase.enabled }}
-          - name: JWT_PRIVATE_KEY_PASSPHRASE
-            {{- if .Values.liveJwtKey.passphrase.literal }}
-            value: {{ .Values.liveJwtKey.passphrase.literal }}
-            {{- else }}
-            valueFrom:
-              secretKeyRef:
-                name: live-jwt-credentials
-                key: {{ .Values.liveJwtKey.passphrase.secretFieldRef }}
-            {{- end }}
           {{- end }}
-          {{- end }}
-        {{- if .Values.liveJwtKey.enabled }}
-        volumeMounts:
-          - name: live-jwt-credentials
-            mountPath: /key
-            readOnly: true
-        {{- end }}
-
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          
       {{- if eq .Values.provider "gcp" }}
-      - name: cloud-sql-proxy
+      - name: postgresql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
         command:
           - "/cloud_sql_proxy"
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
-          runAsNonRoot: true  
-      {{- end }}
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-      {{- if eq .Values.provider "gcp" }}
+          runAsNonRoot: true
+
       serviceAccountName: cloudsql-proxy
-      {{- end }}
-      {{- if .Values.liveJwtKey.enabled }}
-      volumes:
-        - name: live-jwt-credentials
-          secret:
-            secretName: {{ .Values.liveJwtKey.existingSecretName }}
       {{- end }}

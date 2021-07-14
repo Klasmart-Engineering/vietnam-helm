@@ -1,0 +1,51 @@
+replicaCount: 1
+
+image:
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend
+  pullPolicy: Always
+  tag: dev-sre-alpha
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt",
+    kubernetes.io/ingress.class: "alb",
+    alb.ingress.kubernetes.io/scheme: "internet-facing",
+    alb.ingress.kubernetes.io/target-type: "ip"
+  }
+  hosts: {
+      "alpha.kidsloop.net"
+  }
+#  tls: [
+#      endpoint: {
+#        hosts: [
+#          "alpha.kidsloop.net"
+#        ],
+#        secretName: "alpha.kidsloop.net"
+#      }
+#  ]
+
+resources: {}
+
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2

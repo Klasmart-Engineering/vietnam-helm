@@ -1,4 +1,5 @@
 {{- if not (eq .Values.provider "gcp") }}
+{{- if not (eq .Values.provider "aws")  }}
 
 {{ $fullname := include "h5p_service.fullname" .}}
 apiVersion: networking.k8s.io/v1beta1
@@ -35,4 +36,5 @@ spec:
         {{- end }}
   {{- end }}
 
+{{- end}}
 {{- end}}

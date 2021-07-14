@@ -7,7 +7,7 @@ imagePullSecrets: []
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service
   pullPolicy: Always
-  tag: latest
+  tag: gamma
 
 
 ingress:
@@ -32,4 +32,8 @@ ingress:
   ]
   
 resources: {}
+
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
 

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: GKE CC MySQL SQL Proxy
+description: GKE SQL Proxy deployment for MySQL
+type: application
+version: 0.1.0
+appVersion: 0.1.0

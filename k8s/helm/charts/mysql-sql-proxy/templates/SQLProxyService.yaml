@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-sql-proxy-mysql
+spec:
+  ports:
+
+  - name: mysql
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  
+  selector:
+    cloudSQLProxy: mysql
+
+  type: ClusterIP

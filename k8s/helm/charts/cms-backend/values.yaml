@@ -3,15 +3,25 @@ replicaCount: 1
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend
   pullPolicy: Always
-  tag: latest
+  tag: dev-global-alpha-87
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+database:
+  password:
+    value: <database password value>
+
+redis:
+  password:
+    value: <redis password value>
+
 configuration:
   # ams endpoint
-  ams_endpoint: https://api.beta.kidsloop.net/user/
+  ams_endpoint: https://api.alpha.klpsre.com/user/
+  cors_domain_list:	https://*.alpha.klpsre.com,http://*.alpha.klpsre.com
+  environment: alpha
   # unused (this is for cloudfront signature)
   # cdn_key_group_id: 89c8501a-3888-466e-80e1-d775116079a1
   # unused
@@ -21,23 +31,23 @@ configuration:
   # unused
   # cdn_open: true
   # this is the cdn domain of resources bucket
-  cdn_path: https://res-kl2-test.kidsloop.net
-  # this is an additional configuration that only uses for Vietnam 
-  live_assets_url_prefix: https://cdn.kidsloop.vn 
+  cdn_path: https://res.klpsre.com
   # this is used to cdn url signature
   # cdn_private_key_path: ./cdn_private_key.pem
   # just as a label, and unused
-  # cloud_env: aws
+  cloud_env: aws
   # db connection string
   ##connection_string: "dbc_yyd:xxxxxx@tcp(kidsloop-test.copqnkcbdsts.ap-northeast-2.rds.amazonaws.com:3306)/kidsloop2?parseTime: true&charset: utf8mb4"
   ##
   # The following fields are used to construct the connection_string
   # in the deployment manifest
   ##
-  db_name: kidsloop2
-  db_username: dbc_yyd
+  db_name: cms_db
+  db_username: kidsloop
   db_port: "3306"
+  db_hostname: "kidsloop-sre-alpha-cluster-cms.cluster-clhhxxwlusff.eu-west-2.rds.amazonaws.com"
   db_options: "parseTime: true&charset: utf8mb4"
+
   ##
   # End
   ##
@@ -45,6 +55,8 @@ configuration:
   db_env: mysql
   # DO NOT MODIFY
   env: HTTP
+  # DO NOT MODIFY
+  ams_assessment_jwt_public_key_path: ./ams_assessment_jwt_public_key.pem
   # DO NOT MODIFY
   h5p_private_key_path: ./h5p_private_key.pem
   # DO NOT MODIFY
@@ -68,6 +80,7 @@ configuration:
   # DO NOT MODIFY
   open_cache: "true"
   # redis related(3 lines below)
+  redis_host: "master.kidsloop-sre-alpha-rg-cms.o6gskw.euw2.cache.amazonaws.com"
   redis_password: ""
   redis_port: "6379"
   # DO NOT MODIFY
@@ -77,15 +90,15 @@ configuration:
   # unused, this is for amazon s3 upload accelerate
   storage_accelerate: "true"
   # bucket name
-  storage_bucket: cdk-kl2-test-kl2-s3resources
+  storage_bucket: klpsre-alpha-res
   # if `storage_sig_mode` is set as false, this env can be set to `cloudfront`, all static file path will be returned as $cdn_path/static_file_path, $cdn_path is configured above.
   # if `storage_sig_mode` is set as true, this env can be set to `native`, and operation of signing is done by bucket. Or we should define another value for this env, and add some code to deal with it.
   storage_download_mode: cloudfront
   #
   storage_protocol: "s3"
   #
-  storage_region: ap-northeast-2
-  # if this is set to be `true` then all request to resources should be signed
+  storage_region: eu-west-2
+  # if this is set to be `ture` then all request to resources should be signed
   storage_sig_mode: "false"
 
 ingress:
@@ -97,10 +110,29 @@ ingress:
   tls: [
     endpoint: {
       hosts: [
-        "vn-bfc.dev.kidsloop.net"
+        "vn-bfc.dev.klpsre.com"
       ],
-      secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+      secretName: "letsencrypt-vn-bfc.dev.klpsre.com"
     }
   ]
 
 resources: {}
+
+provider: "aws"
+
+nodegroupSelector: {"nodegroup": "private"}
+
+# backend config
+timeoutSec: 30
+cdn:
+  enabled: false
+connectionDraining:
+  drainingTimeoutSec: 60
+healthCheck:
+  requestPath: /
+  type: HTTP
+  port: 80
+  checkIntervalSec: 15
+  timeoutSec: 15
+  healthyThreshold: 1
+  unhealthyThreshold: 2
