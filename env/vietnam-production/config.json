@@ -161,7 +161,7 @@
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
     "assessment_image_tag": "master-405ef54",
     "assessment_image_pull_secrets": "ecr-registry-infra",
-    "assessment_replica_count": 1,
+    "assessment_replica_count": 3,
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
