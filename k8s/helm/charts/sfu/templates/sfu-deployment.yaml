@@ -25,7 +25,7 @@ spec:
         image: "{{ .Values.sfuManagerImage.repository }}:{{ .Values.sfuManagerImage.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.sfuManagerImage.pullPolicy }}"
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.sfuManagerResources | nindent 12 }}
         env:
         - name: POD_NAME
           valueFrom:

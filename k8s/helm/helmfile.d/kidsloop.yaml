@@ -331,6 +331,13 @@ releases:
           limits:
             cpu: 2000m
             memory: 6Gi
+      - sfuManagerResources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi            
       - sfuManagerConfiguration:
           promHost: {{ .Values.prometheus_host }}
           desiredPodsGetter: {{ .Values.desired_pods_getter }}
