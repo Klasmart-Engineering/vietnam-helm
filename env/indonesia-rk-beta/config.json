@@ -1,0 +1,173 @@
+{
+    "provider": "gcp",
+    "terraform_bucket": "kidsloop-indonesia-rk-beta-tfstate",
+    "k8s_namespace_kidsloop": "okc",
+    "k8s_service_type": "NodePort",
+    "kl_domain": ".beta.rumahkisah.net",
+    "domain": "beta.rumahkisah.net",
+    "env": "beta",
+
+    "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
+    "desired_pods_getter": "redis",
+    
+    "helm_prometheus": {
+        "enabled": false
+    },
+    "helm_fluentbit": {
+        "enabled": false
+    },
+    "helm_cert_manager": {
+        "enabled": true
+    },
+    "helm_persistence": {
+        "enabled": false
+    },
+    "helm_nginx_ingress": {
+        "enabled": true
+    },   
+    "helm_ecr_token_vietnam": {
+        "enabled": false
+    },   
+    "helm_ecr_token_infra": {
+        "enabled": true
+    },
+    "helm_db_backup": {
+        "enabled": false,
+        "endpoint": "",
+        "region": "",
+        "bucket": ""
+    },
+
+    "gcp": {
+        "mysql": {
+            "name":      "kidsloop-mysql-99999",
+            "version":   "MYSQL_5_7",
+            "tier":      "db-n1-standard-4",
+            "charset":   "utf8mb4",
+            "collation": "utf8mb4_bin",
+            "user":      "kidsloop-mysql",
+            "assessment_user": "mysql-assessment-user",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
+        "postgresql": {
+            "name": "kidsloop-postgresql-99999",
+            "assessment_database": "assessment",
+            "version":   "POSTGRES_11",
+            "tier":      "db-custom-4-15360",
+            "charset":   "UTF8",
+            "collation": "en_US.UTF8",
+            "user":      "kidsloop-postgresql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
+        "redis": {
+            "name": "kidsloop-99999",
+            "display_name": "kidsloop",
+            "version": "REDIS_5_0",
+            "memory_size": 1,
+            "tier": "STANDARD_HA"
+        }
+    },
+    
+    "whitelabel_storage_provider": "google",
+    "whitelabel_storage_bucket": "whitelabel-kl-idn-rumah-kisah-beta",
+
+    "storage": {
+        "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
+        "region": "ap-southeast-1",
+        "bucket": "klid-rk-beta-cms-res",
+        "protocol": "s3",
+        "download_mode": "cloudfront",
+        "cdn_path": "https://res.beta.rumahkisah.net",
+        "cdn_live": "https://res.beta.rumahkisah.net"
+    },
+
+    "h5p_storage": {
+        "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
+        "content_storage": "mongos3",
+        "content_storage_bucket": "klid-rk-beta-h5p",
+        "temporary_storage": "s3",
+        "temporary_storage_bucket": "klid-rk-beta-h5p-temp"
+    },
+
+    "mongodb": {
+        "url": "mongodb+srv://cluster-test.edwwi.mongodb.net",
+        "username": "kidslooproot",
+        "database": "kidsloop-beta",
+        "collection_name": "h5p"
+    },
+
+    "dynamodb_aws_region": "ap-southeast-1",
+    "dynamodb_table_name": "id-rk-beta",
+    "elasticsearch_url": "",
+    "elasticsearch_username": "",
+    "firehose_steam_name": "",
+
+    "base_url_user": "https://api.beta.rumahkisah.net/user/",
+    "base_url_h5p": "https://h5p.beta.rumahkisah.net",
+
+    "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
+    "auth_frontend_image_tag": "commit-id-rk_beta-12aef9f",
+    "auth_frontend_image_pull_secrets": "ecr-registry-infra",
+
+    "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
+    "auth_backend_image_tag": "master-af653ce",
+    "auth_backend_image_pull_secrets": "ecr-registry-infra",
+    
+    "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
+    "cms_backend_image_tag": "dev-global-alpha-413bb55",   
+    "cms_backend_image_pull_secrets": "ecr-registry-infra",
+
+    "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
+    "cms_frontend_image_tag": "commit-f36fd18-id-rk_beta",
+    "cms_frontend_image_pull_secrets": "ecr-registry-infra",
+    
+    "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "commit-id-rk_beta-47ed616",
+    "hub_image_pull_secrets": "ecr-registry-infra",
+
+    "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "commit-id-rk_beta-1d7e995",
+    "live_frontend_image_pull_secrets": "ecr-registry-infra",
+
+    "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "master-4d0c20f",
+    "live_backend_image_pull_secrets": "ecr-registry-infra",
+ 
+    "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
+    "sfu_manager_image_tag": "redis-query-675c1ce",
+    "sfu_manager_image_pull_secrets": "ecr-registry-infra",
+
+    "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
+    "sfu_image_tag": "master-c0f42a2",
+    "sfu_image_pull_secrets": "ecr-registry-infra",
+
+    "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
+    "sfu_gateway_image_tag": "master-ba9cc3d",
+    "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
+
+    "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
+    "user_service_image_tag": "commit-46e49b4",
+    "user_service_image_pull_secrets": "ecr-registry-infra",
+
+    "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
+    "h5p_service_image_tag": "india-c99ff43",
+    "h5p_service_image_pull_secrets": "ecr-registry-infra",
+
+    "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
+    "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
+    "xapi_image_pull_secrets": "ecr-registry-infra",
+
+    "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
+    "assessment_image_tag": "production-19b0247",
+    "assessment_image_pull_secrets": "ecr-registry-infra",
+
+    "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
+    "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
+    "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"
+}
