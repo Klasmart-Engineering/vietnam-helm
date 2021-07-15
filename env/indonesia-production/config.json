@@ -156,11 +156,6 @@
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_replica_count": 1,
 
-    "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "alpha-cbd36b3",
-    "h5p_service_image_pull_secrets": "ecr-registry-infra",
-    "h5p_service_replica_count": 1,
-
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
     "xapi_image_pull_secrets": "ecr-registry-infra",
