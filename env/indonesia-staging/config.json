@@ -141,7 +141,7 @@
     "sfu_gateway_replica_count": 1,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "vietnam-alpha-61ef11b",
+    "user_service_image_tag": "commit-46e49b4",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_replica_count": 1,
 
