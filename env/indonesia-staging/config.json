@@ -140,10 +140,12 @@
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
     "sfu_gateway_replica_count": 1,
 
+    "user_service_replica_count": 1,
+    "assessment_replica_count": 1,
+
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
     "user_service_image_tag": "commit-46e49b4",
     "user_service_image_pull_secrets": "ecr-registry-infra",
-    "user_service_replica_count": 1,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
@@ -153,7 +155,6 @@
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
     "assessment_image_tag": "production-19b0247",
     "assessment_image_pull_secrets": "ecr-registry-infra",
-    "assessment_replica_count": 1,
   
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
