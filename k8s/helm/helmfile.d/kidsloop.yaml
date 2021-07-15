@@ -489,13 +489,6 @@ releases:
           limits:
             cpu: 200m
             memory: 400Mi
-      {{- if eq .Values.domain "rumahkisah.net" }}
-      # RK connect to their own AMS service so they need their own auth frontend build with special urls in the webpack
-      - image:
-          repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend
-          pullPolicy: Always
-          tag: release-alpha-id-rk_prod-e282ac0
-      {{- end }}
 
   # H5P SERVICE
   # ---------------------------------------------------------------------------------------
