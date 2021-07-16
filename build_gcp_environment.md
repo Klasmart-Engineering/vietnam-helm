@@ -123,22 +123,22 @@ kubectl -n okc create secret generic mongodb-atlas-cluster-secret \
 
 # create k8s secret with AWS credentials for h5p service
 kubectl  -n okc create secret generic h5p-s3-secret \
-  --from-literal=aws-access-key-id="TBD" \
-  --from-literal=aws-secret-access-key="TBD"
+  --from-literal=aws-access-key-id=<AWS_ACCESS_KEY_ID> \
+  --from-literal=aws-secret-access-key=<AWS_SECRET_ACCESS_KEY>
 
 # create jwt secret for auth-backend
 kubectl -n okc create secret generic auth-jwt-credentials \
---from-file=private_key="TBD" \
---from-file=public_key="TBD" \
---from-literal=jwt_private_passphrase="TBD" \
---from-literal=jwt-algorithm="TBD"
+--from-file=private_key=/path/to/key \
+--from-file=public_key=/path/to/key \
+--from-literal=jwt_private_passphrase=<PASSPHRASE> \
+--from-literal=jwt-algorithm=<ALGORITHM>
 
 # create jwt secret for live-backend
-kubectl -n okc create secret generic live-backend-jwt \
---from-file=PRIVATE_KEY="TBD" \
---from-file=PUBLIC_KEY="TBD" \
---from-literal=PRIVATE_PASSPHRASE="TBD" \
---from-literal=ALGORITHM="TBD"
+kubectl -n okc create secret generic live-jwt-credentials \
+--from-file=private_key=/path/to/key \
+--from-file=public_key=/path/to/key \
+--from-literal=private_passphrase=<PASSPHRASE> \
+--from-literal=jwt-algorithm=<ALGORITHM>
 
 # h5p-service mongodb secret
 kubectl -n okc create secret generic h5p-mongodb-secret \

@@ -100,7 +100,7 @@
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-vn-alpha-2d931ec",
+    "cms_frontend_image_tag": "dev-global-alpha-vn-alpha-1f64c60",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
@@ -140,7 +140,7 @@
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
+    "xapi_image_tag": "production-fc81c47",
     "xapi_image_pull_secrets": "ecr-registry-infra",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
