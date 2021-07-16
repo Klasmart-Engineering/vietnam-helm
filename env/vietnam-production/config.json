@@ -19,7 +19,7 @@
  
     "prometheus_host": "http://magnum-prometheus-operator-prometheus.kube-system.svc.cluster.local:9090",
     "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090", 
-    "desired_pods_getter": "prometheus",
+    "desired_pods_getter": "redis",
     
 
     "helm_prometheus": {

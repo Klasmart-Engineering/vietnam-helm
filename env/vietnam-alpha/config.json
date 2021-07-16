@@ -18,7 +18,7 @@
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
-    "desired_pods_getter": "prometheus",
+    "desired_pods_getter": "redis",
     
     "helm_prometheus": {
         "enabled": false
