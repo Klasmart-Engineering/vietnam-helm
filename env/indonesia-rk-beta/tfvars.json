@@ -1,0 +1,5 @@
+{
+    "terraform_project": "kl-idn-rumah-kisah-beta",
+    "terraform_region": "asia-southeast2",
+    "node_type": "n2-standard-4"
+}

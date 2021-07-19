@@ -50,34 +50,17 @@ TXT="Store AWS credentials for ECR as a Secret (for refresh ECR token cronjob)"
 if [[ (-z "$SVC") || ("$SVC" = "ecr-credentials") ]]
 then
     echo_heading "Generating $TXT"
-    ./make_credentials_ecr.sh $ENV
+    ./make_credentials_ecr_infra.sh $ENV
 else
     echo_heading "Skipping $TXT"
 fi
 
-TXT="Store AWS credentials for ECR *Vietnam* as a Secret (for refresh ECR token cronjob)"
-if [[ (-z "$SVC") || ("$SVC" = "ecr-credentials-vn") ]]
-then
-    echo_heading "Generating $TXT"
-    ./make_credentials_ecr_vn.sh $ENV
-else
-    echo_heading "Skipping $TXT"
-fi
 
 TXT="Initial token secret for pulling ECR container images (refreshed by cron job)"
 if [[ (-z "$SVC") || ("$SVC" = "ecr-registry") ]]
 then
     echo_heading "Installing $TXT"
-    ./make_secret_ecr.sh
-else
-    echo_heading "Skipping $TXT"
-fi
-
-TXT="Initial token secret for pulling ECR *Vietnam* container images (refreshed by cron job)"
-if [[ (-z "$SVC") || ("$SVC" = "ecr-registry-vn") ]]
-then
-    echo_heading "Installing $TXT"
-    ./make_secret_ecr_vn.sh
+    ./make_secret_ecr_infra.sh $ENV
 else
     echo_heading "Skipping $TXT"
 fi

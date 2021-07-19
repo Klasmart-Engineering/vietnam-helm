@@ -1,9 +1,13 @@
 #!/bin/bash
 set +xeuo pipefail
 
-# This script expects aws-cli-v2 to be installed.
-# It will not work with aws-cli v1.18
-NS_KIDSLOOP=$NAMESPACE
+source ../../scripts/bash/functions.sh
+
+ENV=$1
+env_validate "$ENV"
+
+NS_KIDSLOOP=$(../../scripts/python/env_var.py $ENV $ENUM_NS_KIDSLOOP_VAR)
+[ -z "$NS_KIDSLOOP" ] && echo "Missing variable,'$ENUM_NS_KIDSLOOP_VAR', in $ENV" && exit 1
 
 export AWS_DEFAULT_REGION=eu-west-2
 export AWS_ACCESS_KEY_ID=$(kubectl get secret -n $NS_KIDSLOOP ecr-credentials-infra-pull -o jsonpath='{.data.aws_access_key_id}' | base64 --decode)
