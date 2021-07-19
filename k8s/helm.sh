@@ -6,6 +6,12 @@ ENV=$1
 CMD=${2:-apply}
 env_validate "$ENV"
 
+# build up some useful helmfile flags
+DEBUG_FLAG=""
+RELEASES_FLAG=""
+SKIPDEPS_FLAG=""
+EXTRA_FLAGS=""
+
 # if the 2nd arg starts with a dash, it means the helm command is skipped and a flag
 # e.g. `--release=*` is used in its place. We also default the helm cmd to `apply` in this case
 [[ $CMD == -* ]] && CMD="apply"
@@ -18,18 +24,22 @@ if [ "$PROVIDER" = "gcp" ]; then
     CURRENT_GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
     EXPECTED_GOOGLE_CLOUD_PROJECT=$(../scripts/python/env_var.py $ENV "terraform_project")
     if [ "$CURRENT_GOOGLE_CLOUD_PROJECT" != "$EXPECTED_GOOGLE_CLOUD_PROJECT" ]; then
-        echo "ERROR: Please login to GCP project: $CURRENT_GOOGLE_CLOUD_PROJECT"
+        echo "ERROR: Please login to GCP project: $EXPECTED_GOOGLE_CLOUD_PROJECT (you are currently logged into $CURRENT_GOOGLE_CLOUD_PROJECT)"
+        echo "HINT: gcloud config set project $EXPECTED_GOOGLE_CLOUD_PROJECT"
+        echo "HINT: gcloud auth login"
         exit 1
     fi
 
     # Check that we're logged into the correct GKE cluster
     REGION=$(../scripts/python/env_var.py $ENV "terraform_region")
-    EXPECTED_CONTEXT="gke_${CURRENT_GOOGLE_CLOUD_PROJECT}_${REGION}_kidsloop"
+    EXPECTED_CONTEXT="gke_${EXPECTED_GOOGLE_CLOUD_PROJECT}_${REGION}_kidsloop"
     CURRENT_CONTEXT=$(kubectl config current-context)
     if [ "$EXPECTED_CONTEXT" != "$CURRENT_CONTEXT" ]; then
-        echo "ERROR: Please ensure you are logged into the kidsloop GKE cluster in $CURRENT_GOOGLE_CLOUD_PROJECT"
-        exit 1
+        echo "WARN: Your current context is not the deployment context. Helmfile will run with --kube-context $EXPECTED_CONTEXT"
+        echo "HINT: kubectl config use-context $EXPECTED_CONTEXT"
+        # exit 1
     fi
+    EXTRA_FLAGS="$EXTRA_FLAGS --kube-context $EXPECTED_CONTEXT"
 
     # Write TFOUTPUT file
     TFOUTPUT_FILE=$(env_path $ENV ".gcp-terraform-output.json")
@@ -50,10 +60,6 @@ fi
 CONFIG_FILE=$(env_path $ENV ".env.yaml")
 python3 ../scripts/python/env_all_yaml.py $ENV
 
-# build up some useful helmfile flags
-DEBUG_FLAG=""
-RELEASES_FLAG=""
-SKIPDEPS_FLAG=""
 
 for VAR in "$@"; do
     case $VAR in
@@ -65,12 +71,13 @@ done
 
 # Helm
 echo -e "\nRunning Helm"
-echo "helmfile command: $CMD"
 [[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
 [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 [[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
 pushd helm
-helmfile $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG
+ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG"
+echo "EXEC: \"helmfile $ALL_HELMFILE_ARGS\""
+helmfile $ALL_HELMFILE_ARGS
 popd
 
 rm $CONFIG_FILE  || true
@@ -78,4 +85,3 @@ if [ "$PROVIDER" = "gcp" ]; then
     rm $TFOUTPUT_FILE  || true
     rm $GKE_FILE  || true
 fi
-
