@@ -5,6 +5,9 @@ source ../scripts/bash/functions.sh
 ENV=$1
 env_validate $ENV
 
+EXPECTED_GOOGLE_CLOUD_PROJECT=$(../scripts/python/env_var.py $ENV "terraform_project")
+REGION=$(../scripts/python/env_var.py $ENV "terraform_region")
+EXPECTED_CONTEXT="gke_${EXPECTED_GOOGLE_CLOUD_PROJECT}_${REGION}_kidsloop"
 CONFIG=$(cat ../env/$ENV/config.json)
 PROJECT=$(cat ../env/$ENV/tfvars.json | jq -r '.terraform_project')
 MYSQL_NAME=$(echo $CONFIG | jq -r '.gcp .mysql .name')
@@ -17,11 +20,11 @@ REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
 KIDSLOOP_NAMESPACE=$(echo $CONFIG | jq -r '.k8s_namespace_kidsloop')
 
-MYSQL_IP=$(kubectl get sqlinstance $MYSQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
-POSTGRESQL_IP=$(kubectl get sqlinstance $POSTGRESQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
-REDIS_IP=$(kubectl get redisinstance $REDIS_NAME -n config-connector -o jsonpath="{.status .host}")
+MYSQL_IP=$(kubectl --context $EXPECTED_CONTEXT get sqlinstance $MYSQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
+POSTGRESQL_IP=$(kubectl --context $EXPECTED_CONTEXT get sqlinstance $POSTGRESQL_NAME -n config-connector -o jsonpath="{.status .privateIpAddress}")
+REDIS_IP=$(kubectl --context $EXPECTED_CONTEXT get redisinstance $REDIS_NAME -n config-connector -o jsonpath="{.status .host}")
 
-MYSQL_PROXY_IP=$(kubectl get service cloud-sql-proxy-mysql -n $KIDSLOOP_NAMESPACE -o jsonpath="{.spec .clusterIP}")
+MYSQL_PROXY_IP=$(kubectl --context $EXPECTED_CONTEXT get service cloud-sql-proxy-mysql -n $KIDSLOOP_NAMESPACE -o jsonpath="{.spec .clusterIP}")
 
 echo "{
     \"mysql_host\": \"$MYSQL_IP\",
