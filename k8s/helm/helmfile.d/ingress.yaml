@@ -61,6 +61,67 @@ releases:
               nginx.ingress.kubernetes.io/enable-cors: "true"
               beta.cloud.google.com/backend-config: >
                 {"ports": {"80": "nginx", "443": "nginx"}}
+{{- if (or (.Values.helm_kube_monitoring.enabled) (.Values.helm_prometheus.enabled) ) }}
+      - controller:
+          metrics:
+            # Additional config for NGINX service monitor (prometheus)
+            # https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml#L571
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              # additionalLabels: {}
+              # The label to use to retrieve the job name from.
+              # jobLabel: "app.kubernetes.io/name"
+              namespace: ""
+              namespaceSelector: {}
+              # Default: scrape .Release.Namespace only
+              # To scrape all, use the following:
+              # namespaceSelector:
+              #   any: true
+              scrapeInterval: 30s
+              # honorLabels: true
+              targetLabels: []
+              metricRelabelings: []
+
+            prometheusRule:
+              enabled: true
+              # additionalLabels: {}
+              # namespace: ""
+              rules:
+                # These are just examples rules, please adapt them to your needs
+                - alert: NGINXConfigFailed
+                  expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
+                  for: 1s
+                  labels:
+                    severity: critical
+                  annotations:
+                    description: bad ingress config - nginx config test failed
+                    summary: uninstall the latest ingress changes to allow config reloads to resume
+                - alert: NGINXCertificateExpiry
+                  expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
+                  for: 1s
+                  labels:
+                    severity: critical
+                  annotations:
+                    description: ssl certificate(s) will expire in less then a week
+                    summary: renew expiring certificates to avoid downtime
+                - alert: NGINXTooMany500s
+                  expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+                  for: 1m
+                  labels:
+                    severity: warning
+                  annotations:
+                    description: Too many 5XXs
+                    summary: More than 5% of all requests returned 5XX, this requires your attention
+                - alert: NGINXTooMany400s
+                  expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+                  for: 1m
+                  labels:
+                    severity: warning
+                  annotations:
+                    description: Too many 4XXs
+                    summary: More than 5% of all requests returned 4XX, this requires your attention
+{{- end }}
 
 {{- if eq .Values.provider "gcp" }}
   - name: ingress-backend-config-nginx
