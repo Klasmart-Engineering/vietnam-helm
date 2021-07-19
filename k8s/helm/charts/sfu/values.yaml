@@ -30,6 +30,8 @@ redisPort: 6379
 
 resources: {}
 
+sfuManagerResources: {}
+
 sfuManagerConfiguration:
   job: "/etc/sfu-manager/job.yaml"
   desiredPodsGetter: "prometheus"

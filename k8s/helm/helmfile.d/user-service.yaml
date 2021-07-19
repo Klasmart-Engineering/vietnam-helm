@@ -36,7 +36,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:
-      - replicaCount: 2
+      - replicaCount: {{ .Values.user_service_replica_count }}
       - provider: {{ .Values.provider }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
