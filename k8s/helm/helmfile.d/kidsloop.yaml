@@ -639,6 +639,9 @@ releases:
       - domain: {{ .Values.domain }}
       - cms_db: {{ .Values.mysql_database }}
       - cms_db_user: {{ .Values.mysql_assessment_username }}
+      - postgresql_host: {{ .Values.postgresql_host }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - postgresql_username: {{ .Values.postgresql_username }}
       {{- if eq .Values.provider "gcp" }}
       - project: {{ .Values.terraform_project }}
       - region: {{ .Values.terraform_region }}

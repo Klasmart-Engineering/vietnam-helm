@@ -48,16 +48,21 @@ spec:
                 key: mysql-password
           - name: CMS_DATABASE_URL
             value: "mysql://$(CMS_DB_USER):$(CMS_DB_SECRET)@$(CMS_DB_HOST):3306/$(CMS_DB)"
+          - name: POSTGRES_DB_HOST
+            value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+          - name: POSTGRES_DB_NAME
+            value: {{ .Values.postgresql_database }}
+          - name: POSTGRES_DB_USERNAME
+            value: {{ .Values.postgresql_username }}
+          - name: POSTGRES_DB_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
           - name: USER_DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: postgresql
-                key: database-url
+            value: "postgres://$(POSTGRES_DB_USERNAME):$(POSTGRES_DB_SECRET)@$(POSTGRES_DB_HOST)/$(POSTGRES_DB_NAME)"
           - name: ASSESSMENT_DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: postgresql
-                key: assessment-database-url
+            value: "postgres://$(POSTGRES_DB_USERNAME):$(POSTGRES_DB_SECRET)@$(POSTGRES_DB_HOST)/assessment"
           - name: AWS_REGION
             value: {{ .Values.aws_region }}            
           - name: DYNAMODB_TABLE_NAME
