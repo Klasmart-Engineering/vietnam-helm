@@ -56,19 +56,19 @@ spec:
           value: /key/private_key
         - name: JWT_PUBLIC_KEY_FILENAME
           value: /key/public_key
-        - name: DATABASE_HOST
+        - name: DB_HOST
           value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-        - name: DATABASE_NAME
+        - name: DB_NAME
           value: {{ .Values.postgresql_database }}
-        - name: DATABASE_USER
+        - name: DB_USERNAME
           value: {{ .Values.postgresql_username }}
-        - name: DATABASE_SECRET
+        - name: DB_SECRET
           valueFrom:
             secretKeyRef:
               name: postgresql
               key: postgresql-password
         - name: DATABASE_URL
-          value: "postgres://$(DATABASE_USER):$(DATABASE_SECRET)@$(DATABASE_HOST)/$(DATABASE_NAME)"
+          value: "postgres://$(DB_USERNAME):$(DB_SECRET)@$(DB_HOST)/$(DB_NAME)"
         volumeMounts:
           - name: auth-jwt-credentials
             mountPath: /key
