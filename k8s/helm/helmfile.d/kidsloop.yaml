@@ -455,13 +455,15 @@ releases:
                 - "/transfer"
                 - "/switch"
       # auth-backend fails due to insuficient memory. That's why we don't set limits yet
-      # - resources:
-      #     requests:
-      #       cpu: 100m
-      #       memory: 400Mi
-      #     limits:
-      #       cpu: 200m
-      #       memory: 800Mi
+      {{- if ne .Values.provider "gcp" }}
+      - resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+      {{- end }}      
 
 
   # AUTH-FRONTEND
@@ -555,6 +557,15 @@ releases:
       #     limits:
       #       cpu: 256m
       #       memory: 1024Mi
+      {{- if ne .Values.provider "gcp" }}
+      - resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+      {{- end }}       
   {{- end}}
 
 
@@ -643,8 +654,8 @@ releases:
                 - "/assessment"
       - resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 500m
+            memory: 500Mi
           limits:
-            cpu: 200m
-            memory: 400Mi
+            cpu: 500m
+            memory: 1000Mi
