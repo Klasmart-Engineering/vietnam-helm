@@ -444,6 +444,9 @@ releases:
       - region: {{ .Values.terraform_region }}
       - postgresql_instance: {{ .Values.postgresql_database }}
       {{- end }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - postgresql_host: {{ .Values.postgresql_host}}
+      - postgresql_username: {{ .Values.postgresql_username }}
       - ingress:
           tls:
             - endpoint:
