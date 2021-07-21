@@ -27,23 +27,23 @@ releases:
     chart: ../charts/auth-backend
     values:
       - replicaCount: {{ .Values.auth_backend_replica_count }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
+        provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        imagePullSecrets:
           - name: {{ .Values.auth_backend_image_pull_secrets }}
-      - image:
+        image:
           repository: "{{ .Values.auth_backend_image_repository }}"
           tag: {{ .Values.auth_backend_image_tag }}
-      - domain: {{ .Values.domain }}
-      - postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-      - postgresql_database: {{ .Values.postgresql_database }}
-      - postgresql_username: {{ .Values.postgresql_username }}
+        domain: {{ .Values.domain }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
       {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - postgresql_instance: {{ .Values.postgresql_database }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
       {{- end }}
-      - ingress:
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -58,7 +58,7 @@ releases:
                 - "/switch"
       # auth-backend fails due to insuficient memory. That's why we don't set limits yet
       {{- if ne .Values.provider "gcp" }}
-      - resources:
+        resources:
           requests:
             cpu: 500m
             memory: 1Gi
