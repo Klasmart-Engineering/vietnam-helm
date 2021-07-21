@@ -1,0 +1,55 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: auth-frontend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/auth-frontend
+    values:
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.auth_frontend_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.auth_frontend_image_repository }}"
+          tag: {{ .Values.auth_frontend_image_tag }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - auth{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
+          hosts:
+            - host: auth{{ .Values.kl_domain }}
+              paths:
+                - "/"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 200m
+            memory: 512Mi
+      - autoscaling:
+          minReplicas: {{ .Values.auth_frontend_min_replica_count }}
+          maxReplicas: {{ .Values.auth_frontend_max_replica_count }}

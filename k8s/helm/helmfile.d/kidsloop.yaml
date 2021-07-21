@@ -228,40 +228,6 @@ releases:
             cpu: 200m
             memory: 400Mi
 
-  # AUTH-FRONTEND
-  # ---------------------------------------------------------------------------------------
-  # 
-  
-  - name: auth-frontend
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/auth-frontend
-    values:
-      - replicaCount: {{ .Values.auth_frontend_replica_count }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
-          - name: {{ .Values.auth_frontend_image_pull_secrets }}
-      - image:
-          repository: "{{ .Values.auth_frontend_image_repository }}"
-          tag: {{ .Values.auth_frontend_image_tag }}
-      - ingress:
-          tls:
-            - endpoint:
-                hosts:
-                  - auth{{ .Values.kl_domain }}      
-                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
-          hosts:
-            - host: auth{{ .Values.kl_domain }}
-              paths:
-                - "/"
-      - resources:
-          requests:
-            cpu: 100m
-            memory: 200Mi
-          limits:
-            cpu: 200m
-            memory: 400Mi
-
   # H5P SERVICE
   # ---------------------------------------------------------------------------------------
   
