@@ -193,10 +193,10 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 250Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
 
       - configuration:
           db_hostname: {{ .Values.mysql_host }}
@@ -253,54 +253,6 @@ releases:
           limits:
             cpu: 200m
             memory: 400Mi
- 
-  # SFU
-  # ---------------------------------------------------------------------------------------
-
-  - name: sfu
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/sfu
-    values:
-      - replicaCount: {{ .Values.sfu_manager_replica_count }}
-      - sfuManagerImage:
-          repository: {{ .Values.sfu_manager_image_repository }}
-          tag: {{ .Values.sfu_manager_image_tag }}
-          imagePullSecrets:
-            - name: {{ .Values.sfu_manager_image_pull_secrets }}
-      - sfuImage:
-          repository: {{ .Values.sfu_image_repository }}
-          tag: {{ .Values.sfu_image_tag | default "latest" }}
-          imagePullSecrets:
-            - name: {{ .Values.sfu_image_pull_secrets }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      # Important - use host networking in GCP, and use pod IP as hostname
-      - hostNetworking: true  # SFU addressable over internet
-        usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE
-        useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
-      - resources:
-          requests:
-            cpu: 1000m
-            memory: 4Gi
-          limits:
-            cpu: 2000m
-            memory: 6Gi
-      - sfuManagerResources:
-          requests:
-            cpu: 250m
-            memory: 250Mi
-          limits:
-            cpu: 500m
-            memory: 500Mi            
-      - sfuManagerConfiguration:
-          promHost: {{ .Values.prometheus_host }}
-          desiredPodsGetter: {{ .Values.desired_pods_getter }}
-          redisHost: {{ .Values.redis_host }}:6379
-          pods: {{ .Values.sfu_pods_count }}
-          promDesiredAvailable: {{ .Values.sfu_pods_count }}
-      - redisHost: {{ .Values.redis_host }}
-
-
 
   # SFU-GATEWAY
   # ---------------------------------------------------------------------------------------
@@ -330,10 +282,10 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 250Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
       - redisHost: {{ .Values.redis_host }}
 
 
@@ -512,7 +464,7 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 200Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
