@@ -43,11 +43,13 @@ spec:
             value: {{ .Values.redisPort | quote }}
           - name: ASSESSMENT_ENDPOINT
             value: {{ .Values.assessmentEndpoint }}
-          - name: DATABASE_URL
+          - name: DB_SECRET
             valueFrom:
               secretKeyRef:
                 name: postgresql
-                key: database-url
+                key: postgresql-password
+          - name: DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
           # The issuer is set to kidsloop in other services, but it MUST be set to kidsloop-live in this service
           {{- if .Values.liveJwtKey.enabled }}
           - name: JWT_ISSUER

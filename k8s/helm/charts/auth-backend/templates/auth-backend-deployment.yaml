@@ -56,11 +56,13 @@ spec:
           value: /key/private_key
         - name: JWT_PUBLIC_KEY_FILENAME
           value: /key/public_key
-        - name: DATABASE_URL
+        - name: DB_SECRET
           valueFrom:
             secretKeyRef:
               name: postgresql
-              key: database-url
+              key: postgresql-password
+        - name: DATABASE_URL
+          value: "postgres://{{ .Values.postgresql_username }}:$(DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
         volumeMounts:
           - name: auth-jwt-credentials
             mountPath: /key

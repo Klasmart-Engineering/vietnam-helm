@@ -1,0 +1,70 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: assessment
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/assessment
+    values:
+      - replicaCount: {{ .Values.assessment_replica_count }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.assessment_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.assessment_image_repository }}"
+          tag: {{ .Values.assessment_image_tag }}
+      - domain: {{ .Values.domain }}
+      - mysql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.mysql_host }} {{- end }}
+      - cms_db: {{ .Values.mysql_database }}
+      - cms_db_user: {{ .Values.mysql_assessment_username }}
+      - postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - postgresql_username: {{ .Values.postgresql_username }}
+      - postgresql_assessment_database: {{ .Values.postgresql_assessment_database }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      - mysql_instance: {{ .Values.mysql_database }}
+      {{- end }}
+      - aws_region: {{ .Values.dynamodb_aws_region }}
+      - dynamodb_table_name: {{ .Values.dynamodb_table_name }}
+      - user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}" 
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/assessment"
+      - resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 1000Mi
