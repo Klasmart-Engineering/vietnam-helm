@@ -35,34 +35,22 @@ spec:
             value: "/assessment"
           - name: USER_SERVICE_API_URL
             value: {{ .Values.user_api_endpoint }}
-          - name: CMS_DB_HOST
-            value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.mysql_host }} {{- end }}
-          - name: CMS_DB
-            value: {{ .Values.cms_db }}
-          - name: CMS_DB_USER
-            value: {{ .Values.cms_db_user }}
           - name: CMS_DB_SECRET
             valueFrom:
               secretKeyRef:
                 name: mysql
                 key: mysql-password
           - name: CMS_DATABASE_URL
-            value: "mysql://$(CMS_DB_USER):$(CMS_DB_SECRET)@$(CMS_DB_HOST):3306/$(CMS_DB)"
-          - name: POSTGRES_DB_HOST
-            value: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-          - name: POSTGRES_DB_NAME
-            value: {{ .Values.postgresql_database }}
-          - name: POSTGRES_DB_USERNAME
-            value: {{ .Values.postgresql_username }}
+            value: "mysql://{{ .Values.cms_db_user }}:$(CMS_DB_SECRET)@{{ .Values.mysql_host }}:3306/{{ .Values.cms_db }}"
           - name: POSTGRES_DB_SECRET
             valueFrom:
               secretKeyRef:
                 name: postgresql
                 key: postgresql-password
           - name: USER_DATABASE_URL
-            value: "postgres://$(POSTGRES_DB_USERNAME):$(POSTGRES_DB_SECRET)@$(POSTGRES_DB_HOST)/$(POSTGRES_DB_NAME)"
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
           - name: ASSESSMENT_DATABASE_URL
-            value: "postgres://$(POSTGRES_DB_USERNAME):$(POSTGRES_DB_SECRET)@$(POSTGRES_DB_HOST)/assessment"
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_assessment_database }}"
           - name: AWS_REGION
             value: {{ .Values.aws_region }}            
           - name: DYNAMODB_TABLE_NAME
