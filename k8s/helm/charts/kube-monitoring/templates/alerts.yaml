@@ -1,0 +1,2 @@
+# rate(kube_pod_container_status_restarts_total{namespace="okc"}[5m]) > 1
+

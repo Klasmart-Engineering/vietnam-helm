@@ -97,6 +97,8 @@ releases:
                   annotations:
                     description: bad ingress config - nginx config test failed
                     summary: uninstall the latest ingress changes to allow config reloads to resume
+                    dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/nginx/nginx-ingress-controller?orgId=1&refresh=5s
+                    runbook_url: https://kubernetes.github.io/ingress-nginx/troubleshooting/
                 - alert: NGINXCertificateExpiry
                   expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
                   for: 1s
@@ -105,6 +107,8 @@ releases:
                   annotations:
                     description: ssl certificate(s) will expire in less then a week
                     summary: renew expiring certificates to avoid downtime
+                    dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/nginx/nginx-ingress-controller?orgId=1&refresh=5s
+                    runbook_url: https://kubernetes.github.io/ingress-nginx/troubleshooting/
                 - alert: NGINXTooMany500s
                   expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
                   for: 1m
@@ -113,6 +117,8 @@ releases:
                   annotations:
                     description: Too many 5XXs
                     summary: More than 5% of all requests returned 5XX, this requires your attention
+                    dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/nginx/nginx-ingress-controller?orgId=1&refresh=5s
+                    runbook_url: https://kubernetes.github.io/ingress-nginx/troubleshooting/
                 - alert: NGINXTooMany400s
                   expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
                   for: 1m
@@ -121,6 +127,8 @@ releases:
                   annotations:
                     description: Too many 4XXs
                     summary: More than 5% of all requests returned 4XX, this requires your attention
+                    dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/nginx/nginx-ingress-controller?orgId=1&refresh=5s
+                    runbook_url: https://kubernetes.github.io/ingress-nginx/troubleshooting/
 {{- end }}
 
 {{- if eq .Values.provider "gcp" }}
