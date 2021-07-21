@@ -1,0 +1,68 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: auth-backend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/auth-backend
+    values:
+      - replicaCount: {{ .Values.auth_backend_replica_count }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - imagePullSecrets:
+          - name: {{ .Values.auth_backend_image_pull_secrets }}
+      - image:
+          repository: "{{ .Values.auth_backend_image_repository }}"
+          tag: {{ .Values.auth_backend_image_tag }}
+      - domain: {{ .Values.domain }}
+      - postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - postgresql_username: {{ .Values.postgresql_username }}
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - postgresql_instance: {{ .Values.postgresql_database }}
+      {{- end }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - auth{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
+          hosts:
+            - host: auth{{ .Values.kl_domain }}
+              paths:
+                - "/signout"
+                - "/refresh"
+                - "/transfer"
+                - "/switch"
+      # auth-backend fails due to insuficient memory. That's why we don't set limits yet
+      {{- if ne .Values.provider "gcp" }}
+      - resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+      {{- end }}      

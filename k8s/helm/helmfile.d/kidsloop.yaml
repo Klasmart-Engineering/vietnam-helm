@@ -425,56 +425,6 @@ releases:
             cpu: 200m
             memory: 400Mi
 
-  # AUTH-BACKEND
-  # ---------------------------------------------------------------------------------------
-  # 
-  
-  - name: auth-backend
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/auth-backend
-    values:
-      - replicaCount: {{ .Values.auth_backend_replica_count }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
-          - name: {{ .Values.auth_backend_image_pull_secrets }}
-      - image:
-          repository: "{{ .Values.auth_backend_image_repository }}"
-          tag: {{ .Values.auth_backend_image_tag }}
-      - domain: {{ .Values.domain }}
-      - postgresql_host: {{ .Values.postgresql_host }}
-      - postgresql_database: {{ .Values.postgresql_database }}
-      - postgresql_username: {{ .Values.postgresql_username }}
-      {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - postgresql_instance: {{ .Values.postgresql_database }}
-      {{- end }}
-      - ingress:
-          tls:
-            - endpoint:
-                hosts:
-                  - auth{{ .Values.kl_domain }}      
-                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
-          hosts:
-            - host: auth{{ .Values.kl_domain }}
-              paths:
-                - "/signout"
-                - "/refresh"
-                - "/transfer"
-                - "/switch"
-      # auth-backend fails due to insuficient memory. That's why we don't set limits yet
-      {{- if ne .Values.provider "gcp" }}
-      - resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
-          limits:
-            cpu: 500m
-            memory: 2Gi
-      {{- end }}      
-
-
   # AUTH-FRONTEND
   # ---------------------------------------------------------------------------------------
   # 
