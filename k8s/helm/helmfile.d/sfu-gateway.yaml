@@ -1,0 +1,57 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: sfu-gateway
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/sfu-gateway
+    values:
+      - provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
+          repository: {{ .Values.sfu_gateway_image_repository }}
+          tag: {{ .Values.sfu_gateway_image_tag }}
+        imagePullSecrets:
+          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
+        ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
+          hosts:
+            - host: live{{ .Values.kl_domain }}
+              paths:
+                - "/sfu"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        redisHost: {{ .Values.redis_host }}
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.sfu_gateway_min_replica_count }}
+          maxReplicas: {{ .Values.sfu_gateway_max_replica_count }}

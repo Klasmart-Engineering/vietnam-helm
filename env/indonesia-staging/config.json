@@ -166,7 +166,8 @@
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-ba9cc3d",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
-    "sfu_gateway_replica_count": 1,
+    "sfu_gateway_min_replica_count": 1,
+    "sfu_gateway_max_replica_count": 3,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
     "user_service_image_tag": "commit-46e49b4",

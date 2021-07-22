@@ -121,40 +121,6 @@ releases:
             cpu: 200m
             memory: 200Mi
 
-  # SFU-GATEWAY
-  # ---------------------------------------------------------------------------------------
-
-  - name: sfu-gateway
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/sfu-gateway
-    values:
-      - replicaCount: {{ .Values.sfu_gateway_replica_count }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
-          repository: {{ .Values.sfu_gateway_image_repository }}
-          tag: {{ .Values.sfu_gateway_image_tag }}
-      - imagePullSecrets:
-          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
-      - ingress:
-          tls:
-            - endpoint:
-                hosts:
-                  - live{{ .Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
-          hosts:
-            - host: live{{ .Values.kl_domain }}
-              paths:
-                - "/sfu"
-      - resources:
-          requests:
-            cpu: 250m
-            memory: 256Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
-      - redisHost: {{ .Values.redis_host }}
-
   # H5P SERVICE
   # ---------------------------------------------------------------------------------------
   
