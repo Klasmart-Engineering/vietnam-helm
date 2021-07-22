@@ -76,7 +76,9 @@ spec:
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
-          runAsNonRoot: true  
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
       {{- end }}
       volumes:
         - name: auth-jwt-credentials

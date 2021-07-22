@@ -27,13 +27,13 @@ releases:
     chart: ../charts/auth-frontend
     values:
       - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
+        serviceType: {{ .Values.k8s_service_type }}
+        imagePullSecrets:
           - name: {{ .Values.auth_frontend_image_pull_secrets }}
-      - image:
+        image:
           repository: "{{ .Values.auth_frontend_image_repository }}"
           tag: {{ .Values.auth_frontend_image_tag }}
-      - ingress:
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -43,13 +43,14 @@ releases:
             - host: auth{{ .Values.kl_domain }}
               paths:
                 - "/"
-      - resources:
+        resources:
           requests:
             cpu: 100m
             memory: 256Mi
           limits:
             cpu: 200m
             memory: 512Mi
-      - autoscaling:
+        autoscaling:
+          enabled: true
           minReplicas: {{ .Values.auth_frontend_min_replica_count }}
           maxReplicas: {{ .Values.auth_frontend_max_replica_count }}
