@@ -329,7 +329,7 @@ releases:
             cpu: 1000m
             memory: 4Gi
           limits:
-            cpu: 2000m
+            cpu: 1000m
             memory: 6Gi
       - sfuManagerResources:
           requests:
