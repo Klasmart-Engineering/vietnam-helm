@@ -26,15 +26,14 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-frontend
     values:
-      - replicaCount: {{ .Values.cms_frontend_replica_count }}
       - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
           repository: {{ .Values.cms_frontend_image_repository }} 
           tag: {{ .Values.cms_frontend_image_tag }}
-      - imagePullSecrets:
+        imagePullSecrets:
           - name: {{ .Values.cms_frontend_image_pull_secrets }}
-      - ingress:
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -44,10 +43,14 @@ releases:
             - host: cms{{ .Values.kl_domain }}
               paths:
                 - "/"
-      - resources:
+        resources:
           requests:
             cpu: 100m
             memory: 200Mi
           limits:
             cpu: 200m
             memory: 400Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.cms_frontend_min_replica_count }}
+          maxReplicas: {{ .Values.cms_frontend_max_replica_count }}
