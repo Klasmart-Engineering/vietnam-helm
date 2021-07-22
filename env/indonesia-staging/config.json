@@ -138,8 +138,8 @@
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "commit-id-beta-47ed616",
     "hub_image_pull_secrets": "ecr-registry-infra",
-    "hub_replica_min_count": 1,
-    "hub_replica_max_count": 3,
+    "hub_min_replica_count": 1,
+    "hub_max_replica_count": 3,
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "commit-id-beta-1d7e995",
@@ -177,8 +177,8 @@
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-fc81c47",
     "xapi_image_pull_secrets": "ecr-registry-infra",
-    "xapi_replica_min_count": 1,
-    "xapi_replica_max_count": 3,
+    "xapi_min_replica_count": 1,
+    "xapi_max_replica_count": 3,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
     "assessment_image_tag": "alpha-405ef54",

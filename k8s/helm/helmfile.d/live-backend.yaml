@@ -68,5 +68,5 @@ releases:
         {{ end }}
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.auth_backend_min_replica_count }}
-          maxReplicas: {{ .Values.auth_backend_max_replica_count }}
+          minReplicas: {{ .Values.live_backend_min_replica_count }}
+          maxReplicas: {{ .Values.live_backend_max_replica_count }}
