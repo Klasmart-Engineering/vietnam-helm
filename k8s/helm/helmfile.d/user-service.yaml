@@ -28,23 +28,22 @@ releases:
     chart: ../charts/whitelabel-bucket
     values:
       - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - bucket_name: "whitelabel-{{ .Values.terraform_project }}"
+        region: {{ .Values.terraform_region }}
+        bucket_name: "whitelabel-{{ .Values.terraform_project }}"
   {{- end }}
   
   - name: user-service
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/user-service
     values:
-      - replicaCount: {{ .Values.user_service_replica_count }}
       - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
           repository: "{{ .Values.user_service_image_repository }}"
           tag: "{{ .Values.user_service_image_tag }}"
-      - imagePullSecrets:
+        imagePullSecrets:
           - name: {{ .Values.user_service_image_pull_secrets }}
-      - ingress:
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -54,27 +53,31 @@ releases:
             - host: api{{ .Values.kl_domain }}
               paths:
                 - "/user"
-      - domain: {{ .Values.domain }}
-      - whitelabel_storage_bucket: {{ .Values.whitelabel_storage_bucket }}
-      - whitelabel_storage_provider: {{ .Values.whitelabel_storage_provider }}
-      - postgresql_host: {{ .Values.postgresql_host }}
-      - postgresql_database: {{ .Values.postgresql_database }}
-      - postgresql_username: {{ .Values.postgresql_username }}
-      {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - postgresql_instance: {{ .Values.postgresql_database }}
-      {{- end }}
-      {{- if eq .Values.provider "vngcloud" }}
-      - project: {{ .Values.whitelabel_storage_project }}
-      - region: {{ .Values.storage.region }}
-      - storage_endpoint: {{ .Values.storage.endpoint }}
-      - whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
-      {{- end }}
-      - resources:
+        domain: {{ .Values.domain }}
+        whitelabel_storage_bucket: {{ .Values.whitelabel_storage_bucket }}
+        whitelabel_storage_provider: {{ .Values.whitelabel_storage_provider }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
+       {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+       {{- end }}
+       {{- if eq .Values.provider "vngcloud" }}
+        project: {{ .Values.whitelabel_storage_project }}
+        region: {{ .Values.storage.region }}
+        storage_endpoint: {{ .Values.storage.endpoint }}
+        whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
+       {{- end }}
+        resources:
           requests:
             cpu: 250m
             memory: 512Mi
           limits:
             cpu: 500m
             memory: 1024Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.auth_backend_min_replica_count }}
+          maxReplicas: {{ .Values.auth_backend_max_replica_count }}
