@@ -26,32 +26,31 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/assessment
     values:
-      - replicaCount: {{ .Values.assessment_replica_count }}
       - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - imagePullSecrets:
+        serviceType: {{ .Values.k8s_service_type }}
+        imagePullSecrets:
           - name: {{ .Values.assessment_image_pull_secrets }}
-      - image:
+        image:
           repository: "{{ .Values.assessment_image_repository }}"
           tag: {{ .Values.assessment_image_tag }}
-      - domain: {{ .Values.domain }}
-      - mysql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.mysql_host }} {{- end }}
-      - cms_db: {{ .Values.mysql_database }}
-      - cms_db_user: {{ .Values.mysql_assessment_username }}
-      - postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-      - postgresql_database: {{ .Values.postgresql_database }}
-      - postgresql_username: {{ .Values.postgresql_username }}
-      - postgresql_assessment_database: {{ .Values.postgresql_assessment_database }}
-      {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - postgresql_instance: {{ .Values.postgresql_database }}
-      - mysql_instance: {{ .Values.mysql_database }}
-      {{- end }}
-      - aws_region: {{ .Values.dynamodb_aws_region }}
-      - dynamodb_table_name: {{ .Values.dynamodb_table_name }}
-      - user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
-      - ingress:
+        domain: {{ .Values.domain }}
+        mysql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.mysql_host }} {{- end }}
+        cms_db: {{ .Values.mysql_database }}
+        cms_db_user: {{ .Values.mysql_assessment_username }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
+        postgresql_assessment_database: {{ .Values.postgresql_assessment_database }}
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+        mysql_instance: {{ .Values.mysql_database }}
+        {{- end }}
+        aws_region: {{ .Values.dynamodb_aws_region }}
+        dynamodb_table_name: {{ .Values.dynamodb_table_name }}
+        user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -61,10 +60,14 @@ releases:
             - host: api{{ .Values.kl_domain }}
               paths:
                 - "/assessment"
-      - resources:
+        resources:
           requests:
-            cpu: 500m
+            cpu: 100m
             memory: 512Mi
           limits:
             cpu: 500m
             memory: 1024Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.assessment_min_replica_count }}
+          maxReplicas: {{ .Values.assessment_max_replica_count }}

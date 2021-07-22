@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "assessment.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "assessment.selectorLabels" . | nindent 6 }}
@@ -69,7 +68,9 @@ spec:
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
-          runAsNonRoot: true  
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
       - name: mysql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
         command:
@@ -78,6 +79,8 @@ spec:
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.mysql_instance }}=tcp:3306"
         securityContext:
           runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
       serviceAccountName: cloudsql-proxy 
       {{- end }}
       volumes:
