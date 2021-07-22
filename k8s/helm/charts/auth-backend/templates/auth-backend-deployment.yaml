@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "auth-backend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "auth-backend.selectorLabels" . | nindent 6 }}

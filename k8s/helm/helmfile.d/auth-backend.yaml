@@ -26,8 +26,7 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/auth-backend
     values:
-      - replicaCount: {{ .Values.auth_backend_replica_count }}
-        provider: {{ .Values.provider }}
+      - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
         imagePullSecrets:
           - name: {{ .Values.auth_backend_image_pull_secrets }}
@@ -66,3 +65,6 @@ releases:
             cpu: 500m
             memory: 2Gi
       {{- end }}      
+        autoscaling:
+          minReplicas: {{ .Values.auth_backend_min_replica_count }}
+          maxReplicas: {{ .Values.auth_backend_max_replica_count }}
