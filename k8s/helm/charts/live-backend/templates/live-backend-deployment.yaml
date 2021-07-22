@@ -79,6 +79,8 @@ spec:
             {{- end }}
           {{- end }}
           {{- end }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
         {{- if .Values.liveJwtKey.enabled }}
         volumeMounts:
           - name: live-jwt-credentials
@@ -94,11 +96,9 @@ spec:
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
         securityContext:
-          runAsNonRoot: true  
-      {{- end }}
+          runAsNonRoot: true
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-      {{- if eq .Values.provider "gcp" }}
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
       serviceAccountName: cloudsql-proxy
       {{- end }}
       {{- if .Values.liveJwtKey.enabled }}
