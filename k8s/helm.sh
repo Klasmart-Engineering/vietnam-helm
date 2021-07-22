@@ -69,19 +69,19 @@ for VAR in "$@"; do
     esac
 done
 
-# Helm
-echo -e "\nRunning Helm"
-[[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
-[[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
-[[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
-pushd helm
-ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG"
-echo "EXEC: \"helmfile $ALL_HELMFILE_ARGS\""
-helmfile $ALL_HELMFILE_ARGS
-popd
+# # Helm
+# echo -e "\nRunning Helm"
+# [[ ! -z "$RELEASES_FLAG" ]] && echo "helmfile selector(s): $RELEASES_FLAG"
+# [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
+# [[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
+# pushd helm
+# ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG"
+# echo "EXEC: \"helmfile $ALL_HELMFILE_ARGS\""
+# helmfile $ALL_HELMFILE_ARGS
+# popd
 
-rm $CONFIG_FILE  || true
-if [ "$PROVIDER" = "gcp" ]; then
-    rm $TFOUTPUT_FILE  || true
-    rm $GKE_FILE  || true
-fi
+# rm $CONFIG_FILE  || true
+# if [ "$PROVIDER" = "gcp" ]; then
+#     rm $TFOUTPUT_FILE  || true
+#     rm $GKE_FILE  || true
+# fi
