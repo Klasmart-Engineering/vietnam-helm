@@ -191,43 +191,6 @@ releases:
             memory: 512Mi
       - redisHost: {{ .Values.redis_host }}
 
-
-      
-  # LIVE FRONTEND
-  # ---------------------------------------------------------------------------------------
-
-  - name: live-frontend
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/live-frontend
-    values:
-      - replicaCount: {{ .Values.live_frontend_replica_count }}
-      - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
-          repository: {{ .Values.live_frontend_image_repository }} 
-          tag: {{ .Values.live_frontend_image_tag }}
-      - imagePullSecrets:
-          - name: {{ .Values.live_frontend_image_pull_secrets }}
-      - ingress:
-          annotations:
-            cert-manager.io/cluster-issuer: "letsencrypt"
-          tls:
-            - endpoint:
-                hosts:
-                  - live{{ .Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
-          hosts:
-            - host: live{{ .Values.kl_domain }}
-              paths:
-                - "/"
-      - resources:
-          requests:
-            cpu: 100m
-            memory: 200Mi
-          limits:
-            cpu: 200m
-            memory: 400Mi
-
   # H5P SERVICE
   # ---------------------------------------------------------------------------------------
   
