@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "cms-backend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "cms-backend.selectorLabels" . | nindent 6 }}
@@ -77,7 +76,9 @@ spec:
           - "-ip_address_types=PRIVATE"
           - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.mysql_instance }}=tcp:{{ .Values.configuration.db_port }}"
         securityContext:
-          runAsNonRoot: true  
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
       {{- end }}
 
       # volumes:
