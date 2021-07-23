@@ -13,6 +13,9 @@
     "helm_prometheus": {
         "enabled": false
     },
+    "helm_kube_monitoring": {
+        "enabled": true
+    },
     "helm_fluentbit": {
         "enabled": false
     },
@@ -72,6 +75,10 @@
             "memory_size": 1,
             "tier": "STANDARD_HA"
         }
+    },
+    "kube_monitoring": {
+        "slack_channel": "#sre-test-alerts",
+        "credential_url": "https://vault.devops.klpsre.com/ui/vault/secrets/internal/show/env/id-rk-beta/monitoring/ui"
     },
     
     "whitelabel_storage_provider": "google",

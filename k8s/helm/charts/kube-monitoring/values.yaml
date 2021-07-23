@@ -1,0 +1,221 @@
+kube-prometheus-stack:
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+  enabled: true
+  prometheus:
+    prometheusSpec:
+
+      ## If true, a nil or {} value for prometheus.prometheusSpec.ruleSelector will cause the
+      ## prometheus resource to be created with selectors based on values in the helm deployment,
+      ## which will also match the PrometheusRule resources created
+      ruleSelectorNilUsesHelmValues: false
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      probeSelectorNilUsesHelmValues: false
+  grafana:
+    # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+    additionalDataSources:
+      - name: Loki
+        url: http://monitoring-loki.monitoring.svc.cluster.local:3100
+        orgId: 1
+        type: loki
+
+    # Load the sre-standard dashboards into grafana
+    dashboardsConfigMaps:
+      sre-standard: "monitoring-grafana-dashboards-sre-standard"  
+
+    serviceMonitor:
+      enabled: true
+      interval: 1m
+    persistence:
+      type: pvc
+      enabled: true
+      # storageClassName: gp2
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      # annotations: {}
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # selectorLabels: {}
+      # subPath: ""
+      # existingClaim:
+
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: 'sre-standard'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: true
+          editable: false
+          options:
+            path: /var/lib/grafana/dashboards/sre-standard
+
+    # dashboards:
+    #   default:
+        # some-dashboard:
+        #   json: |
+        #     $RAW_JSON
+        # pod_dash:
+        #   file: dashboards/pod_dash.json
+        # prometheus-stats:
+        #   gnetId: 2
+        #   revision: 2
+        #   datasource: Prometheus
+        # local-dashboard:
+        #   url: https://example.com/repository/test.json
+        #   token: ''
+        # local-dashboard-base64:
+        #   url: https://example.com/repository/test-b64.json
+        #   token: ''
+        #   b64content: true
+
+    grafana.ini:
+      # Customise settings in the grafana.ini file
+      # https://grafana.com/docs/grafana/latest/administration/configuration/
+      # server:
+      #   # The full public facing url you use in browser, used for redirects and emails
+      #   root_url: 
+
+    ingress:
+      enabled: false
+      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+      # ingressClassName: nginx
+      # Values can be templated
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt
+      labels:
+        app: grafana
+      path: /
+      # pathType is only for k8s >= 1.1=
+      pathType: Prefix
+      hosts:
+        - grafana.devops.klpsre.com
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - grafana.devops.klpsre.com
+
+  alertmanager:
+    config:
+      global:
+        resolve_timeout: 5m
+        # This is the webhook URL to our own kidsloop slack app
+        slack_api_url: 'https://hooks.slack.com/services/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'
+      route:
+        group_by: ['job']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+        receiver: 'slack-notifications'
+        routes:
+        - match:
+            alertname: Watchdog
+          receiver: 'null'
+      receivers:
+        - name: 'null'
+        - name: 'slack-notifications'
+          slack_configs:
+            - channel: '{{ template "slack.kidsloop.channel" . }}'
+              send_resolved: true
+              icon_url: https://avatars3.githubusercontent.com/u/3380462
+              title: '{{ template "slack.monzo.title" . }}'
+              # icon_emoji: '{{ template "slack.monzo.icon_emoji" . }}'
+              color: '{{ template "slack.kidsloop.color" . }}'
+              text: '{{ template "slack.kidsloop.text" . }}'
+              actions:
+              - type: button
+                text: 'Runbook :green_book:'
+                url: '{{ (index .Alerts 0).Annotations.runbook }}'
+              - type: button
+                text: 'Query :mag:'
+                url: '{{ (index .Alerts 0).GeneratorURL }}'
+              - type: button
+                text: 'Dashboard :tv:'
+                url: '{{ (index .Alerts 0).Annotations.dashboard }}'
+              - type: button
+                text: 'Silence :no_bell:'
+                url: '{{ template "__alert_silence_link" . }}'
+              - type: button
+                text: '{{ template "slack.monzo.link_button_text" . }}'
+                url: '{{ .CommonAnnotations.link_url }}'
+      templates:
+        - '/etc/alertmanager/config/*.tmpl'
+        - '/etc/alertmanager/templates/*.tmpl'
+
+    alertmanagerSpec:
+      # Set up proper storage
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: standard
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 2Gi
+
+      # Additional volumes on the output StatefulSet definition.
+      volumes:
+        - name: template-volume
+          configMap:
+            name: alertmanager-templates-cm
+      # Additional VolumeMounts on the output StatefulSet definition.
+      volumeMounts:
+        - name: template-volume
+          mountPath: /etc/alertmanager/templates
+          readOnly: true
+
+loki-stack:
+  # https://github.com/grafana/helm-charts/blob/main/charts/loki-stack/values.yaml
+  enabled: true
+  loki:
+    enabled: true
+    # https://github.com/grafana/helm-charts/blob/main/charts/loki/values.yaml
+    serviceMonitor:
+      enabled: true
+      # interval: ""
+      # additionalLabels: {}
+      # annotations: {}
+
+    serviceAccount:
+      annotations: {} # TODO - add role
+    # config:
+    #   # https://grafana.com/docs/loki/latest/configuration/examples/
+    #   schema_config:
+    #     configs:
+    #     - from: 2020-05-15
+    #       store: aws
+    #       object_store: s3
+    #       schema: v11
+    #       index:
+    #         prefix: loki_index
+    #         period: 0
+    #   storage_config:
+    #     aws:
+    #       s3: s3://us-east-2/loki-test-bucket-dev-east-2
+    #       dynamodb:
+    #         dynamodb_url: dynamodb://us-east-2
+    #   table_manager:
+    #     retention_deletes_enabled: true
+    #     retention_period: 336h
+
+  promtail:
+    enabled: true
+
+  fluent-bit:
+    enabled: false
+
+  grafana:
+    # not required - already included with kube-prometheus-stack
+    enabled: false
+    sidecar:
+      datasources:
+        enabled: true
+
+  prometheus:
+    # not required - already included with kube-prometheus-stack
+    enabled: false
