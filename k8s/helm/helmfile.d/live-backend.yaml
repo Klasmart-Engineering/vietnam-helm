@@ -58,15 +58,14 @@ releases:
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
-       {{- if eq .Values.provider "gcp" }}
+        {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
         postgresql_instance: {{ .Values.postgresql_database }}
-      {{ end }}
-      - liveJwtKey:
+        {{ end }}
+        liveJwtKey:
           enabled: true
           existingSecretName: live-jwt-credentials
-        {{ end }}
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.live_backend_min_replica_count }}
