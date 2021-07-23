@@ -193,10 +193,10 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 250Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
 
       - configuration:
           db_hostname: {{ .Values.mysql_host }}
@@ -334,10 +334,10 @@ releases:
       - sfuManagerResources:
           requests:
             cpu: 250m
-            memory: 250Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi            
+            memory: 512Mi            
       - sfuManagerConfiguration:
           promHost: {{ .Values.prometheus_host }}
           desiredPodsGetter: {{ .Values.desired_pods_getter }}
@@ -376,10 +376,10 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 250Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
       - redisHost: {{ .Values.redis_host }}
 
 
@@ -607,10 +607,10 @@ releases:
       - resources:
           requests:
             cpu: 250m
-            memory: 200Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
 
 
 
@@ -655,7 +655,7 @@ releases:
       - resources:
           requests:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
           limits:
             cpu: 500m
-            memory: 1000Mi
+            memory: 1Gi

@@ -117,7 +117,7 @@
     "hub_replica_count": 1,
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "release-alpha-vn-alpha-d048663",
+    "live_frontend_image_tag": "release-alpha-vn-alpha-65d64b8",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_replica_count": 1,
 
@@ -132,7 +132,7 @@
     "sfu_manager_replica_count": 1,
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "master-c0f42a2",
+    "sfu_image_tag": "master-0409f47",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 2,
 
