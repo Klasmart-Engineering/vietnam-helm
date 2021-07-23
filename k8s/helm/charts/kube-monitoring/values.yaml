@@ -1,3 +1,10 @@
+oauth2-proxy:
+  enabled: false
+  domain: TODO
+  path: /oauth2
+  ingress:
+    tls-secret: mon-cert
+
 kube-prometheus-stack:
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
   enabled: true

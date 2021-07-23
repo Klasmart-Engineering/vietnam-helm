@@ -1,0 +1,98 @@
+{{- if (index .Values "oauth2-proxy" "enabled") }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oauth2-proxy-cm
+stringData:
+  oauth2-proxy.cfg: |-
+    http_address="0.0.0.0:4180"
+    cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
+    provider="oidc"
+    email_domains = [ "calmid.com", "kidsloop.live" ]
+    oidc_issuer_url="https://dex.devops.klpsre.com"
+    client_secret="b2F1dGgyLXByb3h5LWNsaWVudC1zZWNyZXQK"
+    client_id="oauth2-proxy"
+    cookie_secure="true"
+
+    redirect_url="https://{{ index .Values "oauth2-proxy" "domain" }}/oauth2/callback"
+    cookie_domains="{{ index .Values "oauth2-proxy" "domain" }}" # Required so cookie can be read on all subdomains.
+    whitelist_domains="{{ index .Values "oauth2-proxy" "domain" }}" # Required to allow redirection back to original requested target.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: {{ .Release.Name }}-oauth2-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      containers:
+      - name: oauth2-proxy
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        args:
+        - --config=/etc/oauth2-proxy.cfg
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+        volumeMounts:
+          - mountPath: /etc/oauth2-proxy.cfg
+            name: oauth2-proxy-cm
+            readOnly: true
+            subPath: oauth2-proxy.cfg
+      volumes:
+      - name: oauth2-proxy-cm
+        secret:
+          secretName: oauth2-proxy-cm
+          items:
+          - key: oauth2-proxy.cfg
+            path: oauth2-proxy.cfg
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: {{ .Release.Name }}-oauth2-proxy-svc
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - name: http
+    port: 4180
+    protocol: TCP
+    targetPort: 4180
+  selector:
+    k8s-app: oauth2-proxy
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-oauth2-proxy-ing
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - host: {{ index .Values "oauth2-proxy" "domain" }}
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: "{{ index .Values "oauth2-proxy" "path" }}"
+        backend:
+          service:
+            name: oauth2-proxy
+            port:
+              number: 4180
+  tls:
+  - hosts:
+    - {{ index .Values "oauth2-proxy" "domain" }}
+    secretName: {{ index .Values "oauth2-proxy" "ingress" "tls-secret" }}
+
+{{- end }}

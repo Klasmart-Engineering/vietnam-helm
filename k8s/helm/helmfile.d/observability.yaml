@@ -110,11 +110,14 @@ releases:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 # https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
                 # type of authentication
-                nginx.ingress.kubernetes.io/auth-type: basic
-                # name of the secret that contains the user/password definitions
-                nginx.ingress.kubernetes.io/auth-secret: basic-auth
-                # message to display with an appropriate context why the authentication is required
-                nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # nginx.ingress.kubernetes.io/auth-type: basic
+                # # name of the secret that contains the user/password definitions
+                # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+                # # message to display with an appropriate context why the authentication is required
+                # nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # These are the OAuth params
+                nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+                nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
                 # Other stuff for GKE LB
                 kubernetes.io/ingress.allow-http: 'false'
                 kubernetes.io/ingress.class: nginx
@@ -149,11 +152,14 @@ releases:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 # https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
                 # type of authentication
-                nginx.ingress.kubernetes.io/auth-type: basic
-                # name of the secret that contains the user/password definitions
-                nginx.ingress.kubernetes.io/auth-secret: basic-auth
-                # message to display with an appropriate context why the authentication is required
-                nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # nginx.ingress.kubernetes.io/auth-type: basic
+                # # name of the secret that contains the user/password definitions
+                # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+                # # message to display with an appropriate context why the authentication is required
+                # nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # These are the OAuth params
+                nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+                nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
                 # Other stuff for GKE LB
                 kubernetes.io/ingress.allow-http: 'false'
                 kubernetes.io/ingress.class: nginx
@@ -176,11 +182,14 @@ releases:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 # https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
                 # type of authentication
-                nginx.ingress.kubernetes.io/auth-type: basic
-                # name of the secret that contains the user/password definitions
-                nginx.ingress.kubernetes.io/auth-secret: basic-auth
-                # message to display with an appropriate context why the authentication is required
-                nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # nginx.ingress.kubernetes.io/auth-type: basic
+                # # name of the secret that contains the user/password definitions
+                # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+                # # message to display with an appropriate context why the authentication is required
+                # nginx.ingress.kubernetes.io/auth-realm: 'mon{{ .Values.kl_domain }}'
+                # These are the OAuth params
+                nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+                nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
                 # Other stuff for GKE LB
                 kubernetes.io/ingress.allow-http: 'false'
                 kubernetes.io/ingress.class: nginx
@@ -201,3 +210,6 @@ releases:
                 domain: mon{{ .Values.kl_domain }}
                 root_url: "%(protocol)s://%(domain)s/grafana"
                 serve_from_sub_path: true
+        oauth2-proxy:
+          enabled: true
+          domain: mon{{ .Values.kl_domain }}
