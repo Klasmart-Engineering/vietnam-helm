@@ -125,12 +125,12 @@
     "auth_backend_replica_count": 1,
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-413bb55",   
+    "cms_backend_image_tag": "dev-global-alpha-f75f148",   
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_replica_count": 1,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "rk-prod-env-file-id-prod-f36fd18",
+    "cms_frontend_image_tag": "dev-global-alpha-id-prod-14ee40b",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_replica_count": 1,
     

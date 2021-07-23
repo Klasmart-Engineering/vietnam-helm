@@ -1,0 +1,53 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: cms-frontend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/cms-frontend
+    values:
+      - replicaCount: {{ .Values.cms_frontend_replica_count }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.cms_frontend_image_repository }} 
+          tag: {{ .Values.cms_frontend_image_tag }}
+      - imagePullSecrets:
+          - name: {{ .Values.cms_frontend_image_pull_secrets }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - cms{{ .Values.kl_domain }}
+                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+          hosts:
+            - host: cms{{ .Values.kl_domain }}
+              paths:
+                - "/"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi

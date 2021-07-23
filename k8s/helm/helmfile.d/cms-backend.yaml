@@ -1,0 +1,80 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: cms-backend
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/cms-backend
+    values:
+      - replicaCount: {{ .Values.cms_backend_replica_count }}
+      - provider: {{ .Values.provider }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.cms_backend_image_repository }} 
+          tag: {{ .Values.cms_backend_image_tag }}
+      - imagePullSecrets:
+          - name: {{ .Values.cms_backend_image_pull_secrets }}      
+      {{- if eq .Values.provider "gcp" }}
+      - project: {{ .Values.terraform_project }}
+      - region: {{ .Values.terraform_region }}
+      - mysql_instance: {{ .Values.mysql_database }}
+      - mysql_proxy_ip:  {{ .Values.mysql_proxy_ip}}
+      {{- end}}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - cms{{ .Values.kl_domain }}
+                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+          hosts:
+            - host: cms{{ .Values.kl_domain }}
+              paths:
+                - "/v1"
+      - resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+      - configuration:
+          db_hostname: {{ .Values.mysql_host }}
+          db_name: {{ .Values.mysql_database }}
+          db_username: {{ .Values.mysql_username }}
+          redis_host: {{ .Values.redis_host }}
+          ams_endpoint: https://api{{ .Values.kl_domain }}/user
+          cors_domain_list: https://hub{{ .Values.kl_domain }}
+          {{ if .Values.storage }}
+          storage_accelerate: "true"
+          storage_endpoint: {{ .Values.storage.endpoint }}
+          storage_region: {{ .Values.storage.region }}
+          storage_bucket: {{ .Values.storage.bucket }}
+          storage_protocol: {{ .Values.storage.protocol }}
+          storage_download_mode: {{ .Values.storage.download_mode }}
+          cdn_path: {{ .Values.storage.cdn_path }} 
+          live_assets_url_prefix: {{ .Values.storage.cdn_live }}
+          {{ end }}
+          # This should be removed with new image
+          ams_assessment_jwt_public_key_path: ./ams_assessment_jwt_public_key.pem
+          h5p_endpoint: https://api{{ .Values.kl_domain }}/assessment/graphql
