@@ -120,7 +120,7 @@ kube-prometheus-stack:
         - name: 'null'
         - name: 'slack-notifications'
           slack_configs:
-            - channel: '#sre-test-alerts'
+            - channel: '{{ template "slack.kidsloop.channel" . }}'
               send_resolved: true
               icon_url: https://avatars3.githubusercontent.com/u/3380462
               title: '{{ template "slack.monzo.title" . }}'
@@ -144,6 +144,7 @@ kube-prometheus-stack:
                 text: '{{ template "slack.monzo.link_button_text" . }}'
                 url: '{{ .CommonAnnotations.link_url }}'
       templates:
+        - '/etc/alertmanager/config/*.tmpl'
         - '/etc/alertmanager/templates/*.tmpl'
 
     alertmanagerSpec:

@@ -11,6 +11,7 @@ DEBUG_FLAG=""
 RELEASES_FLAG=""
 SKIPDEPS_FLAG=""
 EXTRA_FLAGS=""
+POST_CMD_FLAGS=""
 
 # if the 2nd arg starts with a dash, it means the helm command is skipped and a flag
 # e.g. `--release=*` is used in its place. We also default the helm cmd to `apply` in this case
@@ -60,13 +61,22 @@ fi
 CONFIG_FILE=$(env_path $ENV ".env.yaml")
 python3 ../scripts/python/env_all_yaml.py $ENV
 
+shift ; # env
+shift ; # operation
 
-for VAR in "$@"; do
+while test ${#} -gt 0
+do
+  VAR=$1
     case $VAR in
         --debug      ) DEBUG_FLAG="--debug" ;;
         --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
         --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
+        --skip-diff-on-install ) POST_CMD_FLAGS="$POST_CMD_FLAGS --skip-diff-on-install" ;;
+        -f           ) EXTRA_FLAGS="$EXTRA_FLAGS $1 $2"; shift ; ;;
+        --file       ) EXTRA_FLAGS="$EXTRA_FLAGS $1 $2"; shift ; ;;
+        *) echo "WARN: Skipping unknown argument: $1" ;;
     esac
+    shift ;
 done
 
 # Helm
@@ -75,7 +85,7 @@ echo -e "\nRunning Helm"
 [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 [[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
 pushd helm
-ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG"
+ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG $POST_CMD_FLAGS"
 echo "EXEC: \"helmfile $ALL_HELMFILE_ARGS\""
 helmfile $ALL_HELMFILE_ARGS
 popd
