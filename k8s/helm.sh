@@ -11,6 +11,7 @@ DEBUG_FLAG=""
 RELEASES_FLAG=""
 SKIPDEPS_FLAG=""
 EXTRA_FLAGS=""
+POST_CMD_FLAGS=""
 
 # if the 2nd arg starts with a dash, it means the helm command is skipped and a flag
 # e.g. `--release=*` is used in its place. We also default the helm cmd to `apply` in this case
@@ -66,6 +67,7 @@ for VAR in "$@"; do
         --debug      ) DEBUG_FLAG="--debug" ;;
         --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
         --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
+        --skip-diff-on-install ) POST_CMD_FLAGS="$POST_CMD_FLAGS --skip-diff-on-install" ;;
     esac
 done
 
@@ -75,7 +77,7 @@ echo -e "\nRunning Helm"
 [[ ! -z "$SKIPDEPS_FLAG" ]] && echo "helmfile skipping dependencies (--skip-deps): yes"
 [[ ! -z "$DEBUG_FLAG" ]] && echo "helmfile debug mode (--debug): yes"
 pushd helm
-ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG"
+ALL_HELMFILE_ARGS="$EXTRA_FLAGS $DEBUG_FLAG -e $ENV $RELEASES_FLAG $CMD $SKIPDEPS_FLAG $POST_CMD_FLAGS"
 echo "EXEC: \"helmfile $ALL_HELMFILE_ARGS\""
 helmfile $ALL_HELMFILE_ARGS
 popd
