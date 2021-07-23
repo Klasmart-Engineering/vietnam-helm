@@ -23,6 +23,9 @@
     "helm_prometheus": {
         "enabled": false
     },
+    "helm_kube_monitoring": {
+        "enabled": false
+    },
     "helm_fluentbit": {
         "enabled": false
     },
@@ -102,12 +105,12 @@
     "auth_backend_replica_count": 1,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-vn-alpha-1f64c60",
+    "cms_frontend_image_tag": "dev-global-alpha-vn-alpha-e1668fa",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_replica_count": 1,
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-0e5aa02",
+    "cms_backend_image_tag": "dev-global-alpha-f75f148",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_replica_count": 1,
 
