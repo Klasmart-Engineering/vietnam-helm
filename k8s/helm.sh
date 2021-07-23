@@ -61,14 +61,22 @@ fi
 CONFIG_FILE=$(env_path $ENV ".env.yaml")
 python3 ../scripts/python/env_all_yaml.py $ENV
 
+shift ; # env
+shift ; # operation
 
-for VAR in "$@"; do
+while test ${#} -gt 0
+do
+  VAR=$1
     case $VAR in
         --debug      ) DEBUG_FLAG="--debug" ;;
         --release=*  ) RELEASES_FLAG="$RELEASES_FLAG --selector name=`echo $VAR | cut -d "=" -f2`" ;;
         --skip-deps* ) SKIPDEPS_FLAG="--skip-deps" ;;
         --skip-diff-on-install ) POST_CMD_FLAGS="$POST_CMD_FLAGS --skip-diff-on-install" ;;
+        -f           ) EXTRA_FLAGS="$EXTRA_FLAGS $1 $2"; shift ; ;;
+        --file       ) EXTRA_FLAGS="$EXTRA_FLAGS $1 $2"; shift ; ;;
+        *) echo "WARN: Skipping unknown argument: $1" ;;
     esac
+    shift ;
 done
 
 # Helm
