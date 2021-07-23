@@ -29,6 +29,24 @@ spec:
           - name: http
             protocol: TCP
             containerPort: 8080
+        startupProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          failureThreshold: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
         env:
           - name: ROUTE_PREFIX
             value: "/assessment"
