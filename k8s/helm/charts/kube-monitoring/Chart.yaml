@@ -1,0 +1,20 @@
+apiVersion: v2
+name: kube-monitoring
+description: Monitoring Chart for Kubernetes, including prometheus, grafana, loki and more
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+# Full monitoring stack for k8, includes prometheus, operator, grafana, alertmanager, dashboards etc..
+- name: kube-prometheus-stack
+  version: "16.0.1"
+  repository: https://prometheus-community.github.io/helm-charts
+  condition: kube-prometheus-stack.enabled
+
+# Loki stack (Loki and Promtail) - collects logs, makes logs searchable within cluster.
+# Integrates nicely with kube-prometheus-stack.
+- name: loki-stack
+  version: "2.4.1"
+  repository: https://grafana.github.io/helm-charts
+  condition: loki-stack.enabled

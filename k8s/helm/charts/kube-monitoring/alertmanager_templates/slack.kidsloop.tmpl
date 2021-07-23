@@ -1,0 +1,82 @@
+{{ define "cluster" }}{{ .ExternalURL | reReplaceAll ".*alertmanager\\.(.*)" "$1" }}{{ end }}
+
+{{ define "__single_alert_silence_link" -}}
+    {{- range .Labels.SortedPairs -}}
+        {{- if ne .Name "alertname" -}}
+            {{- .Name }}%3D"{{- .Value -}}"%2C%20
+        {{- end -}}
+    {{- end -}}
+    alertname%3D"{{ .Labels.alertname }}"%7D
+{{- end }}
+
+
+{{ define "slack.kidsloop.text" }}
+{{- $root := . -}}
+{{ range .Alerts }}
+    *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+    *Cluster:*  {{ template "cluster" $root }}
+    {{- if .Annotations.message }}
+    *Message:* {{ .Annotations.message }}
+    {{- end }}
+    {{- if .Annotations.description }}
+    *Description:* {{ .Annotations.description }}
+    {{- end }}
+    *Query:* <{{ .GeneratorURL }}|:mag:>
+    *Silence:* <{{ $root.ExternalURL }}/#/silences/new?filter=%7B{{ template "__single_alert_silence_link" . }}|:no_bell:>
+{{ if .Annotations.runbook }}    *Runbook:* <{{ .Annotations.runbook }}|:green_book:>{{ end }}
+{{ if .Annotations.dashboard }}    *Dashboard:* <{{ .Annotations.dashboard }}|:tv:>{{ end }}
+{{ if .Annotations.link_text }}    *Link:* <{{ .Annotations.link_text }}|:link:>{{ end }}
+    *Details:*
+    {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+    {{ end }}
+
+{{ end }}
+{{ end }}
+
+
+{{/* Color of Slack attachment (appears as line next to alert )*/}}
+{{ define "slack.kidsloop.color" -}}
+    {{ if eq .Status "firing" -}}
+        {{ if eq .CommonLabels.severity "warning" -}}
+            warning
+        {{- else if eq .CommonLabels.severity "critical" -}}
+            danger
+        {{- else if eq .CommonLabels.severity "warning" -}}
+            danger
+        {{- else -}}
+            {{- $maincolor := "#439FE0" -}}
+            {{- range $i, $alert := .Alerts }}
+                {{- if and (eq $maincolor "#439FE0") (eq .severity "warning") -}}
+                    {{- $maincolor := "danger" -}}
+                {{- else if eq .severity "critical" -}}
+                    {{- $maincolor := "danger" -}}
+                {{- end -}}
+            {{- end -}}
+            $maincolor
+        {{- end -}}
+    {{ else -}}
+    good
+    {{- end }}
+{{- end }}
+
+
+{{/* https://www.weave.works/blog/labels-in-prometheus-alerts-think-twice-before-using-them */}}
+{{ define "slack.my.title" -}}
+    {{- if .CommonAnnotations.summary -}}
+        {{- .CommonAnnotations.summary -}}
+    {{- else -}}
+        {{- with index .Alerts 0 -}}
+            {{- .Annotations.summary -}}
+        {{- end -}}
+    {{- end -}}
+{{- end }}
+
+{{ define "slack.my.text" -}}
+    {{- if .CommonAnnotations.description -}}
+        {{- .CommonAnnotations.description -}}
+    {{- else -}}
+        {{- range $i, $alert := .Alerts }}
+            {{- "\n" -}} {{- .Annotations.description -}}
+        {{- end -}}
+    {{- end -}}
+{{- end }}

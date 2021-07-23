@@ -13,6 +13,9 @@
     "helm_prometheus": {
         "enabled": false
     },
+    "helm_kube_monitoring": {
+        "enabled": true
+    },
     "helm_fluentbit": {
         "enabled": false
     },

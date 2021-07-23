@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kidsloop-rules
+  labels:
+    role: alert-rules
+spec:
+  groups:
+  - name: ./kidsloop.rules
+    rules:
+    # We CAN have rules per-service by including them in the charts
+    # namespace="{{ .Release.Namespace }}", container="{{ .Chart.Name }}"
+    - alert: ServiceCrashLoop
+      expr: rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[10m]) * 60 * 5 > 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        description: {{`Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is restarting {{ printf "%.2f" $value }} times / 10 minutes.`}}
+        summary: Pod is crash looping.
+        runbook: https://calmisland.atlassian.net/wiki/spaces/SRE/pages/1934491671/Auth+Services
+        dashboard: https://{{ index .Values "kube-prometheus-stack" "grafana" "grafana.ini" "server" "domain" }}/grafana/d/pod-dash/kubernetes-pod-detail{{`?orgId=1&refresh=10s&var-datasource=Prometheus&var-cluster=&var-namespace={{ $labels.namespace }}&var-pod={{ $labels.pod }}`}}
+
+    # - alert: ServiceRestartDay
+    #   expr: increase(kube_pod_container_status_restarts_total{}[24h]) > 10
+    #   for: 1s
+    #   labels:
+    #     severity: warning
+    #   annotations:
+    #     description: {{`Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) restarted 10 times in the last 24 hours.`}}
+    #     summary: Check on the logs for the {{ .Chart.Name }} service
+    #     runbook_url: https://calmisland.atlassian.net/wiki/spaces/SRE/pages/1934491671/Auth+Services
+    #     dashboard: https://{{ index .Values "kube-prometheus-stack" "grafana" "grafana.ini" "server" "domain" }}/grafana/d/pod-dash/kubernetes-pod-detail{{`?orgId=1&refresh=10s&var-datasource=Prometheus&var-cluster=&var-namespace={{ $labels.namespace }}&var-pod={{ $labels.pod }}`}}
