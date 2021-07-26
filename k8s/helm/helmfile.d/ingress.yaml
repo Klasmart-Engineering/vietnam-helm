@@ -254,7 +254,7 @@ releases:
     values: 
       - name: xapi
       - healthCheck:
-          requestPath: /
+          requestPath: /.well-known/apollo/server-health
           port: 8080
 
   - name: ingress-backend-config-assessment
@@ -263,7 +263,7 @@ releases:
     values: 
       - name: assessment
       - healthCheck:
-          requestPath: /
+          requestPath: /.well-known/apollo/server-health
           port: 8080
 
   {{- end}}

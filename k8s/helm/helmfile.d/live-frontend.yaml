@@ -22,25 +22,27 @@ environments:
       - ../../../env/indonesia-rk-beta/.env.yaml
       
 releases:
-  - name: cms-frontend
+  - name: live-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/cms-frontend
+    chart: ../charts/live-frontend
     values:
       - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
         image:
-          repository: {{ .Values.cms_frontend_image_repository }} 
-          tag: {{ .Values.cms_frontend_image_tag }}
+          repository: {{ .Values.live_frontend_image_repository }} 
+          tag: {{ .Values.live_frontend_image_tag }}
         imagePullSecrets:
-          - name: {{ .Values.cms_frontend_image_pull_secrets }}
+          - name: {{ .Values.live_frontend_image_pull_secrets }}
         ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
           tls:
             - endpoint:
                 hosts:
-                  - cms{{ .Values.kl_domain }}
-                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
           hosts:
-            - host: cms{{ .Values.kl_domain }}
+            - host: live{{ .Values.kl_domain }}
               paths:
                 - "/"
         resources:
@@ -52,5 +54,5 @@ releases:
             memory: 400Mi
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.cms_frontend_min_replica_count }}
-          maxReplicas: {{ .Values.cms_frontend_max_replica_count }}
+          minReplicas: {{ .Values.live_frontend_min_replica_count }}
+          maxReplicas: {{ .Values.live_frontend_max_replica_count }}
