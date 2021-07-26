@@ -251,7 +251,7 @@ releases:
             # existingSecret: secret
             # The name of the cookie that oauth2-proxy will create
             # If left empty, it will default to the release name
-            cookieName: "indonesia-rk-beta-monitoring-oauth2-proxy"
+            cookieName: "ref+vault://{{ .Values.vault_path }}/monitoring/sso?address={{ .Values.vault_addr }}#/client_id"
             configFile: |-
               # email_domains = [ "*" ]
               upstreams = [ "file:///dev/null" ]
