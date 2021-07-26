@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "hub.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "hub.selectorLabels" . | nindent 6 }}
@@ -30,7 +29,25 @@ spec:
         ports:
           - name: http
             protocol: TCP
-            containerPort: 8080
+            containerPort: 80
+        startupProbe:
+          httpGet:
+            path: /
+            port: http
+          failureThreshold: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
 

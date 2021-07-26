@@ -22,35 +22,36 @@ environments:
       - ../../../env/indonesia-rk-beta/.env.yaml
       
 releases:
-  - name: cms-frontend
+  - name: sfu-gateway
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/cms-frontend
+    chart: ../charts/sfu-gateway
     values:
       - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
         image:
-          repository: {{ .Values.cms_frontend_image_repository }} 
-          tag: {{ .Values.cms_frontend_image_tag }}
+          repository: {{ .Values.sfu_gateway_image_repository }}
+          tag: {{ .Values.sfu_gateway_image_tag }}
         imagePullSecrets:
-          - name: {{ .Values.cms_frontend_image_pull_secrets }}
+          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
         ingress:
           tls:
             - endpoint:
                 hosts:
-                  - cms{{ .Values.kl_domain }}
-                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
           hosts:
-            - host: cms{{ .Values.kl_domain }}
+            - host: live{{ .Values.kl_domain }}
               paths:
-                - "/"
+                - "/sfu"
         resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 250m
+            memory: 256Mi
           limits:
-            cpu: 200m
-            memory: 400Mi
+            cpu: 500m
+            memory: 512Mi
+        redisHost: {{ .Values.redis_host }}
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.cms_frontend_min_replica_count }}
-          maxReplicas: {{ .Values.cms_frontend_max_replica_count }}
+          minReplicas: {{ .Values.sfu_gateway_min_replica_count }}
+          maxReplicas: {{ .Values.sfu_gateway_max_replica_count }}

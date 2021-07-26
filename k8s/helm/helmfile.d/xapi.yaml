@@ -1,0 +1,66 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  - name: xapi
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/xapi
+    values:
+      - provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
+          repository: "{{ .Values.xapi_image_repository }}"
+          tag: "{{ .Values.xapi_image_tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.xapi_image_pull_secrets }}
+        ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}
+                secretName: "letsencrypt-api{{ .Values.kl_domain }}"
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/xapi"
+        domain: {{ .Values.domain }}
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+        {{- end }}
+        aws_region: {{ .Values.dynamodb_aws_region }}
+        dynamodb_table_name: {{ .Values.dynamodb_table_name }}
+        elasticsearch_username: {{ .Values.elasticsearch_username }}
+        firehose_steam_name: {{ .Values.firehose_steam_name }}
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.xapi_min_replica_count }}
+          maxReplicas: {{ .Values.xapi_max_replica_count }}

@@ -26,21 +26,21 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/cms-backend
     values:
-      - replicaCount: {{ .Values.cms_backend_replica_count }}
       - provider: {{ .Values.provider }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
           repository: {{ .Values.cms_backend_image_repository }} 
           tag: {{ .Values.cms_backend_image_tag }}
-      - imagePullSecrets:
+        imagePullSecrets:
           - name: {{ .Values.cms_backend_image_pull_secrets }}      
-      {{- if eq .Values.provider "gcp" }}
-      - project: {{ .Values.terraform_project }}
-      - region: {{ .Values.terraform_region }}
-      - mysql_instance: {{ .Values.mysql_database }}
-      - mysql_proxy_ip:  {{ .Values.mysql_proxy_ip}}
-      {{- end}}
-      - ingress:
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        mysql_instance: {{ .Values.mysql_database }}
+        mysql_proxy_ip:  {{ .Values.mysql_proxy_ip}}
+        {{- end}}
+
+        ingress:
           tls:
             - endpoint:
                 hosts:
@@ -50,7 +50,7 @@ releases:
             - host: cms{{ .Values.kl_domain }}
               paths:
                 - "/v1"
-      - resources:
+        resources:
           requests:
             cpu: 250m
             memory: 256Mi
@@ -58,7 +58,12 @@ releases:
             cpu: 500m
             memory: 512Mi
 
-      - configuration:
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.cms_backend_min_replica_count }}
+          maxReplicas: {{ .Values.cms_backend_max_replica_count }}
+
+        configuration:
           db_hostname: {{ .Values.mysql_host }}
           db_name: {{ .Values.mysql_database }}
           db_username: {{ .Values.mysql_username }}

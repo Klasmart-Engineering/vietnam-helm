@@ -22,35 +22,35 @@ environments:
       - ../../../env/indonesia-rk-beta/.env.yaml
       
 releases:
-  - name: cms-frontend
+  - name: auth-frontend
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/cms-frontend
+    chart: ../charts/auth-frontend
     values:
       - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
-        image:
-          repository: {{ .Values.cms_frontend_image_repository }} 
-          tag: {{ .Values.cms_frontend_image_tag }}
         imagePullSecrets:
-          - name: {{ .Values.cms_frontend_image_pull_secrets }}
+          - name: {{ .Values.auth_frontend_image_pull_secrets }}
+        image:
+          repository: "{{ .Values.auth_frontend_image_repository }}"
+          tag: {{ .Values.auth_frontend_image_tag }}
         ingress:
           tls:
             - endpoint:
                 hosts:
-                  - cms{{ .Values.kl_domain }}
-                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+                  - auth{{ .Values.kl_domain }}      
+                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
           hosts:
-            - host: cms{{ .Values.kl_domain }}
+            - host: auth{{ .Values.kl_domain }}
               paths:
                 - "/"
         resources:
           requests:
             cpu: 100m
-            memory: 200Mi
+            memory: 256Mi
           limits:
             cpu: 200m
-            memory: 400Mi
+            memory: 512Mi
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.cms_frontend_min_replica_count }}
-          maxReplicas: {{ .Values.cms_frontend_max_replica_count }}
+          minReplicas: {{ .Values.auth_frontend_min_replica_count }}
+          maxReplicas: {{ .Values.auth_frontend_max_replica_count }}
