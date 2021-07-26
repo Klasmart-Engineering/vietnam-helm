@@ -18,3 +18,9 @@ dependencies:
   version: "2.4.1"
   repository: https://grafana.github.io/helm-charts
   condition: loki-stack.enabled
+
+# oauth2-proxy - Sets up an authentication layer to validate oauth2/OIDC tokens for single sign on.
+- name: oauth2-proxy
+  version: "4.1.0"
+  repository: https://oauth2-proxy.github.io/manifests
+  condition: oauth2-proxy.enabled

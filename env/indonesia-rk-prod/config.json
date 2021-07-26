@@ -5,6 +5,9 @@
     "k8s_service_type": "NodePort",
     "kl_domain": ".rumahkisah.net",
     "domain": "rumahkisah.net",
+    "deployment_name": "indonesia-rk-prod",
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/indonesia-rk-prod",
     "env": "prod",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",

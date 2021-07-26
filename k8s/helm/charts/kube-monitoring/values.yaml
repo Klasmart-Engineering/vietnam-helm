@@ -1,9 +1,31 @@
 oauth2-proxy:
   enabled: false
-  domain: TODO
-  path: /oauth2
+
   ingress:
-    tls-secret: mon-cert
+    enabled: true
+    path: /oauth2
+    # Only used if API capabilities (networking.k8s.io/v1) allow it
+    pathType: ImplementationSpecific
+    # Used to create an Ingress record.
+
+  metrics:
+    # Enable Prometheus metrics endpoint
+    enabled: true
+    # Serve Prometheus metrics on this port
+    port: 44180
+    servicemonitor:
+      # Enable Prometheus Operator ServiceMonitor
+      enabled: true
+      # Define the namespace where to deploy the ServiceMonitor resource
+      namespace: ""
+      # Prometheus Instance definition
+      prometheusInstance: default
+      # Prometheus scrape interval
+      interval: 60s
+      # Prometheus scrape timeout
+      scrapeTimeout: 30s
+      # Add custom labels to the ServiceMonitor resource
+      labels: {}
 
 kube-prometheus-stack:
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
