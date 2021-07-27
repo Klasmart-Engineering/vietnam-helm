@@ -61,6 +61,10 @@
     "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
     "whitelabel_force_local_storage": "true",
 
+    "kube_monitoring": {
+        "slack_channel": "",
+        "credential_url": ""
+    },
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",
