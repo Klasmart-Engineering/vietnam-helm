@@ -15,7 +15,6 @@
 {{ range .Alerts }}
     *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
     *Cluster:*  {{ template "cluster" $root }}
-    *Credential:* <{{ template "__credential_url" . }}|:lock:>
     {{- if .Annotations.message }}
     *Message:* {{ .Annotations.message }}
     {{- end }}

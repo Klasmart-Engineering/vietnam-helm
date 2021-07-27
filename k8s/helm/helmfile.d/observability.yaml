@@ -104,7 +104,6 @@ releases:
               # This file is a simple template to pass helm variables through to the alertmanager instance
               kidsloop.helm.tmpl: |-
                 {{`{{ define "slack.kidsloop.channel" }}`}}{{ .Values.kube_monitoring.slack_channel }}{{`{{ end }}`}}
-                {{`{{ define "__credential_url" }}`}}{{ .Values.kube_monitoring.credential_url }}{{`{{ end }}`}}
 
             ingress:
               enabled: true
