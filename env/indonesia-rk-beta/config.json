@@ -80,8 +80,7 @@
         }
     },
     "kube_monitoring": {
-        "slack_channel": "#sre-test-alerts",
-        "credential_url": "https://vault.devops.klpsre.com/ui/vault/secrets/internal/show/env/id-rk-beta/monitoring/ui"
+        "slack_channel": "#sre-test-alerts"
     },
     
     "whitelabel_storage_provider": "google",

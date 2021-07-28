@@ -84,8 +84,7 @@
     "whitelabel_storage_bucket": "whitelabel-kl-id-beta",
 
     "kube_monitoring": {
-        "slack_channel": "#sre-test-alerts",
-        "credential_url": "https://vault.devops.klpsre.com/ui/vault/secrets/internal/show/env/id-kl-beta/monitoring/ui"
+        "slack_channel": "#sre-test-alerts"
     },
     "storage": {
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
