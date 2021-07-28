@@ -5,6 +5,9 @@
     "k8s_service_type": "NodePort",
     "kl_domain": ".rumahkisah.net",
     "domain": "rumahkisah.net",
+    "deployment_name": "indonesia-rk-prod",
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/indonesia-rk-prod",
     "env": "prod",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
@@ -81,8 +84,7 @@
     "whitelabel_storage_bucket": "whitelabel-kl-idn-rumah-kisah-prod",
 
     "kube_monitoring": {
-        "slack_channel": "#sre-production-alerts",
-        "credential_url": "https://vault.devops.klpsre.com/ui/vault/secrets/internal/show/env/id-rk-prod/monitoring/ui"
+        "slack_channel": "#sre-production-alerts"
     },
     "storage": {
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",

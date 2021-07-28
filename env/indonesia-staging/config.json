@@ -5,6 +5,9 @@
     "k8s_service_type": "NodePort",
     "kl_domain": ".beta.kidsloop.id",
     "domain": "beta.kidsloop.id",
+    "deployment_name": "indonesia-staging",
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/indonesia-staging",
     "env": "beta",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
@@ -81,8 +84,7 @@
     "whitelabel_storage_bucket": "whitelabel-kl-id-beta",
 
     "kube_monitoring": {
-        "slack_channel": "#sre-test-alerts",
-        "credential_url": "https://vault.devops.klpsre.com/ui/vault/secrets/internal/show/env/id-kl-beta/monitoring/ui"
+        "slack_channel": "#sre-test-alerts"
     },
     "storage": {
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
