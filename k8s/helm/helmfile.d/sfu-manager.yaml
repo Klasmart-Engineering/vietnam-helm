@@ -45,11 +45,11 @@ releases:
         useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
         resources:
           requests:
-            cpu: 1000m
-            memory: 4Gi
+            cpu: {{ .Values.sfu_pods_cpu_request }}
+            memory: {{ .Values.sfu_pods_memory_request }}
           limits:
-            cpu: 2000m
-            memory: 6Gi
+            cpu: {{ .Values.sfu_pods_cpu_limit }}
+            memory: {{ .Values.sfu_pods_memory_limit }}
         sfuManagerResources:
           requests:
             cpu: 250m

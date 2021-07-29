@@ -149,6 +149,10 @@
     "sfu_image_tag": "master-0409f47",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 2,
+    "sfu_pods_cpu_request": "1000m",
+    "sfu_pods_cpu_limit": "1200m",
+    "sfu_pods_memory_request": "1Gi",
+    "sfu_pods_memory_limit": "4Gi",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-ba9cc3d",
