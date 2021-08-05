@@ -14,7 +14,7 @@
     "desired_pods_getter": "redis",
 
     "helm_prometheus": {
-        "enabled": false
+        "enabled": true
     },
     "helm_kube_monitoring": {
         "enabled": true

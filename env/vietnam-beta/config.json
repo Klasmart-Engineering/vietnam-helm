@@ -4,6 +4,9 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.vn",
     "domain": "beta.kidsloop.vn",
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/vietnam-beta",
+    "env": "beta",
 
     "redis_host": "10.0.1.7",
     "postgresql_host": "10.0.1.17",
@@ -24,7 +27,7 @@
         "enabled": false
     },
     "helm_kube_monitoring": {
-        "enabled": false
+        "enabled": true
     },
     "helm_fluentbit": {
         "enabled": false
