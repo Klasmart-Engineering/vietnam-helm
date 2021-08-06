@@ -279,3 +279,182 @@ releases:
               - secretName: mon-cert
                 hosts:
                   - mon{{ .Values.kl_domain }}
+
+  - name: mysql-exporter
+    namespace: okc
+    chart: prometheus/prometheus-mysql-exporter
+    version: "1.2.1"
+    condition: helm_kube_monitoring.enabled
+    values:
+      # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-mysql-exporter/values.yaml
+      - serviceMonitor:
+          # enabled should be set to true to enable prometheus-operator discovery of this service
+          enabled: true
+
+        collectors:
+          # auto_increment.columns: false
+          binlog_size: true
+          engine_innodb_status: true
+          # engine_tokudb_status: false
+          global_status: true
+          # global_variables: true
+          # info_schema.clientstats: false
+          info_schema.innodb_metrics: true
+          # info_schema.innodb_tablespaces: false
+          # info_schema.innodb_cmp: false
+          # info_schema.innodb_cmpmem: false
+          # info_schema.processlist: false
+          # info_schema.processlist.min_time: 0
+          # info_schema.query_response_time: false
+          # info_schema.tables: true
+          # info_schema.tables.databases: '*'
+          # info_schema.tablestats: false
+          # info_schema.schemastats: false
+          # info_schema.userstats: false
+          # perf_schema.eventsstatements: false
+          # perf_schema.eventsstatements.digest_text_limit: 120
+          # perf_schema.eventsstatements.limit: false
+          # perf_schema.eventsstatements.timelimit: 86400
+          # perf_schema.eventswaits: false
+          # perf_schema.file_events: false
+          # perf_schema.file_instances: false
+          # perf_schema.indexiowaits: false
+          # perf_schema.tableiowaits: false
+          # perf_schema.tablelocks: false
+          # perf_schema.replication_group_member_stats: false
+          # slave_status: true
+          # slave_hosts: false
+          # heartbeat: false
+          # heartbeat.database: heartbeat
+          # heartbeat.table: heartbeat
+
+        # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+        mysql:
+          db: "{{ .Values.mysql_database }}"
+          host: "{{ .Values.mysql_proxy_ip}}"  # "{{ .Values.mysql_host }}"  # {{ .Values.mysql_proxy_ip}} ?
+          param: "parseTime=true&charset=utf8mb4"
+          pass: "password"
+          port: 3306
+          # protocol: ""
+          user: "{{ .Values.mysql_username }}"
+          # secret with full DATA_SOURCE_NAME env var as stringdata
+          # existingSecret: ""
+          # secret only containing the password
+          existingPasswordSecret:
+            name: mysql
+            key: mysql-password
+
+  - name: postgres-exporter
+    namespace: okc
+    chart: prometheus/prometheus-postgres-exporter
+    version: "2.3.5"
+    condition: helm_kube_monitoring.enabled
+    values:
+      # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-postgres-exporter/values.yaml
+      - serviceMonitor:
+          # enabled should be set to true to enable prometheus-operator discovery of this service
+          enabled: true
+
+        prometheusRule:
+          enabled: true
+          additionalLabels: {}
+          namespace: "okc"
+          rules:
+            - alert: PSQLConnectUsedHighPct
+              expr: sum(pg_stat_activity_count) / min(pg_settings_max_connections) > 0.8
+              for: 1s
+              labels:
+                severity: critical
+              annotations:
+                description: Over 80% of available connections are in use
+                summary: Over 80% of available connections are in use
+                dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s
+                runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+            - alert: PSQLConnectUsedHighWatermark
+              expr: min(pg_settings_max_connections) - sum(pg_stat_activity_count) < 5
+              for: 1s
+              labels:
+                severity: critical
+              annotations:
+                description: There are less than 5 connection slots available in postgres
+                summary: There are less than 5 connection slots available in postgres
+                dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s
+                runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+        config:
+          datasource:
+            # Specify one of both datasource or datasourceSecret
+            {{- if eq .Values.provider "gcp" }}
+            host: "127.0.0.1"
+            {{- else }}
+            host: {{ .Values.postgresql_host }}
+            {{- end }}
+            user: {{ .Values.postgresql_username }}
+            # Only one of password and passwordSecret can be specified
+            # password: 
+            # Specify passwordSecret if DB password is stored in secret.
+            passwordSecret:
+              # Secret name
+              name: postgresql
+              # Password key inside secret
+              key: postgresql-password
+            port: "5432"
+            database: '{{ .Values.postgresql_database }}'
+            sslmode: disable
+          datasourceSecret: {}
+            # Specifies if datasource should be sourced from secret value in format: postgresql://login:password@hostname:port/dbname?sslmode=disable
+            # Multiple Postgres databases can be configured by comma separated postgres connection strings
+            # Secret name
+            #  name:
+            # Connection string key inside secret
+            #  key:
+        # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+        {{- if eq .Values.provider "gcp" }}
+        extraContainers:
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+          command:
+            - "/cloud_sql_proxy"
+            - "-ip_address_types=PRIVATE"
+            - "-instances={{ .Values.terraform_project }}:{{ .Values.terraform_region }}:{{ .Values.postgresql_database }}=tcp:5432"
+          securityContext:
+            runAsNonRoot: true
+        serviceAccount:
+          # Specifies whether a ServiceAccount should be created
+          create: false
+          # The name of the ServiceAccount to use.
+          # If not set and create is true, a name is generated using the fullname template
+          name: cloudsql-proxy
+          # Add annotations to the ServiceAccount, useful for EKS IAM Roles for Service Accounts or Google Workload Identity.
+        {{- end }}
+
+  - name: redis-exporter
+    namespace: okc
+    chart: prometheus/prometheus-redis-exporter
+    version: "4.2.0"
+    condition: helm_kube_monitoring.enabled
+    values:
+      # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-redis-exporter/values.yaml
+      - redisAddress: redis://{{ .Values.redis_host }}:6379
+        auth:
+          # Use password authentication
+          enabled: false
+          # Use existing secret (ignores redisPassword)
+          secret:
+            name: ""
+            key: ""
+          # Redis password (when not stored in a secret)
+          redisPassword: ""
+        serviceMonitor:
+          # When set true then use a ServiceMonitor to configure scraping
+          enabled: true
+
+        ## Custom PrometheusRules to be defined
+        ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart
+        ## ref: https://github.com/coreos/prometheus-operator#customresourcedefinitions
+        prometheusRule:
+          enabled: false
+          additionalLabels: {}
+          namespace: ""
+          rules: []
