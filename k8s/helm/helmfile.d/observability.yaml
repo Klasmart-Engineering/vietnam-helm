@@ -177,6 +177,19 @@ releases:
                   secretName: mon-cert
           grafana:
             # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+            additionalDataSources:
+              - name: Loki
+                url: http://monitoring-loki.monitoring.svc.cluster.local:3100
+                orgId: 1
+                type: loki
+              - name: Redis
+                url: redis://{{ .Values.redis_host }}:6379
+                orgId: 1
+                type: redis-datasource
+
+            plugins:
+              - redis-datasource
+
             ingress:
               enabled: true
               # ingressClassName: nginx

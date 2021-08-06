@@ -48,6 +48,9 @@ kube-prometheus-stack:
         orgId: 1
         type: loki
 
+    plugins:
+      - redis-datasource
+
     # Load the sre-standard dashboards into grafana
     dashboardsConfigMaps:
       sre-standard: "monitoring-grafana-dashboards-sre-standard"  
