@@ -1,5 +1,5 @@
 apiVersion: v2
-name: lidsloop-servicemonitor
+name: kidsloop-servicemonitor
 description: Chart for exporting operational data about a Kidsloop Kubernetes deployment to Prometheus
 type: application
 version: 0.1.0
