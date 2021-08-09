@@ -82,7 +82,7 @@ releases:
                 region ap-southeast-1
                 log_group_name {{ .Values.fluentbit_cloudwatch_log_stream }}
                 log_stream_prefix k8s-
-
+{{- end }}
   - name: monitoring
     namespace: monitoring
     chart: ../charts/kube-monitoring
@@ -278,4 +278,3 @@ releases:
               - secretName: mon-cert
                 hosts:
                   - mon{{ .Values.kl_domain }}
-{{- end }}
