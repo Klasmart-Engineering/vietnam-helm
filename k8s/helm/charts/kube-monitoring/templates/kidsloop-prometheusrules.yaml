@@ -1,3 +1,4 @@
+{{- if index .Values "kube-prometheus-stack" "enabled" }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -31,3 +32,4 @@ spec:
     #     summary: Check on the logs for the {{ .Chart.Name }} service
     #     runbook_url: https://calmisland.atlassian.net/wiki/spaces/SRE/pages/1934491671/Auth+Services
     #     dashboard: https://{{ index .Values "kube-prometheus-stack" "grafana" "grafana.ini" "server" "domain" }}/grafana/d/pod-dash/kubernetes-pod-detail{{`?orgId=1&refresh=10s&var-datasource=Prometheus&var-cluster=&var-namespace={{ $labels.namespace }}&var-pod={{ $labels.pod }}`}}
+{{- end }} 

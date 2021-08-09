@@ -4,7 +4,10 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".kidsloop.vn",
     "domain": "kidsloop.vn",
-
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/vietnam-production",
+    "env": "production",
+    
     "redis_host": "10.0.2.9",
     "postgresql_host": "10.0.2.4",
     "postgresql_username": "kidslooproot",
@@ -26,10 +29,7 @@
         "enabled": false
     },
     "helm_kube_monitoring": {
-        "enabled": false
-    },
-    "helm_fluentbit": {
-        "enabled": false
+        "enabled": true
     },
     "helm_cert_manager": {
         "enabled": true
