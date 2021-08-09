@@ -164,7 +164,7 @@
     "sfu_gateway_max_replica_count": 2,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-a2a888b",
+    "user_service_image_tag": "master-5d4a8d6",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 2,
