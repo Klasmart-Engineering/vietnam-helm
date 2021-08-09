@@ -38,58 +38,15 @@ environments:
       - ../../../env/indonesia-rk-beta/.env.yaml
 
 releases:
-{{- if ne .Values.provider "gcp" }}
-  - name: prometheus
-    namespace: monitoring
-    chart: bitnami/kube-prometheus
-    version: ~3.0.1
-    condition: helm_prometheus.enabled
-    values:
-      - global:
-          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-      - operator:
-          createCustomResource: false
-      - prometheus:
-          persistence:
-            enabled: true
-            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-            size: 8Gi
-      - alertmanager:
-          enabled: false
-      - kubeProxy:
-          enabled: false
-
-  - name: fluentbit
-    namespace: monitoring
-    chart: fluent/fluent-bit
-    condition: helm_fluentbit.enabled
-    values:
-      - extraVolumes:
-          - name: aws-credentials
-            secret:
-              secretName: aws-credentials-fluentbit
-      - extraVolumeMounts: 
-          - name: aws-credentials
-            mountPath: "/root/.aws"
-            readOnly: true
-      - config:
-          outputs: >
-            [OUTPUT]
-                Name cloudwatch_logs
-                Match *
-                region ap-southeast-1
-                log_group_name {{ .Values.fluentbit_cloudwatch_log_stream }}
-                log_stream_prefix k8s-
-{{- end }}
-
   - name: monitoring
     namespace: monitoring
     chart: ../charts/kube-monitoring
     version: ~0.1.0
     condition: helm_kube_monitoring.enabled
-    values:
+    values:  
       # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
       - kube-prometheus-stack:
+          enabled: {{ .Values.helm_prometheus.enabled }}
           alertmanager:
             config:
               global:
@@ -243,7 +200,7 @@ releases:
                 allow_sign_up: true
                 tls_skip_verify_insecure: false
         oauth2-proxy:
-          enabled: true
+          enabled: {{ .Values.helm_prometheus.enabled }}
           # Oauth client configuration specifics
           config:
             # These are helmfile secrets (vals), see here on usage:
@@ -290,6 +247,29 @@ releases:
               - secretName: mon-cert
                 hosts:
                   - mon{{ .Values.kl_domain }}
+
+        loki-stack:
+          promtail:
+            enabled: true
+            {{- if ne .Values.provider "gcp" }}
+            resources:
+              limits:
+                cpu: 200m
+                memory: 128Mi
+              requests:
+                cpu: 100m
+                memory: 128Mi
+            # -- not sure why on the document and code of promtail, it uses `containerSecurityContext` to  override the default values
+            # -- https://github.com/grafana/helm-charts/blame/main/charts/promtail/README.md#L77
+            # -- https://github.com/grafana/helm-charts/blame/main/charts/promtail/README.md#L109
+            # -- https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L95
+            # -- however, `containerSecurityContext` doesn't work, while `securityContext` can.                                        
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              readOnlyRootFilesystem: false
+              privileged: true
+            {{- end }}
 
   - name: kidsloop-servicemonitor
     namespace: okc  # Must be in same namespace as KL deployment
