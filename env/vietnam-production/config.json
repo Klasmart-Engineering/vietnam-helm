@@ -29,10 +29,7 @@
         "enabled": false
     },
     "helm_kube_monitoring": {
-        "enabled": false
-    },
-    "helm_fluentbit": {
-        "enabled": false
+        "enabled": true
     },
     "helm_cert_manager": {
         "enabled": true

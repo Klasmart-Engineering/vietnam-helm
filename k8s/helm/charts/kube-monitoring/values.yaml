@@ -29,7 +29,7 @@ oauth2-proxy:
 
 kube-prometheus-stack:
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
-  enabled: true
+  enabled: false
   prometheus:
     prometheusSpec:
 
@@ -234,6 +234,11 @@ loki-stack:
 
   promtail:
     enabled: true
+    # -- The security context for pods
+    securityContext:
+
+    # -- Resource requests and limits
+    resources: {}
 
   fluent-bit:
     enabled: false

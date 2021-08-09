@@ -1,6 +1,8 @@
+{{- if index .Values "kube-prometheus-stack" "enabled" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: alertmanager-templates-cm
 data:
   {{- (.Files.Glob "alertmanager_templates/**.tmpl").AsConfig | nindent 2 }}
+{{- end }}  
