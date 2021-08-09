@@ -44,9 +44,7 @@ releases:
     chart: ../charts/kube-monitoring
     version: ~0.1.0
     condition: helm_kube_monitoring.enabled
-    values:
-      - helm_prometheus:
-          enabled: {{ .Values.helm_prometheus.enabled }}     
+    values:  
       # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
       - kube-prometheus-stack:
           enabled: {{ .Values.helm_prometheus.enabled }}

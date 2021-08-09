@@ -27,9 +27,6 @@ oauth2-proxy:
       # Add custom labels to the ServiceMonitor resource
       labels: {}
 
-helm_prometheus:
-  enabled: false
-
 kube-prometheus-stack:
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
   enabled: false
