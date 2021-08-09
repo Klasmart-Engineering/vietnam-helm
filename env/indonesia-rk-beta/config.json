@@ -118,7 +118,7 @@
     "base_url_h5p": "https://h5p.beta.rumahkisah.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-alpha-id-rk_beta-55d0fbf",
+    "auth_frontend_image_tag": "release-alpha-id-rk_beta-7305b99",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 2,
     "auth_frontend_max_replica_count": 6,
@@ -130,19 +130,19 @@
     "auth_backend_max_replica_count": 6,
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-f75f148",   
+    "cms_backend_image_tag": "dev-global-alpha-318b1f0",   
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-id-rk_beta-14ee40b",
+    "cms_frontend_image_tag": "dev-global-alpha-id-rk_beta-cbe1566",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-rk_beta-6d7b6ee",
+    "hub_image_tag": "release-alpha-id-rk_beta-094575f",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 2,
     "hub_max_replica_count": 6,
@@ -180,7 +180,7 @@
     "sfu_gateway_max_replica_count": 6,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "commit-a2a888b",
+    "user_service_image_tag": "commit-5d4a8d6",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 2,
     "user_service_max_replica_count": 6,
@@ -191,7 +191,7 @@
     "h5p_service_replica_count": 2,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "02885bd415b4a553663962a60fc63e6a56e7284c",
+    "xapi_image_tag": "production-fc81c47",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 2,
     "xapi_max_replica_count": 6,
