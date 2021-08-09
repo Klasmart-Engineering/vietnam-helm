@@ -1,0 +1,25 @@
+apiVersion: v2
+name: lidsloop-servicemonitor
+description: Chart for exporting operational data about a Kidsloop Kubernetes deployment to Prometheus
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+# prometheus-mysql-exporter - Connects to MySQL database and exports operational metrics to prometheus
+- name: prometheus-mysql-exporter
+  version: "1.2.1"
+  repository: https://prometheus-community.github.io/helm-charts
+  condition: mysql-exporter.enabled
+
+# prometheus-postgres-exporter - Connects to Postgres database and exports operational metrics to prometheus
+- name: prometheus-postgres-exporter
+  version: "2.3.5"
+  repository: https://prometheus-community.github.io/helm-charts
+  condition: postgres-exporter.enabled
+
+# prometheus-redis-exporter - Connects to Redis database and exports operational metrics to prometheus
+- name: prometheus-redis-exporter
+  version: "4.2.0"
+  repository: https://prometheus-community.github.io/helm-charts
+  condition: redis-exporter.enabled
