@@ -39,7 +39,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "rgb(255, 255, 255)",
                 "value": null
               }
             ]
@@ -105,12 +105,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "rgb(255, 255, 255)",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -166,10 +162,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -223,12 +215,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "purple",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -282,12 +270,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -876,5 +860,5 @@
   "timezone": "",
   "title": "Kidsloop Environment Overview",
   "uid": "kidsloop-overview",
-  "version": 4
+  "version": 1
 }
