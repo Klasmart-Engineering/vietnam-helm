@@ -196,7 +196,7 @@ releases:
                 auth_url: https://dex.devops.klpsre.com/auth
                 token_url: https://dex.devops.klpsre.com/token
                 api_url: https://dex.devops.klpsre.com/userinfo
-                allowed_domains: calmid.com kidsloop.live
+                allowed_domains: calmid.com kidsloop.live kidsloopglobal.onmicrosoft.com
                 allow_sign_up: true
                 tls_skip_verify_insecure: false
         oauth2-proxy:
@@ -224,7 +224,7 @@ releases:
               upstreams = [ "file:///dev/null" ]
               http_address="0.0.0.0:4180"
               provider="oidc"
-              email_domains = [ "calmid.com", "kidsloop.live" ]
+              email_domains = [ "calmid.com", "kidsloop.live", "kidsloopglobal.onmicrosoft.com" ]
               oidc_issuer_url="https://dex.devops.klpsre.com"
               cookie_secure="true"
 
