@@ -45,7 +45,7 @@
         "mysql": {
             "name":      "kidsloop-mysql-99998",
             "version":   "MYSQL_5_7",
-            "tier":      "db-f1-micro",
+            "tier":      "db-custom-2-7680",
             "charset":   "utf8mb4",
             "collation": "utf8mb4_bin",
             "user":      "kidsloop-mysql",
@@ -59,7 +59,7 @@
             "name": "kidsloop-postgresql-99999",
             "assessment_database": "assessment",
             "version":   "POSTGRES_11",
-            "tier":      "db-f1-micro",
+            "tier":      "db-custom-4-26624",
             "charset":   "UTF8",
             "collation": "en_US.UTF8",
             "user":      "kidsloop-postgresql",
