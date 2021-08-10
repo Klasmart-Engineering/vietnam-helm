@@ -36,9 +36,8 @@ environments:
   indonesia-rk-beta:
     values:
       - ../../../env/indonesia-rk-beta/.env.yaml
-      
-releases:
 
+releases:
   - name: monitoring
     namespace: monitoring
     chart: ../charts/kube-monitoring
@@ -133,6 +132,19 @@ releases:
                   secretName: mon-cert
           grafana:
             # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+            additionalDataSources:
+              - name: Loki
+                url: http://monitoring-loki.monitoring.svc.cluster.local:3100
+                orgId: 1
+                type: loki
+              - name: Redis
+                url: redis://{{ .Values.redis_host }}:6379
+                orgId: 1
+                type: redis-datasource
+
+            plugins:
+              - redis-datasource
+
             ingress:
               enabled: true
               # ingressClassName: nginx
@@ -235,7 +247,7 @@ releases:
               - secretName: mon-cert
                 hosts:
                   - mon{{ .Values.kl_domain }}
-                  
+
         loki-stack:
           promtail:
             enabled: true
@@ -257,4 +269,125 @@ releases:
               runAsGroup: 0
               readOnlyRootFilesystem: false
               privileged: true
-            {{- end }}                  
+            {{- end }}
+
+  - name: kidsloop-servicemonitor
+    namespace: okc  # Must be in same namespace as KL deployment
+    chart: ../charts/kidsloop-servicemonitor
+    version: ~0.1.0
+    condition: helm_kube_monitoring.enabled
+    values:
+      - prometheus-mysql-exporter:
+          enabled: true
+          # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-mysql-exporter/values.yaml
+          # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+          mysql:
+            db: "{{ .Values.mysql_database }}"
+            host: "{{ .Values.mysql_proxy_ip}}"  # "{{ .Values.mysql_host }}"  # {{ .Values.mysql_proxy_ip}} ?
+            param: "parseTime=true&charset=utf8mb4"
+            pass: "password"
+            port: 3306
+            # protocol: ""
+            user: "{{ .Values.mysql_username }}"
+            # secret with full DATA_SOURCE_NAME env var as stringdata
+            # existingSecret: ""
+            # secret only containing the password
+            existingPasswordSecret:
+              name: mysql
+              key: mysql-password
+
+        prometheus-postgres-exporter:
+          enabled: true
+          # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-postgres-exporter/values.yaml
+          prometheusRule:
+            enabled: true
+            additionalLabels: {}
+            namespace: "okc"
+            rules:
+              # Need to go into observability.yaml because of url...
+              - alert: PSQLConnectUsedHighPct
+                expr: sum(pg_stat_activity_count) / min(pg_settings_max_connections) > 0.8
+                for: 1s
+                labels:
+                  severity: critical
+                annotations:
+                  description: Over 80% of available connections are in use
+                  summary: Over 80% of available connections are in use
+                  dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s
+                  runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+              - alert: PSQLConnectUsedHighWatermark
+                expr: min(pg_settings_max_connections) - sum(pg_stat_activity_count) < 5
+                for: 1s
+                labels:
+                  severity: critical
+                annotations:
+                  description: There are less than 5 connection slots available in postgres
+                  summary: There are less than 5 connection slots available in postgres
+                  dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s
+                  runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+          config:
+            datasource:
+              # Specify one of both datasource or datasourceSecret
+              {{- if eq .Values.provider "gcp" }}
+              host: "127.0.0.1"
+              {{- else }}
+              host: {{ .Values.postgresql_host }}
+              {{- end }}
+              user: {{ .Values.postgresql_username }}
+              # Only one of password and passwordSecret can be specified
+              # password: 
+              # Specify passwordSecret if DB password is stored in secret.
+              passwordSecret:
+                # Secret name
+                name: postgresql
+                # Password key inside secret
+                key: postgresql-password
+              port: "5432"
+              database: '{{ .Values.postgresql_database }}'
+              sslmode: disable
+            datasourceSecret: {}
+              # Specifies if datasource should be sourced from secret value in format: postgresql://login:password@hostname:port/dbname?sslmode=disable
+              # Multiple Postgres databases can be configured by comma separated postgres connection strings
+              # Secret name
+              #  name:
+              # Connection string key inside secret
+              #  key:
+          # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+          {{- if eq .Values.provider "gcp" }}
+          extraContainers:
+          - name: cloud-sql-proxy
+            image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+            command:
+              - "/cloud_sql_proxy"
+              - "-ip_address_types=PRIVATE"
+              - "-instances={{ .Values.terraform_project }}:{{ .Values.terraform_region }}:{{ .Values.postgresql_database }}=tcp:5432"
+            securityContext:
+              runAsNonRoot: true
+          serviceAccount:
+            # Specifies whether a ServiceAccount should be created
+            create: false
+            # The name of the ServiceAccount to use.
+            # If not set and create is true, a name is generated using the fullname template
+            name: cloudsql-proxy
+            # Add annotations to the ServiceAccount, useful for EKS IAM Roles for Service Accounts or Google Workload Identity.
+          {{- end }}
+
+        prometheus-redis-exporter:
+          enabled: true
+          # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-redis-exporter/values.yaml
+          redisAddress: redis://{{ .Values.redis_host }}:6379
+          auth:
+            enabled: false
+            # Use existing secret (ignores redisPassword)
+            secret:
+              name: ""
+              key: ""
+            # Redis password (when not stored in a secret)
+            redisPassword: ""
+
+          serviceMonitor:
+            labels:
+              # instance: redis://{{ .Values.redis_host }}:6379
+              dashboard_host: mon{{ .Values.kl_domain }}

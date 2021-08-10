@@ -37,7 +37,7 @@ releases:
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
         mysql_instance: {{ .Values.mysql_database }}
-        mysql_proxy_ip:  {{ .Values.mysql_proxy_ip}}
+        mysql_proxy_ip:  {{ .Values.mysql_proxy_ip }}
         {{- end}}
 
         ingress:
@@ -64,7 +64,11 @@ releases:
           maxReplicas: {{ .Values.cms_backend_max_replica_count }}
 
         configuration:
+        {{- if eq .Values.provider "gcp" }}
+          db_hostname: {{ .Values.mysql_proxy_ip }}
+        {{- else }}
           db_hostname: {{ .Values.mysql_host }}
+        {{- end }}
           db_name: {{ .Values.mysql_database }}
           db_username: {{ .Values.mysql_username }}
           redis_host: {{ .Values.redis_host }}
