@@ -254,7 +254,7 @@ loki-stack:
         selector: '{app_kubernetes_io_instance="ingress-nginx",app_kubernetes_io_name="ingress-nginx",container="controller"}'
         stages:
         - regex:
-            expression: '^(?P<remote_addr>[\w\.]+) - (?P<remote_user>[^ ]*) \[(?P<time_local>.*)\] "(?P<method>[^ ]*) (?P<path>[^ \?]*)(?P<query_string>[^ ]*) (?P<protocol>[^ ]*)" (?P<status>[\d]+) (?P<body_bytes_sent>[\d]+) "(?P<http_referer>[^"]*)" "(?P<http_user_agent>[^"]*)"?'
+            expression: '^(?P<remote_addr>[\w\.]+) - (?P<remote_user>[^ ]*) \[(?P<time_local>.*)\] "(?P<method>[^ ]*) (?P<path>[^ \?]*)(?P<query_string>[^ ]*) (?P<protocol>[^ ]*)" (?P<status>[\d]+) (?P<body_bytes_sent>[\d]+) "(?P<http_referer>[^"]*)" "(?P<http_user_agent>[^"]*)"? (?P<request_length>[^ ]*)? (?P<request_time>[^ ]*)? \[(?P<proxy_upstream_name>.*)\] \[(?P<proxy_alternative_upstream_name>.*)\] (?P<upstream_addr>[^ ]*)? (?P<upstream_response_length>[^ ]*)? (?P<upstream_response_time>[^ ]*)? (?P<upstream_status>[^ ]*)? (?P<req_id>[^ ]*)?'
         - labels:
             #remote_addr:
             #remote_user:
@@ -266,6 +266,9 @@ loki-stack:
             #body_bytes_sent:
             #http_referer:
             #http_user_agent:
+            proxy_upstream_name:
+            upstream_addr:
+            req_id:
 
     # CMS pipeline
     - match:
@@ -280,6 +283,8 @@ loki-stack:
               status: status
               type: type
               path: url
+              entryTid: entryTid
+              currTid: currTid
               extra:
         - labels:
             level:
@@ -289,6 +294,12 @@ loki-stack:
             status:
             type:
             path:
+            entryTid:
+            currTid:
+        - drop:
+            source: "path"
+            expression: "/v1/ping"
+            drop_counter_reason: "ping"
         - timestamp:
             format: RFC3339
             source: timestamp
