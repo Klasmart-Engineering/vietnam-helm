@@ -236,12 +236,62 @@ loki-stack:
     #     retention_period: 336h
 
   promtail:
+    # https://github.com/grafana/helm-charts/blob/main/charts/promtail/values.yaml
     enabled: true
     # -- The security context for pods
     securityContext:
 
     # -- Resource requests and limits
     resources: {}
+
+    # Check version of promtail chart - config changes a lot between 2.2.0 (ours) and latest
+    # https://github.com/grafana/helm-charts/blob/promtail-2.2.0/charts/promtail/templates/configmap.yaml
+    # https://github.com/grafana/helm-charts/blob/promtail-2.2.0/charts/promtail/values.yaml
+    pipelineStages:
+    - docker: {}
+    # NGINX pipeline
+    - match:
+        selector: '{app_kubernetes_io_instance="ingress-nginx",app_kubernetes_io_name="ingress-nginx",container="controller"}'
+        stages:
+        - regex:
+            expression: '^(?P<remote_addr>[\w\.]+) - (?P<remote_user>[^ ]*) \[(?P<time_local>.*)\] "(?P<method>[^ ]*) (?P<path>[^ \?]*)(?P<query_string>[^ ]*) (?P<protocol>[^ ]*)" (?P<status>[\d]+) (?P<body_bytes_sent>[\d]+) "(?P<http_referer>[^"]*)" "(?P<http_user_agent>[^"]*)"?'
+        - labels:
+            #remote_addr:
+            #remote_user:
+            #time_local:
+            method:
+            path:
+            protocol:
+            status:
+            #body_bytes_sent:
+            #http_referer:
+            #http_user_agent:
+
+    # CMS pipeline
+    - match:
+        selector: '{app_kubernetes_io_instance="cms-backend",container="cms-backend"}'
+        stages:
+        - json:
+            expressions:
+              level: L
+              source_code: C
+              timestamp: T
+              method: method
+              status: status
+              type: type
+              path: url
+              extra:
+        - labels:
+            level:
+            source_code:
+            timestamp:
+            method:
+            status:
+            type:
+            path:
+        - timestamp:
+            format: RFC3339
+            source: timestamp
 
   fluent-bit:
     enabled: false

@@ -31,7 +31,7 @@
   "editable": true,
   "gnetId": 9614,
   "graphTooltip": 0,
-  "iteration": 1626866821120,
+  "iteration": 1628613756644,
   "links": [],
   "panels": [
     {
@@ -58,7 +58,7 @@
       "pluginVersion": "7.5.5",
       "targets": [
         {
-          "expr": "{namespace=~\"ingress-nginx\",pod=~\"$controller\"}",
+          "expr": "{namespace=~\"ingress-nginx\",pod=~\"$controller\", status=~\"$status\", method=~\"$method\", path=~\"$path_regex\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -1415,7 +1415,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -1446,7 +1446,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -1477,7 +1477,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -1535,6 +1535,165 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "allValue": "",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Loki",
+        "definition": "label_values(status)",
+        "description": "Request status",
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Status",
+        "multi": true,
+        "name": "status",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "101",
+            "value": "101"
+          },
+          {
+            "selected": false,
+            "text": "200",
+            "value": "200"
+          },
+          {
+            "selected": false,
+            "text": "202",
+            "value": "202"
+          },
+          {
+            "selected": false,
+            "text": "204",
+            "value": "204"
+          },
+          {
+            "selected": false,
+            "text": "304",
+            "value": "304"
+          },
+          {
+            "selected": false,
+            "text": "400",
+            "value": "400"
+          },
+          {
+            "selected": false,
+            "text": "401",
+            "value": "401"
+          },
+          {
+            "selected": false,
+            "text": "404",
+            "value": "404"
+          },
+          {
+            "selected": false,
+            "text": "499",
+            "value": "499"
+          }
+        ],
+        "query": "label_values(status)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Loki",
+        "definition": "label_values(method)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Method",
+        "multi": true,
+        "name": "method",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "GET",
+            "value": "GET"
+          },
+          {
+            "selected": false,
+            "text": "OPTIONS",
+            "value": "OPTIONS"
+          },
+          {
+            "selected": false,
+            "text": "POST",
+            "value": "POST"
+          }
+        ],
+        "query": "label_values(method)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": ".*",
+          "value": ".*"
+        },
+        "description": "Enter a regex query for request path (e.g. \\\\/user.* )",
+        "error": null,
+        "hide": 0,
+        "label": "Request path (regex)",
+        "name": "path_regex",
+        "options": [
+          {
+            "selected": true,
+            "text": ".*",
+            "value": ".*"
+          }
+        ],
+        "query": ".*",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },
@@ -1570,5 +1729,5 @@
   "timezone": "browser",
   "title": "NGINX Ingress controller",
   "uid": "nginx",
-  "version": 5
+  "version": 1
 }
