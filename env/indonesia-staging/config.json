@@ -59,7 +59,7 @@
             "name": "kidsloop-postgresql-99999",
             "assessment_database": "assessment",
             "version":   "POSTGRES_11",
-            "tier":      "db-custom-4-26624",
+            "tier":      "db-custom-2-7680",
             "charset":   "UTF8",
             "collation": "en_US.UTF8",
             "user":      "kidsloop-postgresql",
