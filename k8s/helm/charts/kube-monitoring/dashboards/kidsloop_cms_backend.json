@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1628675840886,
+  "iteration": 1628853945858,
   "links": [],
   "panels": [
     {
@@ -152,7 +152,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 12,
+        "w": 6,
         "x": 12,
         "y": 0
       },
@@ -189,6 +189,64 @@
           }
         }
       ],
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "Hits on /v1/ping",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ping/hr"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.5",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(rate(logentry_dropped_lines_total{reason=\"cms-backend-ping\"}[1h]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Pings",
       "type": "gauge"
     },
     {
@@ -232,7 +290,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -369,7 +427,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -476,7 +534,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -583,7 +641,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -690,7 +748,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -797,7 +855,7 @@
       "points": false,
       "renderer": "flot",
       "repeatDirection": "v",
-      "repeatIteration": 1628675840886,
+      "repeatIteration": 1628853945858,
       "repeatPanelId": 7,
       "scopedVars": {
         "breakdown": {
@@ -1039,5 +1097,5 @@
   "timezone": "",
   "title": "CMS Backend",
   "uid": "qrTfOXMnk",
-  "version": 1
+  "version": 2
 }
