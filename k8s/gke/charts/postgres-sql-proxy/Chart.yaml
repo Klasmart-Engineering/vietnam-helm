@@ -1,0 +1,6 @@
+apiVersion: v2
+name: GKE CC Postgresql Proxy
+description: GKE SQL Proxy deployment for Postgresql
+type: application
+version: 0.1.0
+appVersion: 0.1.0

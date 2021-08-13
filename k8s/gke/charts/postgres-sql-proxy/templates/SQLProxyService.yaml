@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-sql-proxy-postgres
+spec:
+  ports:
+
+  - name: postgres
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  
+  selector:
+    cloudSQLProxy: postgres
+
+  type: ClusterIP
