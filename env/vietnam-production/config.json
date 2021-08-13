@@ -101,7 +101,7 @@
     "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-vietnam-prod-vn-prod-e282ac0",
+    "auth_frontend_image_tag": "release-alpha-vn-prod-7305b99",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 4,
     "auth_frontend_max_replica_count": 8,
@@ -113,19 +113,19 @@
     "auth_backend_max_replica_count": 8,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-vn-prod-e1668fa",
+    "cms_frontend_image_tag": "dev-global-alpha-vn-prod-cbe1566",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 4,
     "cms_frontend_max_replica_count": 8,
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-f75f148",
+    "cms_backend_image_tag": "dev-global-alpha-318b1f0",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 4,
     "cms_backend_max_replica_count": 8,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "release-vietnam-prod-vn-prod-6d7b6ee",
+    "hub_image_tag": "release-alpha-vn-prod-094575f",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 4,
     "hub_max_replica_count": 8,
@@ -163,7 +163,7 @@
     "sfu_gateway_max_replica_count": 8,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-a2a888b",
+    "user_service_image_tag": "master-5d4a8d6",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 4,
     "user_service_max_replica_count": 8,

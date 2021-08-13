@@ -1,0 +1,554 @@
+prometheus-mysql-exporter:
+  enabled: true
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-mysql-exporter/values.yaml
+
+  serviceMonitor:
+    # enabled should be set to true to enable prometheus-operator discovery of this service
+    enabled: true
+
+  collectors:
+    # auto_increment.columns: false
+    binlog_size: true
+    engine_innodb_status: true
+    # engine_tokudb_status: false
+    global_status: true
+    # global_variables: true
+    # info_schema.clientstats: false
+    info_schema.innodb_metrics: true
+    # info_schema.innodb_tablespaces: false
+    # info_schema.innodb_cmp: false
+    # info_schema.innodb_cmpmem: false
+    # info_schema.processlist: false
+    # info_schema.processlist.min_time: 0
+    # info_schema.query_response_time: false
+    # info_schema.tables: true
+    # info_schema.tables.databases: '*'
+    # info_schema.tablestats: false
+    # info_schema.schemastats: false
+    # info_schema.userstats: false
+    # perf_schema.eventsstatements: false
+    # perf_schema.eventsstatements.digest_text_limit: 120
+    # perf_schema.eventsstatements.limit: false
+    # perf_schema.eventsstatements.timelimit: 86400
+    # perf_schema.eventswaits: false
+    # perf_schema.file_events: false
+    # perf_schema.file_instances: false
+    # perf_schema.indexiowaits: false
+    # perf_schema.tableiowaits: false
+    # perf_schema.tablelocks: false
+    # perf_schema.replication_group_member_stats: false
+    # slave_status: true
+    # slave_hosts: false
+    # heartbeat: false
+    # heartbeat.database: heartbeat
+    # heartbeat.table: heartbeat
+
+  # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+  # TODO
+  # mysql:
+  #   db: "{{ .Values.mysql_database }}"
+  #   host: "{{ .Values.mysql_proxy_ip}}"  # "{{ .Values.mysql_host }}"  # {{ .Values.mysql_proxy_ip}} ?
+  #   param: "parseTime=true&charset=utf8mb4"
+  #   pass: "password"
+  #   port: 3306
+  #   # protocol: ""
+  #   user: "{{ .Values.mysql_username }}"
+  #   # secret with full DATA_SOURCE_NAME env var as stringdata
+  #   # existingSecret: ""
+  #   # secret only containing the password
+  #   existingPasswordSecret:
+  #     name: mysql
+  #     key: mysql-password
+
+prometheus-postgres-exporter:
+  enabled: true
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-postgres-exporter/values.yaml
+  serviceMonitor:
+    # enabled should be set to true to enable prometheus-operator discovery of this service
+    enabled: true
+
+  prometheusRule:
+    enabled: true
+    additionalLabels: {}
+    namespace: "okc"
+    rules:
+      # Need to go into observability.yaml because of url...
+      - alert: PSQLConnectUsedHighPct
+        expr: sum(pg_stat_activity_count) / min(pg_settings_max_connections) > 0.8
+        for: 1s
+        labels:
+          severity: critical
+        annotations:
+          description: Over 80% of available connections are in use
+          summary: Over 80% of available connections are in use
+          # dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s  TODO
+          runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+      - alert: PSQLConnectUsedHighWatermark
+        expr: min(pg_settings_max_connections) - sum(pg_stat_activity_count) < 5
+        for: 1s
+        labels:
+          severity: critical
+        annotations:
+          description: There are less than 5 connection slots available in postgres
+          summary: There are less than 5 connection slots available in postgres
+          # dashboard: https://mon{{ .Values.kl_domain }}/grafana/d/postgres/postgresql?orgId=1&refresh=5s  TODO
+          runbook_url: https://help.compose.com/docs/postgresql-connection-limits
+
+  config:
+    queries: |-
+      # These are the default ones from the chart
+      pg_replication:
+        query: "SELECT CASE WHEN NOT pg_is_in_recovery() THEN 0 ELSE GREATEST (0, EXTRACT(EPOCH FROM (now() - pg_last_xact_replay_timestamp()))) END AS lag"
+        master: true
+        metrics:
+          - lag:
+              usage: "GAUGE"
+              description: "Replication lag behind master in seconds"
+      pg_postmaster:
+        query: "SELECT pg_postmaster_start_time as start_time_seconds from pg_postmaster_start_time()"
+        master: true
+        metrics:
+          - start_time_seconds:
+              usage: "GAUGE"
+              description: "Time at which postmaster started"
+      pg_stat_user_tables:
+        query: |
+          SELECT
+            current_database() datname,
+            schemaname,
+            relname,
+            seq_scan,
+            seq_tup_read,
+            idx_scan,
+            idx_tup_fetch,
+            n_tup_ins,
+            n_tup_upd,
+            n_tup_del,
+            n_tup_hot_upd,
+            n_live_tup,
+            n_dead_tup,
+            n_mod_since_analyze,
+            COALESCE(last_vacuum, '1970-01-01Z') as last_vacuum,
+            COALESCE(last_autovacuum, '1970-01-01Z') as last_autovacuum,
+            COALESCE(last_analyze, '1970-01-01Z') as last_analyze,
+            COALESCE(last_autoanalyze, '1970-01-01Z') as last_autoanalyze,
+            vacuum_count,
+            autovacuum_count,
+            analyze_count,
+            autoanalyze_count
+          FROM
+            pg_stat_user_tables
+        metrics:
+          - datname:
+              usage: "LABEL"
+              description: "Name of current database"
+          - schemaname:
+              usage: "LABEL"
+              description: "Name of the schema that this table is in"
+          - relname:
+              usage: "LABEL"
+              description: "Name of this table"
+          - seq_scan:
+              usage: "COUNTER"
+              description: "Number of sequential scans initiated on this table"
+          - seq_tup_read:
+              usage: "COUNTER"
+              description: "Number of live rows fetched by sequential scans"
+          - idx_scan:
+              usage: "COUNTER"
+              description: "Number of index scans initiated on this table"
+          - idx_tup_fetch:
+              usage: "COUNTER"
+              description: "Number of live rows fetched by index scans"
+          - n_tup_ins:
+              usage: "COUNTER"
+              description: "Number of rows inserted"
+          - n_tup_upd:
+              usage: "COUNTER"
+              description: "Number of rows updated"
+          - n_tup_del:
+              usage: "COUNTER"
+              description: "Number of rows deleted"
+          - n_tup_hot_upd:
+              usage: "COUNTER"
+              description: "Number of rows HOT updated (i.e., with no separate index update required)"
+          - n_live_tup:
+              usage: "GAUGE"
+              description: "Estimated number of live rows"
+          - n_dead_tup:
+              usage: "GAUGE"
+              description: "Estimated number of dead rows"
+          - n_mod_since_analyze:
+              usage: "GAUGE"
+              description: "Estimated number of rows changed since last analyze"
+          - last_vacuum:
+              usage: "GAUGE"
+              description: "Last time at which this table was manually vacuumed (not counting VACUUM FULL)"
+          - last_autovacuum:
+              usage: "GAUGE"
+              description: "Last time at which this table was vacuumed by the autovacuum daemon"
+          - last_analyze:
+              usage: "GAUGE"
+              description: "Last time at which this table was manually analyzed"
+          - last_autoanalyze:
+              usage: "GAUGE"
+              description: "Last time at which this table was analyzed by the autovacuum daemon"
+          - vacuum_count:
+              usage: "COUNTER"
+              description: "Number of times this table has been manually vacuumed (not counting VACUUM FULL)"
+          - autovacuum_count:
+              usage: "COUNTER"
+              description: "Number of times this table has been vacuumed by the autovacuum daemon"
+          - analyze_count:
+              usage: "COUNTER"
+              description: "Number of times this table has been manually analyzed"
+          - autoanalyze_count:
+              usage: "COUNTER"
+              description: "Number of times this table has been analyzed by the autovacuum daemon"
+      pg_statio_user_tables:
+        query: "SELECT current_database() datname, schemaname, relname, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_statio_user_tables"
+        metrics:
+          - datname:
+              usage: "LABEL"
+              description: "Name of current database"
+          - schemaname:
+              usage: "LABEL"
+              description: "Name of the schema that this table is in"
+          - relname:
+              usage: "LABEL"
+              description: "Name of this table"
+          - heap_blks_read:
+              usage: "COUNTER"
+              description: "Number of disk blocks read from this table"
+          - heap_blks_hit:
+              usage: "COUNTER"
+              description: "Number of buffer hits in this table"
+          - idx_blks_read:
+              usage: "COUNTER"
+              description: "Number of disk blocks read from all indexes on this table"
+          - idx_blks_hit:
+              usage: "COUNTER"
+              description: "Number of buffer hits in all indexes on this table"
+          - toast_blks_read:
+              usage: "COUNTER"
+              description: "Number of disk blocks read from this table's TOAST table (if any)"
+          - toast_blks_hit:
+              usage: "COUNTER"
+              description: "Number of buffer hits in this table's TOAST table (if any)"
+          - tidx_blks_read:
+              usage: "COUNTER"
+              description: "Number of disk blocks read from this table's TOAST table indexes (if any)"
+          - tidx_blks_hit:
+              usage: "COUNTER"
+              description: "Number of buffer hits in this table's TOAST table indexes (if any)"
+      pg_database:
+        query: "SELECT pg_database.datname, pg_database_size(pg_database.datname) as size_bytes FROM pg_database"
+        master: true
+        cache_seconds: 30
+        metrics:
+          - datname:
+              usage: "LABEL"
+              description: "Name of the database"
+          - size_bytes:
+              usage: "GAUGE"
+              description: "Disk space used by the database"
+
+      # These depend on an extension which must be enabled first
+      pg_stat_statements:
+        query: "SELECT t2.rolname, t3.datname, queryid, calls, total_time / 1000 as total_time_seconds, min_time / 1000 as min_time_seconds, max_time / 1000 as max_time_seconds, mean_time / 1000 as mean_time_seconds, stddev_time / 1000 as stddev_time_seconds, rows, shared_blks_hit, shared_blks_read, shared_blks_dirtied, shared_blks_written, local_blks_hit, local_blks_read, local_blks_dirtied, local_blks_written, temp_blks_read, temp_blks_written, blk_read_time / 1000 as blk_read_time_seconds, blk_write_time / 1000 as blk_write_time_seconds FROM pg_stat_statements t1 JOIN pg_roles t2 ON (t1.userid=t2.oid) JOIN pg_database t3 ON (t1.dbid=t3.oid) WHERE t2.rolname != 'rdsadmin'"
+        master: true
+        metrics:
+          - rolname:
+              usage: "LABEL"
+              description: "Name of user"
+          - datname:
+              usage: "LABEL"
+              description: "Name of database"
+          - queryid:
+              usage: "LABEL"
+              description: "Query ID"
+          - calls:
+              usage: "COUNTER"
+              description: "Number of times executed"
+          - total_time_seconds:
+              usage: "COUNTER"
+              description: "Total time spent in the statement, in milliseconds"
+          - min_time_seconds:
+              usage: "GAUGE"
+              description: "Minimum time spent in the statement, in milliseconds"
+          - max_time_seconds:
+              usage: "GAUGE"
+              description: "Maximum time spent in the statement, in milliseconds"
+          - mean_time_seconds:
+              usage: "GAUGE"
+              description: "Mean time spent in the statement, in milliseconds"
+          - stddev_time_seconds:
+              usage: "GAUGE"
+              description: "Population standard deviation of time spent in the statement, in milliseconds"
+          - rows:
+              usage: "COUNTER"
+              description: "Total number of rows retrieved or affected by the statement"
+          - shared_blks_hit:
+              usage: "COUNTER"
+              description: "Total number of shared block cache hits by the statement"
+          - shared_blks_read:
+              usage: "COUNTER"
+              description: "Total number of shared blocks read by the statement"
+          - shared_blks_dirtied:
+              usage: "COUNTER"
+              description: "Total number of shared blocks dirtied by the statement"
+          - shared_blks_written:
+              usage: "COUNTER"
+              description: "Total number of shared blocks written by the statement"
+          - local_blks_hit:
+              usage: "COUNTER"
+              description: "Total number of local block cache hits by the statement"
+          - local_blks_read:
+              usage: "COUNTER"
+              description: "Total number of local blocks read by the statement"
+          - local_blks_dirtied:
+              usage: "COUNTER"
+              description: "Total number of local blocks dirtied by the statement"
+          - local_blks_written:
+              usage: "COUNTER"
+              description: "Total number of local blocks written by the statement"
+          - temp_blks_read:
+              usage: "COUNTER"
+              description: "Total number of temp blocks read by the statement"
+          - temp_blks_written:
+              usage: "COUNTER"
+              description: "Total number of temp blocks written by the statement"
+          - blk_read_time_seconds:
+              usage: "COUNTER"
+              description: "Total time the statement spent reading blocks, in milliseconds (if track_io_timing is enabled, otherwise zero)"
+          - blk_write_time_seconds:
+              usage: "COUNTER"
+              description: "Total time the statement spent writing blocks, in milliseconds (if track_io_timing is enabled, otherwise zero)"
+      pg_stat_activity_idle:
+        query: |
+          WITH
+            metrics AS (
+              SELECT
+                application_name,
+                SUM(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - state_change))::bigint)::float AS process_seconds_sum,
+                COUNT(*) AS process_seconds_count
+              FROM pg_stat_activity
+              WHERE state = 'idle'
+              GROUP BY application_name
+            ),
+            buckets AS (
+              SELECT
+                application_name,
+                le,
+                SUM(
+                  CASE WHEN EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - state_change)) <= le
+                    THEN 1
+                    ELSE 0
+                  END
+                )::bigint AS bucket
+              FROM
+                pg_stat_activity,
+                UNNEST(ARRAY[1, 2, 5, 15, 30, 60, 90, 120, 300]) AS le
+              GROUP BY application_name, le
+              ORDER BY application_name, le
+            )
+          SELECT
+            application_name,
+            process_seconds_sum,
+            process_seconds_count,
+            ARRAY_AGG(le) AS process_seconds,
+            ARRAY_AGG(bucket) AS process_seconds_bucket
+          FROM metrics JOIN buckets USING (application_name)
+          GROUP BY 1, 2, 3
+        metrics:
+          - application_name:
+              usage: "LABEL"
+              description: "Application Name"
+          - process_seconds:
+              usage: "HISTOGRAM"
+              description: "Idle time of server processes"
+
+      # These are custom queries for our own usage
+      kl_total_users:
+        query: |
+          select count(*) as count from "user";
+        master: true
+        cache_seconds: 60
+        metrics:
+          - count:
+              usage: "COUNTER"
+              description: "Total users in user database"
+
+      kl_internal_users:
+        # Using double %% symbol to escape helm variable syntax
+        query: |
+          select count(*) as count from "user" where "email" like concat('%%', '@calmid.com') or "email" like concat('%%', '@kidsloop.live');
+        master: true
+        cache_seconds: 60
+        metrics:
+          - count:
+              usage: "COUNTER"
+              description: "Internal users in user database (email like @calmid.com or @kidsloop.live)"
+
+      kl_external_users:
+        # Using double %% symbol to escape helm variable syntax
+        query: |
+          select count(*) as count from "user" where not ("email" like concat('%%', '@calmid.com') or "email" like concat('%%', '@kidsloop.live') );
+        master: true
+        cache_seconds: 60
+        metrics:
+          - count:
+              usage: "COUNTER"
+              description: "External users in user database (email not like @calmid.com or @kidsloop.live)"
+
+      kl_entity:
+        query: |
+          SELECT relname as entity, n_live_tup as count 
+            FROM pg_stat_user_tables 
+            ORDER BY count DESC;
+        master: true
+        cache_seconds: 60
+        metrics:
+          - entity:
+              usage: "LABEL"
+              description: "The entity which is being counted"
+          - count:
+              usage: "COUNTER"
+              description: "The count of this entity type in the database"
+
+      kl_super_admin:
+        query: |
+          SELECT count(*) as count, organization.organization_name as org, user_entity.email as email, urole.role_name as role
+            FROM role_memberships_organization_membership as rm
+            FULL OUTER JOIN "role" as urole
+            ON "roleRoleId"="role_id"
+            FULL OUTER JOIN "organization"
+            ON "organizationMembershipOrganizationId"=organization_id::text
+            FULL OUTER JOIN "user" as user_entity
+            ON "organizationMembershipUserId"=user_entity.user_id::text
+            WHERE urole.role_name IN ('Super Admin', 'test_admin')
+            GROUP BY org, email, role ;
+        master: true
+        cache_seconds: 60
+        metrics:
+          - count:
+              usage: "COUNTER"
+              description: "superuser count"
+          - org:
+              usage: "LABEL"
+              description: "Organization of the super user"
+          - email:
+              usage: "LABEL"
+              description: "Email address of the super user"
+          - role:
+              usage: "LABEL"
+              description: "Role of the super user"
+
+  #   datasource:
+  #     # Specify one of both datasource or datasourceSecret
+  #     {{- if eq .Values.provider "gcp" }}
+  #     host: "127.0.0.1"
+  #     {{- else }}
+  #     host: {{ .Values.postgresql_host }}
+  #     {{- end }}
+  #     user: {{ .Values.postgresql_username }}
+  #     # Only one of password and passwordSecret can be specified
+  #     # password: 
+  #     # Specify passwordSecret if DB password is stored in secret.
+  #     passwordSecret:
+  #       # Secret name
+  #       name: postgresql
+  #       # Password key inside secret
+  #       key: postgresql-password
+  #     port: "5432"
+  #     database: '{{ .Values.postgresql_database }}'
+  #     sslmode: disable
+  #   datasourceSecret: {}
+      # Specifies if datasource should be sourced from secret value in format: postgresql://login:password@hostname:port/dbname?sslmode=disable
+      # Multiple Postgres databases can be configured by comma separated postgres connection strings
+      # Secret name
+      #  name:
+      # Connection string key inside secret
+      #  key:
+  # mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
+  # {{- if eq .Values.provider "gcp" }}
+  # extraContainers:
+  # - name: cloud-sql-proxy
+  #   image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+  #   command:
+  #     - "/cloud_sql_proxy"
+  #     - "-ip_address_types=PRIVATE"
+  #     - "-instances={{ .Values.terraform_project }}:{{ .Values.terraform_region }}:{{ .Values.postgresql_database }}=tcp:5432"
+  #   securityContext:
+  #     runAsNonRoot: true
+  # serviceAccount:
+  #   # Specifies whether a ServiceAccount should be created
+  #   create: false
+  #   # The name of the ServiceAccount to use.
+  #   # If not set and create is true, a name is generated using the fullname template
+  #   name: cloudsql-proxy
+  #   # Add annotations to the ServiceAccount, useful for EKS IAM Roles for Service Accounts or Google Workload Identity.
+  # {{- end }}
+
+prometheus-redis-exporter:
+  enabled: true
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-redis-exporter/values.yaml
+  # redisAddress: redis://{{ .Values.redis_host }}:6379
+  auth:
+    # Use password authentication
+    enabled: false
+    # Use existing secret (ignores redisPassword)
+    secret:
+      name: ""
+      key: ""
+    # Redis password (when not stored in a secret)
+    redisPassword: ""
+  serviceMonitor:
+    # When set true then use a ServiceMonitor to configure scraping
+    enabled: true
+
+  ## Custom PrometheusRules to be defined
+  ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart
+  ## ref: https://github.com/coreos/prometheus-operator#customresourcedefinitions
+  prometheusRule:
+    enabled: false
+    additionalLabels: {}
+    namespace: ""
+    rules:
+      ## These are just examples rules, please adapt them to your needs.
+      ## Make sure to constraint the rules to the current service.
+      - alert: RedisDown
+        expr: redis_up{service="{{ template "prometheus-redis-exporter.fullname" . }}"} == 0
+        for: 2m
+        labels:
+          severity: error
+        annotations:
+          summary: Redis instance {{ "{{ $labels.instance }}" }} down
+          description: Redis instance {{ "{{ $labels.instance }}" }} is down.
+          dashboard: https://{{ "{{ $labels.dashboard_host }}" }}/grafana/d/redis/redis?orgId=1&refresh=5s
+      - alert: RedisMemoryHigh
+        expr: >
+            redis_memory_used_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"} * 100
+            /
+            redis_memory_max_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"}
+            > 90 <= 100
+        for: 2m
+        labels:
+          severity: error
+        annotations:
+          summary: Redis instance {{ "{{ $labels.instance }}" }} is using too much memory
+          description: |
+              Redis instance {{ "{{ $labels.instance }}" }} is using {{ "{{ $value }}" }}% of its available memory.
+          dashboard: https://{{ "{{ $labels.dashboard_host }}" }}" }}/grafana/d/redis/redis?orgId=1&refresh=5s
+      - alert: RedisKeyEviction
+        expr: |
+          increase(redis_evicted_keys_total{service="{{ template "prometheus-redis-exporter.fullname" . }}"}[5m]) > 0
+        for: 1s
+        labels:
+          severity: error
+        annotations:
+          summary: Redis instance {{ "{{ $labels.instance }}" }} has evicted keys
+          description: |
+            Redis instance {{ "{{ $labels.instance }}" }} has evicted {{ "{{ $value }}" }} keys in the last 5 minutes.
+          dashboard: https://{{ "{{ $labels.dashboard_host }}" }}/grafana/d/redis/redis?orgId=1&refresh=5s

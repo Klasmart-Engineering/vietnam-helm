@@ -37,7 +37,7 @@ configuration:
   db_name: kidsloop2
   db_username: dbc_yyd
   db_port: "3306"
-  db_options: "parseTime: true&charset: utf8mb4"
+  db_options: "parseTime=true&charset=utf8mb4"
   ##
   # End
   ##
