@@ -46,9 +46,9 @@
         {{- else -}}
             {{- $maincolor := "#439FE0" -}}
             {{- range $i, $alert := .Alerts }}
-                {{- if and (eq $maincolor "#439FE0") (eq .severity "warning") -}}
+                {{- if and (eq $maincolor "#439FE0") (eq $alert.Labels.severity "warning") -}}
                     {{- $maincolor := "danger" -}}
-                {{- else if eq .severity "critical" -}}
+                {{- else if eq $alert.Labels.severity "critical" -}}
                     {{- $maincolor := "danger" -}}
                 {{- end -}}
             {{- end -}}

@@ -31,7 +31,7 @@
   "editable": true,
   "gnetId": 9614,
   "graphTooltip": 0,
-  "iteration": 1628613756644,
+  "iteration": 1628685262392,
   "links": [],
   "panels": [
     {
@@ -58,7 +58,7 @@
       "pluginVersion": "7.5.5",
       "targets": [
         {
-          "expr": "{namespace=~\"ingress-nginx\",pod=~\"$controller\", status=~\"$status\", method=~\"$method\", path=~\"$path_regex\"}",
+          "expr": "{namespace=~\"ingress-nginx\",pod=~\"$controller\", status=~\"$status\", method=~\"$method\", path=~\"$path_regex\", proxy_upstream_name=~\"$proxy_upstream_name\", upstream_addr=~\"$upstream_addr\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -1694,6 +1694,114 @@
         "query": ".*",
         "skipUrlSync": false,
         "type": "textbox"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Loki",
+        "definition": "label_values(proxy_upstream_name)",
+        "description": "Which upstream services?",
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Upstream",
+        "multi": true,
+        "name": "proxy_upstream_name",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "monitoring-monitoring-grafana-80",
+            "value": "monitoring-monitoring-grafana-80"
+          },
+          {
+            "selected": false,
+            "text": "monitoring-monitoring-oauth2-proxy-80",
+            "value": "monitoring-monitoring-oauth2-proxy-80"
+          }
+        ],
+        "query": "label_values(proxy_upstream_name)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Loki",
+        "definition": "label_values(upstream_addr)",
+        "description": "Upstream address",
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Upstream Address",
+        "multi": true,
+        "name": "upstream_addr",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "-",
+            "value": "-"
+          },
+          {
+            "selected": false,
+            "text": "10.28.3.220:3000",
+            "value": "10.28.3.220:3000"
+          },
+          {
+            "selected": false,
+            "text": "10.28.8.77:4180",
+            "value": "10.28.8.77:4180"
+          },
+          {
+            "selected": false,
+            "text": "34.101.147.19:443",
+            "value": "34.101.147.19:443"
+          }
+        ],
+        "query": "label_values(upstream_addr)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -1729,5 +1837,5 @@
   "timezone": "browser",
   "title": "NGINX Ingress controller",
   "uid": "nginx",
-  "version": 1
+  "version": 2
 }

@@ -1,0 +1,923 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "",
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 140,
+    "iteration": 1628858131857,
+    "links": [],
+    "panels": [
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Loki",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 2,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.5",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(count_over_time({level=~\"warning|warn|error|WARN|WARNING|ERROR|ERR\"}[10m])) by (container)",
+            "legendFormat": "{{container}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Log Error Rates by container",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "datasource": "Loki",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "displayMode": "gradient",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "text": {}
+        },
+        "pluginVersion": "7.5.5",
+        "targets": [
+          {
+            "expr": "sum by (source_code) (count_over_time({level=~\"warning|warn|error|WARN|WARNING|ERROR|ERR\"}[10m]))",
+            "legendFormat": "{{source_code}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Log Error Rates by source line",
+        "transformations": [
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Time",
+                  "build/main.go:34",
+                  "client.go:355",
+                  "dbo/dbo.go:138",
+                  "dispatch.go:309",
+                  "grpc_logging.go:38"
+                ]
+              }
+            }
+          }
+        ],
+        "type": "bargauge"
+      },
+      {
+        "datasource": "Loki",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 16,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 5,
+        "options": {
+          "dedupStrategy": "none",
+          "showLabels": false,
+          "showTime": false,
+          "sortOrder": "Descending",
+          "wrapLogMessage": false
+        },
+        "pluginVersion": "7.5.5",
+        "targets": [
+          {
+            "expr": "{level=~\"$level\", container=~\"$container\"} |~ \"$regex_query\"",
+            "legendFormat": "{{container}}",
+            "maxLines": null,
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Log lines",
+        "transformations": [],
+        "type": "logs"
+      }
+    ],
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [
+      "kidsloop",
+      "logs",
+      "cluster"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Loki",
+          "definition": "label_values(container)",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "Container",
+          "multi": true,
+          "name": "container",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "alertmanager",
+              "value": "alertmanager"
+            },
+            {
+              "selected": false,
+              "text": "auth-backend",
+              "value": "auth-backend"
+            },
+            {
+              "selected": false,
+              "text": "auth-frontend",
+              "value": "auth-frontend"
+            },
+            {
+              "selected": false,
+              "text": "cert-manager",
+              "value": "cert-manager"
+            },
+            {
+              "selected": false,
+              "text": "cloud-sql-proxy",
+              "value": "cloud-sql-proxy"
+            },
+            {
+              "selected": false,
+              "text": "cms-backend",
+              "value": "cms-backend"
+            },
+            {
+              "selected": false,
+              "text": "cms-frontend",
+              "value": "cms-frontend"
+            },
+            {
+              "selected": false,
+              "text": "config-reloader",
+              "value": "config-reloader"
+            },
+            {
+              "selected": false,
+              "text": "controller",
+              "value": "controller"
+            },
+            {
+              "selected": false,
+              "text": "create",
+              "value": "create"
+            },
+            {
+              "selected": false,
+              "text": "default-http-backend",
+              "value": "default-http-backend"
+            },
+            {
+              "selected": false,
+              "text": "deletiondefender",
+              "value": "deletiondefender"
+            },
+            {
+              "selected": false,
+              "text": "ecr-token",
+              "value": "ecr-token"
+            },
+            {
+              "selected": false,
+              "text": "fluentbit-gke",
+              "value": "fluentbit-gke"
+            },
+            {
+              "selected": false,
+              "text": "gke-metadata-server",
+              "value": "gke-metadata-server"
+            },
+            {
+              "selected": false,
+              "text": "gke-metrics-agent",
+              "value": "gke-metrics-agent"
+            },
+            {
+              "selected": false,
+              "text": "grafana",
+              "value": "grafana"
+            },
+            {
+              "selected": false,
+              "text": "hub",
+              "value": "hub"
+            },
+            {
+              "selected": false,
+              "text": "kube-prometheus-stack",
+              "value": "kube-prometheus-stack"
+            },
+            {
+              "selected": false,
+              "text": "live-frontend",
+              "value": "live-frontend"
+            },
+            {
+              "selected": false,
+              "text": "loki",
+              "value": "loki"
+            },
+            {
+              "selected": false,
+              "text": "manager",
+              "value": "manager"
+            },
+            {
+              "selected": false,
+              "text": "metadata-agent",
+              "value": "metadata-agent"
+            },
+            {
+              "selected": false,
+              "text": "metrics-server",
+              "value": "metrics-server"
+            },
+            {
+              "selected": false,
+              "text": "mysql-proxy",
+              "value": "mysql-proxy"
+            },
+            {
+              "selected": false,
+              "text": "oauth2-proxy",
+              "value": "oauth2-proxy"
+            },
+            {
+              "selected": false,
+              "text": "patch",
+              "value": "patch"
+            },
+            {
+              "selected": false,
+              "text": "postgres-proxy",
+              "value": "postgres-proxy"
+            },
+            {
+              "selected": false,
+              "text": "prom-to-sd",
+              "value": "prom-to-sd"
+            },
+            {
+              "selected": false,
+              "text": "prometheus",
+              "value": "prometheus"
+            },
+            {
+              "selected": false,
+              "text": "prometheus-postgres-exporter",
+              "value": "prometheus-postgres-exporter"
+            },
+            {
+              "selected": false,
+              "text": "prometheus-redis-exporter",
+              "value": "prometheus-redis-exporter"
+            },
+            {
+              "selected": false,
+              "text": "promtail",
+              "value": "promtail"
+            },
+            {
+              "selected": false,
+              "text": "recorder",
+              "value": "recorder"
+            },
+            {
+              "selected": false,
+              "text": "sfu",
+              "value": "sfu"
+            },
+            {
+              "selected": false,
+              "text": "sfu-gateway",
+              "value": "sfu-gateway"
+            },
+            {
+              "selected": false,
+              "text": "webhook",
+              "value": "webhook"
+            },
+            {
+              "selected": false,
+              "text": "xapi",
+              "value": "xapi"
+            }
+          ],
+          "query": "label_values(container)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "tags": [],
+            "text": [
+              "ERROR",
+              "error",
+              "warn"
+            ],
+            "value": [
+              "ERROR",
+              "error",
+              "warn"
+            ]
+          },
+          "datasource": "Loki",
+          "definition": "label_values(level)",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "Level",
+          "multi": true,
+          "name": "level",
+          "options": [
+            {
+              "selected": false,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "DEBUG",
+              "value": "DEBUG"
+            },
+            {
+              "selected": true,
+              "text": "ERROR",
+              "value": "ERROR"
+            },
+            {
+              "selected": false,
+              "text": "INFO",
+              "value": "INFO"
+            },
+            {
+              "selected": false,
+              "text": "debug",
+              "value": "debug"
+            },
+            {
+              "selected": true,
+              "text": "error",
+              "value": "error"
+            },
+            {
+              "selected": false,
+              "text": "info",
+              "value": "info"
+            },
+            {
+              "selected": true,
+              "text": "warn",
+              "value": "warn"
+            }
+          ],
+          "query": "label_values(level)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "tags": [],
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "Loki",
+          "definition": "label_values(source_code)",
+          "description": "Source code line",
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "Source",
+          "multi": true,
+          "name": "source_code",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "api/server.go:29",
+              "value": "api/server.go:29"
+            },
+            {
+              "selected": false,
+              "text": "api/server.go:49",
+              "value": "api/server.go:49"
+            },
+            {
+              "selected": false,
+              "text": "build/desiredpods.go:200",
+              "value": "build/desiredpods.go:200"
+            },
+            {
+              "selected": false,
+              "text": "build/desiredpods.go:203",
+              "value": "build/desiredpods.go:203"
+            },
+            {
+              "selected": false,
+              "text": "build/desiredpods.go:234",
+              "value": "build/desiredpods.go:234"
+            },
+            {
+              "selected": false,
+              "text": "build/desiredpods.go:244",
+              "value": "build/desiredpods.go:244"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:141",
+              "value": "build/main.go:141"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:172",
+              "value": "build/main.go:172"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:177",
+              "value": "build/main.go:177"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:34",
+              "value": "build/main.go:34"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:54",
+              "value": "build/main.go:54"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:57",
+              "value": "build/main.go:57"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:66",
+              "value": "build/main.go:66"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:79",
+              "value": "build/main.go:79"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:82",
+              "value": "build/main.go:82"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:86",
+              "value": "build/main.go:86"
+            },
+            {
+              "selected": false,
+              "text": "build/main.go:96",
+              "value": "build/main.go:96"
+            },
+            {
+              "selected": false,
+              "text": "checkpoint.go:95",
+              "value": "checkpoint.go:95"
+            },
+            {
+              "selected": false,
+              "text": "client.go:355",
+              "value": "client.go:355"
+            },
+            {
+              "selected": false,
+              "text": "compact.go:448",
+              "value": "compact.go:448"
+            },
+            {
+              "selected": false,
+              "text": "compact.go:507",
+              "value": "compact.go:507"
+            },
+            {
+              "selected": false,
+              "text": "config/config.go:384",
+              "value": "config/config.go:384"
+            },
+            {
+              "selected": false,
+              "text": "db.go:1230",
+              "value": "db.go:1230"
+            },
+            {
+              "selected": false,
+              "text": "dbo/dbo.go:138",
+              "value": "dbo/dbo.go:138"
+            },
+            {
+              "selected": false,
+              "text": "dispatch.go:309",
+              "value": "dispatch.go:309"
+            },
+            {
+              "selected": false,
+              "text": "filetarget.go:151",
+              "value": "filetarget.go:151"
+            },
+            {
+              "selected": false,
+              "text": "filetargetmanager.go:255",
+              "value": "filetargetmanager.go:255"
+            },
+            {
+              "selected": false,
+              "text": "filetargetmanager.go:271",
+              "value": "filetargetmanager.go:271"
+            },
+            {
+              "selected": false,
+              "text": "grpc_logging.go:38",
+              "value": "grpc_logging.go:38"
+            },
+            {
+              "selected": false,
+              "text": "head.go:880",
+              "value": "head.go:880"
+            },
+            {
+              "selected": false,
+              "text": "head.go:977",
+              "value": "head.go:977"
+            },
+            {
+              "selected": false,
+              "text": "kubernetes.go:266",
+              "value": "kubernetes.go:266"
+            },
+            {
+              "selected": false,
+              "text": "log.go:124",
+              "value": "log.go:124"
+            },
+            {
+              "selected": false,
+              "text": "log.go:168",
+              "value": "log.go:168"
+            },
+            {
+              "selected": false,
+              "text": "main.go:119",
+              "value": "main.go:119"
+            },
+            {
+              "selected": false,
+              "text": "main.go:944",
+              "value": "main.go:944"
+            },
+            {
+              "selected": false,
+              "text": "main.go:975",
+              "value": "main.go:975"
+            },
+            {
+              "selected": false,
+              "text": "metrics.go:91",
+              "value": "metrics.go:91"
+            },
+            {
+              "selected": false,
+              "text": "server.go:239",
+              "value": "server.go:239"
+            },
+            {
+              "selected": false,
+              "text": "storage/s3storage.go:107",
+              "value": "storage/s3storage.go:107"
+            },
+            {
+              "selected": false,
+              "text": "table.go:183",
+              "value": "table.go:183"
+            },
+            {
+              "selected": false,
+              "text": "table.go:322",
+              "value": "table.go:322"
+            },
+            {
+              "selected": false,
+              "text": "table.go:329",
+              "value": "table.go:329"
+            },
+            {
+              "selected": false,
+              "text": "table.go:336",
+              "value": "table.go:336"
+            },
+            {
+              "selected": false,
+              "text": "table.go:363",
+              "value": "table.go:363"
+            },
+            {
+              "selected": false,
+              "text": "table.go:421",
+              "value": "table.go:421"
+            },
+            {
+              "selected": false,
+              "text": "table.go:440",
+              "value": "table.go:440"
+            },
+            {
+              "selected": false,
+              "text": "table.go:71",
+              "value": "table.go:71"
+            },
+            {
+              "selected": false,
+              "text": "table.go:74",
+              "value": "table.go:74"
+            },
+            {
+              "selected": false,
+              "text": "table.go:90",
+              "value": "table.go:90"
+            },
+            {
+              "selected": false,
+              "text": "table_manager.go:171",
+              "value": "table_manager.go:171"
+            },
+            {
+              "selected": false,
+              "text": "table_manager.go:208",
+              "value": "table_manager.go:208"
+            },
+            {
+              "selected": false,
+              "text": "table_manager.go:224",
+              "value": "table_manager.go:224"
+            },
+            {
+              "selected": false,
+              "text": "table_manager.go:324",
+              "value": "table_manager.go:324"
+            },
+            {
+              "selected": false,
+              "text": "table_manager.go:476",
+              "value": "table_manager.go:476"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:126",
+              "value": "tailer.go:126"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:135",
+              "value": "tailer.go:135"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:142",
+              "value": "tailer.go:142"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:174",
+              "value": "tailer.go:174"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:212",
+              "value": "tailer.go:212"
+            },
+            {
+              "selected": false,
+              "text": "tailer.go:99",
+              "value": "tailer.go:99"
+            },
+            {
+              "selected": false,
+              "text": "util.go:55",
+              "value": "util.go:55"
+            },
+            {
+              "selected": false,
+              "text": "util.go:85",
+              "value": "util.go:85"
+            }
+          ],
+          "query": "label_values(source_code)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "",
+            "value": ""
+          },
+          "description": "Enter a query (e.g. .*test.*)",
+          "error": null,
+          "hide": 0,
+          "label": "Log Query (regex)",
+          "name": "regex_query",
+          "options": [
+            {
+              "selected": true,
+              "text": "",
+              "value": ""
+            }
+          ],
+          "query": "",
+          "skipUrlSync": false,
+          "type": "textbox"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Kidsloop Cluster logs overview",
+    "uid": "ggUchmn7z",
+    "version": 1
+  }
