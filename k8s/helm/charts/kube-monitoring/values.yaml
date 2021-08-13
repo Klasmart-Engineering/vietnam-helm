@@ -215,25 +215,25 @@ loki-stack:
 
     serviceAccount:
       annotations: {} # TODO - add role
-    # config:
-    #   # https://grafana.com/docs/loki/latest/configuration/examples/
-    #   schema_config:
-    #     configs:
-    #     - from: 2020-05-15
-    #       store: aws
-    #       object_store: s3
-    #       schema: v11
-    #       index:
-    #         prefix: loki_index
-    #         period: 0
-    #   storage_config:
-    #     aws:
-    #       s3: s3://us-east-2/loki-test-bucket-dev-east-2
-    #       dynamodb:
-    #         dynamodb_url: dynamodb://us-east-2
-    #   table_manager:
-    #     retention_deletes_enabled: true
-    #     retention_period: 336h
+    config:
+      # https://grafana.com/docs/loki/latest/configuration/examples/
+      # schema_config:
+      #   configs:
+      #   - from: 2020-05-15
+      #     store: aws
+      #     object_store: s3
+      #     schema: v11
+      #     index:
+      #       prefix: loki_index
+      #       period: 0
+      # storage_config:
+      #   aws:
+      #     s3: s3://us-east-2/loki-test-bucket-dev-east-2
+      #     dynamodb:
+      #       dynamodb_url: dynamodb://us-east-2
+      table_manager:
+        retention_deletes_enabled: true
+        retention_period: 168h  # 1 week retention
 
   promtail:
     # https://github.com/grafana/helm-charts/blob/main/charts/promtail/values.yaml
@@ -244,6 +244,21 @@ loki-stack:
     # -- Resource requests and limits
     resources: {}
 
+    image:
+      # -- The Docker registry
+      registry: docker.io
+      # -- Docker image repository
+      repository: grafana/promtail
+      # -- Overrides the image tag whose default is the chart's appVersion - use 2.3.0
+      tag: "2.3.0"
+      # -- Docker image pull policy
+      pullPolicy: IfNotPresent
+
+    serviceMonitor:
+      enabled: true
+      interval: "60s"
+      additionalLabels: {}
+      annotations: {}
     # Check version of promtail chart - config changes a lot between 2.2.0 (ours) and latest
     # https://github.com/grafana/helm-charts/blob/promtail-2.2.0/charts/promtail/templates/configmap.yaml
     # https://github.com/grafana/helm-charts/blob/promtail-2.2.0/charts/promtail/values.yaml
@@ -299,10 +314,72 @@ loki-stack:
         - drop:
             source: "path"
             expression: "/v1/ping"
-            drop_counter_reason: "ping"
+            drop_counter_reason: "cms-backend-ping"
         - timestamp:
             format: RFC3339
             source: timestamp
+
+    # Typescript/NodeJS log pipeline - use for backend services
+    - match:
+        selector: '{container="assessment|auth-backend|live-backend|user-service|xapi"}'
+        stages:
+        - multiline:
+            # RE2 regular expression, match lines which don't begin with whitespace or "}"
+            firstline: '^[^\s\}]+'
+        - regex:
+            # If an exception message, pull the error, stack trace, function name, source code and exception data out
+            expression: '\s*(?P<error>(?s:[^\n])*)\s*(?P<stack_trace>(?s:.*))at (?P<function_name>[^ ]*)\s*(?P<function_alias>\[as .*\])?\s+\((?P<source_code>[^ ]*)\)\s*(?P<exc_data>(?s:\{.*\}))*'
+        - labels:
+            error:
+            source_code:
+            function_name:
+
+    # SFU log pipeline
+    - match:
+        selector: '{app_kubernetes_io_instance="sfu",container="sfu"}'
+        stages:
+        - json:
+            expressions:
+              level: level
+              source_code: caller
+              msg: msg
+              ts: ts
+        - labels:
+            level:
+            source_code:
+        - timestamp:
+            format: Unix
+            source: ts
+
+    # SFU gateway log pipeline
+    - match:
+        selector: '{app_kubernetes_io_instance="sfu-gateway",container="sfu-gateway"}'
+        stages:
+        - drop:
+            # Drop + count "request" message
+            expression: "request"
+            drop_counter_reason: "sfu-gateway-request"
+
+    # Meta monitoring
+    - match:
+        selector: '{container=~"alertmanager|prometheus|prometheus-postgres-exporter|prometheus-redis-exporter|promtail|loki"}'
+        stages:
+        - regex:
+            # Pull level
+            expression: 'level=\"*(?P<level>([^\" ])+)\"*'
+        - regex:
+            # Pull source
+            expression: 'caller=\"*(?P<source_code>([^\" ])+)\"*'
+        - regex:
+            # Pull source
+            expression: '(time|ts)=\"*(?P<ts>([^\" ])+)\"*'
+        - labels:
+            level:
+            source_code:
+            function_name:
+        - timestamp:
+            format: RFC3339
+            source: ts
 
   fluent-bit:
     enabled: false
