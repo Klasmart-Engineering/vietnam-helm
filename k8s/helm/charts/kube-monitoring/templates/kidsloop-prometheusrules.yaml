@@ -12,12 +12,12 @@ spec:
     # We CAN have rules per-service by including them in the charts
     # namespace="{{ .Release.Namespace }}", container="{{ .Chart.Name }}"
     - alert: ServiceCrashLoop
-      expr: increase(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[10m]) >= 2
+      expr: increase(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[60m]) >= 2
       for: 5m
       labels:
         severity: critical
       annotations:
-        description: {{`Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) has restarted {{ printf "%.2f" $value }} times in 10 minutes.`}}
+        description: {{`Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) has restarted {{ printf "%.2f" $value }} times in 1 hour.`}}
         summary: Pod is crash looping.
         runbook: https://calmisland.atlassian.net/wiki/spaces/SRE/pages/1934491671/Auth+Services
         dashboard: https://{{ index .Values "kube-prometheus-stack" "grafana" "grafana.ini" "server" "domain" }}/grafana/d/pod-dash/kubernetes-pod-detail{{`?orgId=1&refresh=10s&var-datasource=Prometheus&var-cluster=&var-namespace={{ $labels.namespace }}&var-pod={{ $labels.pod }}`}}
