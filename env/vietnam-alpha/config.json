@@ -129,7 +129,7 @@
     "hub_max_replica_count": 2,
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "release-alpha-vn-alpha-65d64b8",
+    "live_frontend_image_tag": "release-alpha-vn-alpha-1441f6f",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 2,
@@ -167,7 +167,7 @@
     "user_service_max_replica_count": 2,
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-703e1d5",
+    "h5p_service_image_tag": "production-846a0a2",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 2,
 
