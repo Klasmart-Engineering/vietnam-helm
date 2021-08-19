@@ -34,5 +34,5 @@ bash gke.sh $ENV_NAME
 
 # install helm release for specific release
 bash helm.sh $ENV_NAME diff --release=live-frontend
-bash helm.sh indonesia-staging apply --release=live-frontend
+bash helm.sh $ENV_NAME apply --release=live-frontend
 ```
