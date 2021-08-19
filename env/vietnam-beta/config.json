@@ -178,7 +178,7 @@
     "xapi_max_replica_count": 6,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-19b0247",
+    "assessment_image_tag": "production-070d945",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
