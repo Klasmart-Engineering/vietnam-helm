@@ -271,6 +271,7 @@ releases:
               privileged: true
             {{- end }}
 
+{{- if eq .Values.provider "gcp" }}
   - name: kidsloop-servicemonitor
     namespace: okc  # Must be in same namespace as KL deployment
     chart: ../charts/kidsloop-servicemonitor
@@ -391,3 +392,4 @@ releases:
             labels:
               # instance: redis://{{ .Values.redis_host }}:6379
               dashboard_host: mon{{ .Values.kl_domain }}
+{{- end }}
