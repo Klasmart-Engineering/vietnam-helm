@@ -130,13 +130,13 @@
     "auth_backend_max_replica_count": 6,
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "dev-global-alpha-318b1f0",   
+    "cms_backend_image_tag": "dev-global-alpha-fd0d93b",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "dev-global-alpha-id-prod-cbe1566",
+    "cms_frontend_image_tag": "commit-id-prod-31610c4",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
@@ -192,7 +192,7 @@
     "xapi_max_replica_count": 6,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-19b0247",
+    "assessment_image_tag": "production-070d945",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 2,
     "assessment_max_replica_count": 6,
