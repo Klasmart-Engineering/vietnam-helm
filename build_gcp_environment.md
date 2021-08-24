@@ -164,8 +164,8 @@ bash make_secret_elasticsearch.sh $ENV_NAME
 cd k8s
 bash gke.sh $ENV_NAME
 
-# install helm releases
+# install helm release for specific release
 cd k8s
-bash helm.sh $ENV_NAME diff
-bash helm.sh $ENV_NAME apply
+bash helm.sh $ENV_NAME diff --release=live-frontend
+bash helm.sh $ENV_NAME apply --release=live-frontend
 ```
