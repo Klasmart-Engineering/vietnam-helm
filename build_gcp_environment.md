@@ -115,12 +115,6 @@ cd k8s
 # create k8s namespaces and secrets
 bash bootstrap.sh indonesia-rk-prod
 
-# create k8s secret with atlas db API keys
-kubectl -n okc create secret generic mongodb-atlas-cluster-secret \
-  --from-literal=orgId="TBD" \
-  --from-literal=privateApiKey="TBD" \
-  --from-literal=publicApiKey="TBD"
-
 # create k8s secret with AWS credentials for h5p service
 kubectl  -n okc create secret generic h5p-s3-secret \
   --from-literal=aws-access-key-id=<AWS_ACCESS_KEY_ID> \
@@ -139,10 +133,6 @@ kubectl -n okc create secret generic live-jwt-credentials \
 --from-file=public_key=/path/to/key \
 --from-literal=private_passphrase=<PASSPHRASE> \
 --from-literal=jwt-algorithm=<ALGORITHM>
-
-# h5p-service mongodb secret
-kubectl -n okc create secret generic h5p-mongodb-secret \
-  --from-literal=mongodb-password="TBD"
 
 # create xapi-dynamodb-secret
 CREDS=$(echo '''[default]
