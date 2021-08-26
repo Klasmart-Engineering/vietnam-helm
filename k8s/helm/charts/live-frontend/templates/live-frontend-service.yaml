@@ -4,10 +4,6 @@ metadata:
   name: {{ include "live-frontend.fullname" . }}-svc
   labels:
     {{- include "live-frontend.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "live-frontend"}'
-  {{- end}}
 spec:
   ports:
   - name: http
@@ -16,4 +12,4 @@ spec:
     targetPort: 80
   selector:
     {{- include "live-frontend.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.serviceType }}
+  type: ClusterIP

@@ -4,10 +4,6 @@ metadata:
   name: {{ include "xapi.fullname" . }}-svc
   labels:
     {{- include "xapi.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "xapi"}'
-  {{- end}}
 spec:
   ports:
   - name: http
@@ -16,4 +12,4 @@ spec:
     targetPort: 8080
   selector:
     {{- include "xapi.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.serviceType }}
+  type: ClusterIP

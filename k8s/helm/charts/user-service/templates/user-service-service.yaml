@@ -4,10 +4,6 @@ metadata:
   name: {{ include "user_service.fullname" . }}-svc
   labels:
     {{- include "user_service.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "user-service"}'
-  {{- end}}
 spec:
   ports:
   - name: http
@@ -16,4 +12,4 @@ spec:
     targetPort: 8080
   selector:
     {{- include "user_service.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.serviceType }}
+  type: ClusterIP

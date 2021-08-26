@@ -6,14 +6,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/enable-cors: "true"
-    kubernetes.io/ingress.global-static-ip-name: "ingress-https-load-balancer"
-    networking.gke.io/managed-certificates: mono-ingress
     kubernetes.io/ingress.allow-http: "false"
     cert-manager.io/cluster-issuer: "letsencrypt"
-
     # Rewrite/Proxy annotations - see here: https://kubernetes.github.io/ingress-nginx/examples/rewrite/#rewrite-target
     nginx.ingress.kubernetes.io/backend-protocol: {{ .Values.externalServices.h5p.serviceProtocol }}
-
     # https://github.com/kubernetes/ingress-nginx/issues/1600
 {{- if .Values.externalServices.h5p.externalName }}
     nginx.ingress.kubernetes.io/proxy-ssl-name: {{ .Values.externalServices.h5p.externalName }}
@@ -39,11 +35,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - hub{{ .Values.domain }}
-      - cms{{ .Values.domain }}
       - live{{ .Values.domain }}
-      - auth{{ .Values.domain }}
-      - api{{ .Values.domain }}
       secretName: tls-secret
 
   rules:
