@@ -23,9 +23,9 @@ fullnameOverride: ""
 redisPort: 6379
 
 ingress:
-  annotations:
+  annotations: {
     cert-manager.io/cluster-issuer: "letsencrypt"
-    kubernetes.io/ingress.class: "nginx"
+  }
   hosts: {
   }
   tls: [
