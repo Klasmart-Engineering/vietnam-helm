@@ -87,6 +87,7 @@
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
         "region": "ap-southeast-1",
         "bucket": "klid-rk-prod-cms-res",
+        "pdf_bucket": "kidsloop-pdf-bucket-prod",
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://res.rumahkisah.net",
@@ -164,7 +165,6 @@
     "pdf_service_image_pull_secrets": "ecr-registry-infra",
     "pdf_service_min_replica_count": 2,
     "pdf_service_max_replica_count": 6,
-    "pdf_service_pdf_bucket": "kidsloop_pdf_bucket",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "redis-query-675c1ce",

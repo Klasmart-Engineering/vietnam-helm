@@ -32,19 +32,19 @@ spec:
             containerPort: 8080
         startupProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /.well-known/express/server-health
             port: http
           failureThreshold: 30
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /.well-known/express/server-health
             port: http
           initialDelaySeconds: 5
           periodSeconds: 5
         livenessProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /.well-known/express/server-health
             port: http
           initialDelaySeconds: 10
           periodSeconds: 5
@@ -64,7 +64,9 @@ spec:
           - name: AWS_BUCKET
             value: {{ .Values.pdf_bucket }}              
           - name: CMS_BASE_URL
-            value: {{ .Values.cms_host }}                                        
+            value: {{ .Values.cms_base_url }}
+          - name: DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(DB_PASSWORD)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"                                                    
           - name: DB_HOST
             value: {{ .Values.postgresql_host }}
           - name: DB_USER
@@ -78,8 +80,20 @@ spec:
               secretKeyRef:
                 name: postgresql
                 key: postgresql-password
-          - name: DATABASE_URL
-            value: "postgres://{{ .Values.postgresql_username }}:$(DB_PASSWORD)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
+          - name: AWS_SECRET_KEY_NAME
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: aws_access_key_id
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: secret_access_key
+          - name: AWS_REGION
+            value: {{ .Values.pdf_bucket_region }}
+          - name: AWS_S3_HOST
+            value: {{ .Values.pdf_bucket_endpoint }}            
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1

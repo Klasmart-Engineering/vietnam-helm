@@ -24,7 +24,11 @@ ingress:
         secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
       }
   ]
-  
+
+pdf_bucket: "pdf-bucket"
+pdf_bucket_region: "ap-southeast-1"
+pdf_bucket_endpoint: "https://s3.ap-southeast-1.amazonaws.com"
+
 resources: {}
 
 sqlProxy:
