@@ -48,7 +48,6 @@ releases:
             cert-manager.io/cluster-issuer: "letsencrypt"
             kubernetes.io/ingress.class: "nginx"
             ingress.kubernetes.io/enable-cors: "true"
-            nginx.ingress.kubernetes.io/websocket-services: "live-frontend-svc,live-backend-svc,sfu-gateway-svc"
             nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
             nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
             nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
