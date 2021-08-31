@@ -1,0 +1,35 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  {{- if eq .Values.provider "gcp" }}
+  - name: h5p-service-external
+    namespace: okc
+    chart: ../charts/h5p-service-external
+    values:
+      - domain: {{ .Values.kl_domain }}
+      # RK - use H5P in SG
+      - externalServices:
+          h5p:
+            enabled: true
+  {{- end}}

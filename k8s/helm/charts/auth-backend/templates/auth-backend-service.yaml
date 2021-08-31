@@ -4,10 +4,6 @@ metadata:
   name: {{ include "auth-backend.fullname" . }}-svc
   labels:
     {{- include "auth-backend.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "auth-backend"}'
-  {{- end}}
 spec:
   ports:
   - name: http

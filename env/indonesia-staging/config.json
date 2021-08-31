@@ -2,7 +2,7 @@
     "provider": "gcp",
     "terraform_bucket": "kidsloop-indonesia-terraform",
     "k8s_namespace_kidsloop": "okc",
-    "k8s_service_type": "NodePort",
+    "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.id",
     "domain": "beta.kidsloop.id",
     "deployment_name": "indonesia-staging",

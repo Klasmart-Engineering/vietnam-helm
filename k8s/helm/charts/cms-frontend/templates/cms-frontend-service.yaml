@@ -4,10 +4,6 @@ metadata:
   name: {{ include "cms-frontend.fullname" . }}-svc
   labels:
     {{- include "cms-frontend.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "cms-frontend"}'
-  {{- end}}
 spec:
   ports:
   - name: http
