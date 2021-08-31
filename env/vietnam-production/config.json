@@ -139,8 +139,8 @@
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "master-4d0c20f",
     "live_backend_image_pull_secrets": "ecr-registry-infra",
-    "live_backend_min_replica_count": 4,
-    "live_backend_max_replica_count": 8,
+    "live_backend_min_replica_count": 8,
+    "live_backend_max_replica_count": 16,
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "master-933fb38",
@@ -154,7 +154,7 @@
     "sfu_pods_cpu_request": "1000m",
     "sfu_pods_cpu_limit": "1200m",
     "sfu_pods_memory_request": "1Gi",
-    "sfu_pods_memory_limit": "4Gi",
+    "sfu_pods_memory_limit": "3Gi",
     
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-ba9cc3d",
