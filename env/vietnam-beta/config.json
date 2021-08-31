@@ -141,7 +141,7 @@
     "live_backend_max_replica_count": 6,
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "redis-query-675c1ce",
+    "sfu_manager_image_tag": "master-933fb38",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
     "sfu_manager_replica_count": 1,
 
