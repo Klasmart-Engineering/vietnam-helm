@@ -49,10 +49,10 @@ releases:
         resources:
           requests:
             cpu: 200m
-            memory: 1Gi
+            memory: 256Mi
           limits:
             cpu: 1000m
-            memory: 2Gi
+            memory: 1Gi
         pdf_bucket: {{ .Values.storage.pdf_bucket }}
         pdf_bucket_region: {{ .Values.storage.region }}
         pdf_bucket_endpoint: {{ .Values.storage.endpoint }}    
