@@ -4,10 +4,6 @@ metadata:
   name: {{ include "pdf-service.fullname" . }}-svc
   labels:
     {{- include "pdf-service.labels" . | nindent 4 }}
-  {{- if eq .Values.provider "gcp"}}
-  annotations:
-    cloud.google.com/backend-config: '{"default": "pdf-service"}'
-  {{- end}}
 spec:
   ports:
   - name: http
