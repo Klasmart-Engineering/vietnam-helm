@@ -1,0 +1,79 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+      
+releases:
+  - name: pdf-service
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/pdf-service
+    values:
+      - provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        prometheus_enabled: {{ .Values.helm_prometheus.enabled }}
+        image:
+          repository: {{ .Values.pdf_service_image_repository }} 
+          tag: {{ .Values.pdf_service_image_tag }}
+        imagePullSecrets:
+          - name: {{ .Values.pdf_service_image_pull_secrets }}
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            kubernetes.io/ingress.class: "nginx"
+            ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/send-timeout: "3600"
+            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"            
+          tls:
+            - endpoint:
+                hosts:
+                  - live{{ .Values.kl_domain }}
+                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
+          hosts:
+            - host: live{{ .Values.kl_domain }}
+              paths:
+                - "/pdf"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        pdf_bucket: {{ .Values.storage.pdf_bucket }}
+        pdf_bucket_region: {{ .Values.storage.region }}
+        pdf_bucket_endpoint: {{ .Values.storage.endpoint }}    
+        cms_base_url: {{- if eq .Values.provider "gcp" }} https://live{{ .Values.kl_domain }} {{- else }} https://cdn-live{{ .Values.kl_domain }} {{- end }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+        {{ end }}
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.pdf_service_min_replica_count }}
+          maxReplicas: {{ .Values.pdf_service_max_replica_count }}

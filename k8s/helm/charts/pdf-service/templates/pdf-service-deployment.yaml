@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pdf-service.fullname" . }}
+  labels:
+    {{- include "pdf-service.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "pdf-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pdf-service.selectorLabels" . | nindent 8 }}
+        redis-client: "true"
+    spec:
+      {{- if .Values.hostNetworking }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        startupProbe:
+          httpGet:
+            path: /.well-known/express/server-health
+            port: http
+          failureThreshold: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /.well-known/express/server-health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /.well-known/express/server-health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        env:
+          - name: NODE_ENV
+            value: "production"        
+          - name: ROUTE_PREFIX
+            value: "/pdf"
+          - name: LOG_LEVEL
+            value: "silly"            
+          - name: PORT
+            value: "8080"
+          - name: LOG_STYLE
+            value: "JSON"  
+          - name: TYPEORM_LOGGING
+            value: "true"
+          - name: AWS_BUCKET
+            value: {{ .Values.pdf_bucket }}              
+          - name: CMS_BASE_URL
+            value: {{ .Values.cms_base_url }}                                                   
+          - name: DB_HOST
+            value: {{ .Values.postgresql_host }}
+          - name: DB_USER
+            value: {{ .Values.postgresql_username }}
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_DATABASE
+            value: {{ .Values.postgresql_database }}
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
+          - name: AWS_SECRET_KEY_NAME
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: aws_access_key_id
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: secret_access_key
+          - name: AWS_REGION
+            value: {{ .Values.pdf_bucket_region }}
+          - name: AWS_S3_HOST
+            value: {{ .Values.pdf_bucket_endpoint }}            
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}
