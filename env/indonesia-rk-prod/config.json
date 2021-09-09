@@ -149,13 +149,13 @@
     "hub_max_replica_count": 6,
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "commit-id-rk_prod-1441f6f",
+    "live_frontend_image_tag": "release-2-0-14-id-rk_prod-8cc47e6",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 2,
     "live_frontend_max_replica_count": 6,
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
-    "live_backend_image_tag": "master-4d0c20f",
+    "live_backend_image_tag": "master-dd272c0",
     "live_backend_image_pull_secrets": "ecr-registry-infra",
     "live_backend_min_replica_count": 2,
     "live_backend_max_replica_count": 6,
@@ -172,7 +172,7 @@
     "sfu_manager_replica_count": 1,
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "master-c0f42a2",
+    "sfu_image_tag": "master-143d0ff",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 2,
     "sfu_pods_cpu_request": "1000m",
