@@ -131,13 +131,13 @@
     "auth_backend_max_replica_count": 6,
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "hotfix-folder-move-8cf9c82",
+    "cms_backend_image_tag": "main-5172adc",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "commit-id-rk_prod-31610c4",
+    "cms_frontend_image_tag": "commit-id-rk_prod-da91ac1",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
@@ -187,7 +187,7 @@
     "sfu_gateway_max_replica_count": 6,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "master-d47b925",
+    "user_service_image_tag": "hotfix-ud-934-7e8b4da",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 2,
     "user_service_max_replica_count": 6,
