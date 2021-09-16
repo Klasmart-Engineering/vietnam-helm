@@ -174,7 +174,7 @@
     "user_service_max_replica_count": 6,
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-b7557b7",
+    "h5p_service_image_tag": "production-53f2230",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 3,
 
