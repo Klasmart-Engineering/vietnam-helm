@@ -29,3 +29,9 @@ spec:
       value: '84'
     - name: innodb_ft_min_token_size
       value: '1'
+    - name: slow_query_log
+      value: 'on'
+    - name: long_query_time
+      value: '1'
+    - name: log_output
+      value: 'FILE'
