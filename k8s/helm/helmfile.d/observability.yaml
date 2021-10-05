@@ -249,8 +249,9 @@ releases:
                   - mon{{ .Values.kl_domain }}
 
         loki-stack:
+          enabled: {{ .Values.helm_prometheus.enabled }}
           promtail:
-            enabled: true
+            enabled: false
             {{- if ne .Values.provider "gcp" }}
             resources:
               limits:

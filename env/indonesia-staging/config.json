@@ -14,10 +14,10 @@
     "desired_pods_getter": "redis",
     
     "helm_prometheus": {
-        "enabled": true
+        "enabled": false
     },
     "helm_kube_monitoring": {
-        "enabled": true
+        "enabled": false
     },
     "helm_cert_manager": {
         "enabled": true
