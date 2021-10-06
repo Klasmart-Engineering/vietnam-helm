@@ -68,7 +68,7 @@ prometheus-postgres-exporter:
     enabled: true
 
   prometheusRule:
-    enabled: true
+    enabled: false
     additionalLabels: {}
     namespace: "okc"
     rules:
