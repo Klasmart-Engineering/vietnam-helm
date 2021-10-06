@@ -110,6 +110,8 @@ kube-prometheus-stack:
       # server:
       #   # The full public facing url you use in browser, used for redirects and emails
       #   root_url: 
+      server:
+        domain: example.com
 
     ingress:
       enabled: false

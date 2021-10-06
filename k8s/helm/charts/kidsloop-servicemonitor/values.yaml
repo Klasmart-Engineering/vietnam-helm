@@ -1,10 +1,10 @@
 prometheus-mysql-exporter:
-  enabled: true
+  enabled: false
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-mysql-exporter/values.yaml
 
   serviceMonitor:
     # enabled should be set to true to enable prometheus-operator discovery of this service
-    enabled: true
+    enabled: false
 
   collectors:
     # auto_increment.columns: false
@@ -61,14 +61,14 @@ prometheus-mysql-exporter:
   #     key: mysql-password
 
 prometheus-postgres-exporter:
-  enabled: true
+  enabled: false
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-postgres-exporter/values.yaml
   serviceMonitor:
     # enabled should be set to true to enable prometheus-operator discovery of this service
-    enabled: true
+    enabled: false
 
   prometheusRule:
-    enabled: true
+    enabled: false
     additionalLabels: {}
     namespace: "okc"
     rules:
@@ -492,7 +492,7 @@ prometheus-postgres-exporter:
   # {{- end }}
 
 prometheus-redis-exporter:
-  enabled: true
+  enabled: false
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-redis-exporter/values.yaml
   # redisAddress: redis://{{ .Values.redis_host }}:6379
   auth:
@@ -506,7 +506,7 @@ prometheus-redis-exporter:
     redisPassword: ""
   serviceMonitor:
     # When set true then use a ServiceMonitor to configure scraping
-    enabled: true
+    enabled: false
 
   ## Custom PrometheusRules to be defined
   ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart

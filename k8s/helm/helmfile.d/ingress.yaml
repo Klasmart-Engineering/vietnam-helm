@@ -62,3 +62,28 @@ releases:
               nginx.ingress.kubernetes.io/enable-cors: "true"
               beta.cloud.google.com/backend-config: >
                 {"ports": {"80": "nginx", "443": "nginx"}}
+{{- if (or (.Values.helm_kube_monitoring.enabled) (.Values.helm_prometheus.enabled) ) }}
+      - controller:
+          metrics:
+            # Additional config for NGINX service monitor (prometheus)
+            # https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml#L571
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              # additionalLabels: {}
+              # The label to use to retrieve the job name from.
+              # jobLabel: "app.kubernetes.io/name"
+              namespace: ""
+              namespaceSelector: {}
+              # Default: scrape .Release.Namespace only
+              # To scrape all, use the following:
+              # namespaceSelector:
+              #   any: true
+              scrapeInterval: 30s
+              # honorLabels: true
+              targetLabels: []
+              metricRelabelings: []
+
+            prometheusRule:
+              enabled: false
+{{- end }}
