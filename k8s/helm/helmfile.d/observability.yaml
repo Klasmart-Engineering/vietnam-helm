@@ -107,12 +107,14 @@ releases:
             existingPasswordSecret:
               name: mysql
               key: mysql-password
-
+          prometheusRule:
+            enabled: false
+            
         prometheus-postgres-exporter:
           enabled: true
           # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-postgres-exporter/values.yaml
           prometheusRule:
-            enabled: true
+            enabled: false
             additionalLabels: {}
             namespace: "okc"
             rules:
@@ -203,4 +205,6 @@ releases:
             labels:
               # instance: redis://{{ .Values.redis_host }}:6379
               dashboard_host: mon{{ .Values.kl_domain }}
+          prometheusRule:
+            enabled: false
 {{- end }}
