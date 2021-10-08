@@ -119,7 +119,7 @@
     "base_url_h5p": "https://h5p.beta.kidsloop.id",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "commit-id-beta-7d3e48f",
+    "auth_frontend_image_tag": "commit-id-beta-f20994e",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 2,
     "auth_frontend_max_replica_count": 6,
@@ -143,7 +143,7 @@
     "cms_frontend_max_replica_count": 6,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-beta-efc75dc",
+    "hub_image_tag": "commit-id-beta-e27594b",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 2,
     "hub_max_replica_count": 6,
@@ -187,7 +187,7 @@
     "sfu_gateway_max_replica_count": 6,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2-1-0-b5b62f6",
+    "user_service_image_tag": "release-2-1-1-9fbd792",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 2,
     "user_service_max_replica_count": 6,
