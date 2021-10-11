@@ -70,10 +70,6 @@ spec:
           {{- if .Values.liveJwtKey.enabled }}
           - name: JWT_ISSUER
             value: "kidsloop-live"
-          - name: JWT_ACCESS_TOKEN_DURATION
-            value: "900"
-          - name: JWT_REFRESH_TOKEN_DURATION
-            value: "1206000"
           - name: JWT_ALGORITHM
             valueFrom:
               secretKeyRef:
