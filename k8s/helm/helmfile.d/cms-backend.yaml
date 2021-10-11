@@ -56,7 +56,7 @@ releases:
             - endpoint:
                 hosts:
                   - cms{{ .Values.kl_domain }}
-                secretName: "letsencrypt-cms{{ .Values.kl_domain }}"
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-cms{{ .Values.kl_domain }}" {{- end }}
           hosts:
             - host: cms{{ .Values.kl_domain }}
               paths:

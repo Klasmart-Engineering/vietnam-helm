@@ -52,7 +52,7 @@ releases:
             - endpoint:
                 hosts:
                   - hub{{ .Values.kl_domain }}      
-                secretName: "letsencrypt-hub{{ .Values.kl_domain }}" 
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-hub{{ .Values.kl_domain }}" {{- end }}
           hosts:
             - host: hub{{ .Values.kl_domain }}
               paths:
