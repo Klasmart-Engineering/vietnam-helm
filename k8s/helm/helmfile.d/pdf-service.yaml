@@ -53,7 +53,7 @@ releases:
           hosts:
             - host: live{{ .Values.kl_domain }}
               paths:
-                - "/pdf"
+                - "/pdf/"
         resources:
           requests:
             cpu: 200m

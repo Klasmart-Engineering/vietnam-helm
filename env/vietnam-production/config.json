@@ -102,7 +102,7 @@
     "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-alpha-vn-prod-7305b99",
+    "auth_frontend_image_tag": "commit-vn-prod-7d3e48f",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 4,
     "auth_frontend_max_replica_count": 8,
@@ -114,25 +114,25 @@
     "auth_backend_max_replica_count": 8,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "main-vn-prod-59f514b",
+    "cms_frontend_image_tag": "hotfix-20210930-vn-prod-9c7c598",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 4,
     "cms_frontend_max_replica_count": 8,
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "main-a09266e",
+    "cms_backend_image_tag": "hotfix-20210928-29aca00",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 4,
     "cms_backend_max_replica_count": 8,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-vn-prod-1776e13",
+    "hub_image_tag": "commit-vn-prod-efc75dc",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 4,
     "hub_max_replica_count": 8,
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "vietnam-2-0-15-vn-prod-85222ad",
+    "live_frontend_image_tag": "vietnam-2-0-15-vn-prod-b834255",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 4,
     "live_frontend_max_replica_count": 8,
@@ -170,7 +170,7 @@
     "sfu_gateway_max_replica_count": 8,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "hotfix-ud-751-dc7c49a",
+    "user_service_image_tag": "v2-1-0-b5b62f6",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 4,
     "user_service_max_replica_count": 8,
@@ -187,7 +187,7 @@
     "xapi_max_replica_count": 8,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-070d945",
+    "assessment_image_tag": "production-fc14b81",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 4,
     "assessment_max_replica_count": 8,
