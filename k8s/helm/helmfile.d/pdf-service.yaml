@@ -49,7 +49,7 @@ releases:
             - endpoint:
                 hosts:
                   - live{{ .Values.kl_domain }}
-                secretName: "letsencrypt-live{{ .Values.kl_domain }}"
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-live{{ .Values.kl_domain }}" {{- end }}
           hosts:
             - host: live{{ .Values.kl_domain }}
               paths:

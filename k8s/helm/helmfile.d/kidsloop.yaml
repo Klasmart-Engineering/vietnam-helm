@@ -142,7 +142,7 @@ releases:
             - endpoint:
                 hosts:
                   - h5p{{ .Values.kl_domain }}
-                secretName: "letsencrypt-h5p{{ .Values.kl_domain }}"
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
           hosts:
             - host: h5p{{ .Values.kl_domain }}
               paths:

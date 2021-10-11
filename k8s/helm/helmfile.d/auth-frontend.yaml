@@ -50,7 +50,7 @@ releases:
             - endpoint:
                 hosts:
                   - auth{{ .Values.kl_domain }}      
-                secretName: "letsencrypt-auth{{ .Values.kl_domain }}" 
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-auth{{ .Values.kl_domain }}" {{- end }}
           hosts:
             - host: auth{{ .Values.kl_domain }}
               paths:
