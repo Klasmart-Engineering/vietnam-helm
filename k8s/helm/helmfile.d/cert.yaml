@@ -28,6 +28,7 @@ repositories:
 
 releases:
 
+  {{- if ne .Values.kl_domain ".kidsloop.vn" }}
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
@@ -39,6 +40,7 @@ releases:
   - name: letsencrypt
     chart: ../charts/letsencrypt
     namespace: cert-manager
+  {{- end }}  
 
 
 
