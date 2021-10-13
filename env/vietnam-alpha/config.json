@@ -100,7 +100,7 @@
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "commit-vn-alpha-7d3e48f",
+    "auth_frontend_image_tag": "release-alpha-vn-alpha-f20994e",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 2,
@@ -124,7 +124,7 @@
     "cms_backend_max_replica_count": 2,
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-vn-alpha-efc75dc",
+    "hub_image_tag": "commit-vn-alpha-e27594b",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 2,
@@ -168,7 +168,7 @@
     "sfu_gateway_max_replica_count": 2,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2-1-0-b5b62f6",
+    "user_service_image_tag": "release-2-1-1-9fbd792",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 2,
