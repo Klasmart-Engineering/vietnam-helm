@@ -1,0 +1,8 @@
+{{- if eq .Values.provider "vngcloud" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cms-backend.fullname" . }}-sql-cm
+data:
+{{ ( .Files.Glob "sql/*" ).AsConfig | indent 2 }}
+{{- end }}

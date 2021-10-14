@@ -24,7 +24,28 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    
+      {{- if eq .Values.provider "vngcloud" }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: flyway/flyway:latest
+        args:
+          - "migrate"
+          - "-user=$(db_username)"
+          - "-url=jdbc:mysql://$(db_hostname):$(db_port)/$(db_name)"
+          - "-password=$(MYSQL_PASSWORD)"
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: mysql-password
+        envFrom:
+          - configMapRef:
+              name: {{ include "cms-backend.fullname" . }}-cm
+        volumeMounts:
+          - name: sql-migration
+            mountPath: /flyway/sql
+      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         command: [ "sh", "-c" ]
@@ -104,7 +125,12 @@ spec:
       #     secret:
       #       secretName: {{ include "cms-backend.fullname" . }}-s3-secret
       #   {{ end }}
-        
+      {{- if eq .Values.provider "vngcloud" }}
+      volumes:
+        - name: sql-migration
+          configMap:
+            name: {{ include "cms-backend.fullname" . }}-sql-cm
+      {{- end }}
       {{- if eq .Values.provider "gcp" }}
       serviceAccountName: cloudsql-proxy
       {{- end }}
