@@ -149,7 +149,7 @@
     "hub_max_replica_count": 6,
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "release-id-2-0-15-id-beta-85222ad",
+    "live_frontend_image_tag": "2-0-16-hotfix-0-id-id-beta-134df8b",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 2,
     "live_frontend_max_replica_count": 6,
