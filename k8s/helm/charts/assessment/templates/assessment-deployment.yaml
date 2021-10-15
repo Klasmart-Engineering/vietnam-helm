@@ -48,6 +48,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: USE_XAPI_SQL_DATABASE_FLAG
+            value: "1"
           - name: ROUTE_PREFIX
             value: "/assessment"
           - name: USER_SERVICE_API_URL
@@ -68,6 +70,8 @@ spec:
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
           - name: ASSESSMENT_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_assessment_database }}"
+          - name: XAPI_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_xapi_database }}"
           - name: AWS_REGION
             value: {{ .Values.aws_region }}            
           - name: DYNAMODB_TABLE_NAME

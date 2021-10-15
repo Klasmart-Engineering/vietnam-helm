@@ -59,6 +59,10 @@ releases:
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
+        postgresql_xapi_database: {{ .Values.postgresql_xapi_database }}
         postgresql_instance: {{ .Values.postgresql_database }}
         {{- end }}
         aws_region: {{ .Values.dynamodb_aws_region }}

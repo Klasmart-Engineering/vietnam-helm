@@ -58,6 +58,7 @@
         "postgresql": {
             "name": "kidsloop-postgresql-99999",
             "assessment_database": "assessment",
+            "xapi_database": "xapidbrecord",
             "version":   "POSTGRES_11",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",
@@ -113,7 +114,7 @@
     "dynamodb_table_name": "id-rk-prod",
     "elasticsearch_url": "",
     "elasticsearch_username": "",
-    "firehose_steam_name": "",
+    "firehose_steam_name": "kl-prod-xapi",
 
     "base_url_user": "https://api.rumahkisah.net/user/",
     "base_url_h5p": "https://h5p.rumahkisah.net",
@@ -198,13 +199,13 @@
     "h5p_service_replica_count": 2,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "production-fc81c47",
+    "xapi_image_tag": "alpha-0fa32d1",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 2,
     "xapi_max_replica_count": 6,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-fc14b81",
+    "assessment_image_tag": "alpha-d9b0710",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 2,
     "assessment_max_replica_count": 6,

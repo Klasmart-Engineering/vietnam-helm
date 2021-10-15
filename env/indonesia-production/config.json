@@ -58,6 +58,7 @@
         "postgresql": {
             "name": "kidsloop-postgresql-99999",
             "assessment_database": "assessment",
+            "xapi_database": "xapidbrecord",
             "version":   "POSTGRES_11",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",
@@ -113,7 +114,7 @@
     "elasticsearch_username": "",
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "id-prod",
-    "firehose_steam_name": "",
+    "firehose_steam_name": "kl-prod-xapi",
 
     "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.id",

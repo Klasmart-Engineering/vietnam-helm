@@ -41,6 +41,7 @@ releases:
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
         postgresql_assessment_database: {{ .Values.postgresql_assessment_database }}
+        postgresql_xapi_database: {{ .Values.postgresql_xapi_database }}
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
