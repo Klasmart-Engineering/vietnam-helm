@@ -66,6 +66,7 @@ releases:
             memory: 2Gi
         redisHost: {{ .Values.redis_host }}
         assessmentEndpoint: https://cms{{ .Values.kl_domain }}/v1/assessments
+        studentReportEndpoint: https://cms{{ .Values.kl_domain }}/v1/student_usage_record/event
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
