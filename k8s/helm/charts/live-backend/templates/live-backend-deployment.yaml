@@ -49,6 +49,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: STUDENT_REPORT_ENDPOINT
+            value: {{ .Values.studentReportEndpoint }}
           - name: NODE_ENV
             value: "beta"
           - name: PORT
