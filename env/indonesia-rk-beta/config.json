@@ -199,21 +199,13 @@
     "h5p_service_replica_count": 2,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-<<<<<<< HEAD
-    "xapi_image_tag": "alpha-0fa32d1",
-=======
     "xapi_image_tag": "production-aa75804",
->>>>>>> origin
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 1,
     "xapi_max_replica_count": 6,
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-<<<<<<< HEAD
-    "assessment_image_tag": "alpha-6f472b6",
-=======
     "assessment_image_tag": "production-66ea74f",
->>>>>>> origin
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
