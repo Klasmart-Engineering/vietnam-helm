@@ -198,7 +198,7 @@
     "h5p_service_replica_count": 1,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "production-aa75804",
+    "xapi_image_tag": "production-b1032cd",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 1,
     "xapi_max_replica_count": 6,
