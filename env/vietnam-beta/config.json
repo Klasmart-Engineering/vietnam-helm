@@ -4,6 +4,8 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.vn",
     "domain": "beta.kidsloop.vn",
+    "deployment_region": "vietnam",
+    "deployment_name": "vietnam-beta",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-beta",
     "env": "beta",
@@ -113,13 +115,13 @@
     "auth_backend_max_replica_count": 6,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "main-vn-beta-53c8855",
+    "cms_frontend_image_tag": "hotfix-20211019-vn-beta-0551946",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "main-0744d97",
+    "cms_backend_image_tag": "hotfix-20211019-1d12347",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
@@ -175,7 +177,7 @@
     "user_service_max_replica_count": 6,
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-2d7bdd2",
+    "h5p_service_image_tag": "production-127b4f9",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 3,
 

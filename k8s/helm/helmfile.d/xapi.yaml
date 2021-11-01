@@ -28,6 +28,9 @@ releases:
     values:
       - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
         image:
           repository: "{{ .Values.xapi_image_repository }}"
           tag: "{{ .Values.xapi_image_tag }}"

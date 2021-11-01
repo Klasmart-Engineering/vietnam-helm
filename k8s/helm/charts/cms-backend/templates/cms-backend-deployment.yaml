@@ -104,6 +104,20 @@ spec:
                 name: cms-backend-s3-secret
                 key: secret_access_key
         {{ end }}
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "cms-backend.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "cms-backend.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
+
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- if eq .Values.provider "gcp" }}

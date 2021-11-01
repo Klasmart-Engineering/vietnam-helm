@@ -91,7 +91,20 @@ spec:
           - name: AWS_REGION
             value: {{ .Values.pdf_bucket_region }}
           - name: AWS_S3_HOST
-            value: {{ .Values.pdf_bucket_endpoint }}            
+            value: {{ .Values.pdf_bucket_endpoint }}
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "pdf-service.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "pdf-service.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY          
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
