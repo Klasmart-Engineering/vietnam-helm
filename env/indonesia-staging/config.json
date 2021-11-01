@@ -69,6 +69,19 @@
                 "type": "PD_SSD"
             }
         },
+        "postgresql": {
+            "name": "kidsloop-beta-postgresql-99999",
+            "assessment_database": "assessment",
+            "version":   "POSTGRES_12",
+            "tier":      "db-custom-2-7680",
+            "charset":   "UTF8",
+            "collation": "en_US.UTF8",
+            "user":      "kidsloop-postgresql",
+            "disk": {
+                "size": 10, 
+                "type": "PD_SSD"
+            }
+        },
         "redis": {
             "name": "kidsloop-99999",
             "display_name": "kidsloop",

@@ -89,6 +89,23 @@ releases:
           postgresql_disk_type: {{ .Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Values.gcp.postgresql.user }}
 
+  - name: gke-postgresql-beta
+    namespace: config-connector
+    chart: charts/postgresql
+    values:
+      - gcp:
+          region: {{ .Values.terraform_region }}
+          network: {{ .Values.terraform_vpc.value }}
+          project: {{ .Values.terraform_project }}
+          postgresql_name: {{ .Values.gcp.postgresql.name }}
+          postgresql_version: {{ .Values.gcp.postgresql.version }}
+          postgresql_tier: {{ .Values.gcp.postgresql.tier }}
+          postgresql_charset: {{ .Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Values.gcp.postgresql.collation }}
+          postgresql_disk_size: {{ .Values.gcp.postgresql.disk.size }}
+          postgresql_disk_type: {{ .Values.gcp.postgresql.disk.type }}
+          postgresql_user: {{ .Values.gcp.postgresql.user }}
+
   - name: gke-postgres-sql-proxy
     namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
     chart: charts/postgres-sql-proxy
@@ -102,6 +119,17 @@ releases:
       - {{ .Environment.Values.k8s_namespace_kidsloop }}/cloudsql-proxy
 
   - name: gke-postgresql-db-assessment
+    namespace: config-connector
+    chart: charts/postgresql-db
+    values:
+      - gcp:
+          project: {{ .Values.terraform_project }}
+          postgresql_name: {{ .Values.gcp.postgresql.name }}
+          postgresql_db_name: {{ .Values.gcp.postgresql.assessment_database }}
+          postgresql_charset: {{ .Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Values.gcp.postgresql.collation }}
+
+  - name: gke-postgresql-beta-db-assessment
     namespace: config-connector
     chart: charts/postgresql-db
     values:
