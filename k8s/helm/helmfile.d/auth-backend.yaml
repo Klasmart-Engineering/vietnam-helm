@@ -27,6 +27,9 @@ releases:
     chart: ../charts/auth-backend
     values:
       - provider: {{ .Values.provider }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
         serviceType: {{ .Values.k8s_service_type }}
         imagePullSecrets:
           - name: {{ .Values.auth_backend_image_pull_secrets }}

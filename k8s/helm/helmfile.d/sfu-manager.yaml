@@ -38,6 +38,9 @@ releases:
           imagePullSecrets:
             - name: {{ .Values.sfu_image_pull_secrets }}
         provider: {{ .Values.provider }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
         serviceType: {{ .Values.k8s_service_type }}
       # Important - use host networking in GCP, and use pod IP as hostname
         hostNetworking: true  # SFU addressable over internet

@@ -5,6 +5,7 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.id",
     "domain": "beta.kidsloop.id",
+    "deployment_region": "indonesia",
     "deployment_name": "indonesia-staging",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/indonesia-staging",

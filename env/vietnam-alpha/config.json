@@ -4,6 +4,8 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".alpha.kidsloop.vn",
     "domain": "alpha.kidsloop.vn",
+    "deployment_region": "vietnam",
+    "deployment_name": "vietnam-alpha",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-alpha",
     "env": "alpha",

@@ -72,6 +72,19 @@ spec:
             value: {{ .Values.aws_region }}            
           - name: DYNAMODB_TABLE_NAME
             value: {{ .Values.dynamodb_table_name }}
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "assessment.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deploument_env }};Version:{{  .Values.image.tag }};Component:{{ include "assessment.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
         volumeMounts:
           - name: xapi-dynamodb-secret
             mountPath: /root/.aws

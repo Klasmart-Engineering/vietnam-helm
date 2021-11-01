@@ -70,7 +70,19 @@ spec:
           - name: CONTENT_MONGO_COLLECTION
             value: {{ .Values.h5p_storage.mongodb_collection_name }}
           {{ end }}
-            
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "h5p_service.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "h5p_service.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       

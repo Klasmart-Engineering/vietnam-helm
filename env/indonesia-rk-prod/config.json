@@ -5,6 +5,7 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".rumahkisah.net",
     "domain": "rumahkisah.net",
+    "deployment_region": "indonesia-rk",
     "deployment_name": "indonesia-rk-prod",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/indonesia-rk-prod",

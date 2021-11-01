@@ -4,6 +4,8 @@
     "k8s_service_type": "ClusterIP",
     "kl_domain": ".beta.kidsloop.vn",
     "domain": "beta.kidsloop.vn",
+    "deployment_region": "vietnam",
+    "deployment_name": "vietnam-beta",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-beta",
     "env": "beta",
