@@ -69,8 +69,8 @@
                 "type": "PD_SSD"
             }
         },
-        "postgresql": {
-            "name": "kidsloop-beta-postgresql-99999",
+        "postgresql-beta": {
+            "name": "kidsloop-beta-postgresql",
             "assessment_database": "assessment",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-7680",
