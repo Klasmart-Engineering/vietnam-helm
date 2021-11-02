@@ -144,7 +144,7 @@
     "cms_frontend_max_replica_count": 6,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-prod-e27594b",
+    "hub_image_tag": "commit-id-prod-adfd337",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 2,
     "hub_max_replica_count": 6,
