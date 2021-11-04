@@ -81,6 +81,8 @@ releases:
         liveJwtKey:
           enabled: true
           existingSecretName: live-jwt-credentials
+          passphrase.enabled: true
+          passphrase.secretFieldRef: "private_passphrase"
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.live_backend_min_replica_count }}
