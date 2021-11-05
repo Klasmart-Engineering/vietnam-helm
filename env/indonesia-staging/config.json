@@ -57,19 +57,6 @@
             }
         },
         "postgresql": {
-            "name": "kidsloop-postgresql-99999",
-            "assessment_database": "assessment",
-            "version":   "POSTGRES_11",
-            "tier":      "db-custom-2-7680",
-            "charset":   "UTF8",
-            "collation": "en_US.UTF8",
-            "user":      "kidsloop-postgresql",
-            "disk": {
-                "size": 10, 
-                "type": "PD_SSD"
-            }
-        },
-        "postgresql-beta": {
             "name": "kidsloop-beta-postgresql",
             "assessment_database": "assessment",
             "version":   "POSTGRES_12",
