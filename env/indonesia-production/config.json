@@ -57,9 +57,9 @@
             }
         },
         "postgresql": {
-            "name": "kidsloop-postgresql-99999",
+            "name": "kidsloop-id-prod-postgresql",
             "assessment_database": "assessment",
-            "version":   "POSTGRES_11",
+            "version":   "POSTGRES_12",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",
             "collation": "en_US.UTF8",
