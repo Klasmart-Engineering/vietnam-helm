@@ -57,9 +57,9 @@
             }
         },
         "postgresql": {
-            "name": "kidsloop-postgresql-99999",
+            "name": "kidsloop-rk-prod-postgresql",
             "assessment_database": "assessment",
-            "version":   "POSTGRES_11",
+            "version":   "POSTGRES_12",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",
             "collation": "en_US.UTF8",
@@ -120,7 +120,7 @@
     "base_url_h5p": "https://h5p.rumahkisah.net",
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "commit-id-rk_prod-f20994e",
+    "auth_frontend_image_tag": "release-vietnam-2-8-2-id-rk_prod-c9decce",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 6,
@@ -132,19 +132,19 @@
     "auth_backend_max_replica_count": 6,
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "hotfix-20211028a-6fc992e",
+    "cms_backend_image_tag": "hotfix-nkl-1417-1e64f5c",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 1,
     "cms_backend_max_replica_count": 6,
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "hotfix-20211019-id-rk_prod-0551946",
+    "cms_frontend_image_tag": "main-id-rk_prod-5d677b1",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 1,
     "cms_frontend_max_replica_count": 6,
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-rk_prod-e27594b",
+    "hub_image_tag": "commit-id-rk_prod-adfd337",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
