@@ -36,9 +36,7 @@ Common labels
 {{- define "cms-backend.labels" -}}
 helm.sh/chart: {{ include "cms-backend.chart" . }}
 {{ include "cms-backend.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ .Values.cms_backend_appversion }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
