@@ -79,7 +79,7 @@
     },
 
     "mongodb": {
-        "url": "mongodb://10.0.2.11:27017",
+        "url": "mongodb://10.0.2.13:27017,10.0.2.14:27017,10.0.2.15:27017",
         "username": "kidslooproot",
         "database": "kidsloop-production",
         "collection_name": "h5p"

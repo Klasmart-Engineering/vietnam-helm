@@ -27,7 +27,7 @@ spec:
       {{- if eq .Values.provider "vngcloud" }}
       initContainers:
       - name: {{ .Chart.Name }}-init
-        image: flyway/flyway:latest
+        image: flyway/flyway:7.5.3
         args:
           - "migrate"
           - "-user=$(db_username)"

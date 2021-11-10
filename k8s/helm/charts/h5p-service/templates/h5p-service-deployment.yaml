@@ -57,7 +57,7 @@ spec:
           - name: TEMPORARY_AWS_S3_BUCKET
             value: {{ .Values.h5p_storage.temporary_storage_bucket }}
           - name: MONGODB_URL
-            value: {{ .Values.h5p_storage.mongodb_url }}
+            value: {{ .Values.h5p_storage.mongodb_url }}/{{ .Values.h5p_storage.mongodb_database }}
           - name: MONGODB_DB
             value: {{ .Values.h5p_storage.mongodb_database }}
           - name: MONGODB_USER
