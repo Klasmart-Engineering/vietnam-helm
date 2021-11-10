@@ -8,6 +8,7 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+appVersion: "2.8.1"
 
 configuration:
   # ams endpoint
