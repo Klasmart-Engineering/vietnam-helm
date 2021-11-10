@@ -20,7 +20,7 @@
     "mysql_assessment_username": "kidslooproot",
     "mysql_database": "kidsloop2",
     "fluentbit_cloudwatch_log_stream": "vn-vngcloud-alpha",
-    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
+    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-400",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     "desired_pods_getter": "redis",
@@ -176,12 +176,12 @@
     "user_service_max_replica_count": 2,
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-127b4f9",
+    "h5p_service_image_tag": "production-5102411",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 2,
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "production-aa75804",
+    "xapi_image_tag": "production-b1032cd",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 1,
     "xapi_max_replica_count": 2,

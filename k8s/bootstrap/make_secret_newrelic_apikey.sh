@@ -20,7 +20,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  name: newrelic-apikey-secret-1
+  name: newrelic-apikey-secret
   namespace: $NS_KIDSLOOP
 data:
   NEW_RELIC_LICENSE_KEY: $(echo -n $NEW_RELIC_LICENSE_KEY | base64)
