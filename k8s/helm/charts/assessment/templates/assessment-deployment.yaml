@@ -48,6 +48,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: ATTENDANCE_SERVICE_ENDPOINT
+            value: {{ .Values.attendanceServiceEndpoint }}
           - name: ROUTE_PREFIX
             value: "/assessment"
           - name: USER_SERVICE_API_URL
