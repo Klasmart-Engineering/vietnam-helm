@@ -81,7 +81,7 @@ releases:
                 - "/attendance"
         domain: {{ .Values.domain }}
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-        postgresql_database: {{ .Values.postgresql_database }}
+        postgresql_database: {{ .Values.postgresql_attendance_database }}
         postgresql_username: {{ .Values.postgresql_username }}
        {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}

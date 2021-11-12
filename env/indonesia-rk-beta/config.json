@@ -59,6 +59,7 @@
         "postgresql": {
             "name": "kidsloop-rk-beta-postgresql",
             "assessment_database": "assessment",
+            "attendance_database": "attendance_service_db",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-7680",
             "charset":   "UTF8",

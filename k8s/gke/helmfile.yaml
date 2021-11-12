@@ -89,6 +89,17 @@ releases:
           postgresql_disk_type: {{ .Values.gcp.postgresql.disk.type }}
           postgresql_user: {{ .Values.gcp.postgresql.user }}
 
+  - name: gke-postgresql-db-attendance
+    namespace: config-connector
+    chart: charts/postgresql-db
+    values:
+      - gcp:
+          project: {{ .Values.terraform_project }}
+          postgresql_name: {{ .Values.gcp.postgresql.name }}
+          postgresql_db_name: {{ .Values.gcp.postgresql.attendance_database }}
+          postgresql_charset: {{ .Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Values.gcp.postgresql.collation }}
+
   - name: gke-postgres-sql-proxy
     namespace: {{ .Environment.Values.k8s_namespace_kidsloop }}
     chart: charts/postgres-sql-proxy

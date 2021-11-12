@@ -59,6 +59,7 @@
         "postgresql": {
             "name": "kidsloop-id-prod-postgresql",
             "assessment_database": "assessment",
+            "attendance_database": "attendance_service_db",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",

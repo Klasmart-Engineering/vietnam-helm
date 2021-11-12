@@ -47,7 +47,7 @@ spec:
           periodSeconds: 5
         env:
           - name: ASSESSMENT_ENDPOINT
-            value: https://api.{{ .Values.kl_domain}}/assessment
+            value: https://api.{{ .Values.domain}}/assessment
           - name: DB_SECRET
             valueFrom:
               secretKeyRef:
