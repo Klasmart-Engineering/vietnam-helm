@@ -1,5 +1,5 @@
 apiVersion: v2
-name: Attendance-service
+name: attendance-service
 description: Kidsloop Attendance Service
 type: application
 version: 0.1.0
