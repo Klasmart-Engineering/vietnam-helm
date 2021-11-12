@@ -53,7 +53,7 @@ spec:
               secretKeyRef:
                 name: postgresql
                 key: postgresql-password
-          - name: DATABASE_URL
+          - name: POSTGRES_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
           - name: NEW_RELIC_NO_CONFIG_FILE
             value: "true"
