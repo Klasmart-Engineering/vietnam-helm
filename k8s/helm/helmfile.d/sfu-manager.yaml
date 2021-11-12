@@ -42,6 +42,7 @@ releases:
         deployment_region: {{ .Values.deployment_region }}
         deployment_env: {{ .Values.env }}
         serviceType: {{ .Values.k8s_service_type }}
+        appVersion: {{ .Values.sfu_manager_appVersion }}
       # Important - use host networking in GCP, and use pod IP as hostname
         hostNetworking: true  # SFU addressable over internet
         usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE

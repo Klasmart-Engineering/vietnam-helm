@@ -37,6 +37,7 @@ releases:
           tag: {{ .Values.pdf_service_image_tag }}
         imagePullSecrets:
           - name: {{ .Values.pdf_service_image_pull_secrets }}
+        appVersion: {{ .Values.pdf_service_appVersion }}
         ingress:
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
