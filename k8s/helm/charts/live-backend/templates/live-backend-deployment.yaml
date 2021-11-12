@@ -51,6 +51,8 @@ spec:
         env:
           - name: STUDENT_REPORT_ENDPOINT
             value: {{ .Values.studentReportEndpoint }}
+          - name: ATTENDANCE_SERVICE_ENDPOINT
+            value: {{ .Values.attendanceServiceEndpoint }}
           - name: NODE_ENV
             value: "beta"
           - name: PORT
