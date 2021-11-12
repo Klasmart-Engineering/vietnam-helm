@@ -46,6 +46,7 @@ releases:
           tag: "{{ .Values.attendance_service_image_tag }}"
         imagePullSecrets:
           - name: {{ .Values.attendance_service_image_pull_secrets }}
+        appVersion: {{ .Values.attendance_service_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
