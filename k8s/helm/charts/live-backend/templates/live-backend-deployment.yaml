@@ -52,7 +52,7 @@ spec:
           - name: STUDENT_REPORT_ENDPOINT
             value: {{ .Values.studentReportEndpoint }}
           - name: NODE_ENV
-            value: "beta"
+            value: "{{  .Values.deployment_env }}"
           - name: PORT
             value: "8080"
           - name: REDIS_HOST

@@ -39,7 +39,7 @@ data:
               npm start
             env:
               - name: NODE_ENV
-                value: "beta"
+                value: "{{  .Values.deployment_env }}"
               - name: REDIS_HOST
                 value: {{ .Values.redisHost }}
               - name: REDIS_PORT

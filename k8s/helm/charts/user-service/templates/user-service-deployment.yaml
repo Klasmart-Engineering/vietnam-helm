@@ -47,7 +47,7 @@ spec:
           periodSeconds: 5
         env:
           - name: NODE_ENV
-            value: "beta"
+            value: "{{  .Values.deployment_env }}"
           - name: DOMAIN
             value: {{ .Values.domain }}
           - name: PORT
