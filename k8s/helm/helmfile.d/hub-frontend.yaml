@@ -35,6 +35,7 @@ releases:
         image:
           repository: {{ .Values.hub_image_repository }}
           tag: {{ .Values.hub_image_tag }}
+        appVersion: {{ .Values.hub_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
