@@ -46,6 +46,7 @@ releases:
           tag: "{{ .Values.user_service_image_tag }}"
         imagePullSecrets:
           - name: {{ .Values.user_service_image_pull_secrets }}
+        appVersion: {{ .Values.user_service_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

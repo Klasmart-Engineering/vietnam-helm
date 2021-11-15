@@ -124,6 +124,7 @@
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 6,
+    "auth_frontend_appVersion": "2.8.2",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
     "auth_backend_image_tag": "master-af653ce",
@@ -136,6 +137,7 @@
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 1,
     "cms_backend_max_replica_count": 6,
+    "cms_backend_appVersion": "2.8.1",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
     "cms_frontend_image_tag": "main-id-rk_prod-5d677b1",

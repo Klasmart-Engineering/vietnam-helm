@@ -37,6 +37,7 @@ releases:
           tag: {{ .Values.live_backend_image_tag }}
         imagePullSecrets:
           - name: {{ .Values.live_backend_image_pull_secrets }}
+        appVersion: {{ .Values.live_backend_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

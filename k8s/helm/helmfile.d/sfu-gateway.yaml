@@ -34,6 +34,7 @@ releases:
         imagePullSecrets:
           - name: {{ .Values.sfu_gateway_image_pull_secrets }}
         deployment_env: {{ .Values.env }}
+        appVersion: {{ .Values.sfu_gateway_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
