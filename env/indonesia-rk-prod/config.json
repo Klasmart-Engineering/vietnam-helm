@@ -9,7 +9,7 @@
     "deployment_name": "indonesia-rk-prod",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/indonesia-rk-prod",
-    "env": "prod",
+    "env": "production",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     "desired_pods_getter": "redis",
