@@ -35,3 +35,5 @@ spec:
       value: '1'
     - name: log_output
       value: 'FILE'
+    - name: sql_mode
+      value: 'TRADITIONAL'
