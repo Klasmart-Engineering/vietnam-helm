@@ -182,7 +182,7 @@
     "sfu_manager_appVersion": "0.1.0",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "master-8f4c488",
+    "sfu_image_tag": "alpha-3599757",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 2,
     "sfu_pods_cpu_request": "1000m",
