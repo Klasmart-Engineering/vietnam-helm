@@ -14,7 +14,7 @@ data:
       template:
         metadata:
           labels:
-            {{- include "sfu.selectorLabels" . | nindent 12 }}
+            {{- include "sfu.labels" . | nindent 12 }}
             redis-client: "true"
         spec:
           {{- if .Values.hostNetworking }}
