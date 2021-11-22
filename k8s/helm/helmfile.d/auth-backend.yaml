@@ -45,6 +45,7 @@ releases:
         region: {{ .Values.terraform_region }}
         postgresql_instance: {{ .Values.postgresql_database }}
       {{- end }}
+        appVersion: {{ .Values.auth_backend_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

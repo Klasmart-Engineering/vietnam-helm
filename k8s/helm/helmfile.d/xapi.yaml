@@ -36,6 +36,7 @@ releases:
           tag: "{{ .Values.xapi_image_tag }}"
         imagePullSecrets:
           - name: {{ .Values.xapi_image_pull_secrets }}
+        appVersion: {{ .Values.xapi_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

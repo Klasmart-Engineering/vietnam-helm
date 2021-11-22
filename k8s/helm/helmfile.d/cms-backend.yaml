@@ -42,6 +42,7 @@ releases:
         mysql_instance: {{ .Values.mysql_database }}
         mysql_proxy_ip:  {{ .Values.mysql_proxy_ip }}
         {{- end}}
+        appVersion: {{ .Values.cms_backend_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

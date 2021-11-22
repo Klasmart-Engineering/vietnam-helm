@@ -27,26 +27,24 @@ If release name contains chart name it will be used as a full name.
 Create chart name and version as used by the chart label.
 */}}
 {{- define "sfu.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Chart.Name .Values.appVersionSfu | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
-
+{{- define "sfu-manager.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Values.appVersionSfuManager | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{/*
 Common labels
 */}}
 {{- define "sfu.labels" -}}
 helm.sh/chart: {{ include "sfu.chart" . }}
 {{ include "sfu.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ .Values.appVersionSfu | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 {{- define "sfu-manager.labels" -}}
-helm.sh/chart: {{ include "sfu.chart" . }}
+helm.sh/chart: {{ include "sfu-manager.chart" . }}
 {{ include "sfu-manager.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ .Values.appVersionSfuManager | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 {{- define "sfu-job.labels" -}}
@@ -64,4 +62,3 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/name: {{ include "sfu.name" . }}-manager
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-

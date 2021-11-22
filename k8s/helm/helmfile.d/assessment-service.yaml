@@ -54,6 +54,7 @@ releases:
         aws_region: {{ .Values.dynamodb_aws_region }}
         dynamodb_table_name: {{ .Values.dynamodb_table_name }}
         user_api_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        appVersion: {{ .Values.assessment_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

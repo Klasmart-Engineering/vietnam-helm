@@ -33,6 +33,7 @@ releases:
         image:
           repository: "{{ .Values.auth_frontend_image_repository }}"
           tag: {{ .Values.auth_frontend_image_tag }}
+        appVersion: {{ .Values.auth_frontend_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
