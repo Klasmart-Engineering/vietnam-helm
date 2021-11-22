@@ -120,14 +120,14 @@
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
-    "cms_frontend_appVersion": "2.9.0",
+    "cms_frontend_appVersion": "2.8.1",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "hotfix-20211103-1e64f5c",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
-    "cms_backend_appVersion": "2.9.1",
+    "cms_backend_appVersion": "2.8.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "commit-vn-beta-adfd337",
@@ -170,7 +170,7 @@
     "sfu_pods_cpu_request": "1000m",
     "sfu_pods_cpu_limit": "1200m",
     "sfu_pods_memory_request": "1Gi",
-    "sfu_pods_memory_limit": "2Gi",
+    "sfu_pods_memory_limit": "3Gi",
     "sfu_appVersion": "1.2.0",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
