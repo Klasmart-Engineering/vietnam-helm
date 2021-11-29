@@ -68,6 +68,7 @@ releases:
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
+        postgresql_xapi_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_xapi_host }} {{- end }}
         postgresql_xapi_database: {{ .Values.postgresql_xapi_database }}
         aws_region: {{ .Values.dynamodb_aws_region }}
         dynamodb_table_name: {{ .Values.dynamodb_table_name }}
