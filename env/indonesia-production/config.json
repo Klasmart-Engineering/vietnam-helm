@@ -207,18 +207,18 @@
     "user_service_appVersion": "2.2.0",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "production-b1032cd",
+    "xapi_image_tag": "production-e80151b",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 2,
     "xapi_max_replica_count": 6,
-    "xapi_appVersion": "1.0.0",
+    "xapi_appVersion": "1.1.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-66ea74f",
+    "assessment_image_tag": "master-d36412e",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 2,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.0.0",
+    "assessment_appVersion": "1.3.5",
   
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
