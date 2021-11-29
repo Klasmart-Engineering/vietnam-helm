@@ -52,7 +52,7 @@ spec:
                 name: postgresql
                 key: postgresql-password
           - name: XAPI_DATABASE_URL
-            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_xapi_database }}"
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_xapi_host }}/{{ .Values.postgresql_xapi_database }}"
           - name: NODE_ENV
             value: "{{  .Values.deployment_env }}"
           - name: DOMAIN
