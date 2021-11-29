@@ -15,7 +15,10 @@
     "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloopbeta",
     "postgresql_assessment_database": "kidsloopbeta",
+
+    "postgresql_xapi_host": "10.0.1.17",
     "postgresql_xapi_database": "kidsloop_beta_xapi",
+    
     "mysql_host": "10.0.1.18",
     "mysql_username": "kidslooproot",
     "mysql_assessment_username": "kidslooproot",
