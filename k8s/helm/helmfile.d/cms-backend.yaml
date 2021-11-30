@@ -41,8 +41,8 @@ releases:
         region: {{ .Values.terraform_region }}
         mysql_instance: {{ .Values.mysql_database }}
         mysql_proxy_ip:  {{ .Values.mysql_proxy_ip }}
-        appVersion: {{ .Values.cms_backend_appVersion }}
         {{- end}}
+        appVersion: {{ .Values.cms_backend_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

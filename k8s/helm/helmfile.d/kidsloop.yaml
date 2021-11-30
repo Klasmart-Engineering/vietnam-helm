@@ -131,12 +131,16 @@ releases:
     values:
       - replicaCount: {{ .Values.h5p_service_replica_count }}
       - provider: {{ .Values.provider }}
+      - deployment_name: {{ .Values.deployment_name }}
+      - deployment_region: {{ .Values.deployment_region }}
+      - deployment_env: {{ .Values.env }}
       - serviceType: {{ .Values.k8s_service_type }}
       - image:
           repository: {{ .Values.h5p_service_image_repository }}
           tag: {{ .Values.h5p_service_image_tag }}
       - imagePullSecrets:
           - name: {{ .Values.h5p_service_image_pull_secrets }}
+      - appVersion: {{ .Values.h5p_service_appVersion }}
       - ingress:
           tls:
             - endpoint:

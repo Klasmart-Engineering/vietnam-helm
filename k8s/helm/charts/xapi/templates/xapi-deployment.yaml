@@ -46,8 +46,15 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: POSTGRES_DB_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
+          - name: XAPI_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_xapi_host }}/{{ .Values.postgresql_xapi_database }}"
           - name: NODE_ENV
-            value: "beta"
+            value: "{{  .Values.deployment_env }}"
           - name: DOMAIN
             value: {{ .Values.domain }}
           - name: PORT

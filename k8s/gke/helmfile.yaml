@@ -123,6 +123,17 @@ releases:
           postgresql_charset: {{ .Values.gcp.postgresql.charset }}
           postgresql_collation: {{ .Values.gcp.postgresql.collation }}
 
+  - name: gke-postgresql-db-xapi
+    namespace: config-connector
+    chart: charts/postgresql-db
+    values:
+      - gcp:
+          project: {{ .Values.terraform_project }}
+          postgresql_name: {{ .Values.gcp.postgresql.name }}
+          postgresql_db_name: {{ .Values.gcp.postgresql.xapi_database }}
+          postgresql_charset: {{ .Values.gcp.postgresql.charset }}
+          postgresql_collation: {{ .Values.gcp.postgresql.collation }}
+          
   - name: gke-ingress-support
     namespace: config-connector
     chart: charts/ingress-support

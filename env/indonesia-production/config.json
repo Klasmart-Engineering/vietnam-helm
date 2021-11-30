@@ -9,7 +9,7 @@
     "deployment_name": "indonesia-production",
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/indonesia-production",
-    "env": "prod",
+    "env": "production",
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     "desired_pods_getter": "redis",
@@ -60,6 +60,7 @@
             "name": "kidsloop-id-prod-postgresql",
             "assessment_database": "assessment",
             "attendance_database": "attendance_service_db",
+            "xapi_database": "xapidbrecord",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-13312",
             "charset":   "UTF8",
@@ -115,7 +116,7 @@
     "elasticsearch_username": "",
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "id-prod",
-    "firehose_steam_name": "",
+    "firehose_steam_name": "kl-prod-xapi",
 
     "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.id",
@@ -135,18 +136,18 @@
     "auth_backend_appVersion": "0.1.0",
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "hotfix-nkl-1417-1e64f5c",
+    "cms_backend_image_tag": "main-ee8789c",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 2,
     "cms_backend_max_replica_count": 6,
-    "cms_backend_appVersion": "2.8.1",
+    "cms_backend_appVersion": "2.10.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "main-id-prod-5d677b1",
+    "cms_frontend_image_tag": "commit-id-prod-a6bdd05",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 6,
-    "cms_frontend_appVersion": "2.8.0",
+    "cms_frontend_appVersion": "2.10.2",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "commit-id-prod-adfd337",
@@ -156,7 +157,7 @@
     "hub_appVersion": "2.23.0",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "commit-id-prod-8fe0427",
+    "live_frontend_image_tag": "release-2-3-1-id-prod-142841b",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 2,
     "live_frontend_max_replica_count": 6,
@@ -170,7 +171,7 @@
     "live_backend_appVersion": "1.3.0",
  
     "pdf_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-pdf-service",
-    "pdf_service_image_tag": "master-latest",
+    "pdf_service_image_tag": "production-54625ab",
     "pdf_service_image_pull_secrets": "ecr-registry-infra",
     "pdf_service_min_replica_count": 2,
     "pdf_service_max_replica_count": 6,
@@ -183,14 +184,14 @@
     "sfu_manager_appVersion": "0.1.0",
 
     "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
-    "sfu_image_tag": "master-42b2b9d",
+    "sfu_image_tag": "alpha-3599757",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 2,
     "sfu_pods_cpu_request": "1000m",
     "sfu_pods_cpu_limit": "1200m",
     "sfu_pods_memory_request": "4Gi",
     "sfu_pods_memory_limit": "6Gi",
-    "sfu_appVersion": "1.1.1",
+    "sfu_appVersion": "1.2.0",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
     "sfu_gateway_image_tag": "master-e7c325a",
@@ -200,24 +201,25 @@
     "sfu_gateway_appVersion": "1.1.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2-2-0-a3cf217",
+    "user_service_image_tag": "v2.3.0-a69db6f",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 2,
     "user_service_max_replica_count": 6,
-    "user_service_appVersion": "2.2.0",
+    "user_service_appVersion": "2.3.0",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
-    "xapi_image_tag": "production-b1032cd",
+    "xapi_image_tag": "production-e80151b",
     "xapi_image_pull_secrets": "ecr-registry-infra",
     "xapi_min_replica_count": 2,
     "xapi_max_replica_count": 6,
-    "xapi_appVersion": "1.0.0",
+    "xapi_appVersion": "1.1.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "production-66ea74f",
+    "assessment_image_tag": "master-d36412e",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 2,
     "assessment_max_replica_count": 6,
+<<<<<<< HEAD
     "assessment_appVersion": "1.0.0",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
@@ -227,6 +229,10 @@
     "attendance_service_max_replica_count": 6,
     "attendance_service_appVersion": "1.0.0",
     
+=======
+    "assessment_appVersion": "1.3.5",
+  
+>>>>>>> b58b3710ab96589284f8ae2879fa2af86d7a9103
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"

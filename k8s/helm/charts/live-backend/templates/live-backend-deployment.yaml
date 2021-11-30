@@ -54,7 +54,7 @@ spec:
           - name: ATTENDANCE_SERVICE_ENDPOINT
             value: {{ .Values.attendanceServiceEndpoint }}
           - name: NODE_ENV
-            value: "beta"
+            value: "{{  .Values.deployment_env }}"
           - name: PORT
             value: "8080"
           - name: REDIS_HOST
