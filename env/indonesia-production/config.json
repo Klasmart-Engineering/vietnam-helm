@@ -219,7 +219,6 @@
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 2,
     "assessment_max_replica_count": 6,
-<<<<<<< HEAD
     "assessment_appVersion": "1.0.0",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
@@ -228,11 +227,7 @@
     "attendance_service_min_replica_count": 2,
     "attendance_service_max_replica_count": 6,
     "attendance_service_appVersion": "1.0.0",
-    
-=======
-    "assessment_appVersion": "1.3.5",
   
->>>>>>> b58b3710ab96589284f8ae2879fa2af86d7a9103
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"

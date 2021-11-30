@@ -232,6 +232,7 @@
     "attendance_service_image_pull_secrets": "ecr-registry-infra",
     "attendance_service_min_replica_count": 1,
     "attendance_service_max_replica_count": 6,
+    "attendance_service_appVersion": "1.0.0",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
