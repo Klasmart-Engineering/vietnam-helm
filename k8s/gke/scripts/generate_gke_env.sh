@@ -37,11 +37,8 @@ echo "{
     \"postgresql_host\": \"$POSTGRESQL_IP\", 
     \"postgresql_database\": \"$POSTGRESQL_NAME\",
     \"postgresql_assessment_database\": \"$POSTGRESQL_ASSESSMENT_DB\",
-<<<<<<< HEAD
     \"postgresql_attendance_database\": \"$POSTGRESQL_ATTENDANCE_DB\",
-=======
     \"postgresql_xapi_database\": \"$POSTGRESQL_XAPI_DB\",
->>>>>>> b58b3710ab96589284f8ae2879fa2af86d7a9103
     \"postgresql_username\": \"$POSTGRESQL_USER\", 
     \"redis_host\": \"$REDIS_IP\"
 }"
