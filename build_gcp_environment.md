@@ -146,6 +146,11 @@ kubectl  -n okc create secret generic cms-backend-s3-secret \
   --from-literal=aws_access_key_id="<AWS_ACCESS_KEY_ID>" \
   --from-literal=secret_access_key="<AWS_SECRET_ACCESS_KEY>"
 
+# create pdf-service-s3-secret
+kubectl  -n okc create secret generic pdf-service-s3-secret \
+  --from-literal=aws_access_key_id="<AWS_ACCESS_KEY_ID>" \
+  --from-literal=secret_access_key="<AWS_SECRET_ACCESS_KEY>"
+
 # create secret for elasticsearch
 cd bootstrap
 bash make_secret_elasticsearch.sh $ENV_NAME
