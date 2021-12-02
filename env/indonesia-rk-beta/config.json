@@ -59,6 +59,7 @@
         "postgresql": {
             "name": "kidsloop-rk-beta-postgresql",
             "assessment_database": "assessment",
+            "attendance_database": "attendance_service_db",
             "xapi_database": "xapidbrecord",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-7680",
@@ -225,6 +226,13 @@
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
     "assessment_appVersion": "1.3.5",
+
+    "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
+    "attendance_service_image_tag": "master-2494db9",
+    "attendance_service_image_pull_secrets": "ecr-registry-infra",
+    "attendance_service_min_replica_count": 1,
+    "attendance_service_max_replica_count": 6,
+    "attendance_service_appVersion": "1.0.1",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",

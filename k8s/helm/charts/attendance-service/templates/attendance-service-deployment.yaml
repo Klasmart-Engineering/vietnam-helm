@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "attendance_service.fullname" . }}
+  labels:
+    {{- include "attendance_service.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "attendance_service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "attendance_service.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        #command: [ "/bin/bash", "-c", "--" ]
+        #args: [ "while true; do sleep 30; done;" ]
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        startupProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          failureThreshold: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        env:
+          - name: ASSESSMENT_ENDPOINT
+            value: https://api.{{ .Values.domain}}/assessment
+          - name: DB_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
+          - name: POSTGRES_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "attendance_service.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "attendance_service.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
+      serviceAccountName: cloudsql-proxy
+      volumes:
+        - name: whitelabel-storage-sa-key
+          secret:
+            secretName: whitelabel-bucket
+      {{- end }}
