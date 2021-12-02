@@ -50,7 +50,7 @@ spec:
           periodSeconds: 5
         env:
           - name: NODE_ENV
-            value: "production"        
+            value: "{{  .Values.deployment_env }}"
           - name: ROUTE_PREFIX
             value: "/pdf"
           - name: LOG_LEVEL
