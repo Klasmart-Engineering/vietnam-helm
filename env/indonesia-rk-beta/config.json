@@ -90,7 +90,7 @@
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
         "region": "ap-southeast-1",
         "bucket": "klid-rk-beta-cms-res",
-        "pdf_bucket": "kidsloop-pdf-bucket-beta",
+        "pdf_bucket": "klid-rk-beta-pdf",
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://res.beta.rumahkisah.net",
