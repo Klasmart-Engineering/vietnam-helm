@@ -38,8 +38,8 @@ releases:
           tag: {{ .Values.assessment_image_tag }}
         domain: {{ .Values.domain }}
         attendanceServiceEndpoint: https://api{{ .Values.kl_domain }}/attendance
-        userServiceEndpoint: https://api{{ .Values.kl_domain }}/user
-        cmsApiUrl: https://cms{{ .Values.kl_domain }}/v1
+        userServiceEndpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        cmsApiUrl: https://cms{{ .Values.kl_domain }}/v1/internal
         mysql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.mysql_host }} {{- end }}
         cms_db: {{ .Values.mysql_database }}
         cms_db_user: {{ .Values.mysql_assessment_username }}
