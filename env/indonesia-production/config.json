@@ -90,7 +90,7 @@
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
         "region": "ap-southeast-1",
         "bucket": "klid-prod-cms-res",
-        "pdf_bucket": "kidsloop-pdf-bucket-production",
+        "pdf_bucket": "klid-prod-pdf",
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://res.kidsloop.id",

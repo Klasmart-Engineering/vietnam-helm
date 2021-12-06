@@ -90,7 +90,7 @@
         "endpoint": "https://s3.ap-southeast-1.amazonaws.com",
         "region": "ap-southeast-1",
         "bucket": "klid-rk-prod-cms-res",
-        "pdf_bucket": "kidsloop-pdf-bucket-prod",
+        "pdf_bucket": "klid-rk-prod-pdf",
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://res.rumahkisah.net",
