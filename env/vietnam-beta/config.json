@@ -15,6 +15,7 @@
     "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloopbeta",
     "postgresql_assessment_database": "kidsloopbeta",
+    "postgresql_attendance_database": "kidsloop_beta_attendance",
 
     "postgresql_xapi_host": "10.0.1.17",
     "postgresql_xapi_database": "kidsloop_beta_xapi",
@@ -148,18 +149,18 @@
     "live_frontend_appVersion": "2.3.1",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
-    "live_backend_image_tag": "alpha-a62964e",
+    "live_backend_image_tag": "master-6c41438",
     "live_backend_image_pull_secrets": "ecr-registry-infra",
     "live_backend_min_replica_count": 4,
     "live_backend_max_replica_count": 6,
-    "live_backend_appVersion": "1.3.0",
+    "live_backend_appVersion": "1.4.0",
 
     "pdf_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-pdf-service",
-    "pdf_service_image_tag": "alpha",
+    "pdf_service_image_tag": "production-54625ab",
     "pdf_service_image_pull_secrets": "ecr-registry-infra",
     "pdf_service_min_replica_count": 1,
     "pdf_service_max_replica_count": 6,
-    "pdf_service_appVersion": "0.1.0",
+    "pdf_service_appVersion": "0.3.20",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "master-933fb38",
@@ -185,17 +186,17 @@
     "sfu_gateway_appVersion": "1.1.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "release-v2-3-0-a69db6f",
+    "user_service_image_tag": "v2.3.0-a69db6f",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 3,
     "user_service_max_replica_count": 6,
     "user_service_appVersion": "2.3.0",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-4c569a9",
+    "h5p_service_image_tag": "production-c25f005",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 3,
-    "h5p_service_appVersion": "2.4.0",
+    "h5p_service_appVersion": "2.5.0",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-e80151b",
@@ -205,11 +206,18 @@
     "xapi_appVersion": "1.1.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "v1.3.5",
+    "assessment_image_tag": "v1.5.2",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 3,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.3.5",
+    "assessment_appVersion": "1.5.2",
+
+    "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
+    "attendance_service_image_tag": "alpha",
+    "attendance_service_image_pull_secrets": "ecr-registry-infra",
+    "attendance_service_min_replica_count": 3,
+    "attendance_service_max_replica_count": 6,
+    "attendance_service_appVersion": "1.0.0",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",

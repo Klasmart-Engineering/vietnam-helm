@@ -13,6 +13,7 @@ POSTGRESQL_HOST=$(../../scripts/python/env_var.py $ENV postgresql_host)
 POSTGRESQL_USERNAME=$(../../scripts/python/env_var.py $ENV postgresql_username)
 POSTGRESQL_USER_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_database)
 POSTGRESQL_ASSESSMENT_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_assessment_database)
+POSTGRESQL_ATTENDANCE_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_attendance_database)
 POSTGRESQL_XAPI_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_xapi_database)
 SECRET_NAME=postgresql
 REPMGR_PASSWORD="$(pwgen -s 20 1)"
@@ -41,6 +42,7 @@ fi
 DATABASE_URL="postgres://$POSTGRESQL_USERNAME:$POSTGRESQL_PASSWORD@$POSTGRESQL_HOST"
 DATABASE_USER_URL="$DATABASE_URL/$POSTGRESQL_USER_DATABASE"
 DATABASE_ASSESSMENT_URL="$DATABASE_URL/$POSTGRESQL_ASSESSMENT_DATABASE"
+DATABASE_ATTENDANCE_URL="$DATABASE_URL/$POSTGRESQL_ATTENDANCE_DATABASE"
 DATABASE_XAPI_URL="$DATABASE_URL/$POSTGRESQL_XAPI_DATABASE"
 
 # create k8s secret manifest

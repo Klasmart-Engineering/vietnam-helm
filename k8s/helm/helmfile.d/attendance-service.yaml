@@ -1,0 +1,108 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  {{- if eq .Values.provider "gcp" }}
+  - name: whitelabel-storage
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/whitelabel-bucket
+    values:
+      - project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        bucket_name: "whitelabel-{{ .Values.terraform_project }}"
+  {{- end }}
+  
+  - name: attendance-service
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/attendance-service
+    values:
+      - provider: {{ .Values.provider }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
+          repository: "{{ .Values.attendance_service_image_repository }}"
+          tag: "{{ .Values.attendance_service_image_tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.attendance_service_image_pull_secrets }}
+        appVersion: {{ .Values.attendance_service_appVersion }}
+        ingress:
+          {{- if eq .Values.provider "gcp" }}
+          annotations: 
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            kubernetes.io/ingress.class: "nginx"
+            ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/send-timeout: "3600"
+            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          {{- else }}
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              if ($request_method = OPTIONS) {
+                more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+                more_set_headers "Access-Control-Allow-Headers: Content-Type";
+                return 200;
+              }
+              more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+              more_set_headers "Access-Control-Allow-Credentials: true";          
+          {{- end }}
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-api{{ .Values.kl_domain }}" {{- end }}
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/attendance"
+        domain: {{ .Values.domain }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_database: {{ .Values.postgresql_attendance_database }}
+        postgresql_username: {{ .Values.postgresql_username }}
+       {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+       {{- end }}
+       {{- if eq .Values.provider "vngcloud" }}
+        project: {{ .Values.whitelabel_storage_project }}
+        region: {{ .Values.storage.region }}
+        storage_endpoint: {{ .Values.storage.endpoint }}
+        whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
+       {{- end }}
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1024Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.attendance_service_min_replica_count }}
+          maxReplicas: {{ .Values.attendance_service_max_replica_count }}

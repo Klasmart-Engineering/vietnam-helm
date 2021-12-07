@@ -50,7 +50,7 @@ spec:
           periodSeconds: 5
         env:
           - name: NODE_ENV
-            value: "production"        
+            value: "{{  .Values.deployment_env }}"
           - name: ROUTE_PREFIX
             value: "/pdf"
           - name: LOG_LEVEL
@@ -81,12 +81,12 @@ spec:
           - name: AWS_SECRET_KEY_NAME
             valueFrom:
               secretKeyRef:
-                name: cms-backend-s3-secret
+                name: pdf-service-s3-secret
                 key: aws_access_key_id
           - name: AWS_SECRET_KEY
             valueFrom:
               secretKeyRef:
-                name: cms-backend-s3-secret
+                name: pdf-service-s3-secret
                 key: secret_access_key
           - name: AWS_REGION
             value: {{ .Values.pdf_bucket_region }}

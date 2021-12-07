@@ -16,6 +16,7 @@ MYSQL_ASSESSMENT_USER=$(echo $CONFIG | jq -r '.gcp .mysql .assessment_user')
 POSTGRESQL_NAME=$(echo $CONFIG | jq -r '.gcp .postgresql .name')
 POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 POSTGRESQL_ASSESSMENT_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .assessment_database')
+POSTGRESQL_ATTENDANCE_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .attendance_database')
 POSTGRESQL_XAPI_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .xapi_database')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
@@ -36,6 +37,7 @@ echo "{
     \"postgresql_host\": \"$POSTGRESQL_IP\", 
     \"postgresql_database\": \"$POSTGRESQL_NAME\",
     \"postgresql_assessment_database\": \"$POSTGRESQL_ASSESSMENT_DB\",
+    \"postgresql_attendance_database\": \"$POSTGRESQL_ATTENDANCE_DB\",
     \"postgresql_xapi_database\": \"$POSTGRESQL_XAPI_DB\",
     \"postgresql_username\": \"$POSTGRESQL_USER\", 
     \"redis_host\": \"$REDIS_IP\"
