@@ -116,7 +116,7 @@
     "elasticsearch_username": "",
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "id-beta",
-    "firehose_steam_name": "kl-beta-xapi",
+    "firehose_steam_name": "klid-beta-xapi",
     
     "base_url_user": "https://api.beta.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.beta.kidsloop.id",

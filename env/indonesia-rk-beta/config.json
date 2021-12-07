@@ -116,7 +116,7 @@
     "dynamodb_table_name": "id-rk-beta",
     "elasticsearch_url": "",
     "elasticsearch_username": "",
-    "firehose_steam_name": "kl-beta-xapi",
+    "firehose_steam_name": "klid-rk-beta-xapi",
 
     "base_url_user": "https://api.beta.rumahkisah.net/user/",
     "base_url_h5p": "https://h5p.beta.rumahkisah.net",

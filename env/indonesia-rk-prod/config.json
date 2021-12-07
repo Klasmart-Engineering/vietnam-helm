@@ -116,7 +116,7 @@
     "dynamodb_table_name": "id-rk-prod",
     "elasticsearch_url": "",
     "elasticsearch_username": "",
-    "firehose_steam_name": "kl-prod-xapi",
+    "firehose_steam_name": "klid-rk-prod-xapi",
 
     "base_url_user": "https://api.rumahkisah.net/user/",
     "base_url_h5p": "https://h5p.rumahkisah.net",
