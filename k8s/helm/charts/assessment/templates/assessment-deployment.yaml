@@ -79,9 +79,7 @@ spec:
           - name: XAPI_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_xapi_host }}/{{ .Values.postgresql_xapi_database }}"
           - name: AWS_REGION
-            value: {{ .Values.aws_region }}            
-          - name: DYNAMODB_TABLE_NAME
-            value: {{ .Values.dynamodb_table_name }}
+            value: {{ .Values.aws_region }}
           - name: NEW_RELIC_NO_CONFIG_FILE
             value: "true"
           - name: NEW_RELIC_APP_NAME
