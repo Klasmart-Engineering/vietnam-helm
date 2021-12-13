@@ -68,4 +68,5 @@ releases:
           redisHost: {{ .Values.redis_host }}:6379
           pods: {{ .Values.sfu_pods_count }}
           promDesiredAvailable: {{ .Values.sfu_pods_count }}
+          num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
         redisHost: {{ .Values.redis_host }}
