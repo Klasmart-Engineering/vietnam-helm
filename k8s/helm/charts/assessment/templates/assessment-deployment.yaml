@@ -48,6 +48,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: USE_ATTENDANCE_API_FLAG
+            value: "1"
           - name: CMS_API_URL
             value: {{ .Values.cmsApiUrl }}
           - name: USER_SERVICE_ENDPOINT

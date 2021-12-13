@@ -176,6 +176,7 @@
     "sfu_pods_cpu_limit": "1200m",
     "sfu_pods_memory_request": "1Gi",
     "sfu_pods_memory_limit": "3Gi",
+    "sfu_num_cpu_cores": "1",
     "sfu_appVersion": "1.2.0",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
