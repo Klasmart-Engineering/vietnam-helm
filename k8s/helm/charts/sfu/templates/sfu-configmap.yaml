@@ -47,7 +47,7 @@ data:
               - name: REDIS_PORT
                 value: {{ .Values.redisPort | quote }}
               - name: NUM_CPU_CORES
-                value: "2"  
+                value: {{ .Values.sfuManagerConfiguration.num_cpu_cores | quote }}
               - name: POD_NAME
                 valueFrom:
                   fieldRef:
