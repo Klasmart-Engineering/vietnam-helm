@@ -38,6 +38,8 @@ data:
               echo "HOSTNAME_OVERRIDE: $HOSTNAME_OVERRIDE";
               npm start
             env:
+              - name: REDIS_MODE
+                value: "NODE"
               - name: NODE_ENV
                 value: "{{  .Values.deployment_env }}"
               - name: REDIS_HOST
@@ -45,7 +47,7 @@ data:
               - name: REDIS_PORT
                 value: {{ .Values.redisPort | quote }}
               - name: NUM_CPU_CORES
-                value: "1"  
+                value: {{ .Values.sfuManagerConfiguration.num_cpu_cores | quote }}
               - name: POD_NAME
                 valueFrom:
                   fieldRef:
