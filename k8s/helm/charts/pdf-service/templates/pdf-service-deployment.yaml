@@ -49,6 +49,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: KL_DOMAIN
+            value: {{ .Values.kl_domain }}
           - name: NODE_ENV
             value: "{{  .Values.deployment_env }}"
           - name: ROUTE_PREFIX
