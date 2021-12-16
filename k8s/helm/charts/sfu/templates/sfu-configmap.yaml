@@ -17,6 +17,8 @@ data:
             {{- include "sfu.labels" . | nindent 12 }}
             redis-client: "true"
         spec:
+          successfulJobsHistoryLimit: 0
+          failedJobsHistoryLimit: 0
           {{- if .Values.hostNetworking }}
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
