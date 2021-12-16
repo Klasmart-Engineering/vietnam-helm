@@ -12,6 +12,8 @@ metadata:
 spec:
   concurrencyPolicy: Forbid # Do not run concurrently!
   schedule: '0 5 * * *'     # Run once a week at midnight on Sunday morning
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
   jobTemplate:
     spec:
       backoffLimit: 2 
