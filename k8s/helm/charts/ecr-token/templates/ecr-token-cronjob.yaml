@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote}}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
