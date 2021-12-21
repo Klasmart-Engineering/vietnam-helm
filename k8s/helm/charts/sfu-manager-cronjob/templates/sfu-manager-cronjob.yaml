@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: restart-sfu-manager
+  name: sfu-manager-cronjob
   namespace: {{ .Release.Namespace }}
   labels: 
     helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
@@ -20,7 +20,7 @@ spec:
       activeDeadlineSeconds: 600 
       template:
         spec:
-          serviceAccountName: restart-sfu-manager # Run under the service account created above
+          serviceAccountName: sfu-manager-cronjob # Run under the service account created above
           restartPolicy: Never
           containers:
             - name: kubectl
