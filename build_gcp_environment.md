@@ -163,4 +163,12 @@ bash gke.sh $ENV_NAME
 cd k8s
 bash helm.sh $ENV_NAME diff --release=live-frontend
 bash helm.sh $ENV_NAME apply --release=live-frontend
+
+# Install helm release manual
+cd k8s
+helm -n okc install sfu-manager-cronjob helm/charts/sfu-manager-cronjob
+
+# Upgrade helm release manual
+cd k8s
+helm -n okc upgrade sfu-manager-cronjob helm/charts/sfu-manager-cronjob
 ```
