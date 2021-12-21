@@ -1,0 +1,32 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: sfu-manager-cronjob
+  namespace: {{ .Release.Namespace }}
+  labels: 
+    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    app.kubernetes.io/name: {{ .Chart.Name  }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote}}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  concurrencyPolicy: Forbid # Do not run concurrently!
+  schedule: '0 5 * * *'     # Run once a week at midnight on Sunday morning
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      backoffLimit: 2 
+      activeDeadlineSeconds: 600 
+      template:
+        spec:
+          serviceAccountName: sfu-manager-cronjob # Run under the service account created above
+          restartPolicy: Never
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl # Specify the kubectl image
+              command: # The kubectl command to execute
+                - 'kubectl'
+                - 'rollout'
+                - 'restart'
+                - 'deployment/sfu-manager'
