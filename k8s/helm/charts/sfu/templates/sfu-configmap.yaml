@@ -11,8 +11,7 @@ data:
       labels:
         {{- include "sfu-job.labels" . | nindent 8 }}
     spec:
-      successfulJobsHistoryLimit: 0
-      failedJobsHistoryLimit: 0
+      ttlSecondsAfterFinished: 10
       template:
         metadata:
           labels:
