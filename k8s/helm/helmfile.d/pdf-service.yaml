@@ -72,6 +72,7 @@ releases:
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
+        kl_domain: https://*{{ .Values.kl_domain }}
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
