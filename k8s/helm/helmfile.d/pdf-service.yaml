@@ -48,7 +48,18 @@ releases:
             nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
             nginx.ingress.kubernetes.io/send-timeout: "3600"
             nginx.ingress.kubernetes.io/ssl-redirect: "true"
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"            
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"      
+          {{- if eq .Values.provider "vngcloud" }} 
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              if ($request_method = OPTIONS) {
+                more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+                more_set_headers "Access-Control-Allow-Headers: Content-Type";
+                return 200;
+              }
+              more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+              more_set_headers "Access-Control-Allow-Credentials: true";
+            nginx.ingress.kubernetes.io/proxy-body-size: 512m
+          {{- end }}
           tls:
             - endpoint:
                 hosts:
