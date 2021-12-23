@@ -62,7 +62,7 @@ spec:
           - name: ROUTE_PREFIX
             value: "/xapi"
           - name: AWS_REGION
-            value: {{ .Values.aws_region }}            
+            value: {{ .Values.aws_region }}
           - name: DYNAMODB_TABLE_NAME
             value: {{ .Values.dynamodb_table_name }}
           - name: ELASTICSEARCH_USERNAME

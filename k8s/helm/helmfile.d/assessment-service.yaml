@@ -49,6 +49,7 @@ releases:
         postgresql_assessment_database: {{ .Values.postgresql_assessment_database }}
         postgresql_xapi_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_xapi_host }} {{- end }}
         postgresql_xapi_database: {{ .Values.postgresql_xapi_database }}
+        postgresql_attendance_database: {{ .Values.postgresql_attendance_database }}
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
