@@ -63,6 +63,8 @@ spec:
             value: "/xapi"
           - name: AWS_REGION
             value: {{ .Values.aws_region }}
+          - name: DYNAMODB_TABLE_NAME
+            value: {{ .Values.dynamodb_table_name }}
           - name: ELASTICSEARCH_USERNAME
             value: {{ .Values.elasticsearch_username }}
           - name: FIREHOSE_STREAM_NAME
