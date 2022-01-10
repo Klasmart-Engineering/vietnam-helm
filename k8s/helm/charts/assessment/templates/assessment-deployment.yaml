@@ -49,7 +49,7 @@ spec:
           periodSeconds: 5
         env:
           - name: ENABLE_PAGE_DOCS
-            value: "0"
+            value: "1"
           - name: DOMAIN
             value: {{ .Values.domain }}
           - name: USE_ATTENDANCE_API_FLAG
@@ -66,20 +66,13 @@ spec:
             value: "/assessment"
           - name: USER_SERVICE_API_URL
             value: {{ .Values.user_api_endpoint }}
-          - name: CMS_DB_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: mysql
-                key: mysql-password
-          - name: CMS_DATABASE_URL
-            value: "mysql://{{ .Values.cms_db_user }}:$(CMS_DB_SECRET)@{{ .Values.mysql_host }}:3306/{{ .Values.cms_db }}"
           - name: POSTGRES_DB_SECRET
             valueFrom:
               secretKeyRef:
                 name: postgresql
                 key: postgresql-password
-          - name: USER_DATABASE_URL
-            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_database }}"
+          - name: ATTENDANCE_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_attendance_database }}"
           - name: ASSESSMENT_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_assessment_database }}"
           - name: XAPI_DATABASE_URL
