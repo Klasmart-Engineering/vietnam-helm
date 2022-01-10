@@ -157,11 +157,11 @@
     "hub_appVersion": "2.25.3",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "v3-6-0-id-id-prod-82c2b2a",
+    "live_frontend_image_tag": "commit-id-prod-e63ee01",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 2,
     "live_frontend_max_replica_count": 6,
-    "live_frontend_appVersion": "3.6.0",
+    "live_frontend_appVersion": "3.5.2",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "master-8c0985e",
