@@ -202,11 +202,11 @@
     "sfu_gateway_appVersion": "1.2.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2.5.1",
+    "user_service_image_tag": "v2.3.1",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 2,
     "user_service_max_replica_count": 6,
-    "user_service_appVersion": "2.5.1",
+    "user_service_appVersion": "2.3.1",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-4fad487",
