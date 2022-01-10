@@ -150,11 +150,11 @@
     "cms_frontend_appVersion": "2.13.2",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-beta-f1de50e",
+    "hub_image_tag": "commit-id-beta-40aab71",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "2.25.2",
+    "hub_appVersion": "2.25.3",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "v3-6-0-id-id-beta-82c2b2a",
@@ -202,11 +202,11 @@
     "sfu_gateway_appVersion": "1.2.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2.5.0",
+    "user_service_image_tag": "v2.5.1",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 6,
-    "user_service_appVersion": "2.5.0",
+    "user_service_appVersion": "2.5.1",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-4fad487",

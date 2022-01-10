@@ -46,6 +46,12 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: ENABLE_PAGE_DOCS
+            value: "1"
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: LOG_STYLE
+            value: "NEW_RELIC"
           - name: NODE_ENV
             value: "{{  .Values.deployment_env }}"
           - name: DOMAIN
