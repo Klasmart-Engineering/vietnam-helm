@@ -35,4 +35,7 @@ bash gke.sh $ENV_NAME
 # install helm release for specific release
 bash helm.sh $ENV_NAME diff --release=live-frontend
 bash helm.sh $ENV_NAME apply --release=live-frontend
+
+# Install Newrelic and other component
+https://calmisland.atlassian.net/wiki/spaces/KLVN/pages/2452619369/New+Relic
 ```

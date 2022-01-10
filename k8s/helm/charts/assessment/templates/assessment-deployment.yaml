@@ -75,10 +75,12 @@ spec:
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_attendance_database }}"
           - name: ASSESSMENT_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_assessment_database }}"
+          - name: ATTENDANCE_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_attendance_database }}"
           - name: XAPI_DATABASE_URL
             value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_xapi_host }}/{{ .Values.postgresql_xapi_database }}"
           - name: AWS_REGION
-            value: {{ .Values.aws_region }}            
+            value: {{ .Values.aws_region }}
           - name: DYNAMODB_TABLE_NAME
             value: {{ .Values.dynamodb_table_name }}
           - name: NEW_RELIC_NO_CONFIG_FILE
