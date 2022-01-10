@@ -136,11 +136,11 @@
     "auth_backend_appVersion": "0.1.0",
     
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "main-c02cf33",
+    "cms_backend_image_tag": "hotfix-20211223-77f19e6",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 1,
     "cms_backend_max_replica_count": 6,
-    "cms_backend_appVersion": "2.11.0",
+    "cms_backend_appVersion": "2.11.1",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
     "cms_frontend_image_tag": "commit-id-rk_beta-ed2f4f3",
@@ -150,18 +150,18 @@
     "cms_frontend_appVersion": "2.11.0",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "commit-id-rk_beta-adfd337",
+    "hub_image_tag": "commit-id-rk_beta-964804d",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "0.1.0",
+    "hub_appVersion": "2.25.1",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "commit-id-rk_beta-e63ee01",
+    "live_frontend_image_tag": "v3-6-0-id-id-rk_beta-82c2b2a",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 6,
-    "live_frontend_appVersion": "3.5.2",
+    "live_frontend_appVersion": "3.6.0",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "master-76820fb",
@@ -171,11 +171,11 @@
     "live_backend_appVersion": "1.6.0",
  
     "pdf_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-pdf-service",
-    "pdf_service_image_tag": "v0.3.28",
+    "pdf_service_image_tag": "v0.3.29",
     "pdf_service_image_pull_secrets": "ecr-registry-infra",
     "pdf_service_min_replica_count": 1,
     "pdf_service_max_replica_count": 6,
-    "pdf_service_appVersion": "0.3.28",
+    "pdf_service_appVersion": "0.3.29",
     
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
     "sfu_manager_image_tag": "redis-query-675c1ce",
@@ -202,11 +202,11 @@
     "sfu_gateway_appVersion": "1.2.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2.3.0-a69db6f",
+    "user_service_image_tag": "v2.5.0",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 6,
-    "user_service_appVersion": "2.3.0",
+    "user_service_appVersion": "2.5.0",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "india-c99ff43",
@@ -222,11 +222,11 @@
     "xapi_appVersion": "1.2.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "v1.6.6",
+    "assessment_image_tag": "v1.7.5",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.6.6",
+    "assessment_appVersion": "1.7.5",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
     "attendance_service_image_tag": "master-2494db9",

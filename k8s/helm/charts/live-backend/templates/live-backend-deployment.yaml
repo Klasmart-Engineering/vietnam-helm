@@ -49,6 +49,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: ASSESSMENT_GENERATE_TIME
+            value: "300"
           - name: REDIS_MODE
             value: "NODE"
           - name: STUDENT_REPORT_ENDPOINT
