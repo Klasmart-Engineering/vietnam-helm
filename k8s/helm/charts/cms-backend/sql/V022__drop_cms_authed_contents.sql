@@ -1,0 +1,1 @@
+drop table if exists cms_authed_contents;
