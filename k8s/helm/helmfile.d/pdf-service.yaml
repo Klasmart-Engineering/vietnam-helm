@@ -41,6 +41,7 @@ releases:
         ingress:
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
+            {{- if eq .Values.provider "gcp" }}
             kubernetes.io/ingress.class: "nginx"
             ingress.kubernetes.io/enable-cors: "true"
             nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
@@ -49,6 +50,7 @@ releases:
             nginx.ingress.kubernetes.io/send-timeout: "3600"
             nginx.ingress.kubernetes.io/ssl-redirect: "true"
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            {{- else }}
             nginx.ingress.kubernetes.io/configuration-snippet: |
               if ($request_method = OPTIONS) {
                 more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
@@ -57,7 +59,8 @@ releases:
               }
               more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
               more_set_headers "Access-Control-Allow-Credentials: true";
-            nginx.ingress.kubernetes.io/proxy-body-size: 512m
+            nginx.ingress.kubernetes.io/proxy-body-size: 512m          
+            {{- end }}
           tls:
             - endpoint:
                 hosts:
@@ -81,7 +84,7 @@ releases:
         pdf_bucket: {{ .Values.storage.pdf_bucket }}
         pdf_bucket_region: {{ .Values.storage.region }}
         pdf_bucket_endpoint: {{ .Values.storage.endpoint }}    
-        cms_base_url: {{- if eq .Values.provider "gcp" }} https://live{{ .Values.kl_domain }} {{- else }} https://cdn-live{{ .Values.kl_domain }} {{- end }}
+        cms_base_url: {{- if eq .Values.provider "gcp" }} {{ .Values.storage.cdn_live }} {{- else }} https://cdn-live{{ .Values.kl_domain }} {{- end }}
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
