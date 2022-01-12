@@ -49,10 +49,8 @@ releases:
           {{- else }}
           annotations:
             nginx.ingress.kubernetes.io/configuration-snippet: |
-              if ($request_uri ~* \.(js|css|gif|jpe?g|png)) {
                 expires 0;
                 add_header Cache-Control "no-cache, no-store, must-revalidate";
-              }            
           {{- end }}
           tls:
             - endpoint:
