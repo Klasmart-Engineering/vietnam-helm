@@ -39,9 +39,9 @@ releases:
           - name: {{ .Values.pdf_service_image_pull_secrets }}
         appVersion: {{ .Values.pdf_service_appVersion }}
         ingress:
-          {{- if eq .Values.provider "gcp" }}
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
+            {{- if eq .Values.provider "gcp" }}
             kubernetes.io/ingress.class: "nginx"
             ingress.kubernetes.io/enable-cors: "true"
             nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
@@ -50,9 +50,7 @@ releases:
             nginx.ingress.kubernetes.io/send-timeout: "3600"
             nginx.ingress.kubernetes.io/ssl-redirect: "true"
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          {{- else }}
-          annotations:
-            cert-manager.io/cluster-issuer: "letsencrypt"
+            {{- else }}
             nginx.ingress.kubernetes.io/configuration-snippet: |
               if ($request_method = OPTIONS) {
                 more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
@@ -62,7 +60,7 @@ releases:
               more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
               more_set_headers "Access-Control-Allow-Credentials: true";
             nginx.ingress.kubernetes.io/proxy-body-size: 512m          
-          {{- end }}
+            {{- end }}
           tls:
             - endpoint:
                 hosts:
