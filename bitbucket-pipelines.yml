@@ -3,21 +3,15 @@ image: public.ecr.aws/f2u4s3o8/helm:latest
 clone:
   depth: 1
 
-pipelines:
-  pull-requests:
-    '{*/vietnam/**}':
+pipelines:  
+  tags:
+    '{release/vietnam-**}':
       - step:
           name: Helm Diff
           script:
-            - echo "Deploy Production"
-
-  branches:
-    '{*/vietnam/**}':
-      - step:
-          name: Helm Diff
-          script:
-            - echo "Deploy Beta"
+            - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production"; export KUBECONFIG=$KLVN_PROD; else BUILD_ENV="vietnam-beta";  export KUBECONFIG=$KLVN_BETA; fi
+            - echo "Deploy ${BUILD_ENV}"
             - mkdir -p ~/.kube && chmod -R 700 ~/.kube
-            - (umask  077 ; echo $KLVN_BETA | base64 -d > ~/.kube/config)
+            - (umask  077 ; echo $KUBECONFIG | base64 -d > ~/.kube/config)
             - sed -i "86d" ./k8s/helm.sh
-            - cd k8s && ./helm.sh vietnam-beta diff            
+            - cd k8s && ./helm.sh $BUILD_ENV diff                      
