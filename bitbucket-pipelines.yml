@@ -5,7 +5,7 @@ clone:
 
 pipelines:
   pull-requests:
-    '{release,hotfix/vietnam/**}':
+    '{*/vietnam/**}':
       - step:
           name: Test
           script:
