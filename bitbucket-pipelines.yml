@@ -9,4 +9,5 @@ pipelines:
       - step:
           name: Test
           script:
-            - ls -la          
+            - ls -la 
+            - echo "test"         
