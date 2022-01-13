@@ -19,5 +19,5 @@ pipelines:
             - echo "Deploy Beta"
             - mkdir -p ~/.kube && chmod -R 700 ~/.kube
             - (umask  077 ; echo $KLVN_BETA | base64 -d > ~/.kube/config)
-            - sed -i \"86d\" ./k8s/helm.sh
+            - sed -i "86d" ./k8s/helm.sh
             - cd k8s && ./helm.sh vietnam-beta diff            
