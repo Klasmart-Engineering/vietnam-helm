@@ -1,0 +1,12 @@
+image: node:16
+
+clone:
+  depth: 1
+
+pipelines:
+  pull-requests:
+    "**":
+      - step:
+          name: Test
+          script:
+            - ls -la          
