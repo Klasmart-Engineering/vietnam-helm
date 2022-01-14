@@ -3,27 +3,41 @@ image: public.ecr.aws/f2u4s3o8/helm:latest
 clone:
   depth: 1
 
+definitions:
+  steps: 
+    - step: &helm-diff
+        name: Helm Diff
+        script:
+          - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production" && export KUBECONFIG_TMP=${KLVN_PROD}; else BUILD_ENV="vietnam-beta" && export KUBECONFIG_TMP=${KLVN_BETA}; fi
+          - echo "Check the update of ${BUILD_ENV} Deployment"
+          - mkdir -p ~/.kube && chmod -R 700 ~/.kube
+          - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
+          - cat ~/.kube/config | head -10
+          - sed -i "86d" ./k8s/helm.sh            
+          - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV diff  
+    - step: &helm-apply
+        name: Helm Apply
+        trigger: manual
+        script:
+          - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production" && export KUBECONFIG_TMP=${KLVN_PROD}; else BUILD_ENV="vietnam-beta" && export KUBECONFIG_TMP=${KLVN_BETA}; fi
+          - echo "Apply new update to ${BUILD_ENV}"
+          - mkdir -p ~/.kube && chmod -R 700 ~/.kube
+          - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
+          - cat ~/.kube/config | head -10
+          - sed -i "86d" ./k8s/helm.sh            
+          - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV apply      
+
 pipelines:  
   tags:
-    '{release/vietnam-**}':
+    '{*/vietnam/beta**}':
+      - step: 
+          <<: *helm-diff
+      - step: 
+          <<: *helm-apply
+          deployment: vietnam-beta
+    '{*/vietnam/production**}':
+      - step: 
+          <<: *helm-diff
       - step:
-          name: Helm Diff
-          script:
-            - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production" && export KUBECONFIG_TMP=${KLVN_PROD}; else BUILD_ENV="vietnam-beta" && export KUBECONFIG_TMP=${KLVN_BETA}; fi
-            - echo "Check the update of ${BUILD_ENV} Deployment"
-            - mkdir -p ~/.kube && chmod -R 700 ~/.kube
-            - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
-            - cat ~/.kube/config | head -10
-            - sed -i "86d" ./k8s/helm.sh            
-            - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV diff  
-      - step:
-          name: Helm Apply
-          trigger: manual
-          script:
-            - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production" && export KUBECONFIG_TMP=${KLVN_PROD}; else BUILD_ENV="vietnam-beta" && export KUBECONFIG_TMP=${KLVN_BETA}; fi
-            - echo "Apply new update to ${BUILD_ENV}"
-            - mkdir -p ~/.kube && chmod -R 700 ~/.kube
-            - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
-            - cat ~/.kube/config | head -10
-            - sed -i "86d" ./k8s/helm.sh            
-            - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV apply                                  
+          <<: *helm-apply 
+          deployment: vietnam-production     
