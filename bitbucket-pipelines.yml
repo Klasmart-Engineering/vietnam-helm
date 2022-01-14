@@ -31,11 +31,11 @@ pipelines:
   tags:
     '{*/vietnam/beta**}':
       - step: *helm-diff
-          deployment: vietnam-beta
+        deployment: vietnam-beta
       - step: *helm-apply
-          deployment: vietnam-beta
+        deployment: vietnam-beta
     '{*/vietnam/production**}':
       - step: *helm-diff
-          deployment: vietnam-production
+        deployment: vietnam-production
       - step: *helm-apply 
-          deployment: vietnam-production     
+        deployment: vietnam-production     
