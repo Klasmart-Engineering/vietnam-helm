@@ -32,14 +32,12 @@ pipelines:
     '{*/vietnam/beta**}':
       - step: 
           <<: *helm-diff
-          deployment: vietnam-beta
       - step: 
           <<: *helm-apply
           deployment: vietnam-beta
     '{*/vietnam/production**}':
       - step: 
           <<: *helm-diff
-          deployment: vietnam-production
       - step:
           <<: *helm-apply 
           deployment: vietnam-production     
