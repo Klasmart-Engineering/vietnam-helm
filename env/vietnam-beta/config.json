@@ -142,7 +142,7 @@
     "hub_appVersion": "2.25.3",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "v3-5-2-hotfix-1-vn-vn-beta-5d96535",
+    "live_frontend_image_tag": "v3-9-1-vn-vn-beta-26c38a5",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 6,
