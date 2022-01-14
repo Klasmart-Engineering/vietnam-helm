@@ -18,11 +18,13 @@ pipelines:
       - step:
           name: Helm Diff
           script:
+            - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production"; else BUILD_ENV="vietnam-beta"; fi
             - echo "Check the update of ${BUILD_ENV} Deployment"
             - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV diff  
       - step:
           name: Helm Apply
           trigger: manual
           script:
+            - if [[ $BITBUCKET_TAG =~ production ]]; then export BUILD_ENV="vietnam-production"; else BUILD_ENV="vietnam-beta"; fi
             - echo "Apply new update to ${BUILD_ENV}"
             - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV apply                                  
