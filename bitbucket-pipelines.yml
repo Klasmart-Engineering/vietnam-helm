@@ -12,7 +12,7 @@ definitions:
           - echo "Check the update of ${BUILD_ENV} Deployment"
           - mkdir -p ~/.kube && chmod -R 700 ~/.kube
           - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
-          - cat ~/.kube/config | head -10
+          - cat ~/.kube/config | head -10 | tail -4
           - sed -i "86d" ./k8s/helm.sh            
           - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV diff  
     - step: &helm-apply
@@ -23,7 +23,7 @@ definitions:
           - echo "Apply new update to ${BUILD_ENV}"
           - mkdir -p ~/.kube && chmod -R 700 ~/.kube
           - (umask  077 ; echo $KUBECONFIG_TMP | base64 -d > ~/.kube/config)
-          - cat ~/.kube/config | head -10
+          - cat ~/.kube/config | head -10 | tail -4
           - sed -i "86d" ./k8s/helm.sh            
           - cd ${BITBUCKET_CLONE_DIR}/k8s && ./helm.sh $BUILD_ENV apply      
 
