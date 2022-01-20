@@ -196,10 +196,10 @@
     "user_service_appVersion": "2.3.1",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-0709946",
+    "h5p_service_image_tag": "production-754d8a7",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
     "h5p_service_replica_count": 4,
-    "h5p_service_appVersion": "2.8.0",
+    "h5p_service_appVersion": "2.8.1",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-4fad487",
