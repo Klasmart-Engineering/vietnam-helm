@@ -81,9 +81,9 @@ done
 
 # Vault secrets in Helmfile - see here for usage:
 # https://github.com/variantdev/vals#suported-backends
-export VAULT_ADDR=https://vault.devops.klpsre.com
-echo "Authenticating to Vault..."
-vault token lookup >> /dev/null || vault login -path=azure -method=oidc
+#export VAULT_ADDR=https://vault.devops.klpsre.com
+#echo "Authenticating to Vault..."
+#vault token lookup >> /dev/null || vault login -path=azure -method=oidc
 
 # Helm
 echo -e "\nRunning Helm"
