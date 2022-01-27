@@ -142,7 +142,7 @@
     "hub_appVersion": "2.25.3",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "v3-5-2-hotfix-1-vn-vn-beta-5d96535",
+    "live_frontend_image_tag": "v3-9-1-vn-vn-beta-26c38a5",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 6,
@@ -194,10 +194,10 @@
     "user_service_appVersion": "2.3.1",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
-    "h5p_service_image_tag": "production-e8f71e5",
+    "h5p_service_image_tag": "production-754d8a7",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
-    "h5p_service_replica_count": 1,
-    "h5p_service_appVersion": "2.7.0",
+    "h5p_service_replica_count": 4,
+    "h5p_service_appVersion": "2.8.1",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "production-4fad487",
