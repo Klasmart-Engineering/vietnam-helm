@@ -73,11 +73,11 @@ releases:
                 - "/switch"
         resources:
           requests:
-            cpu: 100m
-            memory: 512Mi
-          limits:
-            cpu: 200m
+            cpu: 150m
             memory: 1Gi
+          limits:
+            cpu: 250m
+            memory: 2Gi
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.auth_backend_min_replica_count }}
