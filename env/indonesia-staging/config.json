@@ -7,7 +7,7 @@
     "domain": "beta.kidsloop.id",
     "deployment_region": "indonesia",
     "deployment_name": "indonesia-staging",
-    "vault_addr": "http://vault.devops.klpsre.com",
+    "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/indonesia-staging",
     "env": "beta",
 
