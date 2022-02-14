@@ -1,0 +1,27 @@
+appVersion: 0.1.0
+externalServices:
+  live:
+    enabled: false
+    externalName: "" 
+    servicePort: 443
+    serviceProtocol: HTTPS
+
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt"    
+  }
+  hosts: {
+  }
+  tls: [
+      endpoint: {
+        hosts: [
+          "vn-bfc.dev.kidsloop.net"
+        ],
+        secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+      }
+  ]
+
+resources: {}
