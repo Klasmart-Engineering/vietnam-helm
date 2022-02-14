@@ -1,0 +1,23 @@
+{{- if .Values.externalServices.live.enabled }}
+{{ $fullname := include "live-external.fullname" .}}
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: {{ $fullname }}-svc
+  labels:
+    {{- include "live-external.labels" . | nindent 4 }}  
+spec:
+  type: ExternalName
+  externalName: "{{ .Values.externalServices.live.externalName }}"
+  selector:
+    {{- include "live-external.selectorLabels" . | nindent 4 }}  
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 443
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+{{- end }}

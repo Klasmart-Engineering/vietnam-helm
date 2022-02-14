@@ -1,0 +1,40 @@
+{{- if .Values.externalServices.live.enabled }}
+{{ $fullname := include "live-external.fullname" .}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullname }}-ingress
+  labels:
+    {{- include "live-external.labels" . | nindent 4 }}  
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}  
+
+spec:
+  {{- if .Values.ingress.tls }}
+  tls:
+    {{- range .Values.ingress.tls }}
+    - hosts:
+      {{- range .endpoint.hosts }}
+      - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .endpoint.secretName }}
+    {{- end }}
+  {{- end }}
+
+
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              serviceName: {{ $fullname }}-svc
+              servicePort: 443
+          {{- end }}
+  {{- end }}
+{{- end }}

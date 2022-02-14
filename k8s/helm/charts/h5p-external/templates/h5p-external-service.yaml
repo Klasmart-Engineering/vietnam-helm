@@ -1,0 +1,23 @@
+{{- if .Values.externalServices.h5p.enabled }}
+{{ $fullname := include "h5p-external.fullname" .}}
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: {{ $fullname }}-svc
+  labels:
+    {{- include "h5p-external.labels" . | nindent 4 }}  
+spec:
+  type: ExternalName
+  externalName: "{{ .Values.externalServices.h5p.externalName }}"
+  selector:
+    {{- include "h5p-external.selectorLabels" . | nindent 4 }}  
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 443
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+{{- end }}

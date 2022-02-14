@@ -1,0 +1,61 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  {{- if eq .Values.provider "vngcloud" }}
+  - name: h5p-external
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/h5p-external
+    values:
+      - domain: {{ .Values.kl_domain }}
+        externalServices:
+          h5p:
+            enabled: true
+            externalName: h5p-content{{ .Values.kl_domain }}
+        ingress:
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            ingress.kubernetes.io/enable-cors: "true"
+            kubernetes.io/ingress.allow-http: "false"
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            # Rewrite/Proxy annotations - see here: https://kubernetes.github.io/ingress-nginx/examples/rewrite/#rewrite-target
+            nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+            # https://github.com/kubernetes/ingress-nginx/issues/1600
+            nginx.ingress.kubernetes.io/proxy-ssl-name: h5p-content{{ .Values.kl_domain }}
+            nginx.ingress.kubernetes.io/proxy-ssl-server-name: h5p-content{{ .Values.kl_domain }}
+            nginx.ingress.kubernetes.io/upstream-vhost: h5p-content{{ .Values.kl_domain }}
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              proxy_ssl_name  h5p-content{{ .Values.kl_domain }} ;
+              proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3 ;
+              proxy_ssl_server_name on ;
+              proxy_ssl_session_reuse off ;      
+          tls:
+            - endpoint:
+                hosts:
+                  - h5p{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
+          hosts:
+            - host: h5p{{ .Values.kl_domain }}
+              paths:
+                - "/h5p/content"                                                
+  {{- end}}
