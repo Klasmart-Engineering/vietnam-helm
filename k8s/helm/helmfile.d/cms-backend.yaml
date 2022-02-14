@@ -88,7 +88,7 @@ releases:
           db_username: {{ .Values.mysql_username }}
           redis_host: {{ .Values.redis_host }}
           ams_endpoint: https://api{{ .Values.kl_domain }}/user
-          cors_domain_list: https://*{{ .Values.kl_domain }},file://
+          cors_domain_list: https://*{{ .Values.kl_domain }},http://*{{ .Values.kl_domain }},file://
           cors_allow_file_protocol: "true"
           {{ if .Values.storage }}
           storage_accelerate: "true"
