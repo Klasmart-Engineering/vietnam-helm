@@ -30,7 +30,8 @@ releases:
       - domain: {{ .Values.kl_domain }}
         externalServices:
           h5p:
-            enabled: true
+            # temporary disabled
+            enabled: false
             externalName: h5p-content{{ .Values.kl_domain }}
         ingress:
           annotations:
