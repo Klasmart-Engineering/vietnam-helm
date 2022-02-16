@@ -187,7 +187,7 @@
     "sfu_gateway_appVersion": "1.2.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "release-v2-7-0-b714c85",
+    "user_service_image_tag": "v2.7.0",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 6,
@@ -207,18 +207,18 @@
     "xapi_appVersion": "1.4.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "v1.11.4",
+    "assessment_image_tag": "v1.11.15",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.11.4",
+    "assessment_appVersion": "1.11.15",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
-    "attendance_service_image_tag": "master-00693fc",
+    "attendance_service_image_tag": "master-8ee2c9e",
     "attendance_service_image_pull_secrets": "ecr-registry-infra",
     "attendance_service_min_replica_count": 1,
     "attendance_service_max_replica_count": 6,
-    "attendance_service_appVersion": "1.1.0",
+    "attendance_service_appVersion": "1.2.0",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
