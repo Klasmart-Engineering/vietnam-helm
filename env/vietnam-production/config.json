@@ -80,7 +80,7 @@
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://cdn.kidsloop.vn",
-        "cdn_live": "https://cdn-live.kidsloop.vn"
+        "cdn_live": "https://live.kidsloop.vn/"
     },
 
     "mongodb": {
