@@ -120,6 +120,8 @@
     
     "base_url_user": "https://api.beta.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.beta.kidsloop.id",
+    
+    "assessment_gen_time": 300,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "commit-id-beta-d98aaf2",

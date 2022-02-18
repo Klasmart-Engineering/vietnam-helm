@@ -38,6 +38,7 @@ releases:
         imagePullSecrets:
           - name: {{ .Values.live_backend_image_pull_secrets }}
         appVersion: {{ .Values.live_backend_appVersion }}
+        assessmentGenerateTime: {{.Values.assessment_gen_time }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

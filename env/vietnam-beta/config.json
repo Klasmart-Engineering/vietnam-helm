@@ -106,6 +106,8 @@
     "h5p_xapi_endpoint": "wss://api.alpha.kidsloop.net/xapi/graphql",
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
     
+    "assessment_gen_time": 300,
+    
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "release-vietnam-2-8-2-vn-beta-123e605",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
