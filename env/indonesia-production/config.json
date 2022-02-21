@@ -121,6 +121,8 @@
     "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.id",
 
+    "assessment_gen_time": 7200,
+
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "release-vietnam-2-8-2-id-prod-c9decce",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",

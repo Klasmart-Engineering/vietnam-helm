@@ -50,7 +50,7 @@ spec:
           periodSeconds: 5
         env:
           - name: ASSESSMENT_GENERATE_TIME
-            value: "300"
+            value: "{{ .Values.assessmentGenerateTime }}"
           - name: REDIS_MODE
             value: "NODE"
           - name: STUDENT_REPORT_ENDPOINT
