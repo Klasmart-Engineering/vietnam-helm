@@ -46,6 +46,13 @@ releases:
         postgresql_instance: {{ .Values.postgresql_database }}
       {{- end }}
         appVersion: {{ .Values.auth_backend_appVersion }}
+        azure_b2c:
+          enabled: "{{ .Values.azure_b2c.enabled }}"
+          tenant_id: {{ .Values.azure_b2c.tenant_id }}
+          domain: {{ .Values.azure_b2c.domain }}
+          policy_name: {{ .Values.azure_b2c.policy_name }}
+          authority: {{ .Values.azure_b2c.authority }}
+          client_id: {{ .Values.azure_b2c.client_id }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

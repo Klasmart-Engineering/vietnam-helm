@@ -99,6 +99,15 @@
         "temporary_storage_bucket": "kidsloop-h5p-temporary-production"
     },
 
+    "azure_b2c": {
+        "enabled": "true",
+        "tenant_id":"ca56551c-4b1d-499f-9d99-5ba27ae4a5c0",
+        "domain": "login.kidsloop.vn",
+        "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "client_id": "056a9ca6-97b7-4ef0-9549-2561d5f30e28"
+    },
+
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "kl-prod-xapi",
     "elasticsearch_url": "",

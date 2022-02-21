@@ -97,6 +97,15 @@
         "temporary_storage_bucket": "kidsloop-h5p-temporary-alpha"
     },
 
+    "azure_b2c": {
+        "enabled": "false",
+        "tenant_id":"",
+        "domain": "",
+        "policy_name": "",
+        "authority": "",
+        "client_id": ""
+    },
+
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "kl-alpha-xapi",
     "elasticsearch_url": "",

@@ -105,6 +105,15 @@
         "temporary_storage_bucket": "klid-rk-prod-h5p-temp"
     },
 
+    "azure_b2c": {
+        "enabled": "false",
+        "tenant_id":"",
+        "domain": "",
+        "policy_name": "",
+        "authority": "",
+        "client_id": ""
+    },
+
     "mongodb": {
         "url": "mongodb+srv://cluster-test.edwwi.mongodb.net",
         "username": "kidslooproot",
