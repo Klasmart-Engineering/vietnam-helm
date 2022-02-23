@@ -105,6 +105,15 @@
         "temporary_storage_bucket": "klid-beta-h5p-temp"
     },
 
+    "azure_b2c": {
+        "enabled": "false",
+        "tenant_id":"5dd1ecf5-e57b-4cb0-a020-f92275423d86",
+        "domain": "login.beta.kidsloop.id",
+        "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "client_id": "12b50282-881e-4e72-81f2-ef198e9e71c8"
+    },
+
     "mongodb": {
         "url": "mongodb+srv://cluster-test.edwwi.mongodb.net",
         "username": "kidslooproot",
