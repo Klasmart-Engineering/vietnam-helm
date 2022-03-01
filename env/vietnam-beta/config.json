@@ -97,6 +97,15 @@
         "temporary_storage_bucket": "kidsloop-h5p-temporary-beta"
     },
 
+    "azure_b2c": {
+        "enabled": "true",
+        "tenant_id":"79505d03-827a-4832-abe1-dcff8356336a",
+        "domain": "login.beta.kidsloop.vn",
+        "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "client_id": "031ebad4-540f-4b25-97cb-4946a364b8e9"
+    },
+
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "kl-beta-xapi",
     "elasticsearch_url": "",
@@ -109,14 +118,14 @@
     "assessment_gen_time": 300,
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-vietnam-2-8-2-vn-beta-123e605",
+    "auth_frontend_image_tag": "release-vietnam-2-10-2-azureb2c-vn-beta-31eda79",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 6,
-    "auth_frontend_appVersion": "2.8.2",
+    "auth_frontend_appVersion": "2.10.2",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
-    "auth_backend_image_tag": "debug-f3c48a-deployment-staging-1f16612",
+    "auth_backend_image_tag": "master-51734c3",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
     "auth_backend_min_replica_count": 1,
     "auth_backend_max_replica_count": 6,
@@ -209,11 +218,11 @@
     "xapi_appVersion": "1.4.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "v1.11.15",
+    "assessment_image_tag": "v1.11.16",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.11.15",
+    "assessment_appVersion": "1.11.16",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
     "attendance_service_image_tag": "master-8ee2c9e",
