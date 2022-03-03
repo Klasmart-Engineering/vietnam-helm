@@ -100,7 +100,7 @@
     },
 
     "azure_b2c": {
-        "enabled": "false",
+        "enabled": "true",
         "tenant_id":"ca56551c-4b1d-499f-9d99-5ba27ae4a5c0",
         "domain": "login.kidsloop.vn",
         "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
@@ -120,14 +120,14 @@
     "assessment_gen_time": 7200,
     
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-vietnam-2-8-2-vn-prod-123e605",
+    "auth_frontend_image_tag": "release-vietnam-2-10-2-azureb2c-vn-prod-31eda79",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 4,
     "auth_frontend_max_replica_count": 8,
-    "auth_frontend_appVersion": "2.8.2",
+    "auth_frontend_appVersion": "2.10.2",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
-    "auth_backend_image_tag": "debug-f3c48a-deployment-staging-1f16612",
+    "auth_backend_image_tag": "master-51734c3",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
     "auth_backend_min_replica_count": 4,
     "auth_backend_max_replica_count": 8,
