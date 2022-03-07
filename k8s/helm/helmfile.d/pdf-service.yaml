@@ -84,7 +84,7 @@ releases:
         pdf_bucket: {{ .Values.storage.pdf_bucket }}
         pdf_bucket_region: {{ .Values.storage.region }}
         pdf_bucket_endpoint: {{ .Values.storage.endpoint }}    
-        cms_base_url: {{- if eq .Values.provider "gcp" }} {{ .Values.storage.cdn_live }} {{- else }} https://cdn-live{{ .Values.kl_domain }} {{- end }}
+        cms_base_url: {{- if eq .Values.provider "gcp" }} {{ .Values.storage.cdn_path }} {{- else }} https://cdn-live{{ .Values.kl_domain }} {{- end }}
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
         postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
