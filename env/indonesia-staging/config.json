@@ -106,7 +106,7 @@
     },
 
     "azure_b2c": {
-        "enabled": "false",
+        "enabled": "true",
         "tenant_id":"5dd1ecf5-e57b-4cb0-a020-f92275423d86",
         "domain": "login.beta.kidsloop.id",
         "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
@@ -133,11 +133,11 @@
     "assessment_gen_time": 300,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "id-v2-10-2-id-beta-2d85447",
+    "auth_frontend_image_tag": "id-v2-10-3-id-beta-49ec4f2",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 6,
-    "auth_frontend_appVersion": "2.10.2",
+    "auth_frontend_appVersion": "2.10.3",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
     "auth_backend_image_tag": "master-51734c3",
@@ -154,25 +154,25 @@
     "cms_backend_appVersion": "2.15.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "commit-id-beta-8e1c23a",
+    "cms_frontend_image_tag": "commit-id-beta-92b5b01",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 1,
     "cms_frontend_max_replica_count": 6,
-    "cms_frontend_appVersion": "2.15.1",
+    "cms_frontend_appVersion": "2.15.2",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "id-v2-30-1-id-beta-dd38d24",
+    "hub_image_tag": "id-v2-35-1-id-beta-a950dd2",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "2.30.1",
+    "hub_appVersion": "2.35.1",
     
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "id-v4-1-0-id-beta-a475d6b",
+    "live_frontend_image_tag": "id-v4-2-0-id-beta-40cc03c",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 6,
-    "live_frontend_appVersion": "4.1.0",
+    "live_frontend_appVersion": "4.2.0",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "master-b1e3433",
@@ -213,11 +213,11 @@
     "sfu_gateway_appVersion": "1.2.0",
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v2.7.0",
+    "user_service_image_tag": "v3.0.0",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 1,
     "user_service_max_replica_count": 6,
-    "user_service_appVersion": "2.7.0",
+    "user_service_appVersion": "3.0.0",
 
     "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
     "xapi_image_tag": "v1.5.0",
@@ -227,11 +227,11 @@
     "xapi_appVersion": "1.5.0",
 
     "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
-    "assessment_image_tag": "v.1.13.0",
+    "assessment_image_tag": "v1.13.3",
     "assessment_image_pull_secrets": "ecr-registry-infra",
     "assessment_min_replica_count": 1,
     "assessment_max_replica_count": 6,
-    "assessment_appVersion": "1.13.0",
+    "assessment_appVersion": "v1.13.3",
 
     "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
     "attendance_service_image_tag": "v1.3.1",
