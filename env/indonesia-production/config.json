@@ -134,14 +134,14 @@
     "assessment_database_logging": 0,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "release-vietnam-2-8-2-id-prod-c9decce",
+    "auth_frontend_image_tag": "id-v2-10-3-id-beta-49ec4f2",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 2,
     "auth_frontend_max_replica_count": 6,
-    "auth_frontend_appVersion": "2.8.2",
+    "auth_frontend_appVersion": "2.10.3",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
-    "auth_backend_image_tag": "debug-f3c48a-deployment-staging-1f16612",
+    "auth_backend_image_tag": "master-51734c3",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
     "auth_backend_min_replica_count": 2,
     "auth_backend_max_replica_count": 6,
