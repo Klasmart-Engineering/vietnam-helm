@@ -131,6 +131,7 @@
     "base_url_h5p": "https://h5p.beta.kidsloop.id",
     
     "assessment_gen_time": 300,
+    "assessment_database_logging": 1,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "id-v2-10-3-id-beta-49ec4f2",

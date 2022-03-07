@@ -37,6 +37,8 @@ releases:
           repository: "{{ .Values.assessment_image_repository }}"
           tag: {{ .Values.assessment_image_tag }}
         domain: {{ .Values.domain }}
+        redisHost: {{ .Values.redis_host }}
+        assessmentDatabaseLogging: {{ .Values.assessment_database_logging }}
         attendanceServiceEndpoint: https://api{{ .Values.kl_domain }}/attendance
         userServiceEndpoint: https://api{{ .Values.kl_domain }}/user/graphql
         cmsApiUrl: https://cms{{ .Values.kl_domain }}/v1/internal
