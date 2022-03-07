@@ -134,7 +134,7 @@
     "assessment_database_logging": 0,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "id-v2-10-3-id-beta-49ec4f2",
+    "auth_frontend_image_tag": "id-v2-10-3-id-prod-49ec4f2",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 2,
     "auth_frontend_max_replica_count": 6,
