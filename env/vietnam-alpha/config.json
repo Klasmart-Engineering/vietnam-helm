@@ -116,6 +116,7 @@
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
     
     "assessment_gen_time": 300,
+    "assessment_database_logging": 1,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "release-vietnam-2-10-2-azureb2c-vn-beta-31eda79",

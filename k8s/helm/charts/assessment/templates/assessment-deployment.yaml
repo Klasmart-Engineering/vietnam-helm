@@ -48,6 +48,12 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: NODE_ENV
+            value: "{{  .Values.deployment_env }}"
+          - name: ASSESSMENT_DATABASE_LOGGING
+            value: "{{ .Values.assessmentDatabaseLogging }}"
+          - name: REDIS_URL
+            value: "redis://{{ .Values.redisHost }}:{{ .Values.redisPort }}"
           - name: ENABLE_PAGE_DOCS
             value: "1"
           - name: DOMAIN
