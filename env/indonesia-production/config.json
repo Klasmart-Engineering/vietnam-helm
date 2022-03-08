@@ -94,7 +94,7 @@
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://res.kidsloop.id",
-        "cdn_live": "https://res.kidsloop.id"
+        "cdn_live": "https://res.kidsloop.id/"
     },
 
     "h5p_storage": {
