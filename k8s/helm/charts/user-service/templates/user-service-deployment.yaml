@@ -46,6 +46,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: LOG_LEVEL
+            value: "info"
           - name: ENABLE_PAGE_DOCS
             value: "1"
           - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
