@@ -81,7 +81,7 @@
     },
 
     "whitelabel_storage_provider": "google",
-    "whitelabel_storage_bucket": "whitelabel-kl-id-prod",
+    "whitelabel_storage_bucket": "whitelabel-kidsloop-indonesia-prod",
 
     "kube_monitoring": {
         "slack_channel": "#sre-production-alerts"
