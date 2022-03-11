@@ -1,1 +1,0 @@
-ALTER TABLE cms_folder_items ADD COLUMN extra text NULL comment 'folder item extra data'
