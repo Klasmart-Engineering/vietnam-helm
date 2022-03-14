@@ -1,89 +1,89 @@
-# environments:
-#   vietnam-alpha:
-#     values:
-#       - ../../../env/vietnam-alpha/.env.yaml
-#   vietnam-beta:
-#     values:
-#       - ../../../env/vietnam-beta/.env.yaml
-#   vietnam-production:
-#     values:
-#       - ../../../env/vietnam-production/.env.yaml      
-#   indonesia-staging:
-#     values:
-#       - ../../../env/indonesia-staging/.env.yaml
-#   indonesia-production:
-#     values:
-#       - ../../../env/indonesia-production/.env.yaml
-#   indonesia-rk-prod:
-#     values:
-#       - ../../../env/indonesia-rk-prod/.env.yaml
-#   indonesia-rk-beta:
-#     values:
-#       - ../../../env/indonesia-rk-beta/.env.yaml
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
       
-# repositories:
+repositories:
 
-#   - name: ingress-nginx
-#     url: https://kubernetes.github.io/ingress-nginx
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
 
-# releases:
+releases:
 
-#   # INGRESSES
-#   # ---------------------------------------------------------------------------------------
-#   # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
-#   # This provides an ingress endpoint for inbound traffic
+  # INGRESSES
+  # ---------------------------------------------------------------------------------------
+  # Only deploy to Bizflycloud - for other clouds deploy using cloud-native ingress
+  # This provides an ingress endpoint for inbound traffic
   
   
-#   - name: ingress-nginx
-#     namespace: ingress-nginx
-#     createNamespace: true
-#     chart: ingress-nginx/ingress-nginx
-#     condition: helm_nginx_ingress.enabled
-#     version: 3.34.0
-#     values:
-#       - controller:
-#           replicaCount: 3
-#           config:
-#             ssl-redirect: "false"
-#             ssl-protocols: "SSLv3 TLSv1 TLSv1.1 TLSv1.2 TLSv1.3"
-#             ssl-ciphers: "HIGH:!aNULL:!MD5;"
-#             use-forwarded-headers: "true"
-#             forwarded-for-header: "true"
-#             proxy-add-original-uri-header: "true"
-#             use-gzip: "true"
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    createNamespace: true
+    chart: ingress-nginx/ingress-nginx
+    condition: helm_nginx_ingress.enabled
+    version: 3.34.0
+    values:
+      - controller:
+          replicaCount: 3
+          config:
+            ssl-redirect: "false"
+            ssl-protocols: "SSLv3 TLSv1 TLSv1.1 TLSv1.2 TLSv1.3"
+            ssl-ciphers: "HIGH:!aNULL:!MD5;"
+            use-forwarded-headers: "true"
+            forwarded-for-header: "true"
+            proxy-add-original-uri-header: "true"
+            use-gzip: "true"
 
-#           service:
-#             externalTrafficPolicy: "Local"
-#             annotations:
-#               nginx.ingress.kubernetes.io/configuration-snippet: |
-#                 more_set_headers "Access-Control-Allow-Origin: $http_origin";
-#               nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-#               nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
-#               nginx.ingress.kubernetes.io/enable-cors: "true"
-#               beta.cloud.google.com/backend-config: >
-#                 {"ports": {"80": "nginx", "443": "nginx"}}
-# {{- if (or (.Values.helm_kube_monitoring.enabled) (.Values.helm_prometheus.enabled) ) }}
-#       - controller:
-#           metrics:
-#             # Additional config for NGINX service monitor (prometheus)
-#             # https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml#L571
-#             enabled: true
-#             serviceMonitor:
-#               enabled: true
-#               # additionalLabels: {}
-#               # The label to use to retrieve the job name from.
-#               # jobLabel: "app.kubernetes.io/name"
-#               namespace: ""
-#               namespaceSelector: {}
-#               # Default: scrape .Release.Namespace only
-#               # To scrape all, use the following:
-#               # namespaceSelector:
-#               #   any: true
-#               scrapeInterval: 30s
-#               # honorLabels: true
-#               targetLabels: []
-#               metricRelabelings: []
+          service:
+            externalTrafficPolicy: "Local"
+            annotations:
+              nginx.ingress.kubernetes.io/configuration-snippet: |
+                more_set_headers "Access-Control-Allow-Origin: $http_origin";
+              nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+              nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE, PATCH"
+              nginx.ingress.kubernetes.io/enable-cors: "true"
+              beta.cloud.google.com/backend-config: >
+                {"ports": {"80": "nginx", "443": "nginx"}}
+{{- if (or (.Values.helm_kube_monitoring.enabled) (.Values.helm_prometheus.enabled) ) }}
+      - controller:
+          metrics:
+            # Additional config for NGINX service monitor (prometheus)
+            # https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml#L571
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              # additionalLabels: {}
+              # The label to use to retrieve the job name from.
+              # jobLabel: "app.kubernetes.io/name"
+              namespace: ""
+              namespaceSelector: {}
+              # Default: scrape .Release.Namespace only
+              # To scrape all, use the following:
+              # namespaceSelector:
+              #   any: true
+              scrapeInterval: 30s
+              # honorLabels: true
+              targetLabels: []
+              metricRelabelings: []
 
-#             prometheusRule:
-#               enabled: false
-# {{- end }}
+            prometheusRule:
+              enabled: false
+{{- end }}

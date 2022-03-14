@@ -1,192 +1,192 @@
-# environments:
-#   vietnam-alpha:
-#     values:
-#       - ../../../env/vietnam-alpha/.env.yaml
-#   vietnam-beta:
-#     values:
-#       - ../../../env/vietnam-beta/.env.yaml
-#   vietnam-production:
-#     values:
-#       - ../../../env/vietnam-production/.env.yaml      
-#   indonesia-staging:
-#     values:
-#       - ../../../env/indonesia-staging/.env.yaml
-#   indonesia-production:
-#     values:
-#       - ../../../env/indonesia-production/.env.yaml
-#   indonesia-rk-prod:
-#     values:
-#       - ../../../env/indonesia-rk-prod/.env.yaml
-#   indonesia-rk-beta:
-#     values:
-#       - ../../../env/indonesia-rk-beta/.env.yaml
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
       
-# releases:
+releases:
 
-#   # ECR TOKEN - VIETNAM
-#   # ---------------------------------------------------------------------------------------
-#   # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
-#   # images from the Kidsloop docker ECR.
+  # ECR TOKEN - VIETNAM
+  # ---------------------------------------------------------------------------------------
+  # This provides an cron job which refreshes the AWS ECR token to allow download of docker 
+  # images from the Kidsloop docker ECR.
  
-#   - name: ecr-token-vn
-#     namespace: {{ .Values.k8s_namespace_kidsloop }}
-#     chart: ../charts/ecr-token
-#     version: ~0.1.0
-#     condition: helm_ecr_token_vietnam.enabled
-#     values:
-#       - suffix: "-vn"
-#       - secret_name: "ecr-registry-vn"
-#       - credential_secret_name: "ecr-credentials-vn-pull"
-#       - aws_region: "ap-southeast-1"
-#       - aws_account_id: "242787759841"
-#       - image: {{ .Values.ecr_token_infra_repository }}
-#       - image_pull_secret: "ecr-registry-infra"
-#       - resources:
-#           requests:
-#             cpu: 100m
-#             memory: 100Mi
-#           limits:
-#             cpu: 200m
-#             memory: 200Mi
+  - name: ecr-token-vn
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/ecr-token
+    version: ~0.1.0
+    condition: helm_ecr_token_vietnam.enabled
+    values:
+      - suffix: "-vn"
+      - secret_name: "ecr-registry-vn"
+      - credential_secret_name: "ecr-credentials-vn-pull"
+      - aws_region: "ap-southeast-1"
+      - aws_account_id: "242787759841"
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
 
-#   # ECR TOKEN
-#   # ---------------------------------------------------------------------------------------
-#   # This provides an cron job which refreshes the AWS ECR token to allow download of docker
-#   # images from the Kidsloop docker ECR.
+  # ECR TOKEN
+  # ---------------------------------------------------------------------------------------
+  # This provides an cron job which refreshes the AWS ECR token to allow download of docker
+  # images from the Kidsloop docker ECR.
 
-#   - name: ecr-token-infra
-#     namespace: {{ .Values.k8s_namespace_kidsloop }}
-#     chart: ../charts/ecr-token
-#     version: ~0.1.0
-#     condition: helm_ecr_token_infra.enabled
-#     values:
-#       - suffix: "-infra"
-#       - secret_name: "ecr-registry-infra"
-#       - credential_secret_name: "ecr-credentials-infra-pull"       
-#       - aws_region: "eu-west-2"
-#       - aws_account_id: "942095822719"
-#       - image: {{ .Values.ecr_token_infra_repository }}
-#       - image_pull_secret: "ecr-registry-infra"
-#       - resources:
-#           requests:
-#             cpu: 100m
-#             memory: 100Mi
-#           limits:
-#             cpu: 200m
-#             memory: 200Mi           
-
-
-
-#   - name: mysql-backup
-#     namespace: {{ .Values.k8s_namespace_kidsloop }}
-#     chart: ../charts/mysql-backup
-#     version: ~0.1.0
-#     condition: helm_db_backup.enabled
-#     values:
-#       - image: {{ .Values.mysql_backup_repository }}
-#       - mysql_host: {{ .Values.mysql_host }}
-#       - mysql_username: {{ .Values.mysql_username }}
-#       - mysql_database: {{ .Values.mysql_database }}
-#       - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
-#       - storage_region: {{ .Values.helm_db_backup.region }}
-#       - storage_bucket: {{ .Values.helm_db_backup.bucket }}
-#       - resources:
-#           requests:
-#             cpu: 100m
-#             memory: 100Mi
-#           limits:
-#             cpu: 200m
-#             memory: 200Mi    
+  - name: ecr-token-infra
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/ecr-token
+    version: ~0.1.0
+    condition: helm_ecr_token_infra.enabled
+    values:
+      - suffix: "-infra"
+      - secret_name: "ecr-registry-infra"
+      - credential_secret_name: "ecr-credentials-infra-pull"       
+      - aws_region: "eu-west-2"
+      - aws_account_id: "942095822719"
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi           
 
 
 
-#   - name: postgresql-backup
-#     namespace: {{ .Values.k8s_namespace_kidsloop }}
-#     chart: ../charts/postgresql-backup
-#     version: ~0.1.0
-#     condition: helm_db_backup.enabled
-#     values:
-#       - image: {{ .Values.postgresql_backup_repository }}
-#       - postgresql_host: {{ .Values.postgresql_host }}
-#       - postgresql_username: {{ .Values.postgresql_username }}
-#       - postgresql_database: {{ .Values.postgresql_database }}
-#       - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
-#       - storage_region: {{ .Values.helm_db_backup.region }}
-#       - storage_bucket: {{ .Values.helm_db_backup.bucket }}
-#       - resources:
-#           requests:
-#             cpu: 100m
-#             memory: 100Mi
-#           limits:
-#             cpu: 200m
-#             memory: 200Mi
+  - name: mysql-backup
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/mysql-backup
+    version: ~0.1.0
+    condition: helm_db_backup.enabled
+    values:
+      - image: {{ .Values.mysql_backup_repository }}
+      - mysql_host: {{ .Values.mysql_host }}
+      - mysql_username: {{ .Values.mysql_username }}
+      - mysql_database: {{ .Values.mysql_database }}
+      - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
+      - storage_region: {{ .Values.helm_db_backup.region }}
+      - storage_bucket: {{ .Values.helm_db_backup.bucket }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi    
 
-#   # H5P SERVICE
-#   # ---------------------------------------------------------------------------------------
+
+
+  - name: postgresql-backup
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/postgresql-backup
+    version: ~0.1.0
+    condition: helm_db_backup.enabled
+    values:
+      - image: {{ .Values.postgresql_backup_repository }}
+      - postgresql_host: {{ .Values.postgresql_host }}
+      - postgresql_username: {{ .Values.postgresql_username }}
+      - postgresql_database: {{ .Values.postgresql_database }}
+      - storage_endpoint: {{ .Values.helm_db_backup.endpoint }}
+      - storage_region: {{ .Values.helm_db_backup.region }}
+      - storage_bucket: {{ .Values.helm_db_backup.bucket }}
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+
+  # H5P SERVICE
+  # ---------------------------------------------------------------------------------------
   
-#   {{- if ne .Values.provider "gcp" }}
-#   - name: h5p-service
-#     namespace: {{ .Values.k8s_namespace_kidsloop }}
-#     chart: ../charts/h5p-service
-#     values:
-#       - replicaCount: {{ .Values.h5p_service_replica_count }}
-#       - provider: {{ .Values.provider }}
-#       - deployment_name: {{ .Values.deployment_name }}
-#       - deployment_region: {{ .Values.deployment_region }}
-#       - deployment_env: {{ .Values.env }}
-#       - serviceType: {{ .Values.k8s_service_type }}
-#       - image:
-#           repository: {{ .Values.h5p_service_image_repository }}
-#           tag: {{ .Values.h5p_service_image_tag }}
-#       - imagePullSecrets:
-#           - name: {{ .Values.h5p_service_image_pull_secrets }}
-#       - appVersion: {{ .Values.h5p_service_appVersion }}
-#       - ingress:
-#           tls:
-#             - endpoint:
-#                 hosts:
-#                   - h5p{{ .Values.kl_domain }}
-#                 secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
-#           hosts:
-#             - host: h5p{{ .Values.kl_domain }}
-#               paths:
-#                 - "/"
-#       - domain: {{ .Values.domain }}
-#       - liveHost: live{{ .Values.kl_domain }}
-#       - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
-#       {{ if .Values.h5p_storage }}
-#       - h5p_storage:
-#           mongodb_url: {{ .Values.mongodb.url }}
-#           mongodb_username: {{ .Values.mongodb.username }}
-#           mongodb_database: {{ .Values.mongodb.database }}
-#           mongodb_collection_name: {{ .Values.mongodb.collection_name }}
-#           endpoint: {{ .Values.h5p_storage.endpoint }}
-#           region: {{ .Values.h5p_storage.region }}
-#           content_storage: {{ .Values.h5p_storage.content_storage }}
-#           content_storage_bucket: {{ .Values.h5p_storage.content_storage_bucket }}
-#           temporary_storage: {{ .Values.h5p_storage.temporary_storage }}
-#           temporary_storage_bucket: {{ .Values.h5p_storage.temporary_storage_bucket }}
-#       {{ end }}
-#       #{{- if eq .Values.provider "gcp" }}
-#       #- project: {{ .Values.terraform_project }}
-#       #- region: {{ .Values.terraform_region }}
-#       #- postgresql_instance: {{ .Values.postgresql_database }}
-#       #{{ end }}
-#       # TODO: performance testing or optimized performance the resources.
-#       # - resources: 
-#       #     requests:
-#       #       cpu: 200m
-#       #       memory: 1000Mi
-#       #     limits:
-#       #       cpu: 256m
-#       #       memory: 1024Mi
-#       {{- if ne .Values.provider "gcp" }}
-#       - resources:
-#           requests:
-#             cpu: 1000m
-#             memory: 1Gi
-#           limits:
-#             cpu: 1000m
-#             memory: 2Gi
-#       {{- end }}       
-#   {{- end}}
+  {{- if ne .Values.provider "gcp" }}
+  - name: h5p-service
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/h5p-service
+    values:
+      - replicaCount: {{ .Values.h5p_service_replica_count }}
+      - provider: {{ .Values.provider }}
+      - deployment_name: {{ .Values.deployment_name }}
+      - deployment_region: {{ .Values.deployment_region }}
+      - deployment_env: {{ .Values.env }}
+      - serviceType: {{ .Values.k8s_service_type }}
+      - image:
+          repository: {{ .Values.h5p_service_image_repository }}
+          tag: {{ .Values.h5p_service_image_tag }}
+      - imagePullSecrets:
+          - name: {{ .Values.h5p_service_image_pull_secrets }}
+      - appVersion: {{ .Values.h5p_service_appVersion }}
+      - ingress:
+          tls:
+            - endpoint:
+                hosts:
+                  - h5p{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
+          hosts:
+            - host: h5p{{ .Values.kl_domain }}
+              paths:
+                - "/"
+      - domain: {{ .Values.domain }}
+      - liveHost: live{{ .Values.kl_domain }}
+      - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
+      {{ if .Values.h5p_storage }}
+      - h5p_storage:
+          mongodb_url: {{ .Values.mongodb.url }}
+          mongodb_username: {{ .Values.mongodb.username }}
+          mongodb_database: {{ .Values.mongodb.database }}
+          mongodb_collection_name: {{ .Values.mongodb.collection_name }}
+          endpoint: {{ .Values.h5p_storage.endpoint }}
+          region: {{ .Values.h5p_storage.region }}
+          content_storage: {{ .Values.h5p_storage.content_storage }}
+          content_storage_bucket: {{ .Values.h5p_storage.content_storage_bucket }}
+          temporary_storage: {{ .Values.h5p_storage.temporary_storage }}
+          temporary_storage_bucket: {{ .Values.h5p_storage.temporary_storage_bucket }}
+      {{ end }}
+      #{{- if eq .Values.provider "gcp" }}
+      #- project: {{ .Values.terraform_project }}
+      #- region: {{ .Values.terraform_region }}
+      #- postgresql_instance: {{ .Values.postgresql_database }}
+      #{{ end }}
+      # TODO: performance testing or optimized performance the resources.
+      # - resources: 
+      #     requests:
+      #       cpu: 200m
+      #       memory: 1000Mi
+      #     limits:
+      #       cpu: 256m
+      #       memory: 1024Mi
+      {{- if ne .Values.provider "gcp" }}
+      - resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+      {{- end }}       
+  {{- end}}

@@ -1,46 +1,46 @@
-# environments:
-#   vietnam-alpha:
-#     values:
-#       - ../../../env/vietnam-alpha/.env.yaml      
-#   vietnam-beta:
-#     values:
-#       - ../../../env/vietnam-beta/.env.yaml
-#   vietnam-production:
-#     values:
-#       - ../../../env/vietnam-production/.env.yaml      
-#   indonesia-staging:
-#     values:
-#       - ../../../env/indonesia-staging/.env.yaml
-#   indonesia-production:
-#     values:
-#       - ../../../env/indonesia-production/.env.yaml
-#   indonesia-rk-prod:
-#     values:
-#       - ../../../env/indonesia-rk-prod/.env.yaml
-#   indonesia-rk-beta:
-#     values:
-#       - ../../../env/indonesia-rk-beta/.env.yaml
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml      
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
 
-# repositories:
+repositories:
 
-#   - name: jetstack
-#     url: https://charts.jetstack.io/
+  - name: jetstack
+    url: https://charts.jetstack.io/
 
-# releases:
+releases:
 
-#   {{- if ne .Values.kl_domain ".kidsloop.vn" }}
-#   - name: cert-manager
-#     namespace: cert-manager
-#     chart: jetstack/cert-manager
-#     version: 1.4.0
-#     force: true
-#     values:
-#       - installCRDs: true
+  {{- if ne .Values.kl_domain ".kidsloop.vn" }}
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: 1.4.0
+    force: true
+    values:
+      - installCRDs: true
 
-#   - name: letsencrypt
-#     chart: ../charts/letsencrypt
-#     namespace: cert-manager
-#   {{- end }}  
+  - name: letsencrypt
+    chart: ../charts/letsencrypt
+    namespace: cert-manager
+  {{- end }}  
 
 
 
