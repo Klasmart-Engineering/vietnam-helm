@@ -50,7 +50,7 @@ spec:
           periodSeconds: 5
         env:
           - name: CMS_ENDPOINT
-            value: " https://cms.{{ .Values.kl_domain }}"
+            value: "https://cms.{{ .Values.kl_domain }}"
           - name: NODE_ENV
             value: "{{  .Values.deployment_env }}"
           - name: PORT
