@@ -63,7 +63,7 @@ releases:
                 - "/room"
             - host: live{{ .Values.kl_domain }}
               paths:
-                - "/sfuid/*"
+                - "/sfuid"
         resources:
           requests:
             cpu: 250m
