@@ -58,6 +58,12 @@ releases:
             - host: live{{ .Values.kl_domain }}
               paths:
                 - "/sfu"
+            - host: live{{ .Values.kl_domain }}
+              paths:
+                - "/room"
+            - host: live{{ .Values.kl_domain }}
+              paths:
+                - "/sfuid/*"
         resources:
           requests:
             cpu: 250m
@@ -66,6 +72,7 @@ releases:
             cpu: 500m
             memory: 512Mi
         redisHost: {{ .Values.redis_host }}
+        kl_domain: {{ .Values.domain }}
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.sfu_gateway_min_replica_count }}

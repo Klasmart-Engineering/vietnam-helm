@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sfu.fullname" . }}
+  labels:
+    {{- include "sfu.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "sfu.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "sfu.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        env:
+          - name: SERVICE_NAME
+            value: {{ include "sfu.fullname" . }}
+          - name: REDIS_MODE
+            value: "NODE"
+          - name: NODE_ENV
+            value: "{{  .Values.deployment_env }}"
+          - name: REDIS_HOST
+            value: {{ .Values.redisHost }}
+          - name: REDIS_PORT
+            value: {{ .Values.redisPort | quote  }}
+          - name: NUM_CPU_CORES
+            value: "{{ .Values.num_cpu_cores }}"
+          - name: NODE_ENV
+            value: "{{ .Values.deployment_env }}"
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "sfu.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "sfu.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}

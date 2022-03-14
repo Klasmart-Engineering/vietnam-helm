@@ -1,0 +1,63 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+  indonesia-rk-prod:
+    values:
+      - ../../../env/indonesia-rk-prod/.env.yaml
+  indonesia-rk-beta:
+    values:
+      - ../../../env/indonesia-rk-beta/.env.yaml
+
+releases:
+  - name: sfu-v2
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/sfu-v2
+    values:
+      - replicaCount: {{ .Values.sfu_min_replica_count }}
+        sfuImage:
+          repository: {{ .Values.sfu_image_repository }}
+          tag: {{ .Values.sfu_image_tag | default "latest" }}
+          imagePullSecrets:
+            - name: {{ .Values.sfu_image_pull_secrets }}
+        provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
+        image:
+          repository: "{{ .Values.sfu_image_repository }}"
+          tag: "{{ .Values.sfu_image_tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.sfu_image_pull_secrets }}
+        appVersion: {{ .Values.sfu_appVersion }}
+        domain: {{ .Values.domain }}
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        redisHost: {{ .Values.redis_host }}
+        num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
+        {{- end }}
+        resources:
+          requests:
+            cpu: {{ .Values.sfu_pods_cpu_request }}
+            memory: {{ .Values.sfu_pods_memory_request }}
+          limits:
+            cpu: {{ .Values.sfu_pods_cpu_limit }}
+            memory: {{ .Values.sfu_pods_memory_limit }}
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.sfu_min_replica_count }}
+          maxReplicas: {{ .Values.sfu_max_replica_count }}

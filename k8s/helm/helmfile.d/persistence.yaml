@@ -1,126 +1,126 @@
-repositories:
-  - name: bitnami
-    url: https://charts.bitnami.com/bitnami
+# repositories:
+#   - name: bitnami
+#     url: https://charts.bitnami.com/bitnami
   
-environments:
-  vietnam-alpha:
-    values:
-      - ../../../env/vietnam-alpha/.env.yaml
-  vietnam-beta:
-    values:
-      - ../../../env/vietnam-beta/.env.yaml
-  vietnam-production:
-    values:
-      - ../../../env/vietnam-production/.env.yaml      
-  indonesia-staging:
-    values:
-      - ../../../env/indonesia-staging/.env.yaml
-  indonesia-production:
-    values:
-      - ../../../env/indonesia-production/.env.yaml
-  indonesia-rk-prod:
-    values:
-      - ../../../env/indonesia-rk-prod/.env.yaml
-  indonesia-rk-beta:
-    values:
-      - ../../../env/indonesia-rk-beta/.env.yaml
+# environments:
+#   vietnam-alpha:
+#     values:
+#       - ../../../env/vietnam-alpha/.env.yaml
+#   vietnam-beta:
+#     values:
+#       - ../../../env/vietnam-beta/.env.yaml
+#   vietnam-production:
+#     values:
+#       - ../../../env/vietnam-production/.env.yaml      
+#   indonesia-staging:
+#     values:
+#       - ../../../env/indonesia-staging/.env.yaml
+#   indonesia-production:
+#     values:
+#       - ../../../env/indonesia-production/.env.yaml
+#   indonesia-rk-prod:
+#     values:
+#       - ../../../env/indonesia-rk-prod/.env.yaml
+#   indonesia-rk-beta:
+#     values:
+#       - ../../../env/indonesia-rk-beta/.env.yaml
       
-releases:
+# releases:
 
-{{- if ne .Values.provider "gcp" }}
+# {{- if ne .Values.provider "gcp" }}
 
-  - name: redis
-    namespace: persistence
-    chart: bitnami/redis
-    version: ~11.3.4
-    condition: helm_persistence.enabled
-    values:
-      - cluster:
-          slaveCount: 3
-      - metrics:
-          enabled: true
-      - usePassword: false
-      - slave:
-          persistence:
-            enabled: false
-      - master:
-          persistence:
-            enabled: false
-      - configmap: |-
-          # Enable AOF https://redis.io/topics/persistence#append-only-file
-          appendonly yes
-          # Disable RDB persistence, AOF persistence already enabled.
-          save ""
-          # The maximum amount of memory to use. This should be
-          # the resource limit minus some head room.
-          maxmemory 500mb
-          # What to do when memory gets low
-          maxmemory-policy allkeys-lru
-      - networkPolicy:
-          enabled: true
-          ingressNSMatchLabels:
-            redis-namespace: "true"
-          ingressNSPodMatchLabels:
-            redis-client: "true"
-      - resources:
-          requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
-            cpu: 200m
-            memory: 512Mi
+#   - name: redis
+#     namespace: persistence
+#     chart: bitnami/redis
+#     version: ~11.3.4
+#     condition: helm_persistence.enabled
+#     values:
+#       - cluster:
+#           slaveCount: 3
+#       - metrics:
+#           enabled: true
+#       - usePassword: false
+#       - slave:
+#           persistence:
+#             enabled: false
+#       - master:
+#           persistence:
+#             enabled: false
+#       - configmap: |-
+#           # Enable AOF https://redis.io/topics/persistence#append-only-file
+#           appendonly yes
+#           # Disable RDB persistence, AOF persistence already enabled.
+#           save ""
+#           # The maximum amount of memory to use. This should be
+#           # the resource limit minus some head room.
+#           maxmemory 500mb
+#           # What to do when memory gets low
+#           maxmemory-policy allkeys-lru
+#       - networkPolicy:
+#           enabled: true
+#           ingressNSMatchLabels:
+#             redis-namespace: "true"
+#           ingressNSPodMatchLabels:
+#             redis-client: "true"
+#       - resources:
+#           requests:
+#             cpu: 100m
+#             memory: 256Mi
+#           limits:
+#             cpu: 200m
+#             memory: 512Mi
 
-  - name: postgresql-ha
-    namespace: persistence
-    chart: bitnami/postgresql-ha
-    version: ~6.7.0
-    condition: helm_persistence.enabled
-    values:
-      - global:
-          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-          postgresql:
-            existingSecret: postgresql
-            database: kidsloop
-      - persistence:
-          size: 8Gi
-          storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-      - pgpool:
-          enabled: true
-          replicaCount: 2
-      - initdbScripts:
-          db-init.sql: |
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-            CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-            CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+#   - name: postgresql-ha
+#     namespace: persistence
+#     chart: bitnami/postgresql-ha
+#     version: ~6.7.0
+#     condition: helm_persistence.enabled
+#     values:
+#       - global:
+#           storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
+#           postgresql:
+#             existingSecret: postgresql
+#             database: kidsloop
+#       - persistence:
+#           size: 8Gi
+#           storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
+#       - pgpool:
+#           enabled: true
+#           replicaCount: 2
+#       - initdbScripts:
+#           db-init.sql: |
+#             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+#             CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+#             CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
-  - name: mysql
-    namespace: persistence
-    chart: bitnami/mysql
-    version: ~8.0.0
-    condition: helm_persistence.enabled
-    values:
-      - auth:
-          existingSecret: mysql
-          database: {{ .Values.mysql_database }}
-          username: {{ .Values.mysql_username }} 
-      - architecture: replication
-      - metrics:
-          enabled: true
-      - primary:
-          persistence:
-            size: 8Gi
-            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-      - secondary:
-          replicaCount: 2
-          persistence:
-            size: 8Gi
-            storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
-      - resources:
-          limits:
-            memory: 256Mi
-            cpu: 250m
-          requests:
-            memory: 256Mi
-            cpu: 250m
+#   - name: mysql
+#     namespace: persistence
+#     chart: bitnami/mysql
+#     version: ~8.0.0
+#     condition: helm_persistence.enabled
+#     values:
+#       - auth:
+#           existingSecret: mysql
+#           database: {{ .Values.mysql_database }}
+#           username: {{ .Values.mysql_username }} 
+#       - architecture: replication
+#       - metrics:
+#           enabled: true
+#       - primary:
+#           persistence:
+#             size: 8Gi
+#             storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
+#       - secondary:
+#           replicaCount: 2
+#           persistence:
+#             size: 8Gi
+#             storageClass: {{ .Values.persistentvolumeclaim_storage_class }}
+#       - resources:
+#           limits:
+#             memory: 256Mi
+#             cpu: 250m
+#           requests:
+#             memory: 256Mi
+#             cpu: 250m
 
-{{- end }}
+# {{- end }}
