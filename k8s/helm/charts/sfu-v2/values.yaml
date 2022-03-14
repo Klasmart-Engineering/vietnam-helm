@@ -9,20 +9,7 @@ image:
   pullPolicy: Always
   tag: latest
 
-ingress:
-  annotations: {
-    cert-manager.io/cluster-issuer: "letsencrypt"
-  }
-  hosts: {
-  }
-  tls: [
-      endpoint: {
-        hosts: [
-          "vn-bfc.dev.kidsloop.net"
-        ],
-        secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
-      }
-  ]
+hostNetworking: true
   
 resources: {}
 redisPort: 6379
