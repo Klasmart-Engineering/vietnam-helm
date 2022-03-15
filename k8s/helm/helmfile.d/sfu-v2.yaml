@@ -47,9 +47,9 @@ releases:
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
+        {{- end }} 
         redisHost: {{ .Values.redis_host }}
         num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
-        {{- end }}
         resources:
           requests:
             cpu: {{ .Values.sfu_pods_cpu_request }}

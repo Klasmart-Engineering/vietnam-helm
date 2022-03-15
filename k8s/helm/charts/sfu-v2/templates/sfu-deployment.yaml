@@ -22,9 +22,14 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       {{- end }}      
       containers:
-      - name: {{ .Chart.Name }}
+      - name: {{ .Chart.Name }}      
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        command: [ "sh", "-c" ]
+        args:
+        - |
+          export WEBRTC_ANNOUCE_IP=$(curl icanhazip.com);
+          npm start        
         ports:
           - name: http
             protocol: TCP
