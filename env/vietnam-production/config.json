@@ -232,6 +232,13 @@
     "attendance_service_min_replica_count": 4,
     "attendance_service_max_replica_count": 6,
     "attendance_service_appVersion": "1.2.0",
+
+    "onboarding_scheduling_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-onboarding",
+    "onboarding_scheduling_image_tag": "dutchlady-v0.0.1",
+    "onboarding_scheduling_image_pull_secrets": "ecr-registry-infra",
+    "onboarding_scheduling_min_replica_count": 1,
+    "onboarding_scheduling_max_replica_count": 6,
+    "onboarding_scheduling_appVersion": "0.0.1",
     
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
