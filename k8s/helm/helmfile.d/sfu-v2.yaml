@@ -49,6 +49,9 @@ releases:
         region: {{ .Values.terraform_region }}
         {{- end }} 
         redisHost: {{ .Values.redis_host }}
+        {{- if eq .Values.provider "gcp" }}
+        usePodIpAsHostnameOverride: true
+        {{- end }} 
         num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
         resources:
           requests:

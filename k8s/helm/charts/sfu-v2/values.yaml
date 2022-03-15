@@ -10,6 +10,7 @@ image:
   tag: latest
 
 hostNetworking: true
+usePodIpAsHostnameOverride: false
   
 resources: {}
 redisPort: 6379
