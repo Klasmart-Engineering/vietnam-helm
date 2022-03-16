@@ -47,10 +47,10 @@ releases:
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
         region: {{ .Values.terraform_region }}
-        {{- end }} 
         redisHost: {{ .Values.redis_host }}
-        {{- if eq .Values.provider "gcp" }}
         usePodIpAsHostnameOverride: true
+        {{- else }} 
+        redisHost: {{ .Values.redis_live_host }}
         {{- end }} 
         num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
         resources:

@@ -69,7 +69,11 @@ releases:
           limits:
             cpu: 1000m
             memory: 2Gi
+        {{- if eq .Values.provider "gcp" }}
         redisHost: {{ .Values.redis_host }}
+        {{- else }} 
+        redisHost: {{ .Values.redis_live_host }}
+        {{- end }}  
         assessmentEndpoint: https://cms{{ .Values.kl_domain }}/v1/assessments
         studentReportEndpoint: https://cms{{ .Values.kl_domain }}/v1/student_usage_record/event
         attendanceServiceEndpoint: https://api{{ .Values.kl_domain }}/attendance

@@ -11,6 +11,7 @@
     "env": "production",
     
     "redis_host": "10.0.2.9",
+    "redis_live_host": "10.0.2.9",
     "postgresql_host": "10.0.2.19",
     "postgresql_username": "kidslooproot",
     "postgresql_database": "klvn_prod_user",
