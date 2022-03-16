@@ -93,9 +93,9 @@ spec:
             secretKeyRef:
               name: newrelic-apikey-secret
               key: NEW_RELIC_LICENSE_KEY
-        {{- if eq .Values.azure_b2c.enabled "true" }}
+        {{- if .Values.azure_b2c.enabled }}
         - name: AZURE_B2C_ENABLED
-          value: "{{ .Values.azure_b2c.enabled }}"
+          value: {{ .Values.azure_b2c.enabled }}
         - name: AZURE_B2C_TENANT_ID
           value: {{ .Values.azure_b2c.tenant_id }}
         - name: AZURE_B2C_DOMAIN

@@ -47,7 +47,7 @@ releases:
       {{- end }}
         appVersion: {{ .Values.auth_backend_appVersion }}
         azure_b2c:
-          enabled: "{{ .Values.azure_b2c.enabled }}"
+          enabled: {{ .Values.azure_b2c.enabled }}
           tenant_id: {{ .Values.azure_b2c.tenant_id }}
           domain: {{ .Values.azure_b2c.domain }}
           policy_name: {{ .Values.azure_b2c.policy_name }}

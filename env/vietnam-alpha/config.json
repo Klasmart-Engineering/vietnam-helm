@@ -99,12 +99,12 @@
     },
 
     "azure_b2c": {
-        "enabled": "false",
-        "tenant_id":"",
-        "domain": "",
-        "policy_name": "",
-        "authority": "",
-        "client_id": ""
+        "enabled": true,
+        "tenant_id":"79505d03-827a-4832-abe1-dcff8356336a",
+        "domain": "login.beta.kidsloop.vn",
+        "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "client_id": "031ebad4-540f-4b25-97cb-4946a364b8e9"
     },
 
     "dynamodb_aws_region": "ap-southeast-1",

@@ -99,7 +99,7 @@
     },
 
     "azure_b2c": {
-        "enabled": "true",
+        "enabled": true,
         "tenant_id":"79505d03-827a-4832-abe1-dcff8356336a",
         "domain": "login.beta.kidsloop.vn",
         "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
