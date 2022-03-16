@@ -79,7 +79,7 @@
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://cdn.kidsloop.vn",
-        "cdn_live": "https://cdn-live.kidsloop.vn/"
+        "cdn_live": "https://live.kidsloop.vn/"
     },
 
     "mongodb": {
@@ -148,7 +148,7 @@
     "cms_backend_appVersion": "2.16.0",
     
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "vn-2-39-0-vn-prod-e064c3b",
+    "hub_image_tag": "vn-2-39-0-vn-prod-021f388",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 4,
     "hub_max_replica_count": 8,
