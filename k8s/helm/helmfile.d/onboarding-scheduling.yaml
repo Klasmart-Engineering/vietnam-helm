@@ -20,60 +20,63 @@ environments:
   indonesia-rk-beta:
     values:
       - ../../../env/indonesia-rk-beta/.env.yaml
-      
+
 releases:
-  - name: sfu-gateway
+  {{- if eq .Values.provider "vngcloud" }}
+  
+  - name: onboarding-scheduling
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/sfu-gateway
+    chart: ../charts/onboarding-scheduling
     values:
       - provider: {{ .Values.provider }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
         serviceType: {{ .Values.k8s_service_type }}
         image:
-          repository: {{ .Values.sfu_gateway_image_repository }}
-          tag: {{ .Values.sfu_gateway_image_tag }}
+          repository: "{{ .Values.onboarding_scheduling_image_repository }}"
+          tag: "{{ .Values.onboarding_scheduling_image_tag }}"
         imagePullSecrets:
-          - name: {{ .Values.sfu_gateway_image_pull_secrets }}
-        deployment_env: {{ .Values.env }}
-        appVersion: {{ .Values.sfu_gateway_appVersion }}
+          - name: {{ .Values.onboarding_scheduling_image_pull_secrets }}
+        appVersion: {{ .Values.onboarding_scheduling_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
             cert-manager.io/cluster-issuer: "letsencrypt"
             kubernetes.io/ingress.class: "nginx"
             ingress.kubernetes.io/enable-cors: "true"
-            nginx.ingress.kubernetes.io/websocket-services: "sfu-gateway-svc"
             nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
             nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
             nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
             nginx.ingress.kubernetes.io/send-timeout: "3600"
             nginx.ingress.kubernetes.io/ssl-redirect: "true"
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          {{- else }}
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
           {{- end }}
           tls:
             - endpoint:
                 hosts:
-                  - live{{ .Values.kl_domain }}
-                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-live{{ .Values.kl_domain }}" {{- end }}
+                  - onboarding-scheduling{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-onboarding-scheduling{{ .Values.kl_domain }}" {{- end }}
           hosts:
-            - host: live{{ .Values.kl_domain }}
+            - host: onboarding-scheduling{{ .Values.kl_domain }}
               paths:
-                - "/sfu"
-            - host: live{{ .Values.kl_domain }}
-              paths:
-                - "/room"
-            - host: live{{ .Values.kl_domain }}
-              paths:
-                - "/sfuid"
+                - "/"
+        domain: {{ .Values.domain }}
+        user_service_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        cms_backend_endpoint: https://cms{{ .Values.kl_domain }}/v1
         resources:
           requests:
             cpu: 250m
-            memory: 256Mi
+            memory: 512Mi
           limits:
             cpu: 500m
-            memory: 512Mi
-        redisHost: {{ .Values.redis_host }}
-        kl_domain: {{ .Values.domain }}
+            memory: 1024Mi
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.sfu_gateway_min_replica_count }}
-          maxReplicas: {{ .Values.sfu_gateway_max_replica_count }}
+          minReplicas: {{ .Values.onboarding_scheduling_min_replica_count }}
+          maxReplicas: {{ .Values.onboarding_scheduling_max_replica_count }}
+
+  {{- end }}
