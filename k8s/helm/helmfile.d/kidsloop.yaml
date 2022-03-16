@@ -142,6 +142,12 @@ releases:
           - name: {{ .Values.h5p_service_image_pull_secrets }}
       - appVersion: {{ .Values.h5p_service_appVersion }}
       - ingress:
+          annotations:
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              expires 30d;
+              add_header Pragma "public";
+              add_header Cache-Control "public";
+            nginx.ingress.kubernetes.io/proxy-body-size: "100m"
           tls:
             - endpoint:
                 hosts:

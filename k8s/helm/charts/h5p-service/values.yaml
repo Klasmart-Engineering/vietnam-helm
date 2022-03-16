@@ -13,12 +13,7 @@ image:
 ingress:
   annotations: {
     cert-manager.io/cluster-issuer: "letsencrypt",
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      expires 30d;
-      add_header Pragma "public";
-      add_header Cache-Control "public";
-    nginx.ingress.kubernetes.io/proxy-body-size: "1024m",
-    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m",
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "100m",
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600",
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600",
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600",
