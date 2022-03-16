@@ -71,7 +71,11 @@ releases:
           limits:
             cpu: 500m
             memory: 512Mi
+        {{- if eq .Values.provider "gcp" }}
         redisHost: {{ .Values.redis_host }}
+        {{- else }} 
+        redisHost: {{ .Values.redis_live_host }}
+        {{- end }}             
         kl_domain: {{ .Values.domain }}
         autoscaling:
           enabled: true

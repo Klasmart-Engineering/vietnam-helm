@@ -11,6 +11,7 @@
     "env": "alpha",
 
     "redis_host": "10.0.1.22",
+    "redis_live_host": "10.0.1.22",
     "postgresql_host": "10.0.1.17",
     "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloop",
