@@ -137,14 +137,14 @@
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 1,
     "cms_frontend_max_replica_count": 6,
-    "cms_frontend_appVersion": "2.15.2",
+    "cms_frontend_appVersion": "2.16.1",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "main-61ba3b6",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 1,
     "cms_backend_max_replica_count": 6,
-    "cms_backend_appVersion": "2.15.0",
+    "cms_backend_appVersion": "2.16.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "vn-2-39-0-vn-beta-e064c3b",
