@@ -11,6 +11,15 @@ fullnameOverride: ""
 
 redisPort: 6379
 
+disable_auth: true
+
+sfuCapacity:
+  max_sfu_load: 500
+  num_scheduled_students: 25
+  num_scheduled_teachers: 3
+  remove_old_entries_probability: 1000
+
+
 ingress:
   annotations: {
     cert-manager.io/cluster-issuer: "letsencrypt"
