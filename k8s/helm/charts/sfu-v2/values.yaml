@@ -11,6 +11,9 @@ image:
 
 hostNetworking: true
 usePodIpAsHostnameOverride: false
+
+mediasoupErrorLogging: true
+mediasoupDebugLogging: true
   
 resources: {}
 redisPort: 6379

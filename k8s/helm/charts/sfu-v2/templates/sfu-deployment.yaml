@@ -28,8 +28,17 @@ spec:
         command: [ "sh", "-c" ]
         args:
         - |
-          export WEBRTC_ANNOUCE_IP=$(curl icanhazip.com) &&
+          export WEBRTC_ANNOUCE_IP=$(curl -s icanhazip.com); 
+          echo "WEBRTC_ANNOUCE_IP: $WEBRTC_ANNOUCE_IP";
           export HOSTNAME_OVERRIDE={{ if .Values.usePodIpAsHostnameOverride }}$POD_IP{{ else }}$POD_NAME.$SERVICE_NAME.$POD_NAMESPACE.svc.cluster.local{{ end }};
+          echo "HOSTNAME_OVERRIDE: $HOSTNAME_OVERRIDE";
+          {{- if .Values.mediasoupErrorLogging }}
+          export DEBUG="mediasoup:WARN:* mediasoup:ERROR:*";
+          {{- end }}
+          {{- if .Values.mediasoupDebugLogging }}
+          export DEBUG="mediasoup:*";
+          {{- end }}          
+          echo "DEBUG: $DEBUG";
           npm start        
         ports:
           - name: http
