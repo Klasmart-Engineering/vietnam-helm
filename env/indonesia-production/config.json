@@ -214,7 +214,7 @@
     "sfu_gateway_min_replica_count": 1,
     "sfu_gateway_max_replica_count": 6,
     "sfu_gateway_appVersion": "1.2.0",
-    "sfu_gateway_disable_auth": true,
+    "sfu_gateway_disable_auth": false,
     "sfu_capacity_max_sfu_load": 250,
     "sfu_capacity_num_scheduled_students": 25,
     "sfu_capacity_num_scheduled_teachers": 3,

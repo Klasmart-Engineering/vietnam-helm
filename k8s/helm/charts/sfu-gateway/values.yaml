@@ -11,7 +11,7 @@ fullnameOverride: ""
 
 redisPort: 6379
 
-disable_auth: true
+disable_auth: false
 
 sfuCapacity:
   max_sfu_load: 500
