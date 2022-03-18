@@ -50,15 +50,15 @@ spec:
           periodSeconds: 5
         env:
           - name: DISABLE_AUTH
-            value: 'true'
+            value: {{ .Values.disable_auth | quote }}
           - name: MAX_SFU_LOAD
-            value: '250'
+            value: {{ .Values.sfuCapacity.max_sfu_load | quote }}
           - name: NUM_SCHEDULED_STUDENTS
-            value: '25'
+            value: {{ .Values.sfuCapacity.num_scheduled_students | quote }}
           - name: NUM_SCHEDULED_TEACHERS
-            value: '1'
+            value: {{ .Values.sfuCapacity.num_scheduled_teachers | quote }}
           - name: REMOVE_OLD_ENTRIES_PROBABILITY
-            value: '1000'        
+            value: {{ .Values.sfuCapacity.remove_old_entries_probability | quote }}        
           - name: CMS_ENDPOINT
             value: "https://cms.{{ .Values.kl_domain }}"
           - name: NODE_ENV

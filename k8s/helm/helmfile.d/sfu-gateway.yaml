@@ -35,6 +35,12 @@ releases:
           - name: {{ .Values.sfu_gateway_image_pull_secrets }}
         deployment_env: {{ .Values.env }}
         appVersion: {{ .Values.sfu_gateway_appVersion }}
+        disable_auth: {{ .Values.sfu_gateway_disable_auth }}
+        sfuCapacity:
+          max_sfu_load: {{ .Values.sfu_capacity_max_sfu_load }}
+          num_scheduled_students: {{ .Values.sfu_capacity_num_scheduled_students }}
+          num_scheduled_teachers: {{ .Values.sfu_capacity_num_scheduled_teachers }}
+          remove_old_entries_probability: {{ .Values.sfu_remove_old_entries_probability }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 

@@ -201,6 +201,11 @@
     "sfu_gateway_min_replica_count": 4,
     "sfu_gateway_max_replica_count": 8,
     "sfu_gateway_appVersion": "1.2.0",
+    "sfu_gateway_disable_auth": true,
+    "sfu_capacity_max_sfu_load": 250,
+    "sfu_capacity_num_scheduled_students": 25,
+    "sfu_capacity_num_scheduled_teachers": 3,
+    "sfu_remove_old_entries_probability": 1000,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
     "user_service_image_tag": "release-4-0-0",

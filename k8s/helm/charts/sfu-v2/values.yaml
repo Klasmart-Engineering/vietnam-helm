@@ -11,6 +11,7 @@ image:
 
 hostNetworking: true
 usePodIpAsHostnameOverride: false
+disable_auth: false
 
 mediasoupErrorLogging: true
 mediasoupDebugLogging: true
