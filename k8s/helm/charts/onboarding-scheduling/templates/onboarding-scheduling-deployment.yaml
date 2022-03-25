@@ -68,6 +68,10 @@ spec:
             value: "{{  .Values.user_service_endpoint }}"
           - name: CMS_SERVICE_URL
             value: "{{  .Values.cms_backend_endpoint }}"
+          - name: ADD_SCHEDULE_INTERVAL
+            value: "1000"
+          - name: USE_REFRESH_TOKEN
+            value: "0"
           - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
             value: "true"
           - name: LOG_STYLE
@@ -95,7 +99,7 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
-      
+
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
