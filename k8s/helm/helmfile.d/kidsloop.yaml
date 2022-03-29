@@ -159,6 +159,7 @@ releases:
                 - "/"
       - domain: {{ .Values.domain }}
       - liveHost: live{{ .Values.kl_domain }}
+      - livesecret: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
       - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
       {{ if .Values.h5p_storage }}
       - h5p_storage:
