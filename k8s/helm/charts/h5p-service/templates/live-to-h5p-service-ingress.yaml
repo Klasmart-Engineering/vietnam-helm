@@ -16,7 +16,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.liveHost }}
-      secretName: "letsencrypt-{{ .Values.liveHost }}"
+      secretName: {{ .Values.livesecret }}
     {{- end }}
   rules:
   - host: {{ .Values.liveHost }}

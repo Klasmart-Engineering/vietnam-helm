@@ -39,7 +39,11 @@ releases:
     createNamespace: true
     chart: ingress-nginx/ingress-nginx
     condition: helm_nginx_ingress.enabled
+    {{- if ne .Values.provider "gcp" }}
+    version: 4.0.18
+    {{- else }}
     version: 3.34.0
+    {{- end }}
     values:
       - controller:
           replicaCount: 3

@@ -29,6 +29,6 @@ ingress:
         secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
       }
   ]
-  
+
 resources: {}
 
