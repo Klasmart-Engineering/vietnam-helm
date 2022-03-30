@@ -14,12 +14,6 @@ environments:
   indonesia-production:
     values:
       - ../../../env/indonesia-production/.env.yaml
-  indonesia-rk-prod:
-    values:
-      - ../../../env/indonesia-rk-prod/.env.yaml
-  indonesia-rk-beta:
-    values:
-      - ../../../env/indonesia-rk-beta/.env.yaml
 
 releases:
   - name: sfu-v2
