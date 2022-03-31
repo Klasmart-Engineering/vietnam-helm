@@ -177,7 +177,7 @@
     "pdf_service_appVersion": "0.5.8",
 
     "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
-    "sfu_manager_image_tag": "master-933fb38",
+    "sfu_manager_image_tag": "vietnam-test-aff9add",
     "sfu_manager_image_pull_secrets": "ecr-registry-infra",
     "sfu_manager_replica_count": 1,
     "sfu_manager_appVersion": "0.1.0",
@@ -186,6 +186,8 @@
     "sfu_image_tag": "master-9333449",
     "sfu_image_pull_secrets": "ecr-registry-infra",
     "sfu_pods_count": 4,
+    "sfu_desired_count": 2,
+    "sfu_default_count": 4,
     "sfu_pods_cpu_request": "1500m",
     "sfu_pods_cpu_limit": "2000m",
     "sfu_pods_memory_request": "2Gi",
