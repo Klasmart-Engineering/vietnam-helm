@@ -67,6 +67,11 @@ releases:
           desiredPodsGetter: {{ .Values.desired_pods_getter }}
           redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }}:6379 {{- else }} {{ .Values.redis_host }}:6379 {{- end }}
           pods: {{ .Values.sfu_pods_count }}
-          promDesiredAvailable: {{ .Values.sfu_pods_count }}
+          {{- if eq .Values.provider "gcp" }}
+          promDesiredAvailable: {{ .Values.sfu_desired_count }}
+          {{- else }}
+          promDesiredAvailable: {{ .Values.sfu_desired_count }}
+          promDefaultAvailable: {{ .Values.sfu_default_count }}
+          {{- end }}
           num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
         redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }} {{- else }} {{ .Values.redis_host }} {{- end }}
