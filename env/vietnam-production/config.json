@@ -17,6 +17,7 @@
     "postgresql_database": "klvn_prod_user",
     "postgresql_assessment_database": "klvn_prod_assessment",
     "postgresql_attendance_database": "klvn_prod_attendance",
+    "postgresql_pdf_database": "klvn_prod_pdf",
 
     "postgresql_xapi_host": "10.0.2.19",
     "postgresql_xapi_database": "klvn_prod_xapi",
