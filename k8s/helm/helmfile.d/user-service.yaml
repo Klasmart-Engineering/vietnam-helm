@@ -93,11 +93,11 @@ releases:
        {{- end }}
         resources:
           requests:
-            cpu: 250m
-            memory: 512Mi
-          limits:
-            cpu: 500m
+            cpu: 1250m
             memory: 1024Mi
+          limits:
+            cpu: 1500m
+            memory: 1536Mi
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.user_service_min_replica_count }}
