@@ -16,7 +16,8 @@
     "postgresql_username": "kidslooproot",
     "postgresql_database": "kidsloop",
     "postgresql_assessment_database": "kidsloop_alpha_assessment",
-    "postgresql_attendance_database": "kidsloop_alpha_attendance",
+    "postgresql_attendance_database": "kidsloop_alpha_attendance",    
+    "postgresql_pdf_database": "klvn_alpha_pdf",
 
     "postgresql_xapi_host": "10.0.1.17",
     "postgresql_xapi_database": "kidsloop_alpha_xapi",
