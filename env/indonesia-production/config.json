@@ -127,7 +127,6 @@
     "dynamodb_aws_region": "ap-southeast-1",
     "dynamodb_table_name": "id-prod",
     "firehose_steam_name": "klid-prod-xapi",
-    "pdf_db": "pdf_db",
 
     "base_url_user": "https://api.kidsloop.id/user/",
     "base_url_h5p": "https://h5p.kidsloop.id",
