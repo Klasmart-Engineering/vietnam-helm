@@ -1,0 +1,257 @@
+{
+    "provider": "vngcloud",
+    "k8s_namespace_kidsloop": "klvn-loadtest",
+    "k8s_service_type": "ClusterIP",
+    "kl_domain": ".loadtest.kidsloop.vn",
+    "domain": "loadtest.kidsloop.vn",
+    "deployment_region": "vietnam",
+    "deployment_name": "vietnam-production",
+    "vault_addr": "https://vault.devops.klpsre.com",
+    "vault_path": "customer/vietnam-production",
+    "env": "loadtest",
+    
+    "redis_host": "10.0.2.26",
+    "redis_live_host": "10.0.2.34",
+    "postgresql_host": "10.0.2.35",
+    "postgresql_username": "kidslooproot",
+    "postgresql_database": "klvn_loadtest_user",
+    "postgresql_assessment_database": "klvn_loadtest_assessment",
+    "postgresql_attendance_database": "klvn_loadtest_attendance",
+    "postgresql_pdf_database": "klvn_loadtest_pdf",
+
+    "postgresql_xapi_host": "10.0.2.19",
+    "postgresql_xapi_database": "klvn_loadtest_xapi",
+
+    "mysql_host": "10.0.2.27",
+    "mysql_username": "kidslooproot",
+    "mysql_assessment_username": "kidslooproot",
+    "mysql_database": "klvn_loadtest_cms",
+    "fluentbit_cloudwatch_log_stream": "vn-vngcloud-prd",
+    "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
+ 
+    "prometheus_host": "http://magnum-prometheus-operator-prometheus.kube-system.svc.cluster.local:9090",
+    "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090", 
+    "desired_pods_getter": "redis",
+    
+    "helm_prometheus": {
+        "enabled": false
+    },
+    "helm_kube_monitoring": {
+        "enabled": true
+    },
+    "helm_cert_manager": {
+        "enabled": true
+    },
+    "helm_persistence": {
+        "enabled": false
+    },
+    "helm_nginx_ingress": {
+        "enabled": false
+    },   
+    "helm_ecr_token_vietnam": {
+        "enabled": true
+    },   
+    "helm_ecr_token_infra": {
+        "enabled": true
+    },
+    "helm_db_backup": {
+        "enabled": true,
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "region": "HCM01",
+        "bucket": "kidsloop-backup-production"
+    },
+
+    "base_url_user": "https://api.kidsloop.vn/user/",
+    "base_url_h5p": "https://h5p.kidsloop.net",
+
+    "whitelabel_storage_provider": "vngcloud",
+    "whitelabel_storage_bucket": "whitelabel-production",
+    "whitelabel_storage_project": "29a40ac04097431fbbd918395267fe10",
+    "whitelabel_force_local_storage": "true",
+
+    "kube_monitoring": {
+        "slack_channel": "",
+        "credential_url": ""
+    },
+    "storage": {
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "region": "HCM01",
+        "bucket": "kidsloop-cms-backend-production",
+        "pdf_bucket": "kidsloop-pdf-bucket-production",
+        "protocol": "s3",
+        "download_mode": "cloudfront",
+        "cdn_path": "https://cdn.kidsloop.vn",
+        "cdn_live": "https://live.kidsloop.vn/"
+    },
+
+    "mongodb": {
+        "url": "mongodb://10.0.2.37:27017",
+        "username": "kidslooproot",
+        "database": "kidsloop-loadtest",
+        "collection_name": "h5p"
+    },
+
+    "h5p_storage": {
+        "region": "HCM01",
+        "endpoint": "https://hcm01.vstorage.vngcloud.vn",
+        "content_storage": "mongos3",
+        "content_storage_bucket": "kidsloop-h5p-content-production",
+        "temporary_storage": "s3",
+        "temporary_storage_bucket": "kidsloop-h5p-temporary-production"
+    },
+
+    "azure_b2c": {
+        "enabled": true,
+        "tenant_id":"ca56551c-4b1d-499f-9d99-5ba27ae4a5c0",
+        "domain": "login.kidsloop.vn",
+        "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
+        "client_id": "056a9ca6-97b7-4ef0-9549-2561d5f30e28"
+    },
+
+    "dynamodb_aws_region": "ap-southeast-1",
+    "dynamodb_table_name": "kl-prod-xapi",
+    "elasticsearch_url": "",
+    "elasticsearch_username": "",
+    "firehose_steam_name": "",
+
+    "h5p_xapi_endpoint": "wss://api.kidsloop.net/xapi/graphql",
+    "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
+    
+    "assessment_gen_time": 7200,
+    "assessment_database_logging": 0,
+    
+    "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
+    "auth_frontend_image_tag": "2-10-4-vn-vn-prod-e0a5756",
+    "auth_frontend_image_pull_secrets": "ecr-registry-infra",
+    "auth_frontend_min_replica_count": 5,
+    "auth_frontend_max_replica_count": 10,
+    "auth_frontend_appVersion": "2.10.4",
+
+    "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
+    "auth_backend_image_tag": "master-51734c3",
+    "auth_backend_image_pull_secrets": "ecr-registry-infra",
+    "auth_backend_min_replica_count": 8,
+    "auth_backend_max_replica_count": 16,
+    "auth_backend_appVersion": "2.1.0",
+
+    "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
+    "cms_frontend_image_tag": "commit-vn-prod-3a8707c",
+    "cms_frontend_image_pull_secrets": "ecr-registry-infra",
+    "cms_frontend_min_replica_count": 5,
+    "cms_frontend_max_replica_count": 10,
+    "cms_frontend_appVersion": "2.16.1",
+
+    "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
+    "cms_backend_image_tag": "main-61ba3b6",
+    "cms_backend_image_pull_secrets": "ecr-registry-infra",
+    "cms_backend_min_replica_count": 8,
+    "cms_backend_max_replica_count": 16,
+    "cms_backend_appVersion": "2.16.0",
+    
+    "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
+    "hub_image_tag": "vn-2-39-0-vn-prod-021f388",
+    "hub_image_pull_secrets": "ecr-registry-infra",
+    "hub_min_replica_count": 5,
+    "hub_max_replica_count": 10,
+    "hub_appVersion": "2.39.0",
+
+    "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
+    "live_frontend_image_tag": "4-2-1-hotfix-3-vn-vn-prod-f2e255e",
+    "live_frontend_image_pull_secrets": "ecr-registry-infra",
+    "live_frontend_min_replica_count": 5,
+    "live_frontend_max_replica_count": 10,
+    "live_frontend_appVersion": "4.2.1",
+
+    "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
+    "live_backend_image_tag": "master-b1e3433",
+    "live_backend_image_pull_secrets": "ecr-registry-infra",
+    "live_backend_min_replica_count": 10,
+    "live_backend_max_replica_count": 30,
+    "live_backend_appVersion": "1.8.0",
+
+    "pdf_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-pdf-service",
+    "pdf_service_image_tag": "v0.5.8",
+    "pdf_service_image_pull_secrets": "ecr-registry-infra",
+    "pdf_service_min_replica_count": 5,
+    "pdf_service_max_replica_count": 10,
+    "pdf_service_appVersion": "0.5.8",
+
+    "sfu_manager_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-manager",
+    "sfu_manager_image_tag": "vietnam-test-aff9add",
+    "sfu_manager_image_pull_secrets": "ecr-registry-infra",
+    "sfu_manager_replica_count": 1,
+    "sfu_manager_appVersion": "0.1.0",
+
+    "sfu_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu",
+    "sfu_image_tag": "master-9333449",
+    "sfu_image_pull_secrets": "ecr-registry-infra",
+    "sfu_pods_count": 4,
+    "sfu_desired_count": 2,
+    "sfu_default_count": 4,
+    "sfu_pods_cpu_request": "1500m",
+    "sfu_pods_cpu_limit": "2000m",
+    "sfu_pods_memory_request": "2Gi",
+    "sfu_pods_memory_limit": "4Gi",
+    "sfu_num_cpu_cores": "1",   
+    "sfu_min_replica_count": 1,
+    "sfu_max_replica_count": 1,
+    "sfu_appVersion": "1.3.0",
+
+    "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
+    "sfu_gateway_image_tag": "master-04d4b85",
+    "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
+    "sfu_gateway_min_replica_count": 5,
+    "sfu_gateway_max_replica_count": 10,
+    "sfu_gateway_appVersion": "1.2.0",
+    "sfu_gateway_disable_auth": true,
+    "sfu_capacity_max_sfu_load": 500,
+    "sfu_capacity_num_scheduled_students": 50,
+    "sfu_capacity_num_scheduled_teachers": 3,
+    "sfu_remove_old_entries_probability": 10000,
+
+    "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
+    "user_service_image_tag": "release-4-0-0",
+    "user_service_image_pull_secrets": "ecr-registry-infra",
+    "user_service_min_replica_count": 4,
+    "user_service_max_replica_count": 16,
+    "user_service_appVersion": "4.0.0",
+
+    "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
+    "h5p_service_image_tag": "v2.10.0",
+    "h5p_service_image_pull_secrets": "ecr-registry-infra",
+    "h5p_service_replica_count": 8,
+    "h5p_service_appVersion": "2.10.0",
+
+    "xapi_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-xapi-service",
+    "xapi_image_tag": "v1.5.0",
+    "xapi_image_pull_secrets": "ecr-registry-infra",
+    "xapi_min_replica_count": 5,
+    "xapi_max_replica_count": 10,
+    "xapi_appVersion": "1.5.0",
+
+    "assessment_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment",
+    "assessment_image_tag": "v1.13.3",
+    "assessment_image_pull_secrets": "ecr-registry-infra",
+    "assessment_min_replica_count": 5,
+    "assessment_max_replica_count": 10,
+    "assessment_appVersion": "1.13.3",
+
+    "attendance_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-attendance-service",
+    "attendance_service_image_tag": "master-8ee2c9e",
+    "attendance_service_image_pull_secrets": "ecr-registry-infra",
+    "attendance_service_min_replica_count": 5,
+    "attendance_service_max_replica_count": 10,
+    "attendance_service_appVersion": "1.3.1",
+
+    "onboarding_scheduling_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-onboarding",
+    "onboarding_scheduling_image_tag": "dutch-lady-v0.0.1",
+    "onboarding_scheduling_image_pull_secrets": "ecr-registry-infra",
+    "onboarding_scheduling_min_replica_count": 1,
+    "onboarding_scheduling_max_replica_count": 6,
+    "onboarding_scheduling_appVersion": "0.0.1",
+    
+    "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
+    "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
+    "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"
+}
