@@ -61,6 +61,7 @@
             "assessment_database": "assessment",
             "attendance_database": "attendance_service_db",
             "xapi_database": "xapidbrecord",
+            "pdf_database": "pdf_db",
             "version":   "POSTGRES_12",
             "tier":      "db-custom-2-7680",
             "charset":   "UTF8",
@@ -74,7 +75,7 @@
         "redis": {
             "name": "kidsloop-99999",
             "display_name": "kidsloop",
-            "version": "REDIS_5_0",
+            "version": "REDIS_6_X",
             "memory_size": 1,
             "tier": "STANDARD_HA"
         }

@@ -15,6 +15,7 @@ POSTGRESQL_USER_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_datab
 POSTGRESQL_ASSESSMENT_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_assessment_database)
 POSTGRESQL_ATTENDANCE_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_attendance_database)
 POSTGRESQL_XAPI_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_xapi_database)
+POSTGRESQL_PDF_DATABASE=$(../../scripts/python/env_var.py $ENV postgresql_pdf_database)
 SECRET_NAME=postgresql
 REPMGR_PASSWORD="$(pwgen -s 20 1)"
 
@@ -44,6 +45,7 @@ DATABASE_USER_URL="$DATABASE_URL/$POSTGRESQL_USER_DATABASE"
 DATABASE_ASSESSMENT_URL="$DATABASE_URL/$POSTGRESQL_ASSESSMENT_DATABASE"
 DATABASE_ATTENDANCE_URL="$DATABASE_URL/$POSTGRESQL_ATTENDANCE_DATABASE"
 DATABASE_XAPI_URL="$DATABASE_URL/$POSTGRESQL_XAPI_DATABASE"
+DATABASE_PDF_URL="$DATABASE_URL/$POSTGRESQL_PDF_DATABASE"
 
 # create k8s secret manifest
 kubectl create secret generic $SECRET_NAME \
@@ -52,6 +54,15 @@ kubectl create secret generic $SECRET_NAME \
   --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
   --from-literal=database-url="$DATABASE_USER_URL" \
   --from-literal=assessment-database-url="$DATABASE_ASSESSMENT_URL" \
+  --from-literal=repmgr-password="$(pwgen -s 20 1)" > $SECRET_NAME.yaml
+
+# create k8s secret manifest
+kubectl create secret generic $SECRET_NAME \
+  --dry-run=client \
+  -o yaml \
+  --from-literal=postgresql-password="$POSTGRESQL_PASSWORD" \
+  --from-literal=database-url="$DATABASE_USER_URL" \
+  --from-literal=pdf-database-url="$DATABASE_PDF_URL" \
   --from-literal=repmgr-password="$(pwgen -s 20 1)" > $SECRET_NAME.yaml
 
 for namespace in $NS_PERSISTENCE $NS_KIDSLOOP
