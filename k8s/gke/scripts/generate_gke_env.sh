@@ -18,6 +18,7 @@ POSTGRESQL_USER=$(echo $CONFIG | jq -r '.gcp .postgresql .user')
 POSTGRESQL_ASSESSMENT_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .assessment_database')
 POSTGRESQL_ATTENDANCE_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .attendance_database')
 POSTGRESQL_XAPI_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .xapi_database')
+POSTGRESQL_PDF_DB=$(echo $CONFIG | jq -r '.gcp .postgresql .pdf_database')
 REDIS_NAME=$(echo $CONFIG | jq -r '.gcp .redis .name')
 
 KIDSLOOP_NAMESPACE=$(echo $CONFIG | jq -r '.k8s_namespace_kidsloop')
@@ -39,6 +40,7 @@ echo "{
     \"postgresql_assessment_database\": \"$POSTGRESQL_ASSESSMENT_DB\",
     \"postgresql_attendance_database\": \"$POSTGRESQL_ATTENDANCE_DB\",
     \"postgresql_xapi_database\": \"$POSTGRESQL_XAPI_DB\",
+    \"postgresql_pdf_database\": \"$POSTGRESQL_PDF_DB\",
     \"postgresql_username\": \"$POSTGRESQL_USER\", 
     \"redis_host\": \"$REDIS_IP\"
 }"
