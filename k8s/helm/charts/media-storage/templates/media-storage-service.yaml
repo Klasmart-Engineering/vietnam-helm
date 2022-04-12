@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "media_storage.fullname" . }}-svc
+  labels:
+    {{- include "media_storage.labels" . | nindent 4 }}
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    {{- include "media_storage.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.serviceType }}

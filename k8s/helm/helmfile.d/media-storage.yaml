@@ -1,0 +1,85 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-loadtest:
+    values:
+      - ../../../env/vietnam-loadtest/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml      
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+
+releases:
+  - name: media-storage
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/media-storage
+    values:
+      - provider: {{ .Values.provider }}
+        serviceType: {{ .Values.k8s_service_type }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
+        image:
+          repository: "{{ .Values.media_storage_image_repository }}"
+          tag: "{{ .Values.media_storage_image_tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.media_storage_image_pull_secrets }}
+        appVersion: {{ .Values.media_storage_appVersion }}
+        ingress:
+          {{- if eq .Values.provider "gcp" }}
+          annotations: 
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            kubernetes.io/ingress.class: "nginx"
+            ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/send-timeout: "3600"
+            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          {{- end }}
+          tls:
+            - endpoint:
+                hosts:
+                  - api{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-api{{ .Values.kl_domain }}" {{- end }}
+          hosts:
+            - host: api{{ .Values.kl_domain }}
+              paths:
+                - "/media-storage"
+        domain: {{ .Values.domain }}
+        {{- if eq .Values.provider "gcp" }}
+        project: {{ .Values.terraform_project }}
+        region: {{ .Values.terraform_region }}
+        postgresql_instance: {{ .Values.postgresql_database }}
+        {{- end }}
+        postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
+        postgresql_username: {{ .Values.postgresql_username }}
+        postgresql_media_storage_database: {{ .Values.postgresql_media_storage_database }}
+        aws_region: {{ .Values.dynamodb_aws_region }}
+        user_service_endpoint: https://api{{ .Values.kl_domain }}/user-service/graphql
+        cms_backend_endpoint: https://cms{{ .Values.kl_domain }}/v1/internal
+        media_storage_encrpyted_media: "{{ .Values.env }}-media-storage-encrpyted-media"
+        media_storage_private_keys: "{{ .Values.env }}-media-storage-private-keys"
+        media_storage_public_keys: "{{ .Values.env }}-media-storage-public-keys"
+        redis_host: {{ .Values.redis_host }}
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1024Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.media_storage_min_replica_count }}
+          maxReplicas: {{ .Values.media_storage_max_replica_count }}

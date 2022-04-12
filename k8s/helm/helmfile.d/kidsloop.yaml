@@ -72,8 +72,6 @@ releases:
             cpu: 200m
             memory: 200Mi           
 
-
-
   - name: mysql-backup
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/mysql-backup
@@ -95,8 +93,6 @@ releases:
             cpu: 200m
             memory: 200Mi    
 
-
-
   - name: postgresql-backup
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/postgresql-backup
@@ -117,80 +113,3 @@ releases:
           limits:
             cpu: 200m
             memory: 200Mi
-
-  # H5P SERVICE
-  # ---------------------------------------------------------------------------------------
-  
-  {{- if ne .Values.provider "gcp" }}
-  - name: h5p-service
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/h5p-service
-    values:
-      - replicaCount: {{ .Values.h5p_service_replica_count }}
-      - provider: {{ .Values.provider }}
-      - deployment_name: {{ .Values.deployment_name }}
-      - deployment_region: {{ .Values.deployment_region }}
-      - deployment_env: {{ .Values.env }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
-          repository: {{ .Values.h5p_service_image_repository }}
-          tag: {{ .Values.h5p_service_image_tag }}
-      - imagePullSecrets:
-          - name: {{ .Values.h5p_service_image_pull_secrets }}
-      - appVersion: {{ .Values.h5p_service_appVersion }}
-      - ingress:
-          annotations:
-            nginx.ingress.kubernetes.io/configuration-snippet: |
-              expires 30d;
-              add_header Pragma "public";
-              add_header Cache-Control "public";
-            nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-          tls:
-            - endpoint:
-                hosts:
-                  - h5p{{ .Values.kl_domain }}
-                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
-          hosts:
-            - host: h5p{{ .Values.kl_domain }}
-              paths:
-                - "/"
-      - domain: {{ .Values.domain }}
-      - liveHost: live{{ .Values.kl_domain }}
-      - livesecret: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
-      - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
-      {{ if .Values.h5p_storage }}
-      - h5p_storage:
-          mongodb_url: {{ .Values.mongodb.url }}
-          mongodb_username: {{ .Values.mongodb.username }}
-          mongodb_database: {{ .Values.mongodb.database }}
-          mongodb_collection_name: {{ .Values.mongodb.collection_name }}
-          endpoint: {{ .Values.h5p_storage.endpoint }}
-          region: {{ .Values.h5p_storage.region }}
-          content_storage: {{ .Values.h5p_storage.content_storage }}
-          content_storage_bucket: {{ .Values.h5p_storage.content_storage_bucket }}
-          temporary_storage: {{ .Values.h5p_storage.temporary_storage }}
-          temporary_storage_bucket: {{ .Values.h5p_storage.temporary_storage_bucket }}
-      {{ end }}
-      #{{- if eq .Values.provider "gcp" }}
-      #- project: {{ .Values.terraform_project }}
-      #- region: {{ .Values.terraform_region }}
-      #- postgresql_instance: {{ .Values.postgresql_database }}
-      #{{ end }}
-      # TODO: performance testing or optimized performance the resources.
-      # - resources: 
-      #     requests:
-      #       cpu: 200m
-      #       memory: 1000Mi
-      #     limits:
-      #       cpu: 256m
-      #       memory: 1024Mi
-      {{- if ne .Values.provider "gcp" }}
-      - resources:
-          requests:
-            cpu: 1000m
-            memory: 1Gi
-          limits:
-            cpu: 1000m
-            memory: 2Gi
-      {{- end }}       
-  {{- end}}

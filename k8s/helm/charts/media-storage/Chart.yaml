@@ -1,0 +1,6 @@
+apiVersion: v2
+name: media-storage
+description: Kidsloop H5P Media Storage
+type: application
+version: 0.1.0
+appVersion: 0.1.0

@@ -18,6 +18,7 @@
     "postgresql_assessment_database": "klvn_prod_assessment",
     "postgresql_attendance_database": "klvn_prod_attendance",
     "postgresql_pdf_database": "klvn_prod_pdf",
+    "postgresql_media_storage_database": "klvn_prod_media_storage",
 
     "postgresql_xapi_host": "10.0.2.19",
     "postgresql_xapi_database": "klvn_prod_xapi",
@@ -250,6 +251,13 @@
     "onboarding_scheduling_min_replica_count": 1,
     "onboarding_scheduling_max_replica_count": 6,
     "onboarding_scheduling_appVersion": "0.0.1",
+
+    "media_storage_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/audio-storage",
+    "media_storage_image_tag": "v0.1.19",
+    "media_storage_image_pull_secrets": "ecr-registry-infra",
+    "media_storage_min_replica_count": 1,
+    "media_storage_max_replica_count": 6,
+    "media_storage_appVersion": "0.1.19",
     
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",

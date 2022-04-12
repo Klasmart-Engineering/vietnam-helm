@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "media_storage.fullname" . }}
+  labels:
+    {{- include "media_storage.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "media_storage.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "media_storage.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        #command: [ "/bin/bash", "-c", "--" ]
+        #args: [ "while true; do sleep 30; done;" ]
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+        # startupProbe:
+        #   httpGet:
+        #     path: /.well-known/apollo/server-health
+        #     port: http
+        #   failureThreshold: 30
+        #   periodSeconds: 5
+        # readinessProbe:
+        #   httpGet:
+        #     path: /.well-known/apollo/server-health
+        #     port: http
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /.well-known/apollo/server-health
+        #     port: http
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 5
+        env:
+          - name: POSTGRES_DB_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: postgresql
+                key: postgresql-password
+          - name: NODE_ENV
+            value: "{{  .Values.deployment_env }}"
+          - name: DOMAIN
+            value: {{ .Values.domain }}
+          - name: PORT
+            value: "8080"
+          - name: ROUTE_PREFIX
+            value: "/media-storage"
+          - name: AWS_REGION
+            value: {{ .Values.aws_region }}
+          - name: USER_SERVICE_ENDPOINT
+            value: {{ .Values.user_service_endpoint }}
+          - name: CMS_API_URL
+            value: {{ .Values.cms_backend_endpoint }}
+          - name: METADATA_DATABASE_URL
+            value: "postgres://{{ .Values.postgresql_username }}:$(POSTGRES_DB_SECRET)@{{ .Values.postgresql_host }}/{{ .Values.postgresql_media_storage_database }}"
+          - name: LOG_STYLE
+            value: "NEW_RELIC"
+          - name: LOG_LEVEL
+            value: "debug"
+          - name: MEDIA_FILE_BUCKET
+            value: {{ .Values.media_storage_encrpyted_media }}
+          - name: PRIVATE_KEY_BUCKET
+            value: {{ .Values.media_storage_private_keys }}
+          - name: PUBLIC_KEY_BUCKET
+            value: {{ .Values.media_storage_public_keys }}
+          - name: NEW_RELIC_NO_CONFIG_FILE
+            value: "true"
+          - name: NEW_RELIC_APP_NAME
+            value: {{ include "media_storage.fullname" . }}_{{  .Values.deployment_name }}
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_LABELS
+            value: Deployment:{{  .Values.deployment_name }};Region:{{  .Values.deployment_region }};Environment:{{  .Values.deployment_env }};Version:{{  .Values.image.tag }};Component:{{ include "media_storage.fullname" . }}
+          - name: NEW_RELIC_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-apikey-secret
+                key: NEW_RELIC_LICENSE_KEY
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: aws_access_key_id
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cms-backend-s3-secret
+                key: secret_access_key
+          - name: REDIS_HOST
+            value: {{ .Values.redis_host }}
+          - name: REDIS_PORT
+            value: "6379"
+          
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      
+      {{- if eq .Values.provider "gcp" }}
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          {{- toYaml .Values.sqlProxy.resources | nindent 12 }} 
+      {{- end }}
+      {{- if eq .Values.provider "gcp" }}
+      serviceAccountName: cloudsql-proxy
+      {{- end }}
