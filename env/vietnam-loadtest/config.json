@@ -63,7 +63,7 @@
         "bucket": "kidsloop-backup-loadtest"
     },
 
-    "base_url_user": "https://api.kidsloop.vn/user/",
+    "base_url_user": "https://api.loadtest.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
 
     "whitelabel_storage_provider": "vngcloud",
@@ -138,11 +138,11 @@
     "auth_backend_appVersion": "2.1.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "commit-vn-prod-3a8707c",
+    "cms_frontend_image_tag": "2.44.0-vn-loadtest-4e3719b4",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 5,
     "cms_frontend_max_replica_count": 10,
-    "cms_frontend_appVersion": "2.16.1",
+    "cms_frontend_appVersion": "2.44.0",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "main-61ba3b6",
@@ -156,7 +156,7 @@
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 5,
     "hub_max_replica_count": 10,
-    "hub_appVersion": "2.39.0",
+    "hub_appVersion": "2.44.0",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "vn-5.2.0-alpha.1-beta-3ce1c8ae",
