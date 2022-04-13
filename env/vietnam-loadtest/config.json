@@ -5,13 +5,13 @@
     "kl_domain": ".loadtest.kidsloop.vn",
     "domain": "loadtest.kidsloop.vn",
     "deployment_region": "vietnam",
-    "deployment_name": "vietnam-production",
+    "deployment_name": "vietnam-loadtest",
     "vault_addr": "https://vault.devops.klpsre.com",
-    "vault_path": "customer/vietnam-production",
+    "vault_path": "customer/vietnam-loadtest",
     "env": "loadtest",
     
     "redis_host": "10.0.2.26",
-    "redis_live_host": "10.0.2.34",
+    "redis_live_host": "10.0.2.26",
     "postgresql_host": "10.0.2.35",
     "postgresql_username": "kidslooproot",
     "postgresql_database": "klvn_loadtest_user",
@@ -60,7 +60,7 @@
         "enabled": true,
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",
-        "bucket": "kidsloop-backup-production"
+        "bucket": "kidsloop-backup-loadtest"
     },
 
     "base_url_user": "https://api.kidsloop.vn/user/",
@@ -78,8 +78,8 @@
     "storage": {
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "region": "HCM01",
-        "bucket": "kidsloop-cms-backend-production",
-        "pdf_bucket": "kidsloop-pdf-bucket-production",
+        "bucket": "kidsloop-cms-backend-loadtest",
+        "pdf_bucket": "kidsloop-pdf-bucket-loadtest",
         "protocol": "s3",
         "download_mode": "cloudfront",
         "cdn_path": "https://cdn.kidsloop.vn",
@@ -97,9 +97,9 @@
         "region": "HCM01",
         "endpoint": "https://hcm01.vstorage.vngcloud.vn",
         "content_storage": "mongos3",
-        "content_storage_bucket": "kidsloop-h5p-content-production",
+        "content_storage_bucket": "kidsloop-h5p-content-loadtest",
         "temporary_storage": "s3",
-        "temporary_storage_bucket": "kidsloop-h5p-temporary-production"
+        "temporary_storage_bucket": "kidsloop-h5p-temporary-loadtest"
     },
 
     "azure_b2c": {
