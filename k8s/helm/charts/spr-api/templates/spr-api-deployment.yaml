@@ -52,6 +52,11 @@ spec:
             value: "8080"
           - name: ADMIN_SERVICE_URL
             value: "{{ .Values.user_service_endpoint }}"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: spr-api-database-url
+                key: DATABASE_URL
           - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
             value: "true"
           - name: LOG_STYLE

@@ -14,27 +14,15 @@
     "redis_live_host": "10.0.1.23",
     "postgresql_host": "10.0.1.25",
     "postgresql_username": "kidslooproot",
-<<<<<<< HEAD
     "postgresql_database": "klvn_beta_user",
     "postgresql_assessment_database": "klvn_beta_assessment",
     "postgresql_attendance_database": "klvn_beta_attendance",
-=======
-    "postgresql_database": "kidsloopbeta",
-    "postgresql_assessment_database": "kidsloop_beta_assessment",
-    "postgresql_attendance_database": "kidsloop_beta_attendance",
->>>>>>> 0838643 (feat: spr-api service helm chart)
     "postgresql_pdf_database": "klvn_beta_pdf",
     "postgresql_media_storage_database": "klvn_beta_media_storage",
 
-<<<<<<< HEAD
     "postgresql_xapi_host": "10.0.1.25",
     "postgresql_xapi_database": "klvn_beta_xapi",
 
-=======
-    "postgresql_xapi_host": "10.0.1.17",
-    "postgresql_xapi_database": "kidsloop_beta_xapi",
-
->>>>>>> 0838643 (feat: spr-api service helm chart)
     "mysql_host": "10.0.1.18",
     "mysql_username": "kidslooproot",
     "mysql_assessment_username": "kidslooproot",
