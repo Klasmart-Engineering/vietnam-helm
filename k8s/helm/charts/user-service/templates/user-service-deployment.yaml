@@ -46,6 +46,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: DATABASE_LOGGING
+            value: "true"
           - name: LOG_LEVEL
             value: "info"
           - name: ENABLE_PAGE_DOCS

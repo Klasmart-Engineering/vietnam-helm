@@ -154,14 +154,14 @@
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "2.41.1",
+    "hub_appVersion": "2.44.0",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
-    "live_frontend_image_tag": "vn-5.2.0-alpha.1-beta-3ce1c8ae",
+    "live_frontend_image_tag": "v6.2.0-vn-beta-7f1612b7",
     "live_frontend_image_pull_secrets": "ecr-registry-infra",
     "live_frontend_min_replica_count": 1,
     "live_frontend_max_replica_count": 6,
-    "live_frontend_appVersion": "5.2.0",
+    "live_frontend_appVersion": "6.2.0",
 
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "v1.10.14",
@@ -211,7 +211,7 @@
     "sfu_remove_old_entries_probability": 10000,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v4.2.1",
+    "user_service_image_tag": "v4-2-1",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 4,
     "user_service_max_replica_count": 8,
