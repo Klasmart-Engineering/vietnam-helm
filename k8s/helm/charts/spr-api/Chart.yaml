@@ -1,0 +1,6 @@
+apiVersion: v2
+name: spr-api
+description: KidsLoop Student Performance Report API
+type: application
+version: 0.1.0
+appVersion: 0.1.0

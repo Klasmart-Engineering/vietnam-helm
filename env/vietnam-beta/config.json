@@ -14,15 +14,27 @@
     "redis_live_host": "10.0.1.23",
     "postgresql_host": "10.0.1.25",
     "postgresql_username": "kidslooproot",
+<<<<<<< HEAD
     "postgresql_database": "klvn_beta_user",
     "postgresql_assessment_database": "klvn_beta_assessment",
-    "postgresql_attendance_database": "klvn_beta_attendance",    
+    "postgresql_attendance_database": "klvn_beta_attendance",
+=======
+    "postgresql_database": "kidsloopbeta",
+    "postgresql_assessment_database": "kidsloop_beta_assessment",
+    "postgresql_attendance_database": "kidsloop_beta_attendance",
+>>>>>>> 0838643 (feat: spr-api service helm chart)
     "postgresql_pdf_database": "klvn_beta_pdf",
     "postgresql_media_storage_database": "klvn_beta_media_storage",
 
+<<<<<<< HEAD
     "postgresql_xapi_host": "10.0.1.25",
     "postgresql_xapi_database": "klvn_beta_xapi",
-    
+
+=======
+    "postgresql_xapi_host": "10.0.1.17",
+    "postgresql_xapi_database": "kidsloop_beta_xapi",
+
+>>>>>>> 0838643 (feat: spr-api service helm chart)
     "mysql_host": "10.0.1.18",
     "mysql_username": "kidslooproot",
     "mysql_assessment_username": "kidslooproot",
@@ -32,7 +44,7 @@
 
     "prometheus_host": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     "desired_pods_getter": "redis",
-    
+
     "helm_prometheus": {
         "enabled": false
     },
@@ -47,10 +59,10 @@
     },
     "helm_nginx_ingress": {
         "enabled": false
-    },   
+    },
     "helm_ecr_token_vietnam": {
         "enabled": true
-    },   
+    },
     "helm_ecr_token_infra": {
         "enabled": true
     },
@@ -117,10 +129,10 @@
 
     "h5p_xapi_endpoint": "wss://api.alpha.kidsloop.net/xapi/graphql",
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
-    
+
     "assessment_gen_time": 300,
     "assessment_database_logging": 1,
-    
+
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "2-10-4-vn-vn-beta-e0a5756",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
@@ -257,6 +269,13 @@
     "media_storage_min_replica_count": 1,
     "media_storage_max_replica_count": 6,
     "media_storage_appVersion": "0.1.19",
+
+    "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
+    "spr_api_image_tag": "master-latest",
+    "spr_api_image_pull_secrets": "ecr-registry-infra",
+    "spr_api_min_replica_count": 1,
+    "spr_api_max_replica_count": 6,
+    "spr_api_appVersion": "1.0.0",
 
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
