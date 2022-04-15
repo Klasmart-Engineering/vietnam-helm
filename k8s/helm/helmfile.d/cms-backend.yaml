@@ -5,6 +5,9 @@ environments:
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
+  vietnam-loadtest:
+    values:
+      - ../../../env/vietnam-loadtest/.env.yaml
   vietnam-production:
     values:
       - ../../../env/vietnam-production/.env.yaml      
@@ -61,10 +64,10 @@ releases:
                 - "/v1"
         resources:
           requests:
-            cpu: 250m
+            cpu: 750m
             memory: 256Mi
           limits:
-            cpu: 500m
+            cpu: 1000m
             memory: 512Mi
 
         autoscaling:

@@ -1,10 +1,13 @@
 environments:
   vietnam-alpha:
     values:
-      - ../../../env/vietnam-alpha/.env.yaml      
+      - ../../../env/vietnam-alpha/.env.yaml
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
+  vietnam-loadtest:
+    values:
+      - ../../../env/vietnam-loadtest/.env.yaml
   vietnam-production:
     values:
       - ../../../env/vietnam-production/.env.yaml      
@@ -26,7 +29,7 @@ releases:
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
-    version: 1.4.0
+    version: 1.7.2
     force: true
     values:
       - installCRDs: true

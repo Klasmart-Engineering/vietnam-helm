@@ -9,6 +9,9 @@ environments:
   vietnam-beta:
     values:
       - ../../../env/vietnam-beta/.env.yaml
+  vietnam-loadtest:
+    values:
+      - ../../../env/vietnam-loadtest/.env.yaml
   vietnam-production:
     values:
       - ../../../env/vietnam-production/.env.yaml      

@@ -58,7 +58,7 @@ spec:
           - name: MAX_SIZE_UPLOAD
             value: "50000000"
           - name: MAX_ENTITIES_PER_FILE
-            value: "300"
+            value: "200"
           - name: STS_JWT
             valueFrom:
               secretKeyRef:

@@ -69,6 +69,8 @@ spec:
                 key: mongodb-password
           - name: CONTENT_MONGO_COLLECTION
             value: {{ .Values.h5p_storage.mongodb_collection_name }}
+          - name: MEDIA_STORAGE_SERVICE_ENDPOINT
+            value: {{ .Values.media_storage_endpoint }}
           {{ end }}
           - name: NEW_RELIC_NO_CONFIG_FILE
             value: "true"
@@ -83,6 +85,26 @@ spec:
               secretKeyRef:
                 name: newrelic-apikey-secret
                 key: NEW_RELIC_LICENSE_KEY
+          - name: CACHE
+            value: "redis"
+          - name: LOCK
+            value: "redis"
+          - name: LOCK_REDIS_DB
+            value: "1"
+          - name: LOCK_REDIS_HOST
+            value: {{ .Values.redis_host }}
+          - name: LOCK_REDIS_PORT
+            value: "6379"
+          - name: LOG_LEVEL
+            value: "debug"
+          - name: LOG_STYLE
+            value: "NEW_RELIC"
+          - name: REDIS_DB
+            value: "0"
+          - name: REDIS_HOST
+            value: {{ .Values.redis_host }}
+          - name: REDIS_PORT
+            value: "6379"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       

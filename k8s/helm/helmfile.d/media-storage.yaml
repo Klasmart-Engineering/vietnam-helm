@@ -19,9 +19,9 @@ environments:
       - ../../../env/indonesia-production/.env.yaml
 
 releases:
-  - name: xapi
+  - name: media-storage
     namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/xapi
+    chart: ../charts/media-storage
     values:
       - provider: {{ .Values.provider }}
         serviceType: {{ .Values.k8s_service_type }}
@@ -29,11 +29,11 @@ releases:
         deployment_region: {{ .Values.deployment_region }}
         deployment_env: {{ .Values.env }}
         image:
-          repository: "{{ .Values.xapi_image_repository }}"
-          tag: "{{ .Values.xapi_image_tag }}"
+          repository: "{{ .Values.media_storage_image_repository }}"
+          tag: "{{ .Values.media_storage_image_tag }}"
         imagePullSecrets:
-          - name: {{ .Values.xapi_image_pull_secrets }}
-        appVersion: {{ .Values.xapi_appVersion }}
+          - name: {{ .Values.media_storage_image_pull_secrets }}
+        appVersion: {{ .Values.media_storage_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
           annotations: 
@@ -55,7 +55,7 @@ releases:
           hosts:
             - host: api{{ .Values.kl_domain }}
               paths:
-                - "/xapi"
+                - "/media-storage"
         domain: {{ .Values.domain }}
         {{- if eq .Values.provider "gcp" }}
         project: {{ .Values.terraform_project }}
@@ -63,14 +63,15 @@ releases:
         postgresql_instance: {{ .Values.postgresql_database }}
         {{- end }}
         postgresql_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_host }} {{- end }}
-        postgresql_database: {{ .Values.postgresql_database }}
         postgresql_username: {{ .Values.postgresql_username }}
-        postgresql_xapi_host: {{- if eq .Values.provider "gcp" }} "127.0.0.1" {{- else }} {{ .Values.postgresql_xapi_host }} {{- end }}
-        postgresql_xapi_database: {{ .Values.postgresql_xapi_database }}
+        postgresql_media_storage_database: {{ .Values.postgresql_media_storage_database }}
         aws_region: {{ .Values.dynamodb_aws_region }}
-        dynamodb_table_name: {{ .Values.dynamodb_table_name }}
-        elasticsearch_username: {{ .Values.elasticsearch_username }}
-        firehose_steam_name: {{ .Values.firehose_steam_name }}
+        user_service_endpoint: https://api{{ .Values.kl_domain }}/user-service/graphql
+        cms_backend_endpoint: https://cms{{ .Values.kl_domain }}/v1/internal
+        media_storage_encrpyted_media: "{{ .Values.env }}-media-storage-encrpyted-media"
+        media_storage_private_keys: "{{ .Values.env }}-media-storage-private-keys"
+        media_storage_public_keys: "{{ .Values.env }}-media-storage-public-keys"
+        redis_host: {{ .Values.redis_host }}
         resources:
           requests:
             cpu: 250m
@@ -80,5 +81,5 @@ releases:
             memory: 1024Mi
         autoscaling:
           enabled: true
-          minReplicas: {{ .Values.xapi_min_replica_count }}
-          maxReplicas: {{ .Values.xapi_max_replica_count }}
+          minReplicas: {{ .Values.media_storage_min_replica_count }}
+          maxReplicas: {{ .Values.media_storage_max_replica_count }}
