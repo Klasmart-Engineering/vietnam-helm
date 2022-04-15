@@ -6,7 +6,7 @@ imagePullSecrets: []
 
 image:
   repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   tag: latest
 
 hostNetworking: true
