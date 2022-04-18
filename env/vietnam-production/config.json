@@ -9,7 +9,7 @@
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-production",
     "env": "production",
-    
+
     "redis_host": "10.0.2.9",
     "redis_live_host": "10.0.2.34",
     "postgresql_host": "10.0.2.19",
@@ -29,11 +29,11 @@
     "mysql_database": "klvn_prod_cms",
     "fluentbit_cloudwatch_log_stream": "vn-vngcloud-prd",
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd-200",
- 
+
     "prometheus_host": "http://magnum-prometheus-operator-prometheus.kube-system.svc.cluster.local:9090",
-    "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090", 
+    "prometheus_host_old": "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090",
     "desired_pods_getter": "redis",
-    
+
     "helm_prometheus": {
         "enabled": false
     },
@@ -48,10 +48,10 @@
     },
     "helm_nginx_ingress": {
         "enabled": false
-    },   
+    },
     "helm_ecr_token_vietnam": {
         "enabled": true
-    },   
+    },
     "helm_ecr_token_infra": {
         "enabled": true
     },
@@ -118,10 +118,10 @@
 
     "h5p_xapi_endpoint": "wss://api.kidsloop.net/xapi/graphql",
     "assessment_xapi_endpoint": "https://api.kidsloop.net/assessment/graphql",
-    
+
     "assessment_gen_time": 7200,
     "assessment_database_logging": 0,
-    
+
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
     "auth_frontend_image_tag": "2-10-4-vn-vn-prod-e0a5756",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
@@ -149,7 +149,7 @@
     "cms_backend_min_replica_count": 8,
     "cms_backend_max_replica_count": 16,
     "cms_backend_appVersion": "2.16.0",
-    
+
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "vn-2-39-0-vn-prod-021f388",
     "hub_image_pull_secrets": "ecr-registry-infra",
@@ -194,7 +194,7 @@
     "sfu_pods_cpu_limit": "2000m",
     "sfu_pods_memory_request": "2Gi",
     "sfu_pods_memory_limit": "4Gi",
-    "sfu_num_cpu_cores": "1",   
+    "sfu_num_cpu_cores": "1",
     "sfu_min_replica_count": 1,
     "sfu_max_replica_count": 1,
     "sfu_appVersion": "1.3.0",
@@ -246,7 +246,7 @@
     "attendance_service_appVersion": "1.3.1",
 
     "onboarding_scheduling_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-onboarding",
-    "onboarding_scheduling_image_tag": "dutchlady-v0.0.1",
+    "onboarding_scheduling_image_tag": "dutch-lady-v-0.0.1",
     "onboarding_scheduling_image_pull_secrets": "ecr-registry-infra",
     "onboarding_scheduling_min_replica_count": 1,
     "onboarding_scheduling_max_replica_count": 6,
@@ -258,7 +258,14 @@
     "media_storage_min_replica_count": 1,
     "media_storage_max_replica_count": 6,
     "media_storage_appVersion": "0.1.19",
-    
+
+    "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
+    "spr_api_image_tag": "master-latest",
+    "spr_api_image_pull_secrets": "ecr-registry-infra",
+    "spr_api_min_replica_count": 1,
+    "spr_api_max_replica_count": 6,
+    "spr_api_appVersion": "1.0.0",
+
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"

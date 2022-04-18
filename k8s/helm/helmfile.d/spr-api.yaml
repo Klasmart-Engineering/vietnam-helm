@@ -1,0 +1,75 @@
+environments:
+  vietnam-alpha:
+    values:
+      - ../../../env/vietnam-alpha/.env.yaml
+  vietnam-beta:
+    values:
+      - ../../../env/vietnam-beta/.env.yaml
+  vietnam-production:
+    values:
+      - ../../../env/vietnam-production/.env.yaml
+  indonesia-staging:
+    values:
+      - ../../../env/indonesia-staging/.env.yaml
+  indonesia-production:
+    values:
+      - ../../../env/indonesia-production/.env.yaml
+
+releases:
+  {{- if eq .Values.provider "vngcloud" }}
+
+  - name: spr-api
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/spr-api
+    values:
+      - provider: {{ .Values.provider }}
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
+          repository: "{{ .Values.spr_api_image_repository }}"
+          tag: "{{ .Values.spr_api_image_tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.spr_api_image_pull_secrets }}
+        appVersion: {{ .Values.spr_api_appVersion }}
+        ingress:
+          {{- if eq .Values.provider "gcp" }}
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            kubernetes.io/ingress.class: "nginx"
+            ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/send-timeout: "3600"
+            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          {{- else }}
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+          {{- end }}
+          tls:
+            - endpoint:
+                hosts:
+                  - spr-api{{ .Values.kl_domain }}
+                secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-spr-api{{ .Values.kl_domain }}" {{- end }}
+          hosts:
+            - host: spr-api{{ .Values.kl_domain }}
+              paths:
+                - "/"
+        domain: {{ .Values.domain }}
+        user_service_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1024Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.spr_api_min_replica_count }}
+          maxReplicas: {{ .Values.spr_api_max_replica_count }}
+
+  {{- end }}
