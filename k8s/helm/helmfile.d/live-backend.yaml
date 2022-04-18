@@ -61,11 +61,11 @@ releases:
                 - "/graphql"
         resources:
           requests:
-            cpu: 200m
-            memory: 1Gi
+            cpu: 1250m
+            memory: 1024Mi
           limits:
-            cpu: 1000m
-            memory: 2Gi
+            cpu: 1500m
+            memory: 1536Mi
         {{- if eq .Values.provider "gcp" }}
         redisHost: {{ .Values.redis_host }}
         {{- else }} 
