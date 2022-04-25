@@ -1,0 +1,23 @@
+nameOverride: ""
+fullnameOverride: ""
+replicaCount: 1
+imagePullSecrets: []
+
+
+image:
+  repository: 942095822719.dkr.ecr.ap-southeast-1.amazonaws.com/loadtesting-load-generation-system
+  pullPolicy: IfNotPresent
+  tag: latest
+
+hostNetworking: true
+
+room_id: 123
+
+resources: {}
+
+requests:
+  cpu: 10m
+  memory: 64Mi
+limits:
+  cpu: 200m
+  memory: 256Mi
