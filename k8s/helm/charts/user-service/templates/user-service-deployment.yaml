@@ -29,19 +29,19 @@ spec:
             containerPort: 8080
         startupProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /user/version
             port: http
           failureThreshold: 30
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /user/version
             port: http
           initialDelaySeconds: 5
           periodSeconds: 5
         livenessProbe:
           httpGet:
-            path: /.well-known/apollo/server-health
+            path: /user/version
             port: http
           initialDelaySeconds: 10
           periodSeconds: 5

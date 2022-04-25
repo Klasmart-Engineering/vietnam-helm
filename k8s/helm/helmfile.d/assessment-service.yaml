@@ -83,11 +83,11 @@ releases:
                 - "/assessment"
         resources:
           requests:
-            cpu: 200m
-            memory: 512Mi
+            cpu: 800m
+            memory: 1024Mi
           limits:
             cpu: 1000m
-            memory: 1024Mi
+            memory: 1536Mi
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.assessment_min_replica_count }}
