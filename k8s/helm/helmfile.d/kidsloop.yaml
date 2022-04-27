@@ -46,6 +46,26 @@ releases:
             cpu: 200m
             memory: 200Mi
 
+  - name: ecr-token-infra-singapore
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/ecr-token
+    version: ~0.1.0
+    condition: helm_ecr_token_vietnam.enabled
+    values:
+      - suffix: "-infra-singapore"
+      - secret_name: "ecr-registry-infra-singapore"
+      - credential_secret_name: "ecr-credentials-infra-pull"
+      - aws_region: "ap-southeast-1"
+      - aws_account_id: "942095822719"
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
   # ECR TOKEN
   # ---------------------------------------------------------------------------------------
   # This provides an cron job which refreshes the AWS ECR token to allow download of docker
