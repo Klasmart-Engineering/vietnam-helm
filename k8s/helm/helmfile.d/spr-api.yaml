@@ -60,6 +60,7 @@ releases:
                 - "/"
         domain: {{ .Values.domain }}
         user_service_endpoint: https://api{{ .Values.kl_domain }}/user/graphql
+        show_swagger: {{ .Values.spr_api_show_swagger }}
         resources:
           requests:
             cpu: 250m

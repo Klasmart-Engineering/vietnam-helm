@@ -149,7 +149,7 @@
     "cms_backend_min_replica_count": 8,
     "cms_backend_max_replica_count": 16,
     "cms_backend_appVersion": "2.19.0",
-    
+
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "v2-46-1-vn-prod-60bf423",
     "hub_image_pull_secrets": "ecr-registry-infra",
@@ -194,7 +194,7 @@
     "sfu_pods_cpu_limit": "2000m",
     "sfu_pods_memory_request": "2Gi",
     "sfu_pods_memory_limit": "4Gi",
-    "sfu_num_cpu_cores": "2",   
+    "sfu_num_cpu_cores": "2",
     "sfu_min_replica_count": 1,
     "sfu_max_replica_count": 1,
     "sfu_appVersion": "2.0.1",
@@ -265,7 +265,8 @@
     "spr_api_min_replica_count": 1,
     "spr_api_max_replica_count": 6,
     "spr_api_appVersion": "1.0.0",
-    
+    "spr_api_show_swagger": false,
+
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"

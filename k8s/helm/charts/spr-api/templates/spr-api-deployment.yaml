@@ -57,6 +57,8 @@ spec:
               secretKeyRef:
                 name: spr-api-database-url
                 key: DATABASE_URL
+          - name: SHOW_SWAGGER
+            value: "{{ .Values.show_swagger }}"
           - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
             value: "true"
           - name: LOG_STYLE
