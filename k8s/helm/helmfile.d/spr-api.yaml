@@ -51,6 +51,14 @@ releases:
           {{- else }}
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              if ($request_method = OPTIONS) {
+                more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+                more_set_headers "Access-Control-Allow-Headers: Content-Type";
+                return 200;
+              }
+              more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
+              more_set_headers "Access-Control-Allow-Credentials: true";
           {{- end }}
           tls:
             - endpoint:
