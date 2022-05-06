@@ -16,7 +16,9 @@ data:
       default you_shall_not_pass; # this is not a joke
       # matching e.g. https://*.alpha.kidsloop.vn, https://*.beta.kidsloop.vn, or https://*.kidsloop.vn
       ~^https://.*\.kidsloop\.vn$ $http_origin;
-      ~^https://.*\.kidsloop\.net$ $http_origin;
+      {{- if ne .Values.kl_domain ".kidsloop.vn" }}
+      ~^https://.*\.kidsloop\.net(.*)$ $http_origin;
+      {{- end }}
     }
 
 {{- end }}
