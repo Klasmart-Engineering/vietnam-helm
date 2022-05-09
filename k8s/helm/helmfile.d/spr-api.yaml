@@ -11,12 +11,6 @@ environments:
   vietnam-production:
     values:
       - ../../../env/vietnam-production/.env.yaml
-  indonesia-staging:
-    values:
-      - ../../../env/indonesia-staging/.env.yaml
-  indonesia-production:
-    values:
-      - ../../../env/indonesia-production/.env.yaml
 
 releases:
   {{- if eq .Values.provider "vngcloud" }}
