@@ -76,6 +76,8 @@ spec:
               secretKeyRef:
                 name: newrelic-apikey-secret
                 key: NEW_RELIC_LICENSE_KEY
+          - name: SPS_INTERVAL_IN_DAYS
+            value: "365"
         {{- if eq .Values.provider "gcp" }}
           - name: STORAGE_GOOGLE_KEY_FILE_NAME
             value: /key/key.json

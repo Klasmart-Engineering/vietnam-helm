@@ -16,6 +16,7 @@ releases:
   {{- if eq .Values.provider "vngcloud" }} 
   - name: nightwatch
     namespace: {{ .Values.k8s_namespace_kidsloop }}
+    condition: develop_env.enabled
     chart: ../charts/nightwatch
     values:
       - image:

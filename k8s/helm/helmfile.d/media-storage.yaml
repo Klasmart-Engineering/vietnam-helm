@@ -66,6 +66,8 @@ releases:
         media_storage_private_keys: "{{ .Values.env }}-media-storage-private-keys"
         media_storage_public_keys: "{{ .Values.env }}-media-storage-public-keys"
         redis_host: {{ .Values.redis_host }}
+        storage_endpoint: {{ .Values.storage_endpoint }}
+        storage_region: {{ .Values.storage_region }}
         resources:
           requests:
             cpu: 250m

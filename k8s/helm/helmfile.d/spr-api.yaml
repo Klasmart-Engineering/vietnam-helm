@@ -18,6 +18,7 @@ releases:
   - name: spr-api
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/spr-api
+    # condition: develop_env.enabled
     values:
       - provider: {{ .Values.provider }}
         deployment_name: {{ .Values.deployment_name }}

@@ -49,6 +49,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
         env:
+          - name: DISABLE_AUTH
+            value: "true"
           - name: ASSESSMENT_GENERATE_TIME
             value: "{{ .Values.assessmentGenerateTime }}"
           - name: REDIS_MODE
