@@ -14,22 +14,22 @@ environments:
 
 releases:
   {{- if eq .Values.provider "vngcloud" }} 
-  - name: nightwatch
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/nightwatch
-    values:
-      - image:
-          repository: "{{ .Values.nightwatch_image_repository }}"
-          tag: "{{ .Values.nightwatch_image_tag }}"
-        imagePullSecrets:
-          - name: {{ .Values.nightwatch_image_pull_secrets }}
-        appVersion: {{ .Values.nightwatch_appVersion }}  
-        room_id: "123"
-        resources:
-          requests:
-            cpu: 250m
-            memory: 512Mi
-          limits:
-            cpu: 1000m
-            memory: 1024Mi
+  # - name: nightwatch
+  #   namespace: {{ .Values.k8s_namespace_kidsloop }}
+  #   chart: ../charts/nightwatch
+  #   values:
+  #     - image:
+  #         repository: "{{ .Values.nightwatch_image_repository }}"
+  #         tag: "{{ .Values.nightwatch_image_tag }}"
+  #       imagePullSecrets:
+  #         - name: {{ .Values.nightwatch_image_pull_secrets }}
+  #       appVersion: {{ .Values.nightwatch_appVersion }}  
+  #       room_id: "123"
+  #       resources:
+  #         requests:
+  #           cpu: 250m
+  #           memory: 512Mi
+  #         limits:
+  #           cpu: 1000m
+  #           memory: 1024Mi
   {{- end }}
