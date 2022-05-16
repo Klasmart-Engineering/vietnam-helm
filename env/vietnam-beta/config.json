@@ -155,11 +155,11 @@
     "cms_backend_appVersion": "2.20.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "v2-54-0-custom-vn-beta-8e1bf5e",
+    "hub_image_tag": "v2.56.1-vn-beta-aaa7b9b",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "2.54.0",
+    "hub_appVersion": "2.56.1",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "v6-8-0-vn-beta-92a8ba4",
