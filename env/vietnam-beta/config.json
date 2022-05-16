@@ -272,11 +272,6 @@
     "spr_api_appVersion": "1.0.0",
     "spr_api_show_swagger": true,
 
-    "nightwatch_image_repository": "942095822719.dkr.ecr.ap-southeast-1.amazonaws.com/loadtesting-load-generation-system",
-    "nightwatch_image_tag": "latest",
-    "nightwatch_image_pull_secrets": "ecr-registry-infra-singapore",    
-    "nightwatch_appVersion": "0.0.1",
-
     "ecr_token_infra_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-ecr-token:latest",
     "mysql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-mysql-backup:latest",
     "postgresql_backup_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cronjob-postgresql-backup:latest"
