@@ -156,11 +156,11 @@
     "cms_backend_appVersion": "2.19.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "v2-47-0-vn-prod-e0c1428",
+    "hub_image_tag": "v2.56.1-vn-prod-aaa7b9b",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 5,
     "hub_max_replica_count": 10,
-    "hub_appVersion": "2.47.0",
+    "hub_appVersion": "2.56.1",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "v6.2.0-vn-prod-7f1612b7",
@@ -218,11 +218,11 @@
     "sfu_remove_old_entries_probability": 10000,
 
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
-    "user_service_image_tag": "v4-2-1",
+    "user_service_image_tag": "v4-4-0-131941c",
     "user_service_image_pull_secrets": "ecr-registry-infra",
     "user_service_min_replica_count": 4,
     "user_service_max_replica_count": 16,
-    "user_service_appVersion": "4.2.1",
+    "user_service_appVersion": "4.4.0",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "v2.14.2",
@@ -268,8 +268,8 @@
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
     "spr_api_image_tag": "master-6ab6834",
     "spr_api_image_pull_secrets": "ecr-registry-infra",
-    "spr_api_min_replica_count": 2,
-    "spr_api_max_replica_count": 6,
+    "spr_api_min_replica_count": 4,
+    "spr_api_max_replica_count": 10,
     "spr_api_appVersion": "1.0.0",
     "spr_api_show_swagger": false,
 
