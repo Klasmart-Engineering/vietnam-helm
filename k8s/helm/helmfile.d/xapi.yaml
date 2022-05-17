@@ -67,11 +67,11 @@ releases:
         firehose_steam_name: {{ .Values.firehose_steam_name }}
         resources:
           requests:
-            cpu: 250m
-            memory: 512Mi
+            cpu: 1250m
+            memory: 1536Mi
           limits:
-            cpu: 500m
-            memory: 1024Mi
+            cpu: 1500m
+            memory: 2048Mi
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.xapi_min_replica_count }}

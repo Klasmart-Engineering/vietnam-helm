@@ -59,8 +59,6 @@ spec:
             value: "8080"
           - name: ROUTE_PREFIX
             value: "/media-storage"
-          - name: AWS_REGION
-            value: {{ .Values.aws_region }}
           - name: USER_SERVICE_ENDPOINT
             value: {{ .Values.user_service_endpoint }}
           - name: CMS_API_URL
@@ -100,10 +98,19 @@ spec:
               secretKeyRef:
                 name: cms-backend-s3-secret
                 key: secret_access_key
+          - name: S3_BUCKET_ENDPOINT
+            value: {{ .Values.storage_endpoint }}
+          - name: AWS_REGION
+            value: {{ .Values.storage_region }}
           - name: REDIS_HOST
             value: {{ .Values.redis_host }}
           - name: REDIS_PORT
             value: "6379"
+          - name: DATABASE_LOGGING
+            value: "all"
+          - name: MERCURIUS_LOG_LEVEL
+            value: "trace"
+
           
         resources:
           {{- toYaml .Values.resources | nindent 12 }}

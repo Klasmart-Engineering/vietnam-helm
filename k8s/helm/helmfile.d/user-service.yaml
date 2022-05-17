@@ -32,6 +32,7 @@ releases:
         deployment_region: {{ .Values.deployment_region }}
         deployment_env: {{ .Values.env }}
         serviceType: {{ .Values.k8s_service_type }}
+        kl_domain: {{ .Values.kl_domain }}
         image:
           repository: "{{ .Values.user_service_image_repository }}"
           tag: "{{ .Values.user_service_image_tag }}"
