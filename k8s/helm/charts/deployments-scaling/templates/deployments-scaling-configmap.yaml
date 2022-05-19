@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: deployments-scaling{{.Values.suffix}}-cm
+data:
+  start-script.sh: |
+    #!/bin/bash
+
+    DEPLOYMENTS_LIST=($(kubectl -n $NAMESPACE get deployments | awk '{print $1}' | grep -v "NAME"))
+
+    for deployment in "${DEPLOYMENTS_LIST[@]}"
+    do
+        kubectl -n ${NAMESPACE} scale deployment ${deployment} --replicas=${REPLICAS}
+    done
+    sleep 10
+    kubectl -n $NAMESPACE get deployments

@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deployments-scaling{{.Values.suffix}}-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: deployments-scaling{{.Values.suffix}}-role
+subjects:
+- kind: ServiceAccount
+  name: deployments-scaling{{.Values.suffix}}-serviceaccount
+  namespace: {{ .Release.Namespace }}
