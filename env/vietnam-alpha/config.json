@@ -60,6 +60,13 @@
         "region": "HCM01",
         "bucket": "kidsloop-backup-alpha"
     },
+    "scale_by_schedule": {
+        "enabled": true,
+        "cron_schedule_down": "30 18 * * *",
+        "cron_schedule_up": "0 9 * * *",
+        "replicas_down": "0",
+        "replicas_up": "0"
+    },    
 
     "base_url_user": "https://api.alpha.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
