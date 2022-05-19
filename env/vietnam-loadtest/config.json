@@ -65,6 +65,13 @@
         "region": "HCM01",
         "bucket": "kidsloop-backup-loadtest"
     },
+    "scale_by_schedule": {
+        "enabled": true,
+        "cron_schedule_down": "30 18 * * *",
+        "cron_schedule_up": "0 9 * * *",
+        "replicas_down": "1",
+        "replicas_up": "1"
+    },    
 
     "base_url_user": "https://api.loadtest.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",

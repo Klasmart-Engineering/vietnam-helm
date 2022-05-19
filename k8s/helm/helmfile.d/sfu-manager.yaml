@@ -13,56 +13,56 @@ environments:
       - ../../../env/vietnam-production/.env.yaml
       
 releases:
-  - name: sfu
-    namespace: {{ .Values.k8s_namespace_kidsloop }}
-    chart: ../charts/sfu
-    values:
-      - replicaCount: {{ .Values.sfu_manager_replica_count }}
-        sfuManagerImage:
-          repository: {{ .Values.sfu_manager_image_repository }}
-          tag: {{ .Values.sfu_manager_image_tag }}
-          imagePullSecrets:
-            - name: {{ .Values.sfu_manager_image_pull_secrets }}
-        sfuImage:
-          repository: {{ .Values.sfu_image_repository }}
-          tag: {{ .Values.sfu_image_tag | default "latest" }}
-          imagePullSecrets:
-            - name: {{ .Values.sfu_image_pull_secrets }}
-        provider: {{ .Values.provider }}
-        deployment_name: {{ .Values.deployment_name }}
-        deployment_region: {{ .Values.deployment_region }}
-        deployment_env: {{ .Values.env }}
-        serviceType: {{ .Values.k8s_service_type }}
-        appVersionSfuManager: {{ .Values.sfu_manager_appVersion }}
-        appVersionSfu: {{ .Values.sfu_appVersion }}
-      # Important - use host networking in GCP, and use pod IP as hostname
-        hostNetworking: true  # SFU addressable over internet
-        usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE
-        useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
-        resources:
-          requests:
-            cpu: {{ .Values.sfu_pods_cpu_request }}
-            memory: {{ .Values.sfu_pods_memory_request }}
-          limits:
-            cpu: {{ .Values.sfu_pods_cpu_limit }}
-            memory: {{ .Values.sfu_pods_memory_limit }}
-        sfuManagerResources:
-          requests:
-            cpu: 250m
-            memory: 256Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi            
-        sfuManagerConfiguration:
-          promHost: {{ .Values.prometheus_host }}
-          desiredPodsGetter: {{ .Values.desired_pods_getter }}
-          redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }}:6379 {{- else }} {{ .Values.redis_host }}:6379 {{- end }}
-          pods: {{ .Values.sfu_pods_count }}
-          {{- if eq .Values.provider "gcp" }}
-          promDesiredAvailable: {{ .Values.sfu_desired_count }}
-          {{- else }}
-          promDesiredAvailable: {{ .Values.sfu_desired_count }}
-          promDefaultAvailable: {{ .Values.sfu_default_count }}
-          {{- end }}
-          num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
-        redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }} {{- else }} {{ .Values.redis_host }} {{- end }}
+  # - name: sfu
+  #   namespace: {{ .Values.k8s_namespace_kidsloop }}
+  #   chart: ../charts/sfu
+  #   values:
+  #     - replicaCount: {{ .Values.sfu_manager_replica_count }}
+  #       sfuManagerImage:
+  #         repository: {{ .Values.sfu_manager_image_repository }}
+  #         tag: {{ .Values.sfu_manager_image_tag }}
+  #         imagePullSecrets:
+  #           - name: {{ .Values.sfu_manager_image_pull_secrets }}
+  #       sfuImage:
+  #         repository: {{ .Values.sfu_image_repository }}
+  #         tag: {{ .Values.sfu_image_tag | default "latest" }}
+  #         imagePullSecrets:
+  #           - name: {{ .Values.sfu_image_pull_secrets }}
+  #       provider: {{ .Values.provider }}
+  #       deployment_name: {{ .Values.deployment_name }}
+  #       deployment_region: {{ .Values.deployment_region }}
+  #       deployment_env: {{ .Values.env }}
+  #       serviceType: {{ .Values.k8s_service_type }}
+  #       appVersionSfuManager: {{ .Values.sfu_manager_appVersion }}
+  #       appVersionSfu: {{ .Values.sfu_appVersion }}
+  #     # Important - use host networking in GCP, and use pod IP as hostname
+  #       hostNetworking: true  # SFU addressable over internet
+  #       usePodIpAsHostnameOverride: true  # Dump pod IP into HOSTNAME_OVERRIDE
+  #       useIp: false  # Don't allow the SFU service to pick it's own IP address from the list of interfaces
+  #       resources:
+  #         requests:
+  #           cpu: {{ .Values.sfu_pods_cpu_request }}
+  #           memory: {{ .Values.sfu_pods_memory_request }}
+  #         limits:
+  #           cpu: {{ .Values.sfu_pods_cpu_limit }}
+  #           memory: {{ .Values.sfu_pods_memory_limit }}
+  #       sfuManagerResources:
+  #         requests:
+  #           cpu: 250m
+  #           memory: 256Mi
+  #         limits:
+  #           cpu: 500m
+  #           memory: 512Mi            
+  #       sfuManagerConfiguration:
+  #         promHost: {{ .Values.prometheus_host }}
+  #         desiredPodsGetter: {{ .Values.desired_pods_getter }}
+  #         redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }}:6379 {{- else }} {{ .Values.redis_host }}:6379 {{- end }}
+  #         pods: {{ .Values.sfu_pods_count }}
+  #         {{- if eq .Values.provider "gcp" }}
+  #         promDesiredAvailable: {{ .Values.sfu_desired_count }}
+  #         {{- else }}
+  #         promDesiredAvailable: {{ .Values.sfu_desired_count }}
+  #         promDefaultAvailable: {{ .Values.sfu_default_count }}
+  #         {{- end }}
+  #         num_cpu_cores: {{ .Values.sfu_num_cpu_cores }}
+  #       redisHost: {{- if ne .Values.provider "gcp" }} {{ .Values.redis_live_host }} {{- else }} {{ .Values.redis_host }} {{- end }}
