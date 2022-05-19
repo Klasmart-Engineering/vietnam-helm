@@ -1,0 +1,47 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: deployments-scaling{{.Values.suffix}}
+  labels: 
+    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    app.kubernetes.io/name: {{ .Chart.Name  }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote}}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: deployments-scaling{{.Values.suffix}}-serviceaccount
+          imagePullSecrets:
+            - name: {{.Values.image_pull_secret}}
+          restartPolicy: OnFailure
+          volumes:
+          - name: start-script
+            configMap:
+              name: deployments-scaling{{.Values.suffix}}-cm
+              items:
+              - key: start-script.sh
+                path: start-script.sh
+          containers:
+            - image: {{.Values.image}}
+              imagePullPolicy: Always
+              name: deployments-scaling{{.Values.suffix}}
+              command: [ "sh", "-c" ]
+              args:
+              - |
+                apk add --no-cache bash;
+                /bin/bash /start-script.sh
+              volumeMounts:
+              - name: start-script
+                mountPath: /start-script.sh
+                subPath: start-script.sh
+              env:
+                - name: NAMESPACE
+                  value: {{ .Release.Namespace }}
+                - name: REPLICAS
+                  value: "{{.Values.replicas}}"
+  schedule: "{{.Values.cron_schedule}}"

@@ -127,3 +127,45 @@ releases:
           limits:
             cpu: 200m
             memory: 200Mi
+
+  # FORCE SCALING UP/DOWN
+  # ---------------------------------------------------------------------------------------
+  # This provides an cron job which scales up/down all deployments by schedule
+ 
+  - name: deployments-scaling-up
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/deployments-scaling
+    version: ~0.1.0
+    condition: scale_by_schedule.enabled
+    values:
+      - suffix: "-up"
+      - cron_schedule: {{ .Values.scale_by_schedule.cron_schedule_up }}
+      - replicas: {{ .Values.scale_by_schedule.replicas_up }}
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+
+  - name: deployments-scaling-down
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/deployments-scaling
+    version: ~0.1.0
+    condition: scale_by_schedule.enabled
+    values:
+      - suffix: "-down"
+      - cron_schedule: {{ .Values.scale_by_schedule.cron_schedule_down }}
+      - replicas: {{ .Values.scale_by_schedule.replicas_down }}
+      - image: {{ .Values.ecr_token_infra_repository }}
+      - image_pull_secret: "ecr-registry-infra"
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
