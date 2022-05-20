@@ -51,7 +51,7 @@ spec:
           - name: PORT
             value: "8080"
           - name: ADMIN_SERVICE_URL
-            value: "{{ .Values.user_service_endpoint }}"
+            value: "https://api.kidsloop.vn/user/graphql"
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
