@@ -66,8 +66,8 @@
     },
     "scale_by_schedule": {
         "enabled": false,
-        "cron_schedule_down": "30 18 * * *",
-        "cron_schedule_up": "0 9 * * *",
+        "cron_schedule_down": "30 11 * * *",
+        "cron_schedule_up": "0 2 * * *",
         "replicas_down": "4",
         "replicas_up": "4"
     },    
