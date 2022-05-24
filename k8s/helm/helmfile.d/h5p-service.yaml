@@ -83,11 +83,11 @@ releases:
       {{- if ne .Values.provider "gcp" }}
         resources:
           requests:
-            cpu: 1250m
-            memory: 512Gi
+            cpu: 500m
+            memory: 512Mi
           limits:
-            cpu: 1500m
-            memory: 512Gi
+            cpu: 500m
+            memory: 512Mi
         autoscaling:
           enabled: true
           minReplicas: {{ .Values.h5p_service_min_replica_count }}

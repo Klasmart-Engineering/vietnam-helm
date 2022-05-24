@@ -221,7 +221,7 @@
     "sfu_appVersion": "2.0.0",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
-    "sfu_gateway_image_tag": "v2.0.8-2953e61",
+    "sfu_gateway_image_tag": "v2.0.8",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
     "sfu_gateway_min_replica_count": 10,
     "sfu_gateway_max_replica_count": 40,

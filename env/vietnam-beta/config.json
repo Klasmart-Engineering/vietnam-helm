@@ -219,7 +219,7 @@
     "sfu_appVersion": "2.0.1",
 
     "sfu_gateway_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-sfu-gateway",
-    "sfu_gateway_image_tag": "v2.0.8-2953e61",
+    "sfu_gateway_image_tag": "v2.0.8",
     "sfu_gateway_image_pull_secrets": "ecr-registry-infra",
     "sfu_gateway_min_replica_count": 1,
     "sfu_gateway_max_replica_count": 6,
@@ -233,8 +233,8 @@
     "user_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-user",
     "user_service_image_tag": "v4-4-0",
     "user_service_image_pull_secrets": "ecr-registry-infra",
-    "user_service_min_replica_count": 1,
-    "user_service_max_replica_count": 8,
+    "user_service_min_replica_count": 2,
+    "user_service_max_replica_count": 20,
     "user_service_appVersion": "v4.4.0",
 
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
