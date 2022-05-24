@@ -150,7 +150,7 @@
     "auth_backend_appVersion": "2.1.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "v2-21-0-vn-loadtest-c5f9033",
+    "cms_frontend_image_tag": "v2-21-1-custom-vn-loadtest-c5f9033e",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 2,
     "cms_frontend_max_replica_count": 10,
