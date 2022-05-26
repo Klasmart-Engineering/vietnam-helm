@@ -9,7 +9,7 @@
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-production",
     "env": "production",
-    "develop_env":  {
+    "develop_env": {
         "enabled": "false"
     },
 
@@ -70,7 +70,7 @@
         "cron_schedule_up": "0 2 * * *",
         "replicas_down": "4",
         "replicas_up": "4"
-    },    
+    },
 
     "base_url_user": "https://api.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
@@ -113,7 +113,7 @@
 
     "azure_b2c": {
         "enabled": true,
-        "tenant_id":"ca56551c-4b1d-499f-9d99-5ba27ae4a5c0",
+        "tenant_id": "ca56551c-4b1d-499f-9d99-5ba27ae4a5c0",
         "domain": "login.kidsloop.vn",
         "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
         "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
@@ -124,7 +124,7 @@
     "dynamodb_table_name": "",
     "elasticsearch_url": "",
     "elasticsearch_username": "",
-    "firehose_steam_name": "",    
+    "firehose_steam_name": "",
     "storage_endpoint": "https://hcm01.vstorage.vngcloud.vn",
     "storage_region": "HCM01",
 
@@ -149,25 +149,25 @@
     "auth_backend_appVersion": "2.1.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "commit-vn-prod-c5f9033",
+    "cms_frontend_image_tag": "v2-22-0-vn-prod-9fd5da6",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 5,
     "cms_frontend_max_replica_count": 10,
-    "cms_frontend_appVersion": "2.21.0",
+    "cms_frontend_appVersion": "2.22.0",
 
     "schedule_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-schedule-frontend",
-    "schedule_frontend_image_tag": "v2-0-1-vn-prod-84ae7e5",
+    "schedule_frontend_image_tag": "v2-1-0-vn-prod-8b7ce59",
     "schedule_frontend_image_pull_secrets": "ecr-registry-infra",
     "schedule_frontend_min_replica_count": 1,
     "schedule_frontend_max_replica_count": 6,
-    "schedule_frontend_appVersion": "2.0.1",
+    "schedule_frontend_appVersion": "2.1.0",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "hotfix-20220518-73a5dc9",
+    "cms_backend_image_tag": "main-7c90e3d",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 8,
     "cms_backend_max_replica_count": 16,
-    "cms_backend_appVersion": "2.21.2",
+    "cms_backend_appVersion": "2.22.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "v2.58.0-vn-prod-56acfb9",

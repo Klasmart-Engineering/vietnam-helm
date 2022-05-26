@@ -65,9 +65,11 @@ releases:
         media_storage_encrpyted_media: "{{ .Values.env }}-media-storage-encrpyted-media"
         media_storage_private_keys: "{{ .Values.env }}-media-storage-private-keys"
         media_storage_public_keys: "{{ .Values.env }}-media-storage-public-keys"
+        media_storage_cdn: "https://cms{{ .Values.kl_domain }}"
         redis_host: {{ .Values.redis_host }}
         storage_endpoint: {{ .Values.storage_endpoint }}
         storage_region: {{ .Values.storage_region }}
+
         resources:
           requests:
             cpu: 250m
@@ -79,3 +81,13 @@ releases:
           enabled: true
           minReplicas: {{ .Values.media_storage_min_replica_count }}
           maxReplicas: {{ .Values.media_storage_max_replica_count }}
+
+  - name: media-storage-external
+    namespace: {{ .Values.k8s_namespace_kidsloop }}
+    chart: ../charts/media-storage-external
+    values:
+      - domain: {{ .Values.kl_domain }}
+      - secretName: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-cms{{ .Values.kl_domain }}" {{- end }}
+      - externalServices:
+          enabled: true
+          externalName: "media-storage{{ .Values.kl_domain }}"

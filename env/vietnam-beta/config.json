@@ -9,7 +9,7 @@
     "vault_addr": "https://vault.devops.klpsre.com",
     "vault_path": "customer/vietnam-beta",
     "env": "beta",
-    "develop_env":  {
+    "develop_env": {
         "enabled": "false"
     },
 
@@ -69,7 +69,7 @@
         "cron_schedule_up": "0 2 * * *",
         "replicas_down": "0",
         "replicas_up": "1"
-    },    
+    },
 
     "base_url_user": "https://api.beta.kidsloop.vn/user/",
     "base_url_h5p": "https://h5p.kidsloop.net",
@@ -112,7 +112,7 @@
 
     "azure_b2c": {
         "enabled": true,
-        "tenant_id":"79505d03-827a-4832-abe1-dcff8356336a",
+        "tenant_id": "79505d03-827a-4832-abe1-dcff8356336a",
         "domain": "login.beta.kidsloop.vn",
         "policy_name": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
         "authority": "B2C_1A_RELYING_PARTY_SIGN_UP_LOG_IN",
@@ -126,7 +126,7 @@
     "firehose_steam_name": "klvn-beta-xapi",
     "storage_endpoint": "https://hcm01.vstorage.vngcloud.vn",
     "storage_region": "HCM01",
- 
+
     "h5p_xapi_endpoint": "wss://api.alpha.kidsloop.net/xapi/graphql",
     "assessment_xapi_endpoint": "https://api.alpha.kidsloop.net/assessment/graphql",
 
@@ -148,25 +148,25 @@
     "auth_backend_appVersion": "2.1.0",
 
     "cms_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-frontend",
-    "cms_frontend_image_tag": "commit-vn-beta-c5f9033",
+    "cms_frontend_image_tag": "v2-22-0-vn-beta-9fd5da6",
     "cms_frontend_image_pull_secrets": "ecr-registry-infra",
     "cms_frontend_min_replica_count": 1,
     "cms_frontend_max_replica_count": 6,
-    "cms_frontend_appVersion": "2.21.0",
+    "cms_frontend_appVersion": "2.22.0",
 
     "schedule_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-schedule-frontend",
-    "schedule_frontend_image_tag": "v2-0-1-vn-beta-84ae7e5",
+    "schedule_frontend_image_tag": "v2-1-0-vn-beta-8b7ce59",
     "schedule_frontend_image_pull_secrets": "ecr-registry-infra",
     "schedule_frontend_min_replica_count": 1,
     "schedule_frontend_max_replica_count": 6,
-    "schedule_frontend_appVersion": "2.0.1",
+    "schedule_frontend_appVersion": "2.1.0",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
-    "cms_backend_image_tag": "hotfix-20220518-73a5dc9",
+    "cms_backend_image_tag": "main-7c90e3d",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
     "cms_backend_min_replica_count": 1,
     "cms_backend_max_replica_count": 6,
-    "cms_backend_appVersion": "2.21.2",
+    "cms_backend_appVersion": "2.22.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
     "hub_image_tag": "v2.58.0-vn-beta-56acfb9",
@@ -273,11 +273,11 @@
     "onboarding_scheduling_appVersion": "0.0.1",
 
     "media_storage_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/audio-storage",
-    "media_storage_image_tag": "v0.1.26",
+    "media_storage_image_tag": "v0.1.31",
     "media_storage_image_pull_secrets": "ecr-registry-infra",
     "media_storage_min_replica_count": 1,
     "media_storage_max_replica_count": 6,
-    "media_storage_appVersion": "v0.1.26",
+    "media_storage_appVersion": "v0.1.31",
 
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
     "spr_api_image_tag": "master-latest",
