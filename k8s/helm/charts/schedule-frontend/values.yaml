@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: 942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-schedule-frontend
+  pullPolicy: Always
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  annotations: {
+    cert-manager.io/cluster-issuer: "letsencrypt"
+  }
+  hosts: {
+  }
+  tls: [
+      endpoint: {
+        hosts: [
+          "vn-bfc.dev.kidsloop.net"
+        ],
+        secretName: "letsencrypt-vn-bfc.dev.kidsloop.net"
+      }
+  ]
+
+resources: {}
+      
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

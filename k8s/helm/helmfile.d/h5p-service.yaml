@@ -21,19 +21,18 @@ releases:
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/h5p-service
     values:
-      - replicaCount: {{ .Values.h5p_service_replica_count }}
       - provider: {{ .Values.provider }}
-      - deployment_name: {{ .Values.deployment_name }}
-      - deployment_region: {{ .Values.deployment_region }}
-      - deployment_env: {{ .Values.env }}
-      - serviceType: {{ .Values.k8s_service_type }}
-      - image:
+        deployment_name: {{ .Values.deployment_name }}
+        deployment_region: {{ .Values.deployment_region }}
+        deployment_env: {{ .Values.env }}
+        serviceType: {{ .Values.k8s_service_type }}
+        image:
           repository: {{ .Values.h5p_service_image_repository }}
           tag: {{ .Values.h5p_service_image_tag }}
-      - imagePullSecrets:
+        imagePullSecrets:
           - name: {{ .Values.h5p_service_image_pull_secrets }}
-      - appVersion: {{ .Values.h5p_service_appVersion }}
-      - ingress:
+        appVersion: {{ .Values.h5p_service_appVersion }}
+        ingress:
           annotations:
             nginx.ingress.kubernetes.io/configuration-snippet: |
               expires 30d;
@@ -49,14 +48,14 @@ releases:
             - host: h5p{{ .Values.kl_domain }}
               paths:
                 - "/"
-      - domain: {{ .Values.domain }}
-      - liveHost: live{{ .Values.kl_domain }}
-      - livesecret: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
-      - xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
-      - media_storage_endpoint: https://api{{ .Values.kl_domain }}/media-storage/graphql
-      - redis_host: {{ .Values.redis_host }}
+        domain: {{ .Values.domain }}
+        liveHost: live{{ .Values.kl_domain }}
+        livesecret: {{- if eq .Values.kl_domain ".kidsloop.vn" }} "wildcard-kidsloop-vn" {{- else }} "letsencrypt-h5p{{ .Values.kl_domain }}" {{- end }}
+        xapi_endpoint: wss://api{{ .Values.kl_domain }}/xapi/graphql
+        media_storage_endpoint: https://api{{ .Values.kl_domain }}/media-storage/graphql
+        redis_host: {{ .Values.redis_host }}
       {{ if .Values.h5p_storage }}
-      - h5p_storage:
+        h5p_storage:
           mongodb_url: {{ .Values.mongodb.url }}
           mongodb_username: {{ .Values.mongodb.username }}
           mongodb_database: {{ .Values.mongodb.database }}
@@ -82,12 +81,16 @@ releases:
       #       cpu: 256m
       #       memory: 1024Mi
       {{- if ne .Values.provider "gcp" }}
-      - resources:
+        resources:
           requests:
-            cpu: 1000m
-            memory: 1Gi
+            cpu: 500m
+            memory: 512Mi
           limits:
-            cpu: 1000m
-            memory: 2Gi
+            cpu: 500m
+            memory: 512Mi
+        autoscaling:
+          enabled: true
+          minReplicas: {{ .Values.h5p_service_min_replica_count }}
+          maxReplicas: {{ .Values.h5p_service_max_replica_count }}
       {{- end }}       
   {{- end}}

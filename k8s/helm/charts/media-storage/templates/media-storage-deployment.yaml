@@ -110,8 +110,9 @@ spec:
             value: "all"
           - name: MERCURIUS_LOG_LEVEL
             value: "trace"
+          - name: CDN_URL
+            value: {{ .Values.media_storage_cdn }}
 
-          
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       

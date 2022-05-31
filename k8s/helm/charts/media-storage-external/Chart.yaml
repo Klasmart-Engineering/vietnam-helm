@@ -1,0 +1,6 @@
+apiVersion: v2
+name: media-storage-external
+description: media-storage-external
+type: application
+version: 0.1.0
+appVersion: 0.1.0
