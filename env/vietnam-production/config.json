@@ -135,16 +135,16 @@
     "assessment_database_logging": 0,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "v2-11-3-vn-beta-9b159e2",
+    "auth_frontend_image_tag": "v2.11.2-vn-prod-a8e00ce",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
-    "auth_frontend_min_replica_count": 5,
+    "auth_frontend_min_replica_count": 4,
     "auth_frontend_max_replica_count": 10,
     "auth_frontend_appVersion": "2.11.3",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
     "auth_backend_image_tag": "master-51734c3",
     "auth_backend_image_pull_secrets": "ecr-registry-infra",
-    "auth_backend_min_replica_count": 8,
+    "auth_backend_min_replica_count": 4,
     "auth_backend_max_replica_count": 16,
     "auth_backend_appVersion": "2.1.0",
 
@@ -165,7 +165,7 @@
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "main-7c90e3d",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
-    "cms_backend_min_replica_count": 8,
+    "cms_backend_min_replica_count": 5,
     "cms_backend_max_replica_count": 16,
     "cms_backend_appVersion": "2.22.0",
 
@@ -186,7 +186,7 @@
     "live_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-backend",
     "live_backend_image_tag": "v1.11.4",
     "live_backend_image_pull_secrets": "ecr-registry-infra",
-    "live_backend_min_replica_count": 10,
+    "live_backend_min_replica_count": 5,
     "live_backend_max_replica_count": 30,
     "live_backend_appVersion": "v1.11.4",
     "live_backend_disabled_auth": "false",
@@ -241,7 +241,7 @@
     "h5p_service_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-h5p-service",
     "h5p_service_image_tag": "v2.16.1",
     "h5p_service_image_pull_secrets": "ecr-registry-infra",
-    "h5p_service_min_replica_count": 10,
+    "h5p_service_min_replica_count": 5,
     "h5p_service_max_replica_count": 20,
     "h5p_service_appVersion": "v2.16.1",
 
@@ -274,11 +274,11 @@
     "onboarding_scheduling_appVersion": "0.0.1",
 
     "media_storage_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/audio-storage",
-    "media_storage_image_tag": "v0.1.26",
+    "media_storage_image_tag": "v0.1.31",
     "media_storage_image_pull_secrets": "ecr-registry-infra",
     "media_storage_min_replica_count": 1,
     "media_storage_max_replica_count": 6,
-    "media_storage_appVersion": "v0.1.26",
+    "media_storage_appVersion": "v0.1.31",
 
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
     "spr_api_image_tag": "master-727594d",
