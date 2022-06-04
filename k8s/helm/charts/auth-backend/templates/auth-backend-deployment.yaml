@@ -56,7 +56,7 @@ spec:
         - name: JWT_ISSUER
           value: "kidsloop"
         - name: JWT_ACCESS_TOKEN_DURATION
-          value: "900"
+          value: "5400"
         - name: JWT_REFRESH_TOKEN_DURATION
           value: "1206000"
         - name: JWT_ALGORITHM

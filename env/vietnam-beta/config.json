@@ -134,11 +134,11 @@
     "assessment_database_logging": 1,
 
     "auth_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-frontend",
-    "auth_frontend_image_tag": "v2-11-3-vn-beta-9b159e2",
+    "auth_frontend_image_tag": "v2-11-4-vn-beta-2fd5152",
     "auth_frontend_image_pull_secrets": "ecr-registry-infra",
     "auth_frontend_min_replica_count": 1,
     "auth_frontend_max_replica_count": 6,
-    "auth_frontend_appVersion": "2.11.3",
+    "auth_frontend_appVersion": "2.11.4",
 
     "auth_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-auth-backend",
     "auth_backend_image_tag": "master-51734c3",
@@ -169,11 +169,11 @@
     "cms_backend_appVersion": "2.22.0",
 
     "hub_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-hub-frontend",
-    "hub_image_tag": "v2.58.0-vn-beta-56acfb9",
+    "hub_image_tag": "v2.60.0-vn-beta-69f319e",
     "hub_image_pull_secrets": "ecr-registry-infra",
     "hub_min_replica_count": 1,
     "hub_max_replica_count": 6,
-    "hub_appVersion": "2.58.0",
+    "hub_appVersion": "2.60.0",
 
     "live_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-live-frontend",
     "live_frontend_image_tag": "v6-8-0-vn-beta-92a8ba4",
