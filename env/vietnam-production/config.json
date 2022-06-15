@@ -13,7 +13,7 @@
         "enabled": "false"
     },
 
-    "redis_host": "10.0.2.9",
+    "redis_host": "10.0.2.34",
     "redis_live_host": "10.0.2.34",
     "postgresql_host": "10.0.2.19",
     "postgresql_username": "kidslooproot",

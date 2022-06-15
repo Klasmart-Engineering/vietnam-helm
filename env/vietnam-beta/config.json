@@ -13,7 +13,7 @@
         "enabled": "false"
     },
 
-    "redis_host": "10.0.1.7",
+    "redis_host": "10.0.1.23",
     "redis_live_host": "10.0.1.23",
     "postgresql_host": "10.0.1.25",
     "postgresql_username": "kidslooproot",
@@ -26,10 +26,10 @@
     "postgresql_xapi_host": "10.0.1.25",
     "postgresql_xapi_database": "klvn_beta_xapi",
 
-    "mysql_host": "10.0.1.18",
+    "mysql_host": "10.0.1.5",
     "mysql_username": "kidslooproot",
     "mysql_assessment_username": "kidslooproot",
-    "mysql_database": "kidsloop2beta",
+    "mysql_database": "klvn_beta_cms",
     "fluentbit_cloudwatch_log_stream": "vn-vngcloud-beta",
     "persistentvolumeclaim_storage_class": "csi-sc-cinderplugin-ssd",
 
