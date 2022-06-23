@@ -67,7 +67,7 @@
         "enabled": true,
         "cron_schedule_down": "30 11 * * *",
         "cron_schedule_up": "0 2 * * 1-5",
-        "replicas_down": "0",
+        "replicas_down": "1",
         "replicas_up": "1"
     },
 
