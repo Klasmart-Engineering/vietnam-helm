@@ -23,7 +23,7 @@ releases:
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
-    version: 1.7.2
+    version: 1.4.0
     force: true
     values:
       - installCRDs: true
@@ -32,6 +32,3 @@ releases:
     chart: ../charts/letsencrypt
     namespace: cert-manager
   {{- end }}  
-
-
-
