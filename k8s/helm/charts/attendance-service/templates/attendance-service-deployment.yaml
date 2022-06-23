@@ -68,6 +68,11 @@ spec:
               secretKeyRef:
                 name: newrelic-apikey-secret
                 key: NEW_RELIC_LICENSE_KEY
+          - name: REDIS_HOST
+            value: {{ .Values.redis_host }}
+          - name: REDIS_PORT
+            value: "6379"
+
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       

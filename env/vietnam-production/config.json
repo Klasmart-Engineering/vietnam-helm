@@ -269,7 +269,7 @@
     "onboarding_scheduling_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-onboarding",
     "onboarding_scheduling_image_tag": "dutch-lady-v-0.0.1",
     "onboarding_scheduling_image_pull_secrets": "ecr-registry-infra",
-    "onboarding_scheduling_min_replica_count": 2,
+    "onboarding_scheduling_min_replica_count": 1,
     "onboarding_scheduling_max_replica_count": 20,
     "onboarding_scheduling_appVersion": "0.0.1",
 
@@ -281,9 +281,9 @@
     "media_storage_appVersion": "v0.1.31",
 
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
-    "spr_api_image_tag": "master-727594d",
+    "spr_api_image_tag": "master-aacd360",
     "spr_api_image_pull_secrets": "ecr-registry-infra",
-    "spr_api_min_replica_count": 2,
+    "spr_api_min_replica_count": 1,
     "spr_api_max_replica_count": 20,
     "spr_api_appVersion": "1.0.0",
     "spr_api_show_swagger": false,
