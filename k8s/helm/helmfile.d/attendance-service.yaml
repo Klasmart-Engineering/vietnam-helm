@@ -22,7 +22,7 @@ releases:
         region: {{ .Values.terraform_region }}
         bucket_name: "whitelabel-{{ .Values.terraform_project }}"
   {{- end }}
-  
+
   - name: attendance-service
     namespace: {{ .Values.k8s_namespace_kidsloop }}
     chart: ../charts/attendance-service
@@ -40,7 +40,7 @@ releases:
         appVersion: {{ .Values.attendance_service_appVersion }}
         ingress:
           {{- if eq .Values.provider "gcp" }}
-          annotations: 
+          annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
             kubernetes.io/ingress.class: "nginx"
             ingress.kubernetes.io/enable-cors: "true"
@@ -60,7 +60,7 @@ releases:
                 return 200;
               }
               more_set_headers "Access-Control-Allow-Origin: $allowed_origin";
-              more_set_headers "Access-Control-Allow-Credentials: true";          
+              more_set_headers "Access-Control-Allow-Credentials: true";
           {{- end }}
           tls:
             - endpoint:
@@ -87,6 +87,12 @@ releases:
         storage_endpoint: {{ .Values.storage.endpoint }}
         whitelabel_force_local_storage: {{ .Values.whitelabel_force_local_storage }}
        {{- end }}
+        liveJwtKey:
+          enabled: true
+          existingSecretName: live-jwt-credentials
+          passphrase:
+            enabled: true
+            secretFieldRef: "private_passphrase"
         resources:
           requests:
             cpu: 250m
