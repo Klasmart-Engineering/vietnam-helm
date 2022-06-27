@@ -97,24 +97,17 @@ spec:
             {{- end }}
           {{- end }}
           {{- end }}
-
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
-
-      {{- if eq .Values.provider "gcp" }}
-      - name: cloud-sql-proxy
-        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
-        command:
-          - "/cloud_sql_proxy"
-          - "-ip_address_types=PRIVATE"
-          - "-instances={{ .Values.project }}:{{ .Values.region }}:{{ .Values.postgresql_instance }}=tcp:5432"
-        securityContext:
-          runAsNonRoot: true
-        resources:
-          {{- toYaml .Values.sqlProxy.resources | nindent 12 }}
-      serviceAccountName: cloudsql-proxy
+        {{- if .Values.liveJwtKey.enabled }}
+        volumeMounts:
+          - name: live-jwt-credentials
+            mountPath: /key
+            readOnly: true
+        {{- end }}
+      {{- if .Values.liveJwtKey.enabled }}
       volumes:
-        - name: whitelabel-storage-sa-key
+        - name: live-jwt-credentials
           secret:
-            secretName: whitelabel-bucket
+            secretName: {{ .Values.liveJwtKey.existingSecretName }}
       {{- end }}
