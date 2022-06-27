@@ -72,10 +72,35 @@ spec:
             value: {{ .Values.redis_host }}
           - name: REDIS_PORT
             value: "6379"
+          # The issuer is set to kidsloop in other services, but it MUST be set to kidsloop-live in this service
+          {{- if .Values.liveJwtKey.enabled }}
+          - name: JWT_ISSUER
+            value: "kidsloop-live"
+          - name: JWT_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: live-jwt-credentials
+                key: jwt-algorithm
+          - name: JWT_PRIVATE_KEY_FILENAME
+            value: /key/private_key
+          - name: JWT_PUBLIC_KEY_FILENAME
+            value: /key/public_key
+          {{- if .Values.liveJwtKey.passphrase.enabled }}
+          - name: JWT_PRIVATE_KEY_PASSPHRASE
+            {{- if .Values.liveJwtKey.passphrase.literal }}
+            value: {{ .Values.liveJwtKey.passphrase.literal }}
+            {{- else }}
+            valueFrom:
+              secretKeyRef:
+                name: live-jwt-credentials
+                key: {{ .Values.liveJwtKey.passphrase.secretFieldRef }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
 
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
-      
+
       {{- if eq .Values.provider "gcp" }}
       - name: cloud-sql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
