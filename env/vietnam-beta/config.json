@@ -161,12 +161,12 @@
     "schedule_frontend_max_replica_count": 6,
     "schedule_frontend_appVersion": "2.2.2",
 
-    "assessment_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-schedule-frontend",
-    "assessment_frontend_image_tag": "v2-1-0-vn-beta-8b7ce59",
+    "assessment_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment-frontend",
+    "assessment_frontend_image_tag": "v2-0-3-vn-beta-888c51c",
     "assessment_frontend_image_pull_secrets": "ecr-registry-infra",
     "assessment_frontend_min_replica_count": 1,
     "assessment_frontend_max_replica_count": 6,
-    "assessment_frontend_appVersion": "2.1.0",
+    "assessment_frontend_appVersion": "2.0.3",
 
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "hotfix-20220614-1adce6e",
