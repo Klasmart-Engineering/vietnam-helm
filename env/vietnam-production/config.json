@@ -281,7 +281,7 @@
     "media_storage_appVersion": "v0.1.31",
 
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
-    "spr_api_image_tag": "master-aacd360",
+    "spr_api_image_tag": "master-a0ae57a",
     "spr_api_image_pull_secrets": "ecr-registry-infra",
     "spr_api_min_replica_count": 1,
     "spr_api_max_replica_count": 20,
