@@ -162,6 +162,13 @@
     "schedule_frontend_max_replica_count": 20,
     "schedule_frontend_appVersion": "2.1.0",
 
+    "assessment_frontend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-assessment-frontend",
+    "assessment_frontend_image_tag": "v2-1-2-vn-beta-54cb79a",
+    "assessment_frontend_image_pull_secrets": "ecr-registry-infra",
+    "assessment_frontend_min_replica_count": 1,
+    "assessment_frontend_max_replica_count": 6,
+    "assessment_frontend_appVersion": "2.1.2",
+
     "cms_backend_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-cms-backend",
     "cms_backend_image_tag": "main-7c90e3d",
     "cms_backend_image_pull_secrets": "ecr-registry-infra",
@@ -281,7 +288,7 @@
     "media_storage_appVersion": "v0.1.31",
 
     "spr_api_image_repository": "942095822719.dkr.ecr.eu-west-2.amazonaws.com/kidsloop-vietnam-spr-api",
-    "spr_api_image_tag": "master-aacd360",
+    "spr_api_image_tag": "master-b048db0",
     "spr_api_image_pull_secrets": "ecr-registry-infra",
     "spr_api_min_replica_count": 1,
     "spr_api_max_replica_count": 20,
