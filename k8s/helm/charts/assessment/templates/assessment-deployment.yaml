@@ -100,6 +100,8 @@ spec:
               secretKeyRef:
                 name: newrelic-apikey-secret
                 key: NEW_RELIC_LICENSE_KEY
+          - name: assessment_default_remaining_time
+            value: "30s"
         volumeMounts:
           - name: xapi-dynamodb-secret
             mountPath: /root/.aws
